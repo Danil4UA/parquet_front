@@ -55,7 +55,9 @@
   border: 1px solid #e9ecef;
   border-radius: 12px;
   transition: all 0.2s ease;
-  font-size: 15px;
+  font-size: 16px;
+  background: white;
+  color: black;
 }
 
 .Order__wrapper_left input:focus {
@@ -161,8 +163,10 @@
   border: 2px solid #e9ecef;
   border-radius: 12px;
   width: 100%;
-  font-size: 15px;
+  font-size: 16px;
   transition: all 0.2s ease;
+  background: white;
+  color: black;
 }
 
 .promo_code input:focus {
