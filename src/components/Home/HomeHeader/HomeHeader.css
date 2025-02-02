@@ -16,7 +16,8 @@
 .HomeHeader__content {
   color: rgb(255, 255, 255);
   background: linear-gradient(to bottom, rgba(57, 57, 57, 0.8), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
-  width: 600px;
+  width: 90%; /* Уменьшаем ширину для мобильных устройств */
+  max-width: 600px; /* Ограничиваем максимальную ширину */
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -26,6 +27,7 @@
   border-radius: 10px;
   padding: 20px;
 }
+
 .HomeHeader__title {
   font-size: 56px;
   text-align: center;
@@ -53,4 +55,18 @@
 .HomeHeader_btn:hover {
   border: 1px solid white;
   color: rgb(132, 132, 132);
+}
+
+@media screen and (max-width: 768px) {
+  .HomeHeader__title {
+    font-size: 28px;
+  }
+
+  .HomeHeader__text {
+    font-size: 16px;
+  }
+
+  .HomeHeader_btn {
+    padding: 8px 16px;
+  }
 }

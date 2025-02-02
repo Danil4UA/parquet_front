@@ -12,6 +12,8 @@ const HomeHeader = () => {
   const lng = pathname.split("/")[1];
   const t = useTranslations("HomePage");
 
+  // const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+
   return (
     <div className="HomePage_wrapper">
       <ParallaxProvider>
