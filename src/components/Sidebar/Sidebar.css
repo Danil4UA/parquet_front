@@ -6,9 +6,24 @@
   left: 0;
   z-index: 2000;
   transition: width 0.5s ease;
-  position: absolute;
-  height: calc(100dvh - var(--navbar-height));
+  position: fixed;
+  height: 100dvh;
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+}
+.Sidebar_header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 20px;
+  align-items: center;
+  height: var(--navbar-height);
+  border-bottom: 1px solid rgb(214, 214, 214);
+}
+.Sidebar-close-icon {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 .Sidebar-rtl {
   right: 0;
@@ -80,10 +95,10 @@
 
 .overlay {
   position: fixed;
-  top: var(--navbar-height);
+  top: 0;
   left: 0;
   width: 100%;
-  height: calc(100vh - var(--navbar-height));
+  height: 100dvh;
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(3px);
   z-index: 1000;

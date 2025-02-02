@@ -8,6 +8,7 @@ import InstagramIcon from "@/app/assets/instagram.svg";
 import FacebookIcon from "@/app/assets/facebook.svg";
 import TelegramIcon from "@/app/assets/telegram.svg";
 import { usePathname } from "next/navigation";
+// import CloseIcon from "@/app/assets/close.svg";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -54,21 +55,28 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
       {/* Sidebar */}
       <div className={classNames("Sidebar", { ["collapsed"]: collapsed, "Sidebar-rtl": isRTL }, [])}>
         {!collapsed && (
-          <div className="Sidebar_wrapper">
-            <div className="items">{itemsList}</div>
-            <div className="Sidebar_footer">
-              <div className="Sidebar_footer_language"></div>
-              <div className="Sidebar_footer_contact">
-                <div>
-                  <span>
-                    <InstagramIcon />
-                  </span>
-                  <span>
-                    <FacebookIcon />
-                  </span>
-                  <span>
-                    <TelegramIcon />
-                  </span>
+          <div>
+            {/* <div className="Sidebar_header">
+              <button onClick={() => onClose()} className="Sidebar-close-icon">
+                <CloseIcon />
+              </button>
+            </div> */}
+            <div className="Sidebar_wrapper">
+              <div className="items">{itemsList}</div>
+              <div className="Sidebar_footer">
+                <div className="Sidebar_footer_language"></div>
+                <div className="Sidebar_footer_contact">
+                  <div>
+                    <span>
+                      <InstagramIcon />
+                    </span>
+                    <span>
+                      <FacebookIcon />
+                    </span>
+                    <span>
+                      <TelegramIcon />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
