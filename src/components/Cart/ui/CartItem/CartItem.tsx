@@ -8,8 +8,7 @@ interface CartItemProps {
   item: CartItemType;
 }
 const CartItem = (props: CartItemProps) => {
-  const { name, description, quantity, images, _id } = props.item;
-  console.log("images", images);
+  const { name, quantity, images, _id } = props.item;
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const item = cartItems.find((cartItem) => cartItem._id === _id);
@@ -43,7 +42,6 @@ const CartItem = (props: CartItemProps) => {
       </div>
       <div className="CartItem__info">
         <p className="CartItem_title">{name}</p>
-        <p className="CartItem_description">{description}</p>
         <div className="CartItem__info_bottom">
           <div className="CartItem__quantity">
             <button onClick={handleDecrement}>-</button>
