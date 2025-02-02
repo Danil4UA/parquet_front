@@ -1,0 +1,74 @@
+.ProductsFilter {
+    width: 20%;
+    flex-shrink: 0; 
+    padding: 20px;
+    margin: 0 20px;
+    position: sticky; 
+    top: 0; 
+    z-index: 10;
+    height: fit-content
+}
+.ProductsFilter_section {
+    border-bottom: 1px solid #E0E0E0;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.ProductsFilter_section input[type="checkbox"] {
+    margin: 0 5px;
+}
+
+.ProductsFilter_title {
+    padding: 0 0 15px 0;
+}
+
+.ProductsFilter_type, .ProductsFilter_material, .ProductsFilter_country {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ProductsFilter_section:last-child {
+    border-bottom: none;
+}
+
+.ProductsFilter_color {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.color-checkbox {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.color-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.color-square {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+.color-checkbox input:checked + .color-square {
+    border-color: #000;
+}
+
+
+@media screen and (max-width: 750px) {
+    .ProductsFilter {
+        display: none;
+    }
+}

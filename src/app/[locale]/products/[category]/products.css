@@ -1,0 +1,25 @@
+.CategoryPage {
+  display: flex;
+  flex-direction: column;
+}
+.CategoryPage__title {
+  text-align: center;
+  width: 100%;
+  font-size: 56px;
+  padding: 20px;
+}
+.products-page-container {
+  display: flex;
+  max-width: 1840px;
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+@media (max-width: 750px) {
+  .products-page-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+}

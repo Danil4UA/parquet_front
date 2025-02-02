@@ -1,0 +1,99 @@
+.Navbar {
+  width: 100%;
+  height: var(--navbar-height);
+  background: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 60px;
+  box-sizing: border-box;
+  color: white;
+}
+.navbar-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar_menu {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  fill: white;
+}
+
+.navbar_cart {
+  position: relative;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  fill: white;
+} 
+.navbar_search {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 20px;
+}
+
+
+.navbar_cart_coutner {
+  position: absolute;
+  background: black;
+  top: -5px;
+  right: -10px;
+  font-size: 10px;
+}
+
+.custom-select {
+  position: relative;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+}
+
+.selected-option {
+  padding: 10px;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  z-index: 1;
+}
+
+.option {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: #f1f1f1;
+}
+
+.custom-select.open .options {
+  display: block;
+}
+
+@media screen and (max-width: 980px) {
+  .Navbar {
+    padding: 15px 40px;
+  }
+}

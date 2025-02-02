@@ -1,0 +1,115 @@
+.Sidebar {
+  width: var(--sidebar-width);
+  max-width: 100vw;
+  background: white;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  transition: width 0.5s ease;
+  position: absolute;
+  height: calc(100vh - var(--navbar-height));
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+}
+.Sidebar-rtl {
+  right: 0;
+}
+.Sidebar_wrapper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.Sidebar_footer {
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  margin-top: auto;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9));
+}
+
+.Sidebar_footer > div:not(:last-child) {
+  border-bottom: 1px solid rgba(215, 215, 215, 0.5);
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.Sidebar_footer_language {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.Sidebar_footer_contact div {
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px;
+  gap: 20px;
+}
+
+.Sidebar_footer_contact span {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+.Sidebar_footer_contact span:hover {
+  transform: translateY(-2px);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.Sidebar_footer_contact svg {
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.Sidebar_footer_contact span:hover svg {
+  fill: #000;
+}
+
+.collapsed {
+  width: var(--sidebar-width-collapsed);
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+}
+
+.overlay {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  width: 100%;
+  height: calc(100vh - var(--navbar-height));
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.overlayActive {
+  opacity: 1;
+  visibility: visible;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .Sidebar {
+    max-width: 280px;
+  }
+
+  .SideBar__Item {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+
+  .Sidebar_footer_contact div {
+    padding: 10px;
+    gap: 15px;
+  }
+}

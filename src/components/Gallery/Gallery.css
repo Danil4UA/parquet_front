@@ -1,0 +1,77 @@
+.Gallery__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.Gallery__main-image {
+  width: 100%; /* Занимает всю доступную ширину */
+  max-width: 500px; /* Максимальная ширина для больших экранов */
+  aspect-ratio: 1 / 1; /* Сохраняет квадратную форму */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #ddd; /* Optional: Add a border */
+  border-radius: 8px; /* Optional: Add rounded corners */
+}
+.Gallery__main-image-content {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the container without distortion */
+}
+
+.Gallery__thumbnails {
+  display: flex;
+  gap: 20px;
+  padding: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.Gallery__thumbnails::-webkit-scrollbar {
+  display: none; /* Hide scrollbars for better UX */
+}
+
+.Gallery__thumbnail {
+  flex: 0 0 auto;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  transition: transform 0.3s, opacity 0.3s;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.Gallery__thumbnail--active {
+  border: 1px solid black;
+  opacity: 1;
+}
+
+.Gallery__thumbnail:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 800px) {
+  .Gallery__wrapper {
+    flex-direction: column;
+  }
+  .Gallery__main-image {
+    width: 100%; /* Full width on small screens */
+  }
+
+  .Gallery__thumbnails {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 10px;
+  }
+
+  .Gallery__thumbnail {
+    min-width: 60px;
+    min-height: 60px;
+  }
+}

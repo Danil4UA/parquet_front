@@ -1,0 +1,246 @@
+/* Main layout */
+.product-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.product-container {
+  padding: 2rem;
+  max-width: 1840px;
+  min-height: 100vh;
+  display: flex;
+  gap: 3rem;
+}
+
+/* Left side - Gallery */
+.product__left {
+  display: flex;
+  width: 40%;
+  flex-shrink: 0;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+  z-index: 10;
+}
+
+.gallery-container {
+  padding: 1rem;
+  width: 100%;
+}
+
+/* Right side - Product Info */
+.product__info_wrapper {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Product Header */
+.product__header {
+  margin-bottom: 2rem;
+}
+
+.product__name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.product__price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2a2a2a;
+  margin-bottom: 1rem;
+}
+
+.product__notice {
+  font-size: 0.875rem;
+  color: #666;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #eee;
+}
+
+/* Add to Cart Button */
+.product__add_cart {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  background: #000;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  margin: 20px 0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.product__add_cart:hover {
+  background-color: #1a1a1a;
+  transform: translateY(-1px);
+}
+
+.product__add_cart:active {
+  transform: translateY(0);
+}
+
+/* Delivery Info */
+.product__info_delivery {
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.delivery__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.delivery__item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #4a4a4a;
+}
+
+.delivery__indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: #4caf50;
+}
+
+/* Store Check Link */
+.check__store {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.check__store:hover {
+  color: #000;
+  border-bottom-color: #000;
+}
+
+/* Product Sections */
+.product__section {
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.section__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+/* Specifications Grid */
+.specifications__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.specification__item {
+  color: #666;
+  font-size: 0.875rem;
+}
+
+/* Description */
+.product__description {
+  line-height: 1.6;
+  color: #4a4a4a;
+}
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-price--discounted {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-price__amount {
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+}
+
+.product-price__amount--discounted {
+  font-size: 20px;
+  color: #e41e31;
+}
+
+.product-price__amount--original {
+  text-decoration: line-through;
+  color: #666;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.product-price__currency {
+  font-size: 0.85em;
+  margin-right: 2px;
+}
+
+/* Optional hover effects */
+.product-price:hover .product-price__amount--discounted {
+  color: #c41929;
+}
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .product-wrapper {
+    gap: 2rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .product-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .gallery-container {
+    padding: 0;
+  }
+
+  .product__left,
+  .product__info_wrapper {
+    width: 100%;
+  }
+
+  .product__left {
+    position: static;
+  }
+
+  .product__name {
+    font-size: 1.75rem;
+  }
+
+  .specifications__grid {
+    grid-template-columns: 1fr;
+  }
+}

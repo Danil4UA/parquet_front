@@ -1,0 +1,56 @@
+.HomePage_wrapper {
+  height: calc(100vh - var(--navbar-height));
+}
+
+.HomeHeader {
+  height: 100%;
+}
+
+.HomeHeader__wrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.HomeHeader__content {
+  color: rgb(255, 255, 255);
+  background: linear-gradient(to bottom, rgba(57, 57, 57, 0.8), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  border-radius: 10px;
+  padding: 20px;
+}
+.HomeHeader__title {
+  font-size: 56px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.HomeHeader__text {
+  line-height: 25px;
+}
+.HomeHeader_btn_container {
+  background: black;
+  padding: 5px;
+}
+
+.HomeHeader_btn {
+  outline: none;
+  background: black;
+  color: white;
+  border: 1px solid rgb(132, 132, 132);
+  padding: 15px 25px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.HomeHeader_btn:hover {
+  border: 1px solid white;
+  color: rgb(132, 132, 132);
+}

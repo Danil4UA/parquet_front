@@ -1,0 +1,13 @@
+.HomeMain {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.HomeMain__title {
+  text-align: center;
+  max-width: 800px;
+  padding: 50px;
+  line-height: 25px;
+}

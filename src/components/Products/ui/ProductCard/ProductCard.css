@@ -1,0 +1,174 @@
+.ProductCard {
+  width: 100%;
+  max-width: 320px;
+  min-width: 150px;
+  max-height: 400px;
+  background-color: #fff;
+  font-size: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 16px;
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 30px;
+}
+
+/* .ProductCard:hover {
+    transform: scale(1.02);
+} */
+
+.card__image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 300px;
+  max-height: 300px;
+  /* border-radius: 4px; */
+  overflow: hidden;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card__image:hover img {
+  transform: scale(1.03);
+}
+.ProductCard__details {
+  text-align: center;
+}
+
+.ProductCard__details h3 {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #333;
+}
+
+.ProductCard__details p {
+  font-size: 14px;
+  color: #666;
+}
+
+.ProductCard__details .price {
+  font-weight: bold;
+  font-size: 16px;
+  color: #2a9d8f;
+}
+
+.card__information {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.card__information_price {
+  position: relative;
+}
+
+.price__suffix {
+  position: absolute;
+  font-size: 12px;
+  top: -2px;
+}
+
+.card__information_button {
+  position: absolute;
+  top: -90px;
+  padding: 15px 20px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden; /* Сделать её невидимой */
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.ProductCard:hover .card__information_button {
+  background-color: rgba(255, 255, 255, 0.6);
+  color: black;
+  opacity: 1;
+  visibility: visible;
+}
+
+.card__sale_badge {
+  position: absolute;
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  top: 10px;
+  right: 10px;
+}
+.price__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.price__original {
+  text-decoration: line-through; /* Strikethrough the original price */
+  color: #888; /* Light grey to indicate that it's no longer valid */
+  margin-right: 10px; /* Space between the original price and the discounted price */
+  font-size: 14px;
+  position: absolute;
+  top: 0;
+  right: -60px;
+}
+
+.price__discounted {
+  font-size: 1.2em; /* Slightly larger font size to emphasize the discounted price */
+  font-weight: bold;
+  color: #d9534f; /* Red or any other color to indicate the discounted price */
+}
+
+.card__out_of_stock_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.out_of_stock_text {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.ProductCard.out-of-stock {
+  opacity: 0.8;
+}
+
+.ProductCard.out-of-stock .card__information_button {
+  background-color: #888;
+}
+
+.ProductCard.out-of-stock:hover .card__out_of_stock_overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.ProductCard.out-of-stock:hover .out_of_stock_text {
+  transform: translateY(-4px);
+}
+@media screen and (max-width: 750px) {
+  .ProductCard {
+    padding: 5px;
+  }
+}

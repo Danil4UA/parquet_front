@@ -1,0 +1,17 @@
+.LangSwitcher {
+    all: unset;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  .LangSwitcher option {
+    all: unset;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font: inherit;
+    padding: 0;
+    margin: 0;
+    text-align: inherit;
+  }

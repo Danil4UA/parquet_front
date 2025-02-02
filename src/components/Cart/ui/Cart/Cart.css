@@ -1,0 +1,119 @@
+.Cart {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  max-width: 100%;
+  background: white;
+  position: fixed;
+  transition: width 0.5s;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  visibility: visible;
+  z-index: 2000;
+  color: black;
+}
+.Cart-rtl {
+  right: auto;
+  left: 0;
+}
+.Cart_wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 30px 30px 30px;
+}
+.close-icon {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.collapsedCart {
+  width: 0;
+}
+
+.overlayCart {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.overlayCartActive {
+  opacity: 1;
+  visibility: visible;
+  cursor: pointer;
+}
+
+.Cart_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--navbar-height);
+  border-bottom: 1px solid rgb(214, 214, 214);
+}
+
+.Cart_main {
+  flex: 1 1 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  padding: 10px 0;
+}
+
+.Cart_footer {
+  box-sizing: border-box;
+}
+
+.complete_btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  background: #000;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  margin: 20px 0;
+  transition: transform 0.5s ease, background-color 0.5s ease;
+}
+
+.complete_btn:hover {
+  background-color: #1a1a1a;
+  transform: translateY(-1px);
+}
+
+.Cart_footer_action {
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
+.Cart_footer_total {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+@media screen and (max-width: 750px) {
+  .Cart_wrapper {
+    padding: 0 15px 15px 15px;
+  }
+}
