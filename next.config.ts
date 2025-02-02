@@ -11,6 +11,7 @@ const remotePatterns: RemotePattern[] = [
 ];
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   images: { remotePatterns },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   webpack(config: any) {
