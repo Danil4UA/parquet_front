@@ -63,6 +63,7 @@
   height: 25px;
   border-radius: 4px;
   cursor: pointer;
+  color: black;
   font-size: 20px;
 }
 .CartItem__quantity div {
