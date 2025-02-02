@@ -21,7 +21,7 @@
   left: 0;
 }
 .Cart_wrapper {
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -15,7 +15,7 @@
 }
 .Sidebar_wrapper {
   display: flex;
-  height: 100%;
+  height: 100dvh;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 0;
