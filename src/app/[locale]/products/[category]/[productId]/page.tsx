@@ -112,11 +112,11 @@ const ProductPage: FC = () => {
             </div>
             <p className="product__notice">{t("product_notice")}</p>
           </div>
-
-          <button className="product__add_cart" onClick={handleAddToCart}>
-            {t("button_add_to_cart")}
-          </button>
-
+          <div className="product__add_cart_container">
+            <button className="product__add_cart" onClick={handleAddToCart}>
+              {t("button_add_to_cart")}
+            </button>
+          </div>
           <div className="product__info_delivery">
             <h2 className="delivery__title">{t("delivery_title")}</h2>
             <div className="delivery__item">

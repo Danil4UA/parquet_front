@@ -15,7 +15,7 @@
   align-items: center;
   overflow: hidden;
   border: 1px solid var(--color-secondary-inverted);
-  border-radius: 8px; /* Optional: Add rounded corners */
+  /* border-radius: 8px; */
 }
 .Gallery__main-image-content {
   width: 100%;
@@ -44,7 +44,7 @@
   cursor: pointer;
   transition: transform 0.3s, opacity 0.3s;
   object-fit: cover;
-  border-radius: 4px;
+  /* border-radius: 4px; */
 }
 
 .Gallery__thumbnail--active {

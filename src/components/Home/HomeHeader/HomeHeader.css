@@ -65,7 +65,6 @@
 
 .HomeHeader_btn:hover {
   border: 1px solid var(--color-primary-inverted);
-  color: var(--color-secondary);
 }
 
 /* Медиа-запросы для мобильных устройств */

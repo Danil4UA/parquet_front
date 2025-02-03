@@ -84,9 +84,11 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
                 <span>{t("total")}</span>
                 <span>₪ {totalPrice}</span>
               </div>
-              <button className="complete_btn" onClick={handleComplete}>
-                {t("complete")}
-              </button>
+              <div className="complete_btn_container">
+                <button className="complete_btn" onClick={handleComplete}>
+                  {t("complete")}
+                </button>
+              </div>
             </div>
           </div>
         )}
