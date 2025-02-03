@@ -12,17 +12,23 @@ import { selectTotalItems } from "../Cart/model/slice/cartSlice";
 import { Link } from "@/i18n/routing";
 
 const useScrollDirection = () => {
-  const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY) {
-        setScrollDirection("down");
-      } else if (currentScrollY < lastScrollY) {
-        setScrollDirection("up");
+      if (currentScrollY > document.querySelector(".Navbar")!.clientHeight) {
+        document.body.classList.add("scrolled");
+
+        if (currentScrollY < lastScrollY) {
+          document.body.classList.add("scroll-up");
+          document.body.classList.remove("scrolled");
+        } else {
+          document.body.classList.remove("scroll-up");
+        }
+      } else {
+        document.body.classList.remove("scrolled", "scroll-up");
       }
 
       setLastScrollY(currentScrollY);
@@ -31,14 +37,12 @@ const useScrollDirection = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
-
-  return scrollDirection;
 };
-
 export const Navbar = () => {
   const [collapsedCart, setCollapsedCart] = useState(true);
   const [collapsedSidebar, setCollapsedSidebar] = useState(true);
-  const scrollDirection = useScrollDirection();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _scrollDirection = useScrollDirection();
 
   const cartItems = useSelector((state: RootState) => selectTotalItems(state));
 
@@ -51,12 +55,7 @@ export const Navbar = () => {
   };
 
   return (
-    <div
-      className={`
-        Navbar 
-        ${scrollDirection === "down" ? "navbar-hidden" : "navbar-visible"}
-      `}
-    >
+    <div className="Navbar">
       <div className="navbar-left">
         <span className="navbar_menu" onClick={onToggleMenu}>
           <MenuIcon />

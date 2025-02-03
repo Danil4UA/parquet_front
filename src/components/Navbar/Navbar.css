@@ -14,7 +14,13 @@
   transition: transform 0.3s ease-in-out;
   z-index: 100;
 }
+body.scrolled .Navbar {
+  transform: translateY(-100%);
+}
 
+body.scroll-up .Navbar {
+  transform: translateY(0);
+}
 .navbar-hidden {
   transform: translateY(-100%);
 }
