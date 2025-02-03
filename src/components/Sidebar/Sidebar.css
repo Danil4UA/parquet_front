@@ -2,13 +2,26 @@
   width: var(--sidebar-width);
   max-width: 100vw;
   background: var(--background-primary);
-  top: 0;
   left: 0;
+  top: 0;
   z-index: 2000;
   transition: transform 0.5s ease, opacity 0.5s ease;
   position: fixed;
   height: 100dvh;
   visibility: visible;
+}
+
+.Sidebar-rtl {
+  right: 0;
+  left: auto;
+}
+
+.Sidebar-rtl.collapsed {
+  transform: translateX(100%);
+}
+
+.Sidebar:not(.Sidebar-rtl).collapsed {
+  transform: translateX(-100%);
 }
 .Sidebar_header {
   display: flex;
@@ -25,9 +38,7 @@
   border: none;
   cursor: pointer;
 }
-.Sidebar-rtl {
-  right: 0;
-}
+
 .Sidebar_wrapper {
   display: flex;
   height: 100dvh;

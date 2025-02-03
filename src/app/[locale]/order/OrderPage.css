@@ -29,26 +29,27 @@
   overflow: hidden;
 }
 
-.Delivery__section div {
+.Delivery__section_container {
   padding: 16px;
   display: flex;
   align-items: center;
+  gap: 12px;
   transition: background-color 0.2s ease;
 }
 
-.Delivery__section div:hover {
+.Delivery__section_container:hover {
   background-color: var(--color-secondary-inverted);
 }
 
-.Delivery__section div:first-child {
+.Delivery__section_container:first-child {
   border-bottom: 1px solid var(--color-secondary-inverted);
 }
 
 .delivery__radio {
-  margin-right: 12px;
-  accent-color: var(--color-primary);
+  margin: 0;
   width: 18px;
   height: 18px;
+  accent-color: var(--color-primary);
 }
 
 .Order__wrapper_left input {
@@ -287,19 +288,9 @@
   .complete_order,
   .promo_code button,
   .promo_code input,
-  .Order__wrapper_left input {
+  .Order__wrapper_left input:not([type="radio"]) {
     width: 100%;
     box-sizing: border-box;
-  }
-
-  .Delivery__section div {
-    display: flex;
-    justify-content: flex-start;
-  }
-  .Delivery__section div > label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
   }
   .order__total_sum {
     font-size: 16px;

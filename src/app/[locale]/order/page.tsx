@@ -125,31 +125,27 @@ const OrderPage = () => {
       <div className="Order__wrapper_left">
         <div>
           <div className="Delivery__section">
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="deliveryMethod"
-                  value="shipping"
-                  className="delivery__radio"
-                  checked={formData.deliveryMethod === "shipping"}
-                  onChange={handleChange}
-                />
-                {t("shipping")}
-              </label>
+            <div className="Delivery__section_container">
+              <input
+                type="radio"
+                name="deliveryMethod"
+                value="shipping"
+                className="delivery__radio"
+                checked={formData.deliveryMethod === "shipping"}
+                onChange={handleChange}
+              />
+              <span> {t("shipping")}</span>
             </div>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="deliveryMethod"
-                  value="pickup"
-                  className="delivery__radio"
-                  checked={formData.deliveryMethod === "pickup"}
-                  onChange={handleChange}
-                />
-                {t("pickup")}
-              </label>
+            <div className="Delivery__section_container">
+              <input
+                type="radio"
+                name="deliveryMethod"
+                value="pickup"
+                className="delivery__radio"
+                checked={formData.deliveryMethod === "pickup"}
+                onChange={handleChange}
+              />
+              <span>{t("pickup")}</span>
             </div>
           </div>
         </div>
