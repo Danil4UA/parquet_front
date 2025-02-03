@@ -62,7 +62,10 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
               </button>
             </div> */}
             <div className="Sidebar_wrapper">
-              <div className="items">{itemsList}</div>
+              <div className="items">
+                <div className="items_header"></div>
+                {itemsList}
+              </div>
               <div className="Sidebar_footer">
                 <div className="Sidebar_footer_contact">
                   <div>

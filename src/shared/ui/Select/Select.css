@@ -14,7 +14,7 @@
 }
 
 .select__placeholder--selected {
-  color: #000;
+  color: var(--color-primary);
 }
 
 .select__arrow {
@@ -24,10 +24,10 @@
 }
 
 .select__arrow_black {
-  fill: black;
+  fill: var(--color-primary);
 }
 .select__arrow_white {
-  fill: white;
+  fill: var(--color-primary-inverted);
 }
 
 .select__arrow--rotated {
@@ -44,7 +44,7 @@
   opacity: 0;
   transition: max-height 0.5s ease, opacity 0.5s ease;
   border-top: none;
-  background-color: white;
+  background-color: var(--background-primary);
   z-index: 3000;
 }
 
@@ -58,8 +58,8 @@
   margin: 0;
   padding: 0;
   padding-top: 20px;
-  border: 1px solid #e0e0e0;
-  color: black;
+  border: 1px solid var(--color-secondary-inverted);
+  color: var(--color-primary);
 }
 
 .select__option {
@@ -68,5 +68,5 @@
 }
 
 .select__option:hover {
-  background-color: #f0f0f0;
+  background-color: var(--color-primary-inverted);
 }

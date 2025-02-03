@@ -44,7 +44,7 @@
 .product__name {
   font-size: 2rem;
   font-weight: bold;
-  color: #1a1a1a;
+  color: var(--color-primary);
   margin-bottom: 1rem;
   line-height: 1.2;
 }
@@ -52,16 +52,16 @@
 .product__price {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #2a2a2a;
+  color: var(--color-primary);
   margin-bottom: 1rem;
 }
 
 .product__notice {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--color-secondary);
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 1px solid #eee;
+  border: 1px solid var(--color-secondary-inverted);
 }
 
 /* Add to Cart Button */
@@ -69,8 +69,8 @@
   width: 100%;
   padding: 16px;
   border: none;
-  background: #000;
-  color: white;
+  background: var(--background-primary-inverted);
+  color: var(--color-primary-inverted);
   font-size: 16px;
   font-weight: 600;
   border-radius: 12px;
@@ -79,7 +79,7 @@
 }
 
 .product__add_cart:hover {
-  background-color: #1a1a1a;
+  background-color: var(--background-primary-inverted);
   transform: translateY(-1px);
 }
 
@@ -89,8 +89,8 @@
 
 /* Delivery Info */
 .product__info_delivery {
-  background-color: white;
-  border: 1px solid #e5e5e5;
+  background-color: var(--background-primary);
+  border: 1px solid var(--color-secondary-inverted);
   border-radius: 0.5rem;
   padding: 1.5rem;
   display: flex;
@@ -101,7 +101,7 @@
 .delivery__title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--color-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -109,7 +109,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: #4a4a4a;
+  color: var(--color-secondary);
 }
 
 .delivery__indicator {
@@ -124,7 +124,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #666;
+  color: var(--color-secondary);
   padding-bottom: 0.25rem;
   border-bottom: 1px solid transparent;
   transition: all 0.2s ease;
@@ -133,14 +133,14 @@
 }
 
 .check__store:hover {
-  color: #000;
-  border-bottom-color: #000;
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
 }
 
 /* Product Sections */
 .product__section {
-  background-color: white;
-  border: 1px solid #e5e5e5;
+  background-color: var(--background-primary);
+  border: 1px solid var(--color-secondary-inverted);
   border-radius: 0.5rem;
   padding: 1.5rem;
 }
@@ -148,7 +148,7 @@
 .section__title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--color-primary);
   margin-bottom: 1rem;
 }
 
@@ -160,14 +160,14 @@
 }
 
 .specification__item {
-  color: #666;
+  color: var(--color-secondary);
   font-size: 0.875rem;
 }
 
 /* Description */
 .product__description {
   line-height: 1.6;
-  color: #4a4a4a;
+  color: var(--color-secondary);
 }
 .product-price {
   display: flex;
@@ -186,7 +186,7 @@
   align-items: center;
   font-size: 18px;
   font-weight: 600;
-  color: #000;
+  color: var(--color-primary);
 }
 
 .product-price__amount--discounted {
@@ -196,7 +196,7 @@
 
 .product-price__amount--original {
   text-decoration: line-through;
-  color: #666;
+  color: var(--color-secondary);
   font-size: 16px;
   font-weight: normal;
 }

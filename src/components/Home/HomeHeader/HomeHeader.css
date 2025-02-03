@@ -49,23 +49,23 @@
 }
 
 .HomeHeader_btn_container {
-  background: black;
+  background: var(--background-primary-inverted);
   padding: 5px;
 }
 
 .HomeHeader_btn {
   outline: none;
-  background: black;
-  color: white;
-  border: 1px solid rgb(132, 132, 132);
+  background: var(--background-primary-inverted);
+  color: var(--color-primary-inverted);
+  border: 1px solid var(--color-secondary);
   padding: 15px 25px;
   cursor: pointer;
   transition: 0.2s;
 }
 
 .HomeHeader_btn:hover {
-  border: 1px solid white;
-  color: rgb(132, 132, 132);
+  border: 1px solid var(--color-primary-inverted);
+  color: var(--color-secondary);
 }
 
 /* Медиа-запросы для мобильных устройств */

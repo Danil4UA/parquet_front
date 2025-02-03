@@ -14,7 +14,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  border: 1px solid #ddd; /* Optional: Add a border */
+  border: 1px solid var(--color-secondary-inverted);
   border-radius: 8px; /* Optional: Add rounded corners */
 }
 .Gallery__main-image-content {
@@ -48,7 +48,7 @@
 }
 
 .Gallery__thumbnail--active {
-  border: 1px solid black;
+  border: 1px solid var(--color-primary);
   opacity: 1;
 }
 

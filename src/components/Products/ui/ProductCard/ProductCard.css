@@ -3,7 +3,7 @@
   max-width: 320px;
   min-width: 150px;
   max-height: 400px;
-  background-color: #fff;
+  background-color: var(--background-primary);
   font-size: 18px;
   overflow: hidden;
   display: flex;
@@ -25,7 +25,7 @@
   aspect-ratio: 1 / 1;
   max-width: 300px;
   max-height: 300px;
-  /* border-radius: 4px; */
+
   overflow: hidden;
   margin-bottom: 10px;
   position: relative;
@@ -48,18 +48,12 @@
 .ProductCard__details h3 {
   font-size: 18px;
   margin: 10px 0;
-  color: #333;
+  color: var(--color-secondary);
 }
 
 .ProductCard__details p {
   font-size: 14px;
-  color: #666;
-}
-
-.ProductCard__details .price {
-  font-weight: bold;
-  font-size: 16px;
-  color: #2a9d8f;
+  color: var(--color-secondary);
 }
 
 .card__information {
@@ -92,7 +86,7 @@
 
 .ProductCard:hover .card__information_button {
   background-color: rgba(255, 255, 255, 0.6);
-  color: black;
+  color: var(--color-primary);
   opacity: 1;
   visibility: visible;
 }
@@ -100,7 +94,7 @@
 .card__sale_badge {
   position: absolute;
   background-color: red;
-  color: white;
+  color: var(--color-primary-inverted);
   padding: 5px 10px;
   border-radius: 4px;
   top: 10px;
@@ -114,7 +108,7 @@
 }
 .price__original {
   text-decoration: line-through; /* Strikethrough the original price */
-  color: #888; /* Light grey to indicate that it's no longer valid */
+  color: var(--color-secondary); /* Light grey to indicate that it's no longer valid */
   margin-right: 10px; /* Space between the original price and the discounted price */
   font-size: 14px;
   position: absolute;
@@ -142,7 +136,7 @@
 }
 
 .out_of_stock_text {
-  color: white;
+  color: var(--color-primary-inverted);
   font-size: 1.2rem;
   font-weight: 600;
   padding: 8px 16px;
@@ -157,7 +151,7 @@
 }
 
 .ProductCard.out-of-stock .card__information_button {
-  background-color: #888;
+  background-color: var(--color-secondary);
 }
 
 .ProductCard.out-of-stock:hover .card__out_of_stock_overlay {

@@ -4,13 +4,13 @@
   left: 0;
   width: 100%;
   height: var(--navbar-height);
-  background: black;
+  background: var(--background-primary-inverted);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 60px;
   box-sizing: border-box;
-  color: white;
+  color: var(--color-primary-inverted);
   transition: transform 0.3s ease-in-out;
   z-index: 100;
 }
@@ -39,7 +39,7 @@ body.scroll-up .Navbar {
   width: 24px;
   height: 24px;
   cursor: pointer;
-  fill: white;
+  fill: var(--color-primary-inverted);
 }
 
 .navbar_cart {
@@ -47,7 +47,7 @@ body.scroll-up .Navbar {
   cursor: pointer;
   width: 24px;
   height: 24px;
-  fill: white;
+  fill: var(--color-primary-inverted);
 }
 .navbar_search {
   width: 24px;
@@ -62,7 +62,7 @@ body.scroll-up .Navbar {
 
 .navbar_cart_coutner {
   position: absolute;
-  background: black;
+  background: var(--background-primary-inverted);
   top: -5px;
   right: -10px;
   font-size: 10px;
@@ -71,7 +71,7 @@ body.scroll-up .Navbar {
 .custom-select {
   position: relative;
   width: 200px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-secondary-inverted);
   border-radius: 4px;
   font-family: Arial, sans-serif;
   cursor: pointer;
@@ -79,7 +79,7 @@ body.scroll-up .Navbar {
 
 .selected-option {
   padding: 10px;
-  background-color: white;
+  background-color: var(--background-primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -91,9 +91,9 @@ body.scroll-up .Navbar {
   top: 100%;
   left: 0;
   width: 100%;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-secondary-inverted);
   border-radius: 4px;
-  background-color: white;
+  background-color: var(--background-primary);
   z-index: 1;
 }
 
@@ -103,7 +103,7 @@ body.scroll-up .Navbar {
 }
 
 .option:hover {
-  background-color: #f1f1f1;
+  background-color: var(--color-secondary-inverted);
 }
 
 .custom-select.open .options {

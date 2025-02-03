@@ -1,5 +1,5 @@
 .ProductSort {
-    border: 1px solid #E0E0E0;
-    border-radius: 5px;
-    width: fit-content;
+  border: 1px solid var(--color-secondary-inverted);
+  border-radius: 5px;
+  width: fit-content;
 }

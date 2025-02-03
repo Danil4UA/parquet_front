@@ -19,7 +19,7 @@
   padding: 10px 0;
   z-index: 10;
   width: 100%;
-  background: white;
+  background: var(--background-primary);
 }
 
 .products__list_card_empty {
