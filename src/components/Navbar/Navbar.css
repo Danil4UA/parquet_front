@@ -1,4 +1,7 @@
 .Navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: var(--navbar-height);
   background: black;
@@ -8,6 +11,16 @@
   padding: 15px 60px;
   box-sizing: border-box;
   color: white;
+  transition: transform 0.3s ease-in-out;
+  z-index: 100;
+}
+
+.navbar-hidden {
+  transform: translateY(-100%);
+}
+
+.navbar-visible {
+  transform: translateY(0);
 }
 .navbar-left {
   display: flex;
@@ -29,7 +42,7 @@
   width: 24px;
   height: 24px;
   fill: white;
-} 
+}
 .navbar_search {
   width: 24px;
   height: 24px;
@@ -40,7 +53,6 @@
   display: flex;
   gap: 20px;
 }
-
 
 .navbar_cart_coutner {
   position: absolute;
