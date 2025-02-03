@@ -47,8 +47,6 @@
 
 .delivery__radio {
   margin: 0;
-  width: 18px;
-  height: 18px;
   accent-color: var(--color-primary);
 }
 
