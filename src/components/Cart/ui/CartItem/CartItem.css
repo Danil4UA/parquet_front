@@ -88,6 +88,7 @@
 .CartItem__input {
   all: unset;
   width: 25px;
+  font-size: 16px;
   text-align: center;
   border: none;
   background: none;
