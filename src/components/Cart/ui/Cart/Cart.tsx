@@ -1,7 +1,7 @@
 "use client";
 import { classNames } from "@/shared/lib/classNames/classNames";
 import "./Cart.css";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -24,17 +24,15 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
 
   const totalPrice = useSelector((state: RootState) => selectTotalPrice(state));
   useEffect(() => {
+    const body = document.body;
+    const html = document.documentElement;
     if (!collapsed) {
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
+      html.classList.add("no-scroll");
+      body.classList.add("no-scroll");
     } else {
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
+      html.classList.remove("no-scroll");
+      body.classList.remove("no-scroll");
     }
-    return () => {
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-    };
   }, [collapsed]);
 
   useEffect(() => {
@@ -55,6 +53,10 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
     router.push(`/${lng}/order`);
     onClose();
   };
+  const cartItemsList = useMemo(() => {
+    return cartItems.map((item) => <CartItem key={item._id} item={item} />);
+  }, [cartItems]);
+
   const isRTL = lng === "he";
   return (
     <>
@@ -76,11 +78,7 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
                 <CloseIcon />
               </button>
             </div>
-            <div className="Cart_main">
-              {cartItems.map((item) => {
-                return <CartItem key={item._id} item={item} />;
-              })}
-            </div>
+            <div className="Cart_main">{cartItemsList}</div>
             <div className="Cart_footer">
               <div className="Cart_footer_total">
                 <span>{t("total")}</span>

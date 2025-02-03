@@ -7,7 +7,7 @@
   max-width: 100%;
   background: white;
   position: fixed;
-  transition: width 0.5s;
+  transition: transform 0.5s ease, opacity 0.5s ease;
   top: 0;
   right: 0;
   z-index: 100;
@@ -20,12 +20,17 @@
   right: auto;
   left: 0;
 }
+
+.no-scroll {
+  overflow: hidden;
+}
 .Cart_wrapper {
   height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0 30px 30px 30px;
+  transition: transform 0.5s ease;
 }
 .close-icon {
   width: 24px;
@@ -36,7 +41,8 @@
 }
 
 .collapsedCart {
-  width: 0;
+  transform: translateX(100%);
+  opacity: 0;
 }
 
 .overlayCart {
@@ -51,7 +57,7 @@
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s ease;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
 .overlayCartActive {
