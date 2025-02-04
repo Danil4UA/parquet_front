@@ -34,10 +34,11 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
-.Delivery__section_container:hover {
+.Delivery__section_container.selected {
   background-color: var(--color-secondary-inverted);
 }
 
@@ -107,6 +108,9 @@
   border: 1px solid var(--color-secondary-inverted);
   border-radius: 12px;
   font-size: 14px;
+}
+.Order__items_info {
+  flex-grow: 1;
 }
 
 .Order__items_image {

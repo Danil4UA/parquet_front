@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import productsServices from "@/services/prodcuts.services";
 import Swal from "sweetalert2";
+import Radio from "@/shared/ui/Radio/Radio";
 
 interface FormData {
   name: string;
@@ -17,12 +18,13 @@ interface FormData {
   postalCode: string;
   city: string;
   phoneNumber: string;
-  deliveryMethod: "shipping" | "pickup";
+  deliveryMethod: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cartItems: any[];
 }
 
 const OrderPage = () => {
+  const [selectedValue, setSelectedValue] = useState("shipping");
   const [formData, setFormData] = useState<FormData>({
     name: "",
     lastName: "",
@@ -31,13 +33,12 @@ const OrderPage = () => {
     postalCode: "",
     city: "",
     phoneNumber: "",
-    deliveryMethod: "shipping",
+    deliveryMethod: selectedValue,
     cartItems: []
   });
 
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Partial<FormData>>({});
-
   const t = useTranslations("Order");
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const totalPrice = useSelector((state: RootState) => selectTotalPrice(state));
@@ -63,6 +64,14 @@ const OrderPage = () => {
         [name]: undefined
       }));
     }
+  };
+
+  const handleRadioChange = (value: "shipping" | "pickup") => {
+    setSelectedValue(value);
+    setFormData((prev) => ({
+      ...prev,
+      deliveryMethod: value
+    }));
   };
 
   const validateForm = (): boolean => {
@@ -93,7 +102,7 @@ const OrderPage = () => {
         quantity: item.quantity
       }))
     };
-
+    console.log("orderData", orderData);
     try {
       const resultCreate = await productsServices.createOrder(orderData);
 
@@ -125,27 +134,17 @@ const OrderPage = () => {
       <div className="Order__wrapper_left">
         <div>
           <div className="Delivery__section">
-            <div className="Delivery__section_container">
-              <input
-                type="radio"
-                name="deliveryMethod"
-                value="shipping"
-                className="delivery__radio"
-                checked={formData.deliveryMethod === "shipping"}
-                onChange={handleChange}
-              />
-              <span> {t("shipping")}</span>
+            <div
+              className={`Delivery__section_container ${selectedValue === "shipping" ? "selected" : ""}`}
+              onClick={() => handleRadioChange("shipping")}
+            >
+              <Radio value="shipping" selected={selectedValue === "shipping"} onChange={handleRadioChange} label={t("shipping")} />
             </div>
-            <div className="Delivery__section_container">
-              <input
-                type="radio"
-                name="deliveryMethod"
-                value="pickup"
-                className="delivery__radio"
-                checked={formData.deliveryMethod === "pickup"}
-                onChange={handleChange}
-              />
-              <span>{t("pickup")}</span>
+            <div
+              className={`Delivery__section_container ${selectedValue === "pickup" ? "selected" : ""}`}
+              onClick={() => handleRadioChange("pickup")}
+            >
+              <Radio value="pickup" selected={selectedValue === "pickup"} onChange={handleRadioChange} label={t("pickup")} />
             </div>
           </div>
         </div>
@@ -235,7 +234,7 @@ const OrderPage = () => {
                 <span>{item.quantity}</span>
               </div>
             </div>
-            <div className="Order__items_info">{item.description}</div>
+            <div className="Order__items_info">{item.name}</div>
             <div className="price">{item.price}</div>
           </div>
         ))}
