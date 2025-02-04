@@ -1,5 +1,4 @@
 "use client";
-import Cart from "../Cart/ui/Cart/Cart";
 import Sidebar from "../Sidebar/Sidebar";
 import "./Navbar.css";
 import { useEffect, useState } from "react";
@@ -73,7 +72,6 @@ export const Navbar = () => {
           <span className="navbar_cart_coutner">{cartItems > 0 && cartItems}</span>
         </div>
       </div>
-      <Cart collapsed={collapsedCart} onClose={() => dispatch(setCollapsedСart(true))} />
       <Sidebar collapsed={collapsedSidebar} onClose={() => setCollapsedSidebar(true)}></Sidebar>
     </div>
   );
