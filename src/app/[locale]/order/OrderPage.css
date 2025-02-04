@@ -48,6 +48,8 @@
 .delivery__radio {
   margin: 0;
   accent-color: var(--color-primary);
+  max-height: 13px;
+  max-width: 13px;
 }
 
 .Order__wrapper_left input {
@@ -159,7 +161,7 @@
 }
 
 .promo_code input {
-  padding: 16px;
+  padding: 12px;
   outline: none;
   border: 1px solid var(--color-secondary-inverted);
   border-radius: 12px;
@@ -176,7 +178,7 @@
 }
 
 .promo_code button {
-  padding: 16px 32px;
+  padding: 12px 24px;
   border: none;
   border-radius: 12px;
   background: var(--background-primary-inverted);
@@ -275,6 +277,15 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .complete_order,
+  .promo_code button,
+  .promo_code input,
+  .Order__wrapper_left input:not([type="radio"]) {
+    padding: 12px;
+  }
+  .Delivery__section_container {
+    padding: 12px;
+  }
   .Order__items {
     padding: 12px;
   }
@@ -286,10 +297,16 @@
   .complete_order,
   .promo_code button,
   .promo_code input,
-  .Order__wrapper_left input:not([type="radio"]) {
-    width: 100%;
+  .Order__wrapper_left input {
     box-sizing: border-box;
   }
+  .complete_order,
+  .promo_code button,
+  .promo_code input,
+  .Order__wrapper_left input:not([type="radio"]) {
+    width: 100%;
+  }
+
   .order__total_sum {
     font-size: 16px;
   }
@@ -312,12 +329,5 @@
 
   .Order__items {
     padding: 8px;
-  }
-
-  .complete_order,
-  .promo_code button,
-  .promo_code input,
-  .Order__wrapper_left input {
-    padding: 12px;
   }
 }
