@@ -2,19 +2,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { CartItemType, removeFromCart, updateQuantity } from "../../model/slice/cartSlice";
 import "./CartItem.css";
 import { RootState } from "@/redux/store";
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import Image from "next/image";
+
 interface CartItemProps {
   item: CartItemType;
 }
+
 const CartItem = (props: CartItemProps) => {
   const { name, quantity, images, _id } = props.item;
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const item = cartItems.find((cartItem) => cartItem._id === _id);
+
+  // Локальное состояние для input
+  const [localQuantity, setLocalQuantity] = useState(quantity.toString());
+
+  // Сбрасываем `localQuantity`, если данные в корзине изменились
+  useEffect(() => {
+    setLocalQuantity(quantity.toString());
+  }, [quantity]);
+
   if (!item) {
     return null;
   }
+
   const productPriceWithDiscount = item.discount ? Number(item.price) * ((100 - Number(item.discount)) / 100) : Number(item.price);
 
   const handleIncrement = () => {
@@ -28,10 +40,28 @@ const CartItem = (props: CartItemProps) => {
       dispatch(removeFromCart(item._id));
     }
   };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(event.target.value, 10);
-    if (!isNaN(value) && value > 0) {
-      dispatch(updateQuantity({ productId: item._id, quantity: value }));
+    const value = event.target.value;
+
+    // Обновляем локальное состояние
+    setLocalQuantity(value);
+
+    // Если пустое значение — ничего не делаем (разрешаем стирать)
+    if (value === "") {
+      return;
+    }
+
+    // Если 0 — удаляем товар
+    if (value === "0") {
+      dispatch(removeFromCart(item._id));
+      return;
+    }
+
+    // Обновляем Redux только при валидном числе
+    const parsedValue = parseInt(value, 10);
+    if (!isNaN(parsedValue) && parsedValue > 0) {
+      dispatch(updateQuantity({ productId: item._id, quantity: parsedValue }));
     }
   };
 
@@ -46,7 +76,7 @@ const CartItem = (props: CartItemProps) => {
           <div className="CartItem__quantity">
             <button onClick={handleDecrement}>-</button>
             <div>
-              <input type="number" value={quantity} onChange={handleInputChange} min="0" className="CartItem__input" />
+              <input type="number" value={localQuantity} onChange={handleInputChange} min="0" className="CartItem__input" />
             </div>
             <button onClick={handleIncrement}>+</button>
           </div>

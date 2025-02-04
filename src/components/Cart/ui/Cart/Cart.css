@@ -125,4 +125,7 @@
   .Cart_wrapper {
     padding: 0 15px 15px 15px;
   }
+  .complete_btn {
+    padding: 10px 25px;
+  }
 }
