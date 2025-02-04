@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import MenuIcon from "@/app/assets/hamburger-menu.svg";
 import CartIcon from "@/app/assets/cart.svg";
 import LangSwitcher from "@/widgets/LangSwitcher/ui/LangSwitcher";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
-import { selectTotalItems } from "../Cart/model/slice/cartSlice";
+import { selectTotalItems, setCollapsedСart } from "../Cart/model/slice/cartSlice";
 import { Link } from "@/i18n/routing";
 
 const useScrollDirection = () => {
@@ -39,15 +39,16 @@ const useScrollDirection = () => {
   }, [lastScrollY]);
 };
 export const Navbar = () => {
-  const [collapsedCart, setCollapsedCart] = useState(true);
   const [collapsedSidebar, setCollapsedSidebar] = useState(true);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _scrollDirection = useScrollDirection();
-
+  const dispatch = useDispatch();
+  const collapsedCart = useSelector((state: RootState) => state.cart.isCollapsedCart);
   const cartItems = useSelector((state: RootState) => selectTotalItems(state));
 
   const onToggle = () => {
-    setCollapsedCart((prev) => !prev);
+    dispatch(setCollapsedСart(!collapsedCart));
   };
 
   const onToggleMenu = () => {
@@ -72,7 +73,7 @@ export const Navbar = () => {
           <span className="navbar_cart_coutner">{cartItems > 0 && cartItems}</span>
         </div>
       </div>
-      <Cart collapsed={collapsedCart} onClose={() => setCollapsedCart(true)} />
+      <Cart collapsed={collapsedCart} onClose={() => dispatch(setCollapsedСart(true))} />
       <Sidebar collapsed={collapsedSidebar} onClose={() => setCollapsedSidebar(true)}></Sidebar>
     </div>
   );

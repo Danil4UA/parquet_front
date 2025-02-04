@@ -16,9 +16,13 @@ export type CartItemType = {
 export const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    cartItems: [] as CartItemType[]
+    cartItems: [] as CartItemType[],
+    isCollapsedCart: true
   },
   reducers: {
+    setCollapsedСart(state, action: PayloadAction<boolean>) {
+      state.isCollapsedCart = action.payload;
+    },
     setCart(state, action: PayloadAction<CartItemType[]>) {
       state.cartItems = action.payload;
     },
@@ -59,7 +63,7 @@ export const cartSlice = createSlice({
   }
 });
 
-export const { setCart, addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
+export const { setCart, addToCart, removeFromCart, updateQuantity, clearCart, setCollapsedСart } = cartSlice.actions;
 
 export const selectTotalItems = (state: { cart: { cartItems: CartItemType[] } }) =>
   state.cart.cartItems.reduce((total, item) => total + item.quantity, 0);

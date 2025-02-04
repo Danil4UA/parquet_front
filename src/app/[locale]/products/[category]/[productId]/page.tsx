@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "./productDescription.css";
-import { addToCart } from "@/components/Cart/model/slice/cartSlice";
+import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
 import { Product } from "@/components/Products/ui/ProductsList/ProductsList";
 import { useParams } from "next/navigation";
 import QuestionIcon from "@/app/assets/question.svg";
@@ -48,6 +48,7 @@ const ProductPage: FC = () => {
     if (!product) return;
     const newProduct = { ...product, quantity: 1 };
     dispatch(addToCart(newProduct));
+    dispatch(setCollapsedСart(false));
   };
 
   if (isLoading) {
