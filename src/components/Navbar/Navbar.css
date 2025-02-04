@@ -6,8 +6,8 @@
   height: var(--navbar-height);
   background: var(--background-primary-inverted);
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding: 15px 60px;
   box-sizing: border-box;
   color: var(--color-primary-inverted);
@@ -36,8 +36,8 @@ body.scroll-up .Navbar {
 }
 
 .navbar_menu {
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
   fill: var(--color-primary-inverted);
 }
@@ -45,8 +45,8 @@ body.scroll-up .Navbar {
 .navbar_cart {
   position: relative;
   cursor: pointer;
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   fill: var(--color-primary-inverted);
 }
 .navbar_search {
@@ -112,6 +112,6 @@ body.scroll-up .Navbar {
 
 @media screen and (max-width: 980px) {
   .Navbar {
-    padding: 15px 40px;
+    padding: 10px 20px;
   }
 }

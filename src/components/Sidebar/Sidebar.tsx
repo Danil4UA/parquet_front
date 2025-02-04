@@ -53,14 +53,9 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
   return (
     <>
       {/* Sidebar */}
-      <div className={classNames("Sidebar", { ["collapsed"]: collapsed, "Sidebar-rtl": isRTL }, [])}>
+      <div className={classNames("Sidebar", { ["collapsed"]: collapsed, ["Sidebar-rtl"]: isRTL }, [])}>
         {!collapsed && (
           <div>
-            {/* <div className="Sidebar_header">
-              <button onClick={() => onClose()} className="Sidebar-close-icon">
-                <CloseIcon />
-              </button>
-            </div> */}
             <div className="Sidebar_wrapper">
               <div className="items">
                 <div className="items_header"></div>
@@ -85,7 +80,6 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
           </div>
         )}
       </div>
-      {/* Overlay */}
       <div className={classNames("overlay", { overlayActive: !collapsed })} onClick={onClose} />
     </>
   );

@@ -40,9 +40,12 @@
   cursor: pointer;
 }
 
-.collapsedCart {
-  transform: translateX(100%);
+.Cart-rtl.collapsedCart {
+  transform: translateX(-100%);
   opacity: 0;
+}
+.Cart:not(.Cart-rtl).collapsedCart {
+  transform: translateX(100%);
 }
 
 .overlayCart {
