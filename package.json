@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
+    "@splidejs/react-splide": "^0.7.12",
     "@svgr/webpack": "^8.1.0",
     "@types/node-sass": "^4.11.8",
     "axios": "^1.7.9",
@@ -27,7 +28,8 @@
     "react-loading-skeleton": "^3.5.0",
     "react-redux": "^9.2.0",
     "react-scroll-parallax": "^3.4.5",
-    "sweetalert2": "^11.15.10"
+    "sweetalert2": "^11.15.10",
+    "swiper": "^11.2.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
