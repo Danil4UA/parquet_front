@@ -1,7 +1,5 @@
 .ProductCard {
   width: 100%;
-  max-width: 320px;
-  min-width: 150px;
   max-height: 400px;
   background-color: var(--background-primary);
   font-size: 18px;
@@ -17,14 +15,14 @@
 }
 
 /* .ProductCard:hover {
-    transform: scale(1.02);
+  transform: scale(1.02);
 } */
 
 .card__image {
   width: 100%;
   aspect-ratio: 1 / 1;
   max-width: 300px;
-  max-height: 300px;
+  /* max-height: 300px; */
 
   overflow: hidden;
   margin-bottom: 10px;
@@ -160,6 +158,17 @@
 
 .ProductCard.out-of-stock:hover .out_of_stock_text {
   transform: translateY(-4px);
+}
+.skeleton-loader {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 300px;
+  max-height: 300px;
+  overflow: hidden;
+  margin-bottom: 10px;
+
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  border-radius: 8px;
 }
 @media screen and (max-width: 750px) {
   .card__information_button {

@@ -4,6 +4,7 @@ import { Link } from "@/i18n/routing";
 import "./ProductCard.css";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 interface ProductCardProps {
   productId: string;
@@ -17,6 +18,8 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ productId, productName, productPrice, discount = 0, category, images, stock }: ProductCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const t = useTranslations("Product");
   const productPriceWithDiscount = discount ? Number(productPrice) * ((100 - discount) / 100) : Number(productPrice);
 
@@ -28,7 +31,9 @@ const ProductCard = ({ productId, productName, productPrice, discount = 0, categ
         onClick={(e) => stock === 0 && e.preventDefault()}
       >
         <div className="card__image">
-          <Image src={images[0]} width={300} height={300} alt={productName} />
+          {!imageLoaded && <div className="skeleton-loader" />}
+
+          <Image src={images[0]} width={300} height={300} alt={productName} onLoad={() => setImageLoaded(true)} />
           {stock === 0 && (
             <div className="card__out_of_stock_overlay">
               <span className="out_of_stock_text">{t("OutOfStock")}</span>

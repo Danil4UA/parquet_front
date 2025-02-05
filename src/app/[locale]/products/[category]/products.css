@@ -9,11 +9,10 @@
   padding: 20px;
 }
 .products-page-container {
-  display: flex;
-  max-width: 1840px;
-  flex-direction: row;
-  width: 100%;
   min-height: 100vh;
+  display: grid;
+  grid-template-columns: 2fr 9fr;
+  max-width: 1440px;
   position: relative;
 }
 
@@ -21,5 +20,6 @@
   .products-page-container {
     flex-direction: column;
     justify-content: center;
+    display: block;
   }
 }

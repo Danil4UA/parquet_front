@@ -62,24 +62,20 @@ const ProductsList = ({ category }: ProductsListProps) => {
         <ProductSort />
       </div>
       <div className="products__list">
-        {isLoading ? (
-          Array.from({ length: 12 }).map((_, index) => <ProductCardSkeleton key={index} />)
-        ) : productsList.length > 0 ? (
-          productsList.map((product) => (
-            <ProductCard
-              key={product._id}
-              productId={product._id}
-              productName={product.name}
-              productPrice={product.price}
-              discount={product.discount}
-              images={product.images}
-              stock={product.stock}
-              category={category}
-            />
-          ))
-        ) : (
-          <div className="products__list_card_empty">No items avaialble</div>
-        )}
+        {isLoading
+          ? Array.from({ length: 12 }).map((_, index) => <ProductCardSkeleton key={index} />)
+          : productsList.map((product) => (
+              <ProductCard
+                key={product._id}
+                productId={product._id}
+                productName={product.name}
+                productPrice={product.price}
+                discount={product.discount}
+                images={product.images}
+                stock={product.stock}
+                category={category}
+              />
+            ))}
       </div>
     </div>
   );
