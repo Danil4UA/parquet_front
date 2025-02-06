@@ -26,6 +26,9 @@ export interface Product {
   type: string;
   material: string;
   countryOfOrigin: string;
+  width?: string;
+  length?: string;
+  company?: string;
 }
 interface ProductsListProps {
   category: string;

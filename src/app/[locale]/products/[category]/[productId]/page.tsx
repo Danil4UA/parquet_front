@@ -6,7 +6,7 @@ import "./productDescription.css";
 import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
 import { Product } from "@/components/Products/ui/ProductsList/ProductsList";
 import { useParams } from "next/navigation";
-import QuestionIcon from "@/app/assets/question.svg";
+// import QuestionIcon from "@/app/assets/question.svg";
 import productsServices from "@/services/prodcuts.services";
 import Gallery from "@/components/Gallery/Gallery";
 import Loader from "@/shared/ui/Loader/Loader";
@@ -121,26 +121,26 @@ const ProductPage: FC = () => {
           <div className="product__info_delivery">
             <h2 className="delivery__title">{t("delivery_title")}</h2>
             <div className="delivery__item">
-              <span className="delivery__indicator"></span>
+              {/* <span className="delivery__indicator"></span> */}
               <p>{t("delivery_pickup")}</p>
             </div>
             <div className="delivery__item">
-              <span className="delivery__indicator"></span>
+              {/* <span className="delivery__indicator"></span> */}
               <p>{t("delivery_ready_in")}</p>
             </div>
             <p className="check__store">
               {t("delivery_check_store")}
-              <QuestionIcon />
+              {/* <QuestionIcon /> */}
             </p>
           </div>
 
           <div className="product__section">
             <h2 className="section__title">{t("specifications_title")}</h2>
             <div className="specifications__grid">
-              <p className="specification__item">{t("specifications_made_by", { company: "XXXX" })}</p>
-              <p className="specification__item">{t("specifications_length", { length: "XXX" })}</p>
-              <p className="specification__item">{t("specifications_width", { width: "XXX" })}</p>
-              <p className="specification__item">{t("specifications_color", { color: product.color || "XXX" })}</p>
+              <p className="specification__item">{t("specifications_made_by", { company: product.company })}</p>
+              <p className="specification__item">{t("specifications_length", { length: product.length })}</p>
+              <p className="specification__item">{t("specifications_width", { width: product.width })}</p>
+              <p className="specification__item">{t("specifications_color", { color: product.color })}</p>
             </div>
           </div>
 
