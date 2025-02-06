@@ -35,3 +35,10 @@
 .SideBar__Item:hover::after {
   height: 70%;
 }
+
+@media (max-width: 768px) {
+  .SideBar__Item {
+    padding: 8px 16px;
+    font-size: 20px;
+  }
+}

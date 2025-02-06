@@ -10,20 +10,21 @@ interface GalleryProps {
 
 const Gallery = ({ images }: GalleryProps) => {
   return (
-    <div>
+    <div className="gallery-container">
       <Splide
         options={{
           type: "loop",
           perPage: 1,
           perMove: 1,
           autoplay: false,
-          interval: 3000,
           arrows: true,
-          pagination: true
+          pagination: true,
+          speed: 800
         }}
+        className="splide"
       >
         {images.map((src, index) => (
-          <SplideSlide key={index}>
+          <SplideSlide key={src} className="splide__slide">
             <Image src={src} width={500} height={500} alt={`Image ${index + 1}`} className="responsive-image" />
           </SplideSlide>
         ))}

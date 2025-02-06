@@ -133,12 +133,6 @@
   .Sidebar {
     max-width: 280px;
   }
-
-  .SideBar__Item {
-    font-size: 16px;
-    padding: 10px 15px;
-  }
-
   .Sidebar_footer_contact div {
     gap: 20px;
   }
