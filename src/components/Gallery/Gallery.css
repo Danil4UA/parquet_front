@@ -5,3 +5,8 @@
 .splide {
   direction: ltr !important;
 }
+@media (max-width: 768px) {
+  .splide__arrow {
+    display: none !important;
+  }
+}

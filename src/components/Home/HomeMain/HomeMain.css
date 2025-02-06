@@ -11,3 +11,9 @@
   padding: 50px;
   line-height: 25px;
 }
+
+@media screen and (max-width: 768px) {
+  .HomeMain__title {
+    padding: 40px 20px;
+  }
+}

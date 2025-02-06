@@ -19,7 +19,7 @@ const Gallery = ({ images }: GalleryProps) => {
           autoplay: false,
           arrows: true,
           pagination: true,
-          speed: 800
+          speed: 1100
         }}
         className="splide"
       >
