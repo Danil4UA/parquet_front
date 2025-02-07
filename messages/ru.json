@@ -8,7 +8,10 @@
     "home": "Главная",
     "flooring": "Напольные покрытия",
     "sales": "Акции",
-    "catalog": "Каталог"
+    "catalog": "Каталог",
+    "panels": "Панели",
+    "thresholds": "Пороги",
+    "cladding": "Облицовка"
   },
   "Product": {
     "GetMoreDetails": "Просмотреть детали",
@@ -33,6 +36,16 @@
     "catalog_description": "Исследуйте наш полный каталог продукции",
     "walls_title": "Стены",
     "walls_description": "Прочные и надежные решения для стен",
+
+    "panels_title": "Панели",
+    "panels_description": "Стильные и функциональные панели",
+
+    "thresholds_title": "Пороги",
+    "thresholds_description": "Прочные пороги для плавного перехода",
+
+    "cladding_title": "Облицовка",
+    "cladding_description": "Элегантная и устойчивая к погодным условиям облицовка",
+
     "VIEW": "ПОСМОТРЕТЬ"
   },
   "Filter": {

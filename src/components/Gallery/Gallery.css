@@ -1,7 +1,21 @@
 .responsive-image {
   width: 100%;
   height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }
+.gallery-container {
+  padding: 0;
+}
+.splide__slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  overflow: hidden;
+}
+
 .splide {
   direction: ltr !important;
 }

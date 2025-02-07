@@ -8,7 +8,10 @@
     "home": "בית",
     "flooring": "ריצוף",
     "sales": "מבצעים",
-    "catalog": "קטלוג"
+    "catalog": "קטלוג",
+    "panels": "לוחות",
+    "thresholds": "ספים",
+    "cladding": "חיפוי"
   },
   "Product": {
     "GetMoreDetails": "Get more details",
@@ -33,6 +36,15 @@
     "catalog_description": "גלו את קטלוג המוצרים המלא שלנו",
     "walls_title": "קירות",
     "walls_description": "פתרונות קיר עמידים ואמינים",
+    "panels_title": "פאנלים",
+    "panels_description": "פאנלים מעוצבים ופונקציונליים לשימוש פנימי וחיצוני",
+
+    "thresholds_title": "ספים",
+    "thresholds_description": "ספים עמידים למעבר חלק בין סוגי רצפות",
+
+    "cladding_title": "חיפוי",
+    "cladding_description": "חיפוי אלגנטי ועמיד בפני מזג אוויר לקירות חיצוניים",
+
     "VIEW": "צפה עכשיו"
   },
   "Filter": {

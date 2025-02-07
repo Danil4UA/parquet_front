@@ -32,9 +32,21 @@ const CategoryList = () => {
     },
     {
       image: "/assets/category_walls.jpg",
-      path: "/products/walls",
-      title: t("walls_title"),
-      description: t("walls_description")
+      path: "/products/panels",
+      title: t("panels_title"),
+      description: t("panels_description")
+    },
+    {
+      image: "/assets/category_catalog.jpg",
+      path: "/products/thresholds",
+      title: t("thresholds_title"),
+      description: t("thresholds_description")
+    },
+    {
+      image: "/assets/category_seeling.jpg",
+      path: "/products/cladding",
+      title: t("cladding_title"),
+      description: t("cladding_description")
     }
   ];
 

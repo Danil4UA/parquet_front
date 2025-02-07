@@ -3,7 +3,10 @@
     "home": "Home",
     "flooring": "Flooring",
     "sales": "Sales",
-    "catalog": "Catalog"
+    "catalog": "Catalog",
+    "panels": "Panels",
+    "thresholds": "Thresholds",
+    "cladding": "Cladding"
   },
   "Cart": {
     "cart": "Cart",
@@ -33,6 +36,16 @@
     "catalog_description": "Explore our complete product catalog",
     "walls_title": "Walls",
     "walls_description": "Durable and reliable walls solutions",
+
+    "panels_title": "Panels",
+    "panels_description": "Stylish and functional panels for interior and exterior applications",
+
+    "thresholds_title": "Thresholds",
+    "thresholds_description": "Durable thresholds for smooth transitions between flooring types",
+
+    "cladding_title": "Cladding",
+    "cladding_description": "Elegant and weather-resistant cladding for exterior walls",
+
     "VIEW": "VIEW NOW"
   },
   "Filter": {
@@ -117,7 +130,7 @@
     "specifications_width": "Width: {width}",
     "specifications_color": "Color: {color}",
     "product_description_title": "Product Description",
-    "product_description": "The perfect combination of design and durability, this type of flooring can withstand any abrasion hazards, whether in commercial centers or home use. Berry Alloc laminated products combine aesthetics and advanced technology...",
+    "product_description": "The perfect combination of design and durability, this type of flooring can withstand any abrasion hazards, whether in commercial centers or home use. Berry Alloc laminated products combine aesthetics and advanced technology. ",
     "about_brand_title": "About Brand",
     "delivery_policy_title": "Delivery Policy",
     "product_notice": "It is recommended to add an additional 10% to the amount needed for amortization during installation."

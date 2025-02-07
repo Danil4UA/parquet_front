@@ -11,6 +11,11 @@ export const SidebarItemsList: SidebarItemType[] = [
     text: "home"
   },
   {
+    path: "/products/all",
+    Icon: "",
+    text: "catalog"
+  },
+  {
     path: "/products/flooring",
     Icon: "",
     text: "flooring"
@@ -21,8 +26,18 @@ export const SidebarItemsList: SidebarItemType[] = [
     text: "sales"
   },
   {
-    path: "/products/all",
+    path: "/products/panels",
     Icon: "",
-    text: "catalog"
+    text: "panels"
+  },
+  {
+    path: "/products/thresholds",
+    Icon: "",
+    text: "thresholds"
+  },
+  {
+    path: "/products/cladding",
+    Icon: "",
+    text: "cladding"
   }
 ];
