@@ -1,0 +1,86 @@
+/* AboutContent.css */
+.about-content {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.about-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-secondary-inverted);
+}
+
+.about-introduction {
+  margin-bottom: 24px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.about-item {
+  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-secondary-inverted);
+  background-color: rgba(var(--color-secondary-inverted-rgb), 0.03);
+}
+
+.about-subtitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.about-description {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.about-description p {
+  margin-bottom: 8px;
+}
+
+.about-description p:last-child {
+  margin-bottom: 0;
+}
+
+/* Анимация при наведении */
+.about-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.about-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 768px) {
+  .about-content {
+    padding: 16px;
+  }
+
+  .about-title {
+    font-size: 20px;
+  }
+
+  .about-item {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .about-subtitle {
+    font-size: 16px;
+  }
+
+  .about-introduction {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+}

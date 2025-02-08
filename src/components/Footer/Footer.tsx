@@ -3,24 +3,33 @@ import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import "./Footer.css";
 import Modal from "@/shared/ui/Modal/Modal";
+import ContactContent from "./content-components/ContactContent/ContactContent";
+import ServicesContent from "./content-components/ServicesContent/SetvicesContent";
+import AboutContent from "./content-components/AboutContent/AboutContent";
+
+const contentComponents: Record<string, React.FC> = {
+  about_us: AboutContent,
+  services: ServicesContent,
+  contact: ContactContent
+};
 
 const Footer = () => {
   const [isShownModal, setIsShownModal] = useState(false);
-  const [modalContent, setModalContent] = useState("");
+  const [ModalContent, setModalContent] = useState<React.FC | null>(null);
 
   const currentYear = new Date().getFullYear();
   const t = useTranslations("Footer");
 
   const handleLinkClick = (contentKey: string) => {
-    setModalContent(t(contentKey));
+    setModalContent(() => contentComponents[contentKey] || null);
     setIsShownModal(true);
   };
 
   return (
     <footer className="footer">
-      {isShownModal && (
+      {isShownModal && ModalContent && (
         <Modal onClose={() => setIsShownModal(false)}>
-          <div>{modalContent}</div>
+          <ModalContent />
         </Modal>
       )}
       <div className="footer_container">
@@ -43,13 +52,13 @@ const Footer = () => {
           <div className="footer-section">
             <h3>{t("quick_links")}</h3>
             <ul className="quick-links">
-              {["about_us", "services", "contact", "privacy_policy"].map((item) => (
+              {["about_us", "services", "contact"].map((item) => (
                 <li key={item}>
                   <a
-                    href={`#${item.toLowerCase().replace("_", "-")}`}
+                    href={`#${item}`}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleLinkClick(`${item}_content`);
+                      handleLinkClick(item);
                     }}
                   >
                     {t(item)}
@@ -63,7 +72,7 @@ const Footer = () => {
             <h3>{t("follow_us")}</h3>
             <div className="social-grid">
               {["facebook", "twitter", "instagram", "linkedin"].map((social) => (
-                <a key={social} href={`#${social.toLowerCase()}`} className="social-link">
+                <a key={social} href={`#${social}`} className="social-link">
                   {t(social)}
                 </a>
               ))}

@@ -95,6 +95,59 @@
     "contact_content": "For any inquiries, feel free to reach out to us via email or phone. Visit our store at 123 Main St, City, Country, or fill out the contact form on our website. We're here to help!",
     "privacy_policy_content": "We respect your privacy. Your personal information is securely stored and will never be shared with third parties without your consent. For more details, please read our full Privacy Policy."
   },
+  "ContactContent": {
+    "branch_title": "Rishon Lezion Branch",
+    "branch_description": "A large and impressive store with exclusive solutions",
+    "address_label": "Address:",
+    "phone_label": "Phone:",
+    "working_hours": "Working Hours",
+    "hours_weekdays": "Sun - Thu from 09:00 to 19:00.",
+    "hours_friday": "Fri and Holidays from 09:00 to 13:00.",
+    "quick_contact": "For quick contact with the branch",
+    "contact_person": "Ruslan: "
+  },
+  "ServicesContent": {
+    "services_title": "Our Services",
+    "service_parquet_installation_title": "Parquet Installation",
+    "service_parquet_installation_desc": "Professional parquet flooring installation of any complexity with a quality guarantee.",
+    "service_parquet_installation_extra": "We work with all types of parquet: solid, modular, artistic.",
+
+    "service_material_calc_title": "Material Calculation",
+    "service_material_calc_desc": "Accurate calculation of the required amount of materials for your project.",
+    "service_material_calc_extra": "We consider the specifics of the room and the selected flooring.",
+
+    "service_consultations_title": "Consultations",
+    "service_consultations_desc": "Professional consultations on choosing flooring.",
+
+    "service_repair_title": "Damage Repair",
+    "service_repair_desc": "Restoration and repair of damaged parquet.",
+    "service_repair_extra": "Removal of scratches, chips, and replacement of damaged elements.",
+
+    "service_maintenance_title": "Maintenance and Care",
+    "service_maintenance_desc": "Recommendations for parquet care.",
+    "service_maintenance_extra": "Professional cleaning and coating renewal."
+  },
+  "AboutContent": {
+    "about_title": "About Our Company",
+    "about_intro_1": "We are a supplier of parquet flooring and installation services in Israel.",
+    "about_intro_2": "Our company provides customers with top-quality materials and professional service.",
+
+    "about_mission_title": "Our Mission",
+    "about_mission_desc_1": "To create cozy and durable flooring that delights our customers.",
+    "about_mission_desc_2": "We strive to make the process of choosing and installing parquet as comfortable as possible.",
+
+    "about_advantages_title": "Advantages",
+    "about_advantages_1": "• Only certified high-quality materials",
+    "about_advantages_2": "• A professional team with years of experience",
+    "about_advantages_3": "• Warranty on all types of work",
+    "about_advantages_4": "• Individual approach to each project",
+
+    "about_values_title": "Our Values",
+    "about_values_1": "• Quality in everything – from materials to service",
+    "about_values_2": "• Honesty and transparency in working with clients",
+    "about_values_3": "• Responsibility for every completed project",
+    "about_values_4": "• Constant growth and improvement"
+  },
   "Order": {
     "shipping": "Shipping",
     "pickup": "Pickup",

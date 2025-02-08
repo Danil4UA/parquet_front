@@ -1,0 +1,66 @@
+/* ServicesContent.css */
+.services-content {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.services-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-secondary-inverted);
+}
+
+.service-item {
+  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-secondary-inverted);
+  background-color: rgba(var(--color-secondary-inverted-rgb), 0.03);
+}
+
+.service-subtitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.service-description {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* Анимация при наведении */
+.service-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 768px) {
+  .services-content {
+    padding: 16px;
+  }
+
+  .services-title {
+    font-size: 20px;
+  }
+
+  .service-item {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .service-subtitle {
+    font-size: 16px;
+  }
+}

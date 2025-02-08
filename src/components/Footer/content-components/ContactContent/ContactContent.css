@@ -1,0 +1,88 @@
+/* contact-styles.css */
+.contact-content {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.branch-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-secondary-inverted);
+}
+
+.branch-description {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.contact-details {
+  margin-bottom: 24px;
+  display: grid;
+  gap: 12px;
+}
+
+.contact-details p {
+  font-size: 16px;
+  color: #444;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.contact-details strong {
+  font-weight: 600;
+  min-width: 65px;
+}
+
+.working-hours {
+  margin-bottom: 24px;
+}
+
+.section-subtitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.working-hours p {
+  margin-bottom: 12px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.quick-contacts {
+  border: 1px solid var(--color-secondary-inverted);
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: rgba(var(--color-secondary-inverted-rgb), 0.03);
+}
+
+.quick-contacts .highlight {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.quick-contacts p {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.quick-contacts a {
+  text-decoration: none;
+  color: var(--color-secondary);
+  transition: color 0.2s ease;
+}
+
+.quick-contacts a:hover {
+  text-decoration: underline;
+  color: var(--color-accent);
+}

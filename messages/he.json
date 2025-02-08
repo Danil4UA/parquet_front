@@ -94,6 +94,59 @@
     "contact_content": "לכל שאלה, אתם מוזמנים ליצור איתנו קשר דרך הדוא\"ל או הטלפון. בקרו בחנות שלנו ברחוב ראשי 123, עיר, מדינה, או מלאו את טופס יצירת הקשר באתר שלנו. אנחנו כאן כדי לעזור!",
     "privacy_policy_content": "אנו מכבדים את הפרטיות שלכם. המידע האישי שלכם מאוחסן בצורה מאובטחת ולא יועבר לצד שלישי ללא הסכמתכם. לפרטים נוספים, אנא קראו את מדיניות הפרטיות המלאה שלנו."
   },
+  "ContactContent": {
+    "branch_title": "סניף ראשון לציון",
+    "branch_description": "חנות גדולה ומרשימה עם פתרונות בלעדיים",
+    "address_label": "כתובת:",
+    "phone_label": "טלפון:",
+    "working_hours": "שעות פעילות",
+    "hours_weekdays": "א' - ה' 09:00 עד 19:00.",
+    "hours_friday": "ו' וחגים 09:00 עד 13:00.",
+    "quick_contact": "ליצירת קשר מהיר עם הסניף",
+    "contact_person": "רוסלן: "
+  },
+  "ServicesContent": {
+    "services_title": "השירותים שלנו",
+    "service_parquet_installation_title": "התקנת פרקט",
+    "service_parquet_installation_desc": "התקנת פרקט מקצועית בכל רמת קושי עם אחריות לאיכות.",
+    "service_parquet_installation_extra": "עובדים עם כל סוגי הפרקט: טבעי, מודולרי, אמנותי.",
+
+    "service_material_calc_title": "חישוב כמות החומרים",
+    "service_material_calc_desc": "חישוב מדויק של כמות החומרים הדרושה לפרויקט שלך.",
+    "service_material_calc_extra": "לוקחים בחשבון את מאפייני החדר והריצוף שנבחר.",
+
+    "service_consultations_title": "ייעוץ",
+    "service_consultations_desc": "ייעוץ מקצועי לבחירת רצפות.",
+
+    "service_repair_title": "תיקון נזקים",
+    "service_repair_desc": "שיקום ותיקון של פרקט פגום.",
+    "service_repair_extra": "הסרת שריטות, סדקים והחלפת חלקים פגומים.",
+
+    "service_maintenance_title": "תחזוקה וטיפול",
+    "service_maintenance_desc": "המלצות לטיפול בפרקט.",
+    "service_maintenance_extra": "ניקוי מקצועי וחידוש הציפוי."
+  },
+  "AboutContent": {
+    "about_title": "על החברה שלנו",
+    "about_intro_1": "אנחנו ספקי פרקט ושירותי התקנה בישראל.",
+    "about_intro_2": "החברה שלנו מספקת ללקוחות חומרים מהשורה הראשונה ושירות מקצועי.",
+
+    "about_mission_title": "המשימה שלנו",
+    "about_mission_desc_1": "ליצור רצפות נעימות ועמידות שישמחו את לקוחותינו.",
+    "about_mission_desc_2": "אנחנו שואפים להפוך את תהליך הבחירה והתקנת הפרקט לנוח ככל האפשר.",
+
+    "about_advantages_title": "היתרונות שלנו",
+    "about_advantages_1": "• רק חומרים מוסמכים באיכות הגבוהה ביותר",
+    "about_advantages_2": "• צוות מקצועי עם ניסיון רב שנים",
+    "about_advantages_3": "• אחריות על כל סוגי העבודה",
+    "about_advantages_4": "• גישה אישית לכל פרויקט",
+
+    "about_values_title": "הערכים שלנו",
+    "about_values_1": "• איכות בכל דבר - מחומרים ועד שירות",
+    "about_values_2": "• יושר ושקיפות בעבודה עם לקוחות",
+    "about_values_3": "• אחריות על כל פרויקט שבוצע",
+    "about_values_4": "• התפתחות ושיפור מתמידים"
+  },
   "Order": {
     "shipping": "משלוח",
     "pickup": "איסוף עצמי",
