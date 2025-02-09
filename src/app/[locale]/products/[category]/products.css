@@ -1,6 +1,7 @@
 .CategoryPage {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .CategoryPage__title {
   text-align: center;
@@ -18,7 +19,7 @@
 
 @media (max-width: 750px) {
   .products-page-container {
-    width: 100%;
+    min-width: 100dvw;
     flex-direction: column;
     justify-content: center;
     display: block;
