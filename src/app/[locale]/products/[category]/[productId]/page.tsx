@@ -78,6 +78,7 @@ const ProductPage: FC = () => {
       </section>
     );
   }
+  console.log(product);
   const productPriceWithDiscount = product.discount ? Number(product.price) * ((100 - product.discount) / 100) : Number(product.discount);
 
   return (
@@ -146,7 +147,8 @@ const ProductPage: FC = () => {
 
           <div className="product__section">
             <h2 className="section__title">{t("product_description_title")}</h2>
-            <p className="product__description">{t("product_description")}</p>
+            {/* <p className="product__description">{t("product_description")}</p> */}
+            <p>{product.detailedDescription}</p>
           </div>
 
           <div className="product__section">
