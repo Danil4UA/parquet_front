@@ -96,6 +96,13 @@
   transform: translateX(-100%);
   opacity: 0;
 }
+.items_header {
+  width: 100%;
+  color: var(--color-primary);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
 
 .items {
   display: flex;

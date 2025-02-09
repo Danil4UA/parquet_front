@@ -42,6 +42,18 @@ body.scroll-up .Navbar {
   fill: var(--color-primary-inverted);
 }
 
+.navbar-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 34px;
+  font-weight: 700;
+}
+.navbar-left,
+.navbar-right {
+  z-index: 1;
+}
+
 .navbar_cart {
   position: relative;
   cursor: pointer;
@@ -111,7 +123,16 @@ body.scroll-up .Navbar {
 }
 
 @media screen and (max-width: 980px) {
+  .navbar-logo {
+    font-size: 24px;
+  }
   .Navbar {
-    padding: 10px 20px;
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .language-container {
+    display: none;
   }
 }

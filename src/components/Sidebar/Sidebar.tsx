@@ -8,7 +8,7 @@ import InstagramIcon from "@/app/assets/instagram.svg";
 import FacebookIcon from "@/app/assets/facebook.svg";
 import TelegramIcon from "@/app/assets/telegram.svg";
 import { usePathname } from "next/navigation";
-// import CloseIcon from "@/app/assets/close.svg";
+import LangSwitcher from "@/widgets/LangSwitcher/ui/LangSwitcher";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -58,7 +58,9 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
           <div>
             <div className="Sidebar_wrapper">
               <div className="items">
-                <div className="items_header"></div>
+                <div className="items_header">
+                  <LangSwitcher />
+                </div>
                 {itemsList}
               </div>
               <div className="Sidebar_footer">

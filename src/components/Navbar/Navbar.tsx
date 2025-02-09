@@ -60,11 +60,13 @@ export const Navbar = () => {
         <span className="navbar_menu" onClick={onToggleMenu}>
           <MenuIcon />
         </span>
-        <LangSwitcher />
+        <span className="language-container">
+          <LangSwitcher />
+        </span>
       </div>
 
-      <div>
-        <Link href="/">LOGO</Link>
+      <div className="navbar-logo">
+        <Link href="/">אפקט פרקט</Link>
       </div>
       <div className="navbar-right">
         <div className="navbar_cart" onClick={() => onToggle()}>
