@@ -12,7 +12,7 @@ import ClientCart from "@/components/Cart/ui/ClientCart/ClientCart";
 import { getLanguageMetadata } from "../metadata";
 
 export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const { locale } = params;
+  const { locale } = await params;
   return getLanguageMetadata(locale as "en" | "ru" | "he");
 }
 

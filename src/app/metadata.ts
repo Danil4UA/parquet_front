@@ -69,28 +69,6 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1
     }
-  },
-
-  // Viewport settings
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1
-  },
-
-  // Icons
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-    other: [
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "32x32",
-        url: "/favicon-32x32.png"
-      }
-    ]
   }
 };
 
@@ -114,17 +92,30 @@ export const translations = {
 };
 
 // Helper function to get metadata for specific language
-export function getLanguageMetadata(lang: "en" | "ru" | "he"): Metadata {
+export function getLanguageMetadata(lang): Metadata {
+  // Проверяем, что lang является допустимым значением
+  if (!["en", "ru", "he"].includes(lang)) {
+    // Если язык неверный, используем английский как запасной вариант
+    lang = "en";
+  }
+
+  const translation = translations[lang];
+  if (!translation) {
+    console.error(`Translation not found for language: ${lang}`);
+    // Используем английский как запасной вариант
+    return getLanguageMetadata("en");
+  }
+
   return {
     ...metadata,
-    title: translations[lang].title,
-    description: translations[lang].description,
-    keywords: translations[lang].keywords,
+    title: translation.title,
+    description: translation.description,
+    keywords: translation.keywords,
     openGraph: {
       ...metadata.openGraph,
       locale: lang === "en" ? "en_US" : lang === "ru" ? "ru_RU" : "he_IL",
-      title: translations[lang].title,
-      description: translations[lang].description
+      title: translation.title,
+      description: translation.description
     }
   };
 }
