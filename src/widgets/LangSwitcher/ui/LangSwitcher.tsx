@@ -1,5 +1,5 @@
 "use client";
-import "./LangSwitcher.css"
+import "./LangSwitcher.css";
 import { memo, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Select from "@/shared/ui/Select/Select";
@@ -14,35 +14,35 @@ export const LangSwitcher = () => {
   });
 
   useEffect(() => {
-    const localeFromPath = pathname.split("/")[1]; 
+    const localeFromPath = pathname.split("/")[1];
     if (["en", "ru", "he"].includes(localeFromPath)) {
-      setCurrentLocale(localeFromPath); 
+      setCurrentLocale(localeFromPath);
     }
   }, [pathname]);
 
   const onSelectChange = (newLocale: string) => {
-    const path = pathname.split("/").slice(2).join("/"); 
-    router.push(`/${newLocale}/${path}`);  
+    const path = pathname.split("/").slice(2).join("/");
+    router.push(`/${newLocale}/${path}`);
   };
 
   const languageOptions = [
-    { value: 'en', label: 'English' },
-    { value: 'ru', label: 'Русский' },
-    { value: 'he', label: 'עברית' }
+    { value: "en", label: "English" },
+    { value: "ru", label: "Русский" },
+    { value: "he", label: "עברית" }
   ];
 
   return (
-      <Select
-        className="select__arrow_white"
-        options={languageOptions.map(lang => lang.label)}
-        onChange={(selectedLabel) => {
-          const selectedLocale = languageOptions.find(lang => lang.label === selectedLabel)?.value;
-          if (selectedLocale) {
-            onSelectChange(selectedLocale);
-          }
-        }}
-        placeholder={languageOptions.find(lang => lang.value === currentLocale)?.label || 'Select Language'}
-      />
+    <Select
+      className="select__arrow_white"
+      options={languageOptions.map((lang) => lang.label)}
+      onChange={(selectedLabel) => {
+        const selectedLocale = languageOptions.find((lang) => lang.label === selectedLabel)?.value;
+        if (selectedLocale) {
+          onSelectChange(selectedLocale);
+        }
+      }}
+      placeholder={languageOptions.find((lang) => lang.value === currentLocale)?.label || "Select Language"}
+    />
   );
 };
 

@@ -122,6 +122,14 @@ body.scroll-up .Navbar {
   display: block;
 }
 
+.navbar-language {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  fill: var(--color-primary-inverted);
+  background: none;
+}
+
 @media screen and (max-width: 980px) {
   .navbar-logo {
     font-size: 24px;

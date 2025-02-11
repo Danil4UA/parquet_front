@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { selectTotalItems, setCollapsedСart } from "../Cart/model/slice/cartSlice";
 import { Link } from "@/i18n/routing";
+// import LanguageIcon from "@/app/assets/language.svg";
 
 const useScrollDirection = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -69,6 +70,9 @@ export const Navbar = () => {
         <Link href="/">אפקט פרקט</Link>
       </div>
       <div className="navbar-right">
+        {/* <span className="navbar-language">
+          <LanguageIcon />
+        </span> */}
         <div className="navbar_cart" onClick={() => onToggle()}>
           <CartIcon />
           <span className="navbar_cart_coutner">{cartItems > 0 && cartItems}</span>
