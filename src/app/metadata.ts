@@ -25,6 +25,10 @@ export const metadata: Metadata = {
       }
     ]
   },
+  category: "home goods store",
+  verification: {
+    google: "L8LwCwBuHnPSFkzASPa37yA-ShXSVycV7ESncp0BDww"
+  },
 
   // Twitter metadata
   twitter: {

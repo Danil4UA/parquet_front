@@ -187,5 +187,8 @@
     "about_brand_title": "About Brand",
     "delivery_policy_title": "Delivery Policy",
     "product_notice": "It is recommended to add an additional 10% to the amount needed for amortization during installation."
+  },
+  "Navbar": {
+    "title": "Effect Parquet"
   }
 }

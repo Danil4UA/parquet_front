@@ -46,8 +46,8 @@ body.scroll-up .Navbar {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 34px;
-  font-weight: 700;
+  overflow: hidden;
+  fill: white;
 }
 .navbar-left,
 .navbar-right {
@@ -72,7 +72,7 @@ body.scroll-up .Navbar {
   gap: 20px;
 }
 
-.navbar_cart_coutner {
+.navbar_cart_counter {
   position: absolute;
   background: var(--background-primary-inverted);
   top: -5px;

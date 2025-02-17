@@ -9,11 +9,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { selectTotalItems, setCollapsedСart } from "../Cart/model/slice/cartSlice";
 import { Link } from "@/i18n/routing";
-// import LanguageIcon from "@/app/assets/language.svg";
+import Image from "next/image";
+import logoPhoto from "@/app/assets/logo_photo.png";
 
 const useScrollDirection = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
-
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -40,7 +40,7 @@ const useScrollDirection = () => {
 };
 export const Navbar = () => {
   const [collapsedSidebar, setCollapsedSidebar] = useState(true);
-
+  // const t = useTranslations("Navbar");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _scrollDirection = useScrollDirection();
   const dispatch = useDispatch();
@@ -67,15 +67,14 @@ export const Navbar = () => {
       </div>
 
       <div className="navbar-logo">
-        <Link href="/">אפקט פרקט</Link>
+        <Link href="/">
+          <Image src={logoPhoto} alt="logo" width={48} height={48} />
+        </Link>
       </div>
       <div className="navbar-right">
-        {/* <span className="navbar-language">
-          <LanguageIcon />
-        </span> */}
         <div className="navbar_cart" onClick={() => onToggle()}>
           <CartIcon />
-          <span className="navbar_cart_coutner">{cartItems > 0 && cartItems}</span>
+          <span className="navbar_cart_counter">{cartItems > 0 && cartItems}</span>
         </div>
       </div>
       <Sidebar collapsed={collapsedSidebar} onClose={() => setCollapsedSidebar(true)}></Sidebar>
