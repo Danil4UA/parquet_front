@@ -21,6 +21,7 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const lng = pathname.split("/")[1];
+  const isHebrew = lng === "he";
 
   const totalPrice = useSelector((state: RootState) => selectTotalPrice(state));
   useEffect(() => {
@@ -85,7 +86,7 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
                 <span>₪ {totalPrice}</span>
               </div>
               <div className="complete_btn_container">
-                <button className="complete_btn" onClick={handleComplete}>
+                <button className={`complete_btn ${isHebrew ? "hebrew-text" : ""}`} onClick={handleComplete}>
                   {t("complete")}
                 </button>
               </div>

@@ -19,6 +19,8 @@ const ProductPage: FC = () => {
   const [error, setError] = useState<string | null>(null);
   const pathname = usePathname();
   const language = pathname.split("/")[1];
+  const isHebrew = language === "he";
+
   const t = useTranslations("Description");
 
   const dispatch = useDispatch();
@@ -115,7 +117,7 @@ const ProductPage: FC = () => {
             <p className="product__notice">{t("product_notice")}</p>
           </div>
           <div className="product__add_cart_container">
-            <button className="product__add_cart" onClick={handleAddToCart}>
+            <button className={`product__add_cart ${isHebrew ? "hebrew-text" : ""}`} onClick={handleAddToCart}>
               {t("button_add_to_cart")}
             </button>
           </div>
