@@ -13,10 +13,11 @@ const ContactContent = () => {
 
         <div className="contact-details">
           <p className="address">
-            <strong>{t("address_label")}</strong> Улица дом Пушкина, бульвар Калатушкина 3
+            <strong>{t("address_label")}</strong>
+            {t("address")}
           </p>
           <p className="phone">
-            <strong>{t("phone_label")}</strong> 055-111-11-11
+            <strong>{t("phone_label")}</strong> {t("phone")}
           </p>
         </div>
 
@@ -26,12 +27,12 @@ const ContactContent = () => {
           <p>{t("hours_friday")}</p>
         </div>
 
-        <div className="quick-contacts">
+        {/* <div className="quick-contacts">
           <p className="highlight">{t("quick_contact")}</p>
           <p>
-            {t("contact_person")} <a href="tel:0502011306">050-222-33-33</a>
+            {t("contact_person")} <a href=""></a>
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

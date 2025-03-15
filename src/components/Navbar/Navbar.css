@@ -140,7 +140,4 @@ body.scroll-up .Navbar {
 }
 
 @media screen and (max-width: 768px) {
-  .language-container {
-    display: none;
-  }
 }

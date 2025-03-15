@@ -75,9 +75,9 @@
   },
   "Footer": {
     "contact_us": "Свяжитесь с нами",
-    "email": "info@example.com",
-    "phone": "+1 234 567 890",
-    "address": "123 Название улицы, Город",
+    "email": "effectparquet@gmail.com",
+    "phone": "+972-58-44-55-478",
+    "address": "Герцль, 110, Ришон-Лецийон",
     "quick_links": "Быстрые ссылки",
     "about_us": "О нас",
     "services": "Услуги",
@@ -104,7 +104,9 @@
     "hours_weekdays": "Вс - Чт с 09:00 до 19:00.",
     "hours_friday": "Пт и Праздники с 09:00 до 13:00.",
     "quick_contact": "Для быстрой связи с филиалом",
-    "contact_person": "Руслан: "
+    "contact_person": "Руслан: ",
+    "email": "effectparquet@gmail.com",
+    "phone": "+972-58-44-55-478"
   },
   "ServicesContent": {
     "services_title": "Наши услуги",

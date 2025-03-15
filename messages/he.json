@@ -74,9 +74,9 @@
   },
   "Footer": {
     "contact_us": "צור קשר",
-    "email": "info@example.com",
-    "phone": "+1 234 567 890",
-    "address": "123 שם הרחוב, עיר",
+    "email": "effectparquet@gmail.com",
+    "phone": "+972-58-44-55-478",
+    "address": "הרצל 110, ראשון לציון",
     "quick_links": "קישורים מהירים",
     "about_us": "אודות",
     "services": "שירותים",
@@ -103,7 +103,9 @@
     "hours_weekdays": "א' - ה' 09:00 עד 19:00.",
     "hours_friday": "ו' וחגים 09:00 עד 13:00.",
     "quick_contact": "ליצירת קשר מהיר עם הסניף",
-    "contact_person": "רוסלן: "
+    "contact_person": "רוסלן: ",
+    "phone": "+972-58-44-55-478",
+    "address": "הרצל 110, ראשון לציון"
   },
   "ServicesContent": {
     "services_title": "השירותים שלנו",

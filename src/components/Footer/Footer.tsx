@@ -25,6 +25,12 @@ const Footer = () => {
     setIsShownModal(true);
   };
 
+  const contactData = {
+    email: "effectparquet@gmail.com",
+    phone: "0584455478",
+    address: "הרצל 110, ראשון לציון"
+  };
+
   return (
     <footer className="footer">
       {isShownModal && ModalContent && (
@@ -38,13 +44,27 @@ const Footer = () => {
             <h3>{t("contact_us")}</h3>
             <div className="contact-info">
               <p className="contact-item">
-                <span>📧</span> {t("email")}
+                <span>📧</span>{" "}
+                <a href={`mailto:${contactData.email}`} title={contactData.email}>
+                  {t("email")}
+                </a>
               </p>
               <p className="contact-item">
-                <span>📱</span> {t("phone")}
+                <span>📱</span>{" "}
+                <a href={`tel:${contactData.phone.replace(/\s+/g, "")}`} title={contactData.phone}>
+                  {t("phone")}
+                </a>
               </p>
               <p className="contact-item">
-                <span>📍</span> {t("address")}
+                <span>📍</span>{" "}
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactData.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={contactData.address}
+                >
+                  {t("address")}
+                </a>
               </p>
             </div>
           </div>
