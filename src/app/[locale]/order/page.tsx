@@ -9,6 +9,7 @@ import { useState } from "react";
 import productsServices from "@/services/prodcuts.services";
 import Swal from "sweetalert2";
 import Radio from "@/shared/ui/Radio/Radio";
+import { usePathname } from "next/navigation";
 
 interface FormData {
   name: string;
@@ -39,9 +40,13 @@ const OrderPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Partial<FormData>>({});
+  const pathname = usePathname();
   const t = useTranslations("Order");
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const totalPrice = useSelector((state: RootState) => selectTotalPrice(state));
+
+  const lng = pathname.split("/")[1];
+  const isHebrew = lng === "he";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
@@ -152,76 +157,76 @@ const OrderPage = () => {
         <div className="Order__section Order__section--address">
           <input
             name="name"
-            className={`Order__input--half ${errors.name ? "error" : ""}`}
+            className={`Order__input--half ${errors.name ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
             type="text"
             placeholder={t("name")}
             value={formData.name}
             onChange={handleChange}
           />
-          {errors.name && <span className="error-message">{errors.name}</span>}
+          {errors.name && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.name}</span>}
 
           <input
             name="lastName"
-            className="Order__input--half"
+            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
             type="text"
             placeholder={t("lastName")}
             value={formData.lastName}
             onChange={handleChange}
           />
-          {errors.lastName && <span className="error-message">{errors.lastName}</span>}
+          {errors.lastName && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.lastName}</span>}
 
           <input
             name="address"
-            className="Order__input"
+            className={`Order__input ${isHebrew ? "hebrew-text" : ""}`}
             type="text"
             placeholder={t("address")}
             value={formData.address}
             onChange={handleChange}
           />
-          {errors.address && <span className="error-message">{errors.address}</span>}
+          {errors.address && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.address}</span>}
 
           <input
             name="apartment"
-            className="Order__input--half"
+            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
             type="text"
             placeholder={t("apartment")}
             value={formData.apartment}
             onChange={handleChange}
           />
-          {errors.apartment && <span className="error-message">{errors.address}</span>}
+          {errors.apartment && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.address}</span>}
 
           <input
             name="postalCode"
-            className="Order__input--half"
+            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
             type="text"
             placeholder={t("postalCode")}
             value={formData.postalCode}
             onChange={handleChange}
           />
-          {errors.postalCode && <span className="error-message">{errors.postalCode}</span>}
+          {errors.postalCode && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.postalCode}</span>}
 
           <input
             name="city"
-            className="Order__input--half"
+            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
             type="text"
             placeholder={t("city")}
             value={formData.city}
             onChange={handleChange}
           />
-          {errors.city && <span className="error-message">{errors.city}</span>}
+          {errors.city && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.city}</span>}
 
           <input
             name="phoneNumber"
-            className="Order__input--half"
+            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
             type="text"
             placeholder={t("phoneNumber")}
             value={formData.phoneNumber}
             onChange={handleChange}
           />
-          {errors.phoneNumber && <span className="error-message">{errors.phoneNumber}</span>}
+          {errors.phoneNumber && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.phoneNumber}</span>}
         </div>
 
-        <button className="complete_order" onClick={handleSubmit} disabled={isLoading}>
+        <button className={`complete_order ${isHebrew ? "hebrew-text" : ""}`} onClick={handleSubmit} disabled={isLoading}>
           {isLoading ? t("processing") : t("completeOrder")}
         </button>
       </div>
@@ -234,32 +239,32 @@ const OrderPage = () => {
                 <span>{item.quantity}</span>
               </div>
             </div>
-            <div className="Order__items_info">{item.name}</div>
+            <div className={`Order__items_info ${isHebrew ? "hebrew-text" : ""}`}>{item.name}</div>
             <div className="price">{item.price}</div>
           </div>
         ))}
 
         <div className="order__footer">
           <div className="promo_code">
-            <input type="text" placeholder={t("enterPromoCode")} />
-            <button>{t("submit")}</button>
+            <input type="text" placeholder={t("enterPromoCode")} className={isHebrew ? "hebrew-text" : ""} />
+            <button className={isHebrew ? "hebrew-text" : ""}>{t("submit")}</button>
           </div>
           <div className="order__amount">
-            <div>{t("totalAmount")}:</div>
-            <div>ILS {totalPrice}₪</div>
+            <div className={isHebrew ? "hebrew-text" : ""}>{t("totalAmount")}:</div>
+            <div className={isHebrew ? "hebrew-text" : ""}>ILS {totalPrice}₪</div>
           </div>
 
           <div className="order__delivery">
-            <div>{t("delivery")}:</div>
-            <div>{t("free")}</div>
+            <div className={isHebrew ? "hebrew-text" : ""}>{t("delivery")}:</div>
+            <div className={isHebrew ? "hebrew-text" : ""}>{t("free")}</div>
           </div>
           <div className="order__total">
             <div className="order__total_container">
-              <p className="order__total_sum">{t("total")}</p>
-              <p className="order__total_taxes">{t("includingTaxes")}: xxx</p>
+              <p className={`order__total_sum ${isHebrew ? "hebrew-text" : ""}`}>{t("total")}</p>
+              <p className={`order__total_taxes ${isHebrew ? "hebrew-text" : ""}`}>{t("includingTaxes")}: xxx</p>
             </div>
-            <div className="order__total_sum">
-              <span className="order__total_taxes">ILS</span> {totalPrice}₪
+            <div className={`order__total_sum ${isHebrew ? "hebrew-text" : ""}`}>
+              <span className={`order__total_taxes ${isHebrew ? "hebrew-text" : ""}`}>ILS</span> {totalPrice}₪
             </div>
           </div>
         </div>
