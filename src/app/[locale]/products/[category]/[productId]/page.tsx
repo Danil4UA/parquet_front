@@ -94,7 +94,7 @@ const ProductPage: FC = () => {
 
         <div className="product__info_wrapper">
           <div className="product__header">
-            <h1 className="product__name">{product.name}</h1>
+            <h1 className="product__name">{`${product.name} (${product.model || ""})`}</h1>
             <div className="product__price">
               {product.discount ? (
                 <div className="product-price product-price--discounted">
@@ -127,6 +127,9 @@ const ProductPage: FC = () => {
             <h2 className="section__title">{t("specifications_title")}</h2>
             <div className="specifications__grid">
               {/* <p className="specification__item">{t("specifications_made_by", { company: product.company })}</p> */}
+              <p className="specification__item">
+                {t("specifications_model", { model: product.model || "" })}
+                </p>
               <p className="specification__item">
                 {t("specifications_length", { length: product.length })} mm
                 </p>

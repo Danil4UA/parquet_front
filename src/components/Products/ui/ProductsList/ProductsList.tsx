@@ -31,6 +31,8 @@ export interface Product {
   length?: string;
   company?: string;
   thickness?: string
+  model: string
+  finish: string
 }
 interface ProductsListProps {
   category: string;
@@ -54,6 +56,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
     };
     fetchProducts();
   }, [category, dispatch, language]);
+
 
   const filters = useSelector((state: RootState) => state.products.filters);
   const productsList = useSelector((state: RootState) => state.products.filteredProducts);
@@ -79,6 +82,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
                 images={product.images}
                 stock={product.stock}
                 category={category}
+                finish={product.finish}
               />
             ))}
       </div>
