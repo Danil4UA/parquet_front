@@ -107,7 +107,6 @@ const OrderPage = () => {
         quantity: item.quantity
       }))
     };
-    console.log("orderData", orderData);
     try {
       const resultCreate = await productsServices.createOrder(orderData);
 

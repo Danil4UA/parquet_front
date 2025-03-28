@@ -80,7 +80,6 @@ const ProductPage: FC = () => {
       </section>
     );
   }
-  console.log(product);
   const productPriceWithDiscount = product.discount ? Number(product.price) * ((100 - product.discount) / 100) : Number(product.discount);
 
   return (

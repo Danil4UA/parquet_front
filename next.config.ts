@@ -11,7 +11,10 @@ const remotePatterns: RemotePattern[] = [
 ];
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: { remotePatterns },
+  images: { 
+    remotePatterns, 
+    minimumCacheTTL: 3600,
+   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   webpack(config: any) {
     config.module.rules.push({
@@ -19,7 +22,13 @@ const nextConfig = {
       use: ["@svgr/webpack"]
     });
     return config;
-  }
+  },
+  api: {
+    responseLimit: false,
+    bodyParser: {
+      sizeLimit: '1mb',
+    },
+  },
 };
 
 export default withNextIntl(nextConfig);

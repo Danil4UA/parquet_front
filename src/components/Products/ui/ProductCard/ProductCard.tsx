@@ -29,7 +29,8 @@ const ProductCard = ({ productId, productName, productPrice, discount = 0, categ
         onClick={(e) => stock === 0 && e.preventDefault()}
       >
         <div className="card__image">
-          <Image src={images ? images[0] : "" } width={300} height={300} alt={productName} />
+          <Image src={images[0]} width={300} height={300} alt={productName} quality={75}
+ />
           {stock === 0 && (
             <div className="card__out_of_stock_overlay">
               <span className="out_of_stock_text">{t("OutOfStock")}</span>
