@@ -30,6 +30,7 @@ export interface Product {
   width?: string;
   length?: string;
   company?: string;
+  thickness?: string
 }
 interface ProductsListProps {
   category: string;

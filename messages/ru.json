@@ -176,19 +176,21 @@
   "Description": {
     "button_add_to_cart": "Добавить в корзину",
     "delivery_title": "Информация о доставке",
-    "delivery_pickup": "Возможен самовывоз из нашего филиала",
+    "delivery_pickup": "Возможен самовывоз",
     "delivery_ready_in": "Готов через 2-3 дня",
     "delivery_check_store": "Проверить детали магазина",
     "specifications_title": "Характеристики",
     "specifications_made_by": "Сделано компанией {company}",
     "specifications_length": "Длина: {length}",
     "specifications_width": "Ширина: {width}",
+    "specifications_thickness": "Толщина: {thickness}",
     "specifications_color": "Цвет: {color}",
     "product_description_title": "Описание продукта",
     "product_description": "Идеальное сочетание дизайна и долговечности, этот тип напольного покрытия способен противостоять любым опасностям истирания, будь то в коммерческих центрах или в домашнем использовании. Ламинированные изделия Berry Alloc — это сочетание эстетики и передовых технологий...",
     "about_brand_title": "О бренде",
     "delivery_policy_title": "Политика доставки",
-    "product_notice": "Рекомендуется добавить дополнительно 10% к сумме, необходимой для амортизации при установке."
+    "product_notice": "Рекомендуется добавить дополнительно 10% к сумме, необходимой для амортизации при установке.",
+    "delivery_policy_text": "Возможность получения товара в течении 2-3 рабочих дней с момента подтверждения оплаты"
   },
   "Navbar": {
     "title": "Эффект Паркет"

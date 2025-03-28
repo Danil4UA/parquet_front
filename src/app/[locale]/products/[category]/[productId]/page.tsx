@@ -121,6 +121,31 @@ const ProductPage: FC = () => {
               {t("button_add_to_cart")}
             </button>
           </div>
+    
+
+          <div className="product__section">
+            <h2 className="section__title">{t("specifications_title")}</h2>
+            <div className="specifications__grid">
+              {/* <p className="specification__item">{t("specifications_made_by", { company: product.company })}</p> */}
+              <p className="specification__item">
+                {t("specifications_length", { length: product.length })} mm
+                </p>
+              <p className="specification__item">
+                {t("specifications_width", { width: product.width })} mm
+                </p>
+
+                <p className="specification__item">
+                {t("specifications_thickness", { thickness: product.thickness || "" })} mm
+                </p>
+              <p className="specification__item">{t("specifications_color", { color: product.color })}</p>
+            </div>
+          </div>
+
+          <div className="product__section">
+            <h2 className="section__title">{t("product_description_title")}</h2>
+            <p>{product.detailedDescription}</p>
+          </div>
+
           <div className="product__info_delivery">
             <h2 className="delivery__title">{t("delivery_title")}</h2>
             <div className="delivery__item">
@@ -137,31 +162,10 @@ const ProductPage: FC = () => {
             </p>
           </div>
 
-          <div className="product__section">
-            <h2 className="section__title">{t("specifications_title")}</h2>
-            <div className="specifications__grid">
-              <p className="specification__item">{t("specifications_made_by", { company: product.company })}</p>
-              <p className="specification__item">{t("specifications_length", { length: product.length })}</p>
-              <p className="specification__item">{t("specifications_width", { width: product.width })}</p>
-              <p className="specification__item">{t("specifications_color", { color: product.color })}</p>
-            </div>
-          </div>
-
-          <div className="product__section">
-            <h2 className="section__title">{t("product_description_title")}</h2>
-            {/* <p className="product__description">{t("product_description")}</p> */}
-            <p>{product.detailedDescription}</p>
-          </div>
-
-          <div className="product__section">
-            <h2 className="section__title">{t("about_brand_title")}</h2>
-            {/* Brand content */}
-          </div>
-
-          <div className="product__section">
+          {/* <div className="product__section">
             <h2 className="section__title">{t("delivery_policy_title")}</h2>
-            {/* Delivery policy content */}
-          </div>
+            <p>{t("delivery_policy_text")}</p>
+          </div> */}
         </div>
       </section>
     </section>

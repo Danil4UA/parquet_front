@@ -210,6 +210,7 @@
 .product-price:hover .product-price__amount--discounted {
   color: #c41929;
 }
+
 /* Responsive Design */
 @media screen and (max-width: 1024px) {
   .product-wrapper {
