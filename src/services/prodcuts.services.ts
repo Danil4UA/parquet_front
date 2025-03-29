@@ -25,14 +25,15 @@ const productsServices = {
       throw error;
     }
   },
-  getProductsByCategory: async (category: string, language = "en") => {
+  getProductsByCategory: async (category: string, language = "en", page = 1, limit = 16) => {
     try {
       const response = await axios.get(`${URL_API}/api/products`, {
-        params: { category, language }
+        params: { category, language, page, limit }
       });
       return response.data;
     } catch (error) {
       console.error("Error fetching products by category:", error);
+      throw error;
     }
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
