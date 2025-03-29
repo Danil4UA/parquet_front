@@ -148,7 +148,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
       </div>
       <div className="products__list">
         {isLoading
-          ? Array.from({ length: 12 }).map((_, index) => <ProductCardSkeleton key={index} />)
+          ? Array.from({ length: 16 }).map((_, index) => <ProductCardSkeleton key={index} />)
           : productsList.map((product, index) => {
               // Check if this is the last item
               const isLastProduct = index === productsList.length - 1;
@@ -173,8 +173,8 @@ const ProductsList = ({ category }: ProductsListProps) => {
             })}
       </div>
       {isLoadingMore && (
-        <div className="products__loading_more">
-          {Array.from({ length: 4 }).map((_, index) => (
+        <div className="products__list">
+          {Array.from({ length: 16 }).map((_, index) => (
             <ProductCardSkeleton key={`more-${index}`} />
           ))}
         </div>
