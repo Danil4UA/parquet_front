@@ -66,9 +66,9 @@ const ProductsFilter = () => {
             <input
               type="checkbox"
               name="type"
-              value="Herringbone"
+              value="Fishbone"
               onChange={handleFilterChange}
-              checked={filters.type.includes("Herringbone")}
+              checked={filters.type.includes("Fishbone")}
             />
             {t("Herringbone")}
           </label>

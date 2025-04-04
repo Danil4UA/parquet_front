@@ -19,6 +19,24 @@ const CategoryList = () => {
       description: t("flooring_description")
     },
     {
+      image: "/assets/category_flooring.jpg",
+      path: "/products/laminate",
+      title: t("laminate_title"),
+      description: t("laminate_description")
+    },
+    {
+      image: "/assets/category_flooring.jpg",
+      path: "/products/spc",
+      title: t("spc_title"),
+      description: t("spc_description")
+    },
+    {
+      image: "/assets/category_flooring.jpg",
+      path: "/products/wood",
+      title: t("wood_title"),
+      description: t("wood_description")
+    },
+    {
       image: "/assets/category_catalog.jpg",
       path: "/products/sales",
       title: t("sales_title"),
