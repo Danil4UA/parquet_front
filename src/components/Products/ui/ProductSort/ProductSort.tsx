@@ -1,7 +1,7 @@
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilteredList } from "../../model/productsSlice";
-import { Product } from "../ProductsList/ProductsList";
+import { Product } from "@/types/products";
 import "./ProductSort.css";
 import { useTranslations } from "next-intl";
 import Select from "@/shared/ui/Select/Select";
