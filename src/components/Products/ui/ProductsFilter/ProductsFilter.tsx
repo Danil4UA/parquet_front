@@ -97,63 +97,6 @@ const ProductsFilter = () => {
           </label>
         </div>
       </div>
-
-      {/* Country Filter */}
-      <div className="ProductsFilter_section">
-        <h3 className="ProductsFilter_title">{t("Country")}</h3>
-        <div className="ProductsFilter_country">
-          <label>
-            <input
-              type="checkbox"
-              name="countryOfOrigin"
-              value="Italy"
-              onChange={handleFilterChange}
-              checked={filters.countryOfOrigin.includes("Italy")}
-            />
-            {t("Italy")}
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="countryOfOrigin"
-              value="Germany"
-              onChange={handleFilterChange}
-              checked={filters.countryOfOrigin.includes("Germany")}
-            />
-            {t("Germany")}
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="countryOfOrigin"
-              value="Poland"
-              onChange={handleFilterChange}
-              checked={filters.countryOfOrigin.includes("Poland")}
-            />
-            {t("Poland")}
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="countryOfOrigin"
-              value="USA"
-              onChange={handleFilterChange}
-              checked={filters.countryOfOrigin.includes("USA")}
-            />
-            {t("USA")}
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="countryOfOrigin"
-              value="France"
-              onChange={handleFilterChange}
-              checked={filters.countryOfOrigin.includes("France")}
-            />
-            {t("France")}
-          </label>
-        </div>
-      </div>
     </div>
   );
 };

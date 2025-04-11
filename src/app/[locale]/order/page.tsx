@@ -6,7 +6,7 @@ import { selectTotalPrice } from "@/components/Cart/model/slice/cartSlice";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import productsServices from "@/services/prodcuts.services";
+import productsServices from "@/services/productsServices";
 import Swal from "sweetalert2";
 import Radio from "@/shared/ui/Radio/Radio";
 import { usePathname } from "next/navigation";

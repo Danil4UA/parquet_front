@@ -13,25 +13,25 @@ const CategoryList = () => {
   const t = useTranslations("Categories");
   const categories: Category[] = [
     {
-      image: "/assets/category_flooring.jpg",
-      path: "/products/flooring",
-      title: t("flooring_title"),
-      description: t("flooring_description")
+      image: "/assets/category_flooring_new.jpg",
+      path: "/products/all",
+      title: t("catalog_title"),
+      description: t("catalog_description")
     },
     {
-      image: "/assets/category_flooring.jpg",
+      image: "/assets/category_laminate.jpg",
       path: "/products/laminate",
       title: t("laminate_title"),
       description: t("laminate_description")
     },
     {
-      image: "/assets/category_flooring.jpg",
+      image: "/assets/category_spc.jpg",
       path: "/products/spc",
       title: t("spc_title"),
       description: t("spc_description")
     },
     {
-      image: "/assets/category_flooring.jpg",
+      image: "/assets/category_wood.jpg",
       path: "/products/wood",
       title: t("wood_title"),
       description: t("wood_description")
@@ -43,19 +43,13 @@ const CategoryList = () => {
       description: t("sales_description")
     },
     {
-      image: "/assets/category_seeling.jpg",
-      path: "/products/all",
-      title: t("catalog_title"),
-      description: t("catalog_description")
-    },
-    {
-      image: "/assets/category_walls.jpg",
+      image: "/assets/category_panel.jpg",
       path: "/products/panels",
       title: t("panels_title"),
       description: t("panels_description")
     },
     {
-      image: "/assets/category_catalog.jpg",
+      image: "/assets/category_safim.jpg",
       path: "/products/thresholds",
       title: t("thresholds_title"),
       description: t("thresholds_description")

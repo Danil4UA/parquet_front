@@ -8,6 +8,7 @@
     "home": "בית",
     "flooring": "ריצוף",
     "laminate": "לְרַבֵּד",
+    "wood": "עץ",
     "spc": "SPC",
     "sales": "מבצעים",
     "catalog": "קטלוג",
@@ -78,7 +79,10 @@
     "LowToHight": "מחיר: מהנמוך לגבוה",
     "HightToLow": "מחיר: מהגבוה לנמוך",
     "AtoZ": "שם: מ-א' עד ת'",
-    "ZtoA": "שם: מת' עד א'"
+    "ZtoA": "שם: מת' עד א'",
+    "Filters": "מסננים",
+    "Apply": "החל מסננים",
+    "Reset": "איפוס מסננים"
   },
   "Footer": {
     "contact_us": "צור קשר",
@@ -96,7 +100,7 @@
     "instagram": "אינסטגרם",
     "linkedin": "לינקדאין",
     "all_rights_reserved": "כל הזכויות שמורות",
-    "made_by": "נוצר באהבה על ידי Effect Parquet",
+    "made_by": "Effect Parquet",
     "about_us_content": "אנו מספקים פרקט באיכות גבוהה עם יותר מ-10 שנות ניסיון. אנו מציעים מגוון רחב של סוגי עץ, גימורים וסגנונות שיתאימו לכל חלל. המשימה שלנו היא להביא אלגנטיות ואריכות ימים לבית שלכם.",
     "services_content": "השירותים שלנו כוללים התקנת פרקט, שיפוץ ותחזוקה. אנו גם מספקים ייעוץ חינם כדי לעזור לכם לבחור את הריצוף המושלם עבור החלל שלכם. תנו לנו להפוך את הרצפות שלכם ליצירות אמנות!",
     "contact_content": "לכל שאלה, אתם מוזמנים ליצור איתנו קשר דרך הדוא\"ל או הטלפון. בקרו בחנות שלנו ברחוב ראשי 123, עיר, מדינה, או מלאו את טופס יצירת הקשר באתר שלנו. אנחנו כאן כדי לעזור!",
@@ -113,6 +117,7 @@
     "quick_contact": "ליצירת קשר מהיר עם הסניף",
     "contact_person": "רוסלן: ",
     "phone": "+972-58-44-55-478",
+    "email": "effectparquet@gmail.com",
     "address": "הרצל 110, ראשון לציון"
   },
   "ServicesContent": {
@@ -188,15 +193,20 @@
     "delivery_ready_in": "מוכן תוך 2-3 ימים",
     "delivery_check_store": "בדוק את פרטי החנות",
     "specifications_title": "מפרט טכני",
-    "specifications_made_by": "מיוצר על ידי {company}",
-    "specifications_length": "אורך: {length}",
-    "specifications_width": "רוחב: {width}",
-    "specifications_color": "צבע: {color}",
-    "specifications_thickness": "עובי: {thickness}",
+    "specifications_made_by": "מיוצר על ידי",
+    "specifications_model": "דגם",
+    "specifications_length": "אורך",
+    "specifications_width": "רוחב",
+    "specifications_color": "צבע",
+    "specifications_thickness": "עובי",
+    "specifications_type": "סוג חומר",
+    "specifications_finish": "גימור",
+    "specifications_installation": "שיטת התקנה",
     "product_description_title": "תיאור המוצר",
     "product_description": "השילוב המושלם של עיצוב ועמידות, סוג זה של רצפה יכול לעמוד בכל סכנות השחיקה, בין אם במרכזים מסחריים או בשימוש ביתי. מוצרי למינציה של Berry Alloc משלבים אסתטיקה וטכנולוגיה מתקדמת...",
     "about_brand_title": "אודות המותג",
-    "delivery_policy_title": "מדיניות משלוחים"
+    "delivery_policy_title": "מדיניות משלוחים",
+    "delivery_policy_text": "אפשרות לקבל את המוצר תוך 2-3 ימי עבודה מאישור התשלום"
   },
   "Navbar": {
     "title": "אפקט פרקט"

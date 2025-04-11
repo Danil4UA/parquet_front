@@ -4,14 +4,13 @@ import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "./productDescription.css";
 import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
-import { Product } from "@/components/Products/ui/ProductsList/ProductsList";
 import { useParams } from "next/navigation";
-// import QuestionIcon from "@/app/assets/question.svg";
-import productsServices from "@/services/prodcuts.services";
+import productsServices from "@/services/productsServices";
 import Gallery from "@/components/Gallery/Gallery";
 import Loader from "@/shared/ui/Loader/Loader";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
+import { Product } from "@/types/products";
 
 const ProductPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -80,7 +79,10 @@ const ProductPage: FC = () => {
       </section>
     );
   }
-  const productPriceWithDiscount = product.discount ? Number(product.price) * ((100 - product.discount) / 100) : Number(product.discount);
+  
+  const productPriceWithDiscount = product.discount 
+    ? Number(product.price) * ((100 - product.discount) / 100) 
+    : Number(product.price);
 
   return (
     <section className="product-wrapper">
@@ -93,13 +95,13 @@ const ProductPage: FC = () => {
 
         <div className="product__info_wrapper">
           <div className="product__header">
-            <h1 className="product__name">{`${product.name} (${product.model || ""})`}</h1>
+            <h1 className="product__name">{`${product.name} ${product.model ? `(${product.model})` : ""}`}</h1>
             <div className="product__price">
               {product.discount ? (
                 <div className="product-price product-price--discounted">
                   <span className="product-price__amount product-price__amount--discounted">
                     <span className="product-price__currency">₪</span>
-                    {productPriceWithDiscount.toFixed()}
+                    {productPriceWithDiscount.toFixed(0)}
                   </span>
                   <span className="product-price__amount product-price__amount--original">
                     <span className="product-price__currency">₪</span>
@@ -115,59 +117,87 @@ const ProductPage: FC = () => {
             </div>
             <p className="product__notice">{t("product_notice")}</p>
           </div>
+          
           <div className="product__add_cart_container">
             <button className={`product__add_cart ${isHebrew ? "hebrew-text" : ""}`} onClick={handleAddToCart}>
               {t("button_add_to_cart")}
             </button>
           </div>
-    
 
           <div className="product__section">
             <h2 className="section__title">{t("specifications_title")}</h2>
             <div className="specifications__grid">
-              {/* <p className="specification__item">{t("specifications_made_by", { company: product.company })}</p> */}
-              <p className="specification__item">
-                {t("specifications_model", { model: product.model || "" })}
-                </p>
-              <p className="specification__item">
-                {t("specifications_length", { length: product.length })} mm
-                </p>
-              <p className="specification__item">
-                {t("specifications_width", { width: product.width })} mm
-                </p>
+                {product.model && (
+                  <p className="specification__item">
+                    <span className="specification__label">
+                      {t("specifications_model")}
+                    </span>
+                    {product.model }
+                  </p>
+                )}
+                {product.length && (
+                  <p className="specification__item">
+                    <span className="specification__label">
+                      {t("specifications_length")}
+                    </span>
+                    {product.length } {" "}mm:
 
-                <p className="specification__item">
-                {t("specifications_thickness", { thickness: product.thickness || "" })} mm
-                </p>
-              <p className="specification__item">{t("specifications_color", { color: product.color })}</p>
+                  </p>
+                )}
+                {product.width && (
+                  <p className="specification__item">
+                    <span className="specification__label">
+                      {t("specifications_width")}
+                    </span>
+                    {product.width}  {" "}mm:
+                  </p>
+                )}
+                {product.thickness && (
+                  <p className="specification__item">
+                    <span className="specification__label">
+                      {t("specifications_thickness")}
+                    </span>
+                    {product.thickness}  {" "}mm:
+                  </p>
+                )}
+                {product.color && (
+                  <p className="specification__item">
+                    <span className="specification__label">
+                      {t("specifications_color")}:
+                    </span> 
+                    {product.color}
+                  </p>
+                )}
+                {product.type && (
+                  <p className="specification__item">
+                    <span className="specification__label">
+                      {t("specifications_type")}:
+                    </span> 
+                    {product.type}
+                  </p>
+                )}
             </div>
           </div>
 
           <div className="product__section">
             <h2 className="section__title">{t("product_description_title")}</h2>
-            <p>{product.detailedDescription}</p>
+            <p className="product__description">{product.detailedDescription}</p>
           </div>
 
           <div className="product__info_delivery">
             <h2 className="delivery__title">{t("delivery_title")}</h2>
             <div className="delivery__item">
-              {/* <span className="delivery__indicator"></span> */}
+              <div className="delivery__indicator"></div>
               <p>{t("delivery_pickup")}</p>
             </div>
             <div className="delivery__item">
-              {/* <span className="delivery__indicator"></span> */}
+              <div className="delivery__indicator"></div>
               <p>{t("delivery_ready_in")}</p>
             </div>
             <p className="check__store">
               {t("delivery_check_store")}
-              {/* <QuestionIcon /> */}
             </p>
           </div>
-
-          {/* <div className="product__section">
-            <h2 className="section__title">{t("delivery_policy_title")}</h2>
-            <p>{t("delivery_policy_text")}</p>
-          </div> */}
         </div>
       </section>
     </section>

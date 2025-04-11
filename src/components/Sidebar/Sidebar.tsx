@@ -6,9 +6,10 @@ import { SidebarItemsList } from "./model/items";
 import SidebarItem from "./SideBarItem/SideBarItem";
 import InstagramIcon from "@/app/assets/instagram.svg";
 import FacebookIcon from "@/app/assets/facebook.svg";
-import TelegramIcon from "@/app/assets/telegram.svg";
 import { usePathname } from "next/navigation";
 import LangSwitcher from "@/widgets/LangSwitcher/ui/LangSwitcher";
+import { socialLinks } from "@/Utils/utils";
+import { Link } from "@/i18n/routing";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -67,13 +68,14 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
                 <div className="Sidebar_footer_contact">
                   <div>
                     <span>
-                      <InstagramIcon />
+                      <Link href={socialLinks.instagram}>
+                        <InstagramIcon />
+                      </Link>
                     </span>
                     <span>
-                      <FacebookIcon />
-                    </span>
-                    <span>
-                      <TelegramIcon />
+                      <Link href={socialLinks.facebook}>
+                        <FacebookIcon />
+                      </Link>
                     </span>
                   </div>
                 </div>

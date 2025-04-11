@@ -14,7 +14,6 @@ const HomeHeader = () => {
 
   return (
     <div className="HomePage_wrapper">
-      {/* Фоновый элемент с фиксированным позиционированием */}
       <div
         className="HomeHeader__background"
         style={{
@@ -22,7 +21,6 @@ const HomeHeader = () => {
         }}
       ></div>
 
-      {/* Контент */}
       <div className="HomeHeader__wrapper">
         <div className="HomeHeader__content">
           <p>{t("subtitle")}</p>

@@ -3,6 +3,7 @@
     "home": "Home",
     "flooring": "Flooring",
     "laminate": "Laminate",
+    "wood": "Wood",
     "spc": "SPC",
     "sales": "Sales",
     "catalog": "Catalog",
@@ -79,7 +80,10 @@
     "LowToHight": "Price: Low to High",
     "HightToLow": "Price: High to Low",
     "AtoZ": "Name: A to Z",
-    "ZtoA": "Name: Z to A"
+    "ZtoA": "Name: Z to A",
+    "Filters": "Filters",
+  "Apply": "Apply filters",
+  "Reset": "Reset filters"
   },
   "Footer": {
     "contact_us": "Contact Us",
@@ -97,7 +101,7 @@
     "instagram": "Instagram",
     "linkedin": "LinkedIn",
     "all_rights_reserved": "All Rights Reserved",
-    "made_by": "Made with ♥️ by Effect Parquet",
+    "made_by": "Effect Parquet",
     "about_us_content": "We are a leading provider of high-quality parquet flooring. With over 10 years of experience, we offer a wide range of wood types, finishes, and styles to suit any interior. Our mission is to bring elegance and durability to your home.",
     "services_content": "Our services include parquet installation, restoration, and maintenance. We also provide free consultations to help you choose the perfect flooring for your space. Let us transform your floors into works of art!",
     "contact_content": "For any inquiries, feel free to reach out to us via email or phone. Visit our store at 123 Main St, City, Country, or fill out the contact form on our website. We're here to help!",
@@ -114,7 +118,8 @@
     "quick_contact": "For quick contact with the branch",
     "contact_person": "Ruslan: ",
     "phone": "+972-58-44-55-478",
-    "address": "Herzl 110, Rishon LeTsiyon"
+    "address": "Herzl 110, Rishon LeTsiyon",
+    "email": "effectparquet@gmail.com"
   },
   "ServicesContent": {
     "services_title": "Our Services",
@@ -188,17 +193,22 @@
     "delivery_ready_in": "Ready in 2-3 days",
     "delivery_check_store": "Check the store details",
     "specifications_title": "Specifications",
-    "specifications_made_by": "Made by {company}",
-    "specifications_length": "Length: {length}",
-    "specifications_width": "Width: {width}",
-    "specifications_color": "Color: {color}",
-    "specifications_thickness": "Thickness: {thickness}",
+    "specifications_made_by": "Made by",
+    "specifications_model": "Model",
+    "specifications_length": "Length",
+    "specifications_width": "Width",
+    "specifications_thickness": "Thickness",
+    "specifications_color": "Color",
+    "specifications_type": "Material Type",
+    "specifications_finish": "Finish",
+    "specifications_installation": "Installation Method",
     "product_description_title": "Product Description",
-    "product_description": "The perfect combination of design and durability, this type of flooring can withstand any abrasion hazards, whether in commercial centers or home use. Berry Alloc laminated products combine aesthetics and advanced technology. ",
+    "product_description": "The perfect combination of design and durability, this type of flooring can withstand any abrasion hazards, whether in commercial centers or home use. Berry Alloc laminated products combine aesthetics and advanced technology.",
     "about_brand_title": "About Brand",
     "delivery_policy_title": "Delivery Policy",
-    "product_notice": "It is recommended to add an additional 10% to the amount needed for amortization during installation."
-  },
+    "product_notice": "It is recommended to add an additional 10% to the amount needed for amortization during installation.",
+    "delivery_policy_text": "Possibility to receive the product within 2-3 working days from payment confirmation"
+},
   "Navbar": {
     "title": "Effect Parquet"
   }

@@ -4,8 +4,9 @@ import { useTranslations } from "next-intl";
 import "./Footer.css";
 import Modal from "@/shared/ui/Modal/Modal";
 import ContactContent from "./content-components/ContactContent/ContactContent";
-import ServicesContent from "./content-components/ServicesContent/SetvicesContent";
+import ServicesContent from "./content-components/ServicesContent/ServicesContent";
 import AboutContent from "./content-components/AboutContent/AboutContent";
+import { socialLinks, contactData, getGoogleMapsUrl } from "@/Utils/utils";
 
 const contentComponents: Record<string, React.FC> = {
   about_us: AboutContent,
@@ -23,12 +24,6 @@ const Footer = () => {
   const handleLinkClick = (contentKey: string) => {
     setModalContent(() => contentComponents[contentKey] || null);
     setIsShownModal(true);
-  };
-
-  const contactData = {
-    email: "effectparquet@gmail.com",
-    phone: "0584455478",
-    address: "הרצל 110, ראשון לציון"
   };
 
   return (
@@ -58,7 +53,7 @@ const Footer = () => {
               <p className="contact-item">
                 <span>📍</span>{" "}
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactData.address)}`}
+                  href={getGoogleMapsUrl(contactData.address)}
                   target="_blank"
                   rel="noopener noreferrer"
                   title={contactData.address}
@@ -91,8 +86,14 @@ const Footer = () => {
           <div className="footer-section">
             <h3>{t("follow_us")}</h3>
             <div className="social-grid">
-              {["facebook", "twitter", "instagram", "linkedin"].map((social) => (
-                <a key={social} href={`#${social}`} className="social-link">
+              {Object.entries(socialLinks).map(([social, link]) => (
+                <a 
+                  key={social} 
+                  href={link} 
+                  className="social-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {t(social)}
                 </a>
               ))}

@@ -1,3 +1,4 @@
+import { ProductsSearchParams } from "@/types/products";
 import axios from "axios";
 import "dotenv/config";
 const URL_API = process.env.NEXT_PUBLIC_URL_API;
@@ -25,14 +26,40 @@ const productsServices = {
       throw error;
     }
   },
-  getProductsByCategory: async (category: string, language = "en", page = 1, limit = 16) => {
+  getProductsByCategory: async ({
+    category = "",
+    search = "",
+    color = "",
+    type = "",
+    language = "en",
+    page = 1,
+    limit = 16
+  }: ProductsSearchParams) => {
     try {
       const response = await axios.get(`${URL_API}/api/products`, {
-        params: { category, language, page, limit }
+        params: {
+          category,
+          search,
+          color,
+          type,
+          language,
+          page,
+          limit
+        }
       });
       return response.data;
     } catch (error) {
-      console.error("Error fetching products by category:", error);
+      console.error("Error fetching products:", error);
+      throw error;
+    }
+  },
+
+  getFilterOptions: async () => {
+    try {
+      const response = await axios.get(`${URL_API}/api/products/filters`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching filter options:", error);
       throw error;
     }
   },

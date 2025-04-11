@@ -68,7 +68,6 @@
   border: 1px solid var(--color-primary-inverted);
 }
 
-/* Медиа-запросы для мобильных устройств */
 @media screen and (max-width: 768px) {
   .HomeHeader__title {
     font-size: 36px;

@@ -7,42 +7,21 @@ import { useEffect, useRef, useCallback } from "react";
 import { RootState } from "@/redux/store";
 import { filterProducts } from "@/components/Products/model/productsSlice";
 import { useState } from "react";
-import productsServices from "@/services/prodcuts.services";
+import productsServices from "@/services/productsServices";
+import { ProductsSearchParams } from "@/types/products";
 import ProductCardSkeleton from "../ProductCard/ProductCardSkeleton";
 import ProductSort from "../ProductSort/ProductSort";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import MobileFilterButton from "../MobileFilterButton/MobileFilterButton";
 
-export interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  detailedDescription: string;
-  price: string;
-  images: string[];
-  category: string;
-  stock: number;
-  discount: number;
-  isAvailable: boolean;
-  color: string;
-  type: string;
-  material: string;
-  countryOfOrigin: string;
-  width?: string;
-  length?: string;
-  company?: string;
-  thickness?: string
-  model: string
-  finish: string
-}
 interface ProductsListProps {
   category: string;
 }
 const ProductsList = ({ category }: ProductsListProps) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(category ? false : true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [totalPages, setTotalPages] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   
   const limit = 16;
@@ -52,26 +31,39 @@ const ProductsList = ({ category }: ProductsListProps) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const lastProductRef = useRef<HTMLDivElement | null>(null);
 
-  // Initial load of products
+  const search = searchParams.get("search") || "";
+  const color = searchParams.get("color") || "";
+  const type = searchParams.get("type") || "";
+  const page = parseInt(searchParams.get("page") || "1");
+
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
-        const data = await productsServices.getProductsByCategory(category, language, 1, limit);
+        const searchParams: ProductsSearchParams = {
+          category,
+          search,
+          color,
+          type,
+          language,
+          page,
+          limit
+        };
+        
+        const data = await productsServices.getProductsByCategory(searchParams);
         dispatch(setProducts(data.products || []));
-        setTotalPages(data.pagination.pages);
         setHasMore(data.pagination.page < data.pagination.pages);
         setCurrentPage(1);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching products:", error);
       } finally {
         setIsLoading(false);
       }
     };
+    
     fetchProducts();
-  }, [category, dispatch, language]);
+  }, [category, search, color, type, dispatch, language]);
 
-  // Load more products when scrolling to bottom
   const loadMoreProducts = useCallback(async () => {
     if (isLoadingMore || !hasMore) return;
     
@@ -79,7 +71,17 @@ const ProductsList = ({ category }: ProductsListProps) => {
     setIsLoadingMore(true);
     
     try {
-      const data = await productsServices.getProductsByCategory(category, language, nextPage, limit);
+      const searchParams: ProductsSearchParams = {
+        category,
+        search,
+        color,
+        type,
+        language,
+        page: nextPage,
+        limit
+      };
+      
+      const data = await productsServices.getProductsByCategory(searchParams);
       if (data.products && data.products.length > 0) {
         dispatch(addProducts(data.products));
         setCurrentPage(nextPage);
@@ -88,13 +90,13 @@ const ProductsList = ({ category }: ProductsListProps) => {
         setHasMore(false);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error loading more products:", error);
     } finally {
       setIsLoadingMore(false);
     }
-  }, [category, currentPage, dispatch, hasMore, isLoadingMore, language]);
+  }, [category, search, color, type, currentPage, dispatch, hasMore, isLoadingMore, language]);
 
-  // Setup intersection observer for infinite scroll
+  // Настройка IntersectionObserver для бесконечного скролла
   useEffect(() => {
     const options = {
       root: null,
@@ -125,7 +127,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
     dispatch(filterProducts(filters));
   }, [filters, dispatch]);
 
-  // Update the observer when the list changes
+  // Обновление обсервера при изменении списка
   useEffect(() => {
     if (lastProductRef.current && observerRef.current) {
       observerRef.current.disconnect();
@@ -133,7 +135,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
     }
   }, [productsList]);
 
-  // Callback ref for the last product element
+  // Callback ref для последнего элемента продукта
   const setLastProductRef = (node: HTMLDivElement) => {
     lastProductRef.current = node;
     if (node && observerRef.current) {
@@ -145,12 +147,12 @@ const ProductsList = ({ category }: ProductsListProps) => {
     <div className="products__list_wrapper">
       <div className="products__list_header">
         <ProductSort />
+        <MobileFilterButton />
       </div>
       <div className="products__list">
         {isLoading
           ? Array.from({ length: 16 }).map((_, index) => <ProductCardSkeleton key={index} />)
           : productsList.map((product, index) => {
-              // Check if this is the last item
               const isLastProduct = index === productsList.length - 1;
               
               return (
@@ -165,7 +167,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
                     discount={product.discount}
                     images={product.images}
                     stock={product.stock}
-                    category={category}
+                    category={product.category}
                     finish={product.finish}
                   />
                 </div>
@@ -173,10 +175,17 @@ const ProductsList = ({ category }: ProductsListProps) => {
             })}
       </div>
       {isLoadingMore && (
-        <div className="products__list">
-          {Array.from({ length: 16 }).map((_, index) => (
+        <div className="products__list loading-more">
+          {Array.from({ length: 4 }).map((_, index) => (
             <ProductCardSkeleton key={`more-${index}`} />
           ))}
+        </div>
+      )}
+      {!isLoading && !isLoadingMore && productsList.length === 0 && (
+        <div className="no-products-message">
+          {search ? 
+            `No products found matching "${search}"` : 
+            "No products found matching the selected filters."}
         </div>
       )}
     </div>

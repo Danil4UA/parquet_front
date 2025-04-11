@@ -31,6 +31,11 @@ export const SidebarItemsList: SidebarItemType[] = [
     text: "spc"
   },
   {
+    path: "/products/wood",
+    Icon: "",
+    text: "wood"
+  },
+  {
     path: "/products/sales",
     Icon: "",
     text: "sales"
