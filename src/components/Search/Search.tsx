@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 import './Search.css';
 import { Product, ProductsSearchParams } from '@/types/products';
 import productsServices from '@/services/productsServices';
 import { Link } from '@/i18n/routing';
+import SearchResultItem from './_components/SearchResultItem';
 interface SearchProps {
     onClose: () => void;
 }
@@ -68,11 +68,6 @@ export default function Search({ onClose }: SearchProps) {
     }, 300); 
   };
 
-  const calculateDiscountedPrice = (price: number, discount?: number) => {
-    if (!discount) return price;
-    return price - (price * discount / 100);
-  };
-
   useEffect(() => {
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
@@ -121,54 +116,14 @@ export default function Search({ onClose }: SearchProps) {
           {!loading && searchResults.length > 0 && (
             <>
               <div className="search-results-list">
-                {searchResults.map(product => {
-                  const productPriceWithDiscount = calculateDiscountedPrice(Number(product.price), product.discount);
-                  
-                  return (
-                    <Link
-                        href={`/products/all/${product._id}`}
-                        key={product._id} 
-                        onClick={handleClose}
-                    >
-                    <div 
-                        key={product._id} 
-                        className="search-result-item"
-                    >
-                      <div className="search-result-image">
-                        <Image 
-                          src={product.images[0]} 
-                          alt={product.name} 
-                          width={80} 
-                          height={80} 
-                        />
-                      </div>
-                      <div className="search-result-info">
-                        <p className="search-result-title">{product.name}</p>
-                        <div className="search-result-price">
-                          {product.discount ? (
-                            <div className="product-price__container">
-                              <span className="product-price__discount">
-                                <span className="product-price__currency">₪</span>
-                                {productPriceWithDiscount.toFixed(0)}
-                              </span>
-                              <span className="product-price__old">
-                                <span className="product-price__currency">₪</span>
-                                {product.price}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="product-price__current">
-                              <span className="product-price__currency">₪</span>
-                              {product.price}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    </Link>
-                  );
-                })}
-              </div>
+                {searchResults.map(product => (
+                    <SearchResultItem 
+                    key={product._id}
+                    product={product}
+                    onClose={handleClose}
+                    />
+                ))}
+                </div>
               
               <div className="view-all-results">
               <Link 
