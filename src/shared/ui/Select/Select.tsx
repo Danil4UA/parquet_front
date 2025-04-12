@@ -2,7 +2,7 @@
 "use client"
 import React, { useState, useRef, useEffect } from 'react'
 import { classNames } from "@/shared/lib/classNames/classNames"
-import ArrowIcon from "@/app/assets/arrow.svg"
+import { ChevronDown } from 'lucide-react' // Import Lucide icon
 import './Select.css'
 
 interface SelectProps {
@@ -20,7 +20,18 @@ const Select: React.FC<SelectProps> = ({
 }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [selectedOption, setSelectedOption] = useState<string | null>(null)
+    const [isMobile, setIsMobile] = useState(false)
     const selectRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const handleShowOptions = () => {
         setIsOpen(!isOpen)
@@ -50,7 +61,8 @@ const Select: React.FC<SelectProps> = ({
             ref={selectRef}
             className={classNames('select', 
                 { 
-                    'select--open': isOpen 
+                    'select--open': isOpen,
+                    'select--mobile': isMobile
                 }, 
                 [className]
             )}
@@ -63,7 +75,7 @@ const Select: React.FC<SelectProps> = ({
                     {selectedOption || placeholder}
                 </span>
                 <div className={`select__arrow ${isOpen ? 'select__arrow--rotated' : ''}`}>
-                    <ArrowIcon />
+                    <ChevronDown size={24} /> {/* Lucide icon */}
                 </div>
             </div>
             <div className={`select__dropdown ${isOpen ? 'select__dropdown--open' : ''}`}>

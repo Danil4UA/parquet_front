@@ -3,21 +3,33 @@ import "./LangSwitcher.css";
 import { memo, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Select from "@/shared/ui/Select/Select";
+import { languageOptions, getLocaleFromPath } from "@/Utils/languageUtils";
 
 export const LangSwitcher = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
 
-  const [currentLocale, setCurrentLocale] = useState(() => {
-    const localeFromPath = pathname.split("/")[1];
-    return ["en", "ru", "he"].includes(localeFromPath) ? localeFromPath : "en";
-  });
+  const [currentLocale, setCurrentLocale] = useState(() => 
+    getLocaleFromPath(pathname)
+  );
 
   useEffect(() => {
-    const localeFromPath = pathname.split("/")[1];
-    if (["en", "ru", "he"].includes(localeFromPath)) {
-      setCurrentLocale(localeFromPath);
-    }
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    
+    window.addEventListener('resize', checkMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const localeFromPath = getLocaleFromPath(pathname);
+    setCurrentLocale(localeFromPath);
   }, [pathname]);
 
   const onSelectChange = (newLocale: string) => {
@@ -25,23 +37,24 @@ export const LangSwitcher = () => {
     router.push(`/${newLocale}/${path}`);
   };
 
-  const languageOptions = [
-    { value: "en", label: "English" },
-    { value: "ru", label: "Русский" },
-    { value: "he", label: "עברית" }
-  ];
-
+  const currentLanguage = languageOptions.find(lang => lang.value === currentLocale);
+  
   return (
     <Select
       className="select__arrow_white"
-      options={languageOptions.map((lang) => lang.label)}
-      onChange={(selectedLabel) => {
-        const selectedLocale = languageOptions.find((lang) => lang.label === selectedLabel)?.value;
-        if (selectedLocale) {
-          onSelectChange(selectedLocale);
+      options={languageOptions.map(lang => isMobile ? lang.abbr : lang.label)}
+      onChange={(selected) => {
+        const selectedOption = languageOptions.find(
+          lang => (isMobile ? lang.abbr : lang.label) === selected
+        );
+        
+        if (selectedOption) {
+          onSelectChange(selectedOption.value);
         }
       }}
-      placeholder={languageOptions.find((lang) => lang.value === currentLocale)?.label || "Select Language"}
+      placeholder={isMobile 
+        ? currentLanguage?.abbr || "EN" 
+        : currentLanguage?.label || "English"}
     />
   );
 };

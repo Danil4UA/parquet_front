@@ -14,6 +14,7 @@
   transition: transform 0.3s ease-in-out;
   z-index: 100;
 }
+
 body.scrolled .Navbar {
   transform: translateY(-100%);
 }
@@ -21,6 +22,7 @@ body.scrolled .Navbar {
 body.scroll-up .Navbar {
   transform: translateY(0);
 }
+
 .navbar-hidden {
   transform: translateY(-100%);
 }
@@ -28,18 +30,22 @@ body.scroll-up .Navbar {
 .navbar-visible {
   transform: translateY(0);
 }
+
 .navbar-left {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .navbar_menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 36px;
   height: 36px;
   cursor: pointer;
-  fill: var(--color-primary-inverted);
+  color: var(--color-primary-inverted);
 }
 
 .navbar-logo {
@@ -47,37 +53,55 @@ body.scroll-up .Navbar {
   left: 50%;
   transform: translateX(-50%);
   overflow: hidden;
-  fill: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .navbar-left,
 .navbar-right {
   z-index: 1;
+  display: flex;
+  align-items: center;
 }
 
-.navbar_cart {
+.navbar_cart, 
+.navbar_search {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   width: 36px;
   height: 36px;
-  fill: var(--color-primary-inverted);
-}
-.navbar_search {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
+  color: var(--color-primary-inverted);
 }
 
 .navbar-right {
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 
 .navbar_cart_counter {
   position: absolute;
-  background: var(--background-primary-inverted);
+  background: var(--color-accent);
+  color: var(--color-primary-inverted);
   top: -5px;
   right: -10px;
   font-size: 10px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.language-container {
+  display: flex;
+  align-items: center;
 }
 
 .custom-select {
@@ -126,8 +150,11 @@ body.scroll-up .Navbar {
   width: 36px;
   height: 36px;
   cursor: pointer;
-  fill: var(--color-primary-inverted);
+  color: var(--color-primary-inverted);
   background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: 980px) {
@@ -135,9 +162,15 @@ body.scroll-up .Navbar {
     font-size: 24px;
   }
   .Navbar {
-    padding: 15px;
+    padding: 15px 30px;
   }
 }
 
 @media screen and (max-width: 768px) {
+  .Navbar {
+    padding: 15px;
+  }
+  .navbar-left, .navbar-right {
+    gap: 15px;
+  }
 }

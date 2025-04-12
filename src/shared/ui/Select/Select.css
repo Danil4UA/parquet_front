@@ -7,10 +7,12 @@
 
 .select__control {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 8px 12px;
   cursor: pointer;
+  min-width: 110px;
+
 }
 
 .select__placeholder--selected {
@@ -20,14 +22,18 @@
 .select__arrow {
   width: 24px;
   height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.2s ease;
 }
 
 .select__arrow_black {
-  fill: var(--color-primary);
+  color: var(--color-primary); /* Changed from fill to color for Lucide */
 }
+
 .select__arrow_white {
-  fill: var(--color-primary-inverted);
+  color: var(--color-primary-inverted); /* Changed from fill to color for Lucide */
 }
 
 .select__arrow--rotated {
@@ -69,4 +75,39 @@
 
 .select__option:hover {
   background-color: var(--color-primary-inverted);
+}
+
+/* Mobile-specific styles */
+.select--mobile {
+  min-width: 60px;
+}
+
+.select--mobile .select__control {
+  padding: 8px 4px 8px 8px; /* Decreased right padding to bring arrow closer */
+  gap: 2px; /* Add small gap between text and arrow */
+}
+
+.select--mobile .select__arrow {
+  width: 16px;
+  height: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  .select {
+    min-width: 60px;
+  }
+  
+  .select__control {
+    padding: 8px 4px 8px 8px;
+    gap: 2px;
+  }
+  
+  .select__placeholder {
+    font-size: 18px;
+  }
+  
+  .select__arrow {
+    width: 16px;
+    height: 16px;
+  }
 }

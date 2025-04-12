@@ -127,7 +127,6 @@ const ProductsList = ({ category }: ProductsListProps) => {
     dispatch(filterProducts(filters));
   }, [filters, dispatch]);
 
-  // Обновление обсервера при изменении списка
   useEffect(() => {
     if (lastProductRef.current && observerRef.current) {
       observerRef.current.disconnect();
@@ -135,7 +134,6 @@ const ProductsList = ({ category }: ProductsListProps) => {
     }
   }, [productsList]);
 
-  // Callback ref для последнего элемента продукта
   const setLastProductRef = (node: HTMLDivElement) => {
     lastProductRef.current = node;
     if (node && observerRef.current) {
