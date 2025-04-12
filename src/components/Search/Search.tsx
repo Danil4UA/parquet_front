@@ -3,7 +3,7 @@ import Image from 'next/image';
 import './Search.css';
 import { Product, ProductsSearchParams } from '@/types/products';
 import productsServices from '@/services/productsServices';
-
+import { Link } from '@/i18n/routing';
 interface SearchProps {
     onClose: () => void;
 }
@@ -14,23 +14,21 @@ export default function Search({ onClose }: SearchProps) {
   const [isClosing, setIsClosing] = useState<boolean>(false);
   
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
-
+  
   useEffect(() => {
     if (search.trim().length > 2) {
       setLoading(true);
       
-      // Clear existing timeout
       if (searchTimeout.current) {
         clearTimeout(searchTimeout.current);
       }
       
-      // Set new timeout for debounce
       searchTimeout.current = setTimeout(async () => {
         try {
           const searchParams: ProductsSearchParams = {
-            category: 'all', // Global search
+            category: 'all',
             search: search,
-            language: 'en', // Set your default language
+            language: 'en', 
             page: 1,
             limit: 10
           };
@@ -65,24 +63,17 @@ export default function Search({ onClose }: SearchProps) {
 
   const handleClose = () => {
     setIsClosing(true);
-    // Wait for animation to complete before fully closing
     setTimeout(() => {
       onClose();
-    }, 300); // Match this with the CSS transition duration
+    }, 300); 
   };
 
-  const handleViewAllResults = () => {
-    return
-  }
-
-  // Calculate discounted price
   const calculateDiscountedPrice = (price: number, discount?: number) => {
     if (!discount) return price;
     return price - (price * discount / 100);
   };
 
   useEffect(() => {
-    // Block scrolling on the main document when search is open
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
@@ -134,7 +125,15 @@ export default function Search({ onClose }: SearchProps) {
                   const productPriceWithDiscount = calculateDiscountedPrice(Number(product.price), product.discount);
                   
                   return (
-                    <div key={product._id} className="search-result-item">
+                    <Link
+                        href={`/products/all/${product._id}`}
+                        key={product._id} 
+                        onClick={handleClose}
+                    >
+                    <div 
+                        key={product._id} 
+                        className="search-result-item"
+                    >
                       <div className="search-result-image">
                         <Image 
                           src={product.images[0]} 
@@ -166,14 +165,26 @@ export default function Search({ onClose }: SearchProps) {
                         </div>
                       </div>
                     </div>
+                    </Link>
                   );
                 })}
               </div>
               
               <div className="view-all-results">
-                <button onClick={handleViewAllResults} className="view-all-button">
-                  View All Results
-                </button>
+              <Link 
+                href={search.trim().length > 2 ? `/products/all?search=${search}` : '#'} 
+                onClick={(e) => {
+                    if (search.trim().length <= 2) {
+                    e.preventDefault();
+                    return;
+                    }
+                    handleClose();
+                }}
+                className="view-all-button"
+                >
+                View All Results
+                </Link>
+
               </div>
             </>
           )}
