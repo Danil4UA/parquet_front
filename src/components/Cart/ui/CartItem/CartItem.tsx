@@ -18,7 +18,6 @@ const CartItem = (props: CartItemProps) => {
   // Локальное состояние для input
   const [localQuantity, setLocalQuantity] = useState(quantity.toString());
 
-  // Сбрасываем `localQuantity`, если данные в корзине изменились
   useEffect(() => {
     setLocalQuantity(quantity.toString());
   }, [quantity]);
