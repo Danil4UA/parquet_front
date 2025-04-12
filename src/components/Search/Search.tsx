@@ -6,9 +6,12 @@ import { Link } from '@/i18n/routing';
 import SearchResultItem from './_components/SearchResultItem';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
+import { X } from 'lucide-react';
+
 interface SearchProps {
-    onClose: () => void;
+  onClose: () => void;
 }
+
 export default function Search({ onClose }: SearchProps) {
   const [search, setSearch] = useState<string>('');
   const [searchResults, setSearchResults] = useState<Product[]>([]);
@@ -62,7 +65,7 @@ export default function Search({ onClose }: SearchProps) {
         clearTimeout(searchTimeout.current);
       }
     };
-  }, [search]);
+  }, [search, lng]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -75,9 +78,21 @@ export default function Search({ onClose }: SearchProps) {
     }, 300); 
   };
 
+  const handleSearchFocus = () => {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 50);
+  };
+
   useEffect(() => {
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
+    document.body.style.top = `-${window.scrollY}px`;
+    document.body.style.height = "100%";
+    
+    const scrollY = window.scrollY;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -90,6 +105,13 @@ export default function Search({ onClose }: SearchProps) {
     return () => {
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      document.body.style.height = "";
+      
+      window.scrollTo(0, scrollY);
+      
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [onClose]);
@@ -103,13 +125,13 @@ export default function Search({ onClose }: SearchProps) {
             placeholder={t("placeholder")}
             value={search}
             onChange={handleSearchChange}
+            onFocus={handleSearchFocus}
             autoFocus
           />
           <button className="search-close" onClick={handleClose}>
-            ×
+            <X size={24} />
           </button>
         </div>
-        
         
         <div className="search-results">
           {loading && <div className="search-loading">{t("loading")}</div>}
@@ -122,29 +144,28 @@ export default function Search({ onClose }: SearchProps) {
             <>
               <div className="search-results-list">
                 {searchResults.map(product => (
-                    <SearchResultItem 
+                  <SearchResultItem 
                     key={product._id}
                     product={product}
                     onClose={handleClose}
-                    />
+                  />
                 ))}
-                </div>
+              </div>
               
               <div className="view-all-results">
-              <Link 
-                href={search.trim().length > 2 ? `/products/all?search=${search}` : '#'} 
-                onClick={(e) => {
+                <Link 
+                  href={search.trim().length > 2 ? `/products/all?search=${search}` : '#'} 
+                  onClick={(e) => {
                     if (search.trim().length <= 2) {
-                    e.preventDefault();
-                    return;
+                      e.preventDefault();
+                      return;
                     }
                     handleClose();
-                }}
-                className="view-all-button"
+                  }}
+                  className="view-all-button"
                 >
-                {t("viewAllResults")}
+                  {t("viewAllResults")}
                 </Link>
-
               </div>
             </>
           )}

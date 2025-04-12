@@ -25,8 +25,6 @@ const HomeHeader = () => {
         <div className="HomeHeader__content">
           <p>{t("subtitle")}</p>
           <h1 className="HomeHeader__title">
-            <span>{t("premium")}</span>
-            <br />
             <span>{t("effect_parquet")}</span>
           </h1>
           <div className="HomeHeader__text">{t("description")}</div>
