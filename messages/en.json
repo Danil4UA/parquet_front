@@ -211,5 +211,11 @@
 },
   "Navbar": {
     "title": "Effect Parquet"
+  },
+  "Search": {
+    "placeholder": "Search...",
+    "loading": "Loading...",
+    "noResults": "No products found",
+    "viewAllResults": "View All Results"
   }
 }

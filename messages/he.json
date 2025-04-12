@@ -210,5 +210,11 @@
   },
   "Navbar": {
     "title": "אפקט פרקט"
+  },
+  "Search": {
+    "placeholder": "חיפוש...",
+    "loading": "טוען...",
+    "noResults": "לא נמצאו מוצרים",
+    "viewAllResults": "צפה בכל התוצאות"
   }
 }

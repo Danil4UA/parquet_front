@@ -4,6 +4,8 @@ import { Product, ProductsSearchParams } from '@/types/products';
 import productsServices from '@/services/productsServices';
 import { Link } from '@/i18n/routing';
 import SearchResultItem from './_components/SearchResultItem';
+import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 interface SearchProps {
     onClose: () => void;
 }
@@ -12,7 +14,12 @@ export default function Search({ onClose }: SearchProps) {
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
-  
+
+  const t = useTranslations("Search")
+  const pathname = usePathname();
+
+  const lng = pathname.split("/")[1];
+
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
   
   useEffect(() => {
@@ -28,7 +35,7 @@ export default function Search({ onClose }: SearchProps) {
           const searchParams: ProductsSearchParams = {
             category: 'all',
             search: search,
-            language: 'en', 
+            language: lng, 
             page: 1,
             limit: 10
           };
@@ -72,7 +79,6 @@ export default function Search({ onClose }: SearchProps) {
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
-    // Handle ESC key to close search
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         handleClose();
@@ -81,7 +87,6 @@ export default function Search({ onClose }: SearchProps) {
 
     window.addEventListener("keydown", handleKeyDown);
 
-    // Cleanup function
     return () => {
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
@@ -95,7 +100,7 @@ export default function Search({ onClose }: SearchProps) {
         <div className="search-wrapper">
           <input 
             type="text" 
-            placeholder="Search..." 
+            placeholder={t("placeholder")}
             value={search}
             onChange={handleSearchChange}
             autoFocus
@@ -107,10 +112,10 @@ export default function Search({ onClose }: SearchProps) {
         
         
         <div className="search-results">
-          {loading && <div className="search-loading">Loading...</div>}
+          {loading && <div className="search-loading">{t("loading")}</div>}
           
           {!loading && searchResults.length === 0 && search.trim().length > 2 && (
-            <div className="search-no-results">No products found</div>
+            <div className="search-no-results">{t("noResults")}</div>
           )}
           
           {!loading && searchResults.length > 0 && (
@@ -137,7 +142,7 @@ export default function Search({ onClose }: SearchProps) {
                 }}
                 className="view-all-button"
                 >
-                View All Results
+                {t("viewAllResults")}
                 </Link>
 
               </div>

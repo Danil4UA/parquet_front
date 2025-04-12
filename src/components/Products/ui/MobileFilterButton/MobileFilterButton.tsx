@@ -26,7 +26,8 @@ const MobileFilterButton: React.FC = () => {
           <path d="M11.5 8.5H4.5C4.224 8.5 4 8.276 4 8C4 7.724 4.224 7.5 4.5 7.5H11.5C11.776 7.5 12 7.724 12 8C12 8.276 11.776 8.5 11.5 8.5Z" fill="currentColor"/>
           <path d="M8.5 15H7.5C7.224 15 7 14.776 7 14.5C7 14.224 7.224 14 7.5 14H8.5C8.776 14 9 14.224 9 14.5C9 14.776 8.776 15 8.5 15Z" fill="currentColor"/>
         </svg>
-        {t("Filters")}
+        <span className="mobile-filter-text">{t("Filters")}
+        </span>
       </button>
 
       {isFilterOpen && (
