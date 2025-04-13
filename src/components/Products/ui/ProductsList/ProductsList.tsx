@@ -96,7 +96,6 @@ const ProductsList = ({ category }: ProductsListProps) => {
     }
   }, [category, search, color, type, currentPage, dispatch, hasMore, isLoadingMore, language]);
 
-  // Настройка IntersectionObserver для бесконечного скролла
   useEffect(() => {
     const options = {
       root: null,
