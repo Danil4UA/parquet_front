@@ -6,22 +6,19 @@ import { routing } from "@/i18n/routing";
 import { ReduxProvider } from "@/redux/ReduxProvider";
 import { getLanguageMetadata } from "../metadata";
 
-export async function generateMetadata({ params }: { params: { locale: string } }) {
+export async function generateMetadata({ params }) {
   const { locale } = await params;
   return getLanguageMetadata(locale as "en" | "ru" | "he");
 }
 
-export default async function RootLayout({ 
-  children, 
-  params 
-}: { 
-  children: React.ReactNode; 
-  params: Promise<{ locale: string }> 
+export default async function RootLayout({
+  children,
+  params,
 }) {
   const { locale } = await params;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!routing.locales.includes(locale as any)) {
-    return notFound();
+  
+  if (!routing.locales.includes(locale)) {
+    notFound();
   }
   
   const messages = await getMessages();
@@ -37,4 +34,4 @@ export default async function RootLayout({
       </body>
     </html>
   );
-};
+}

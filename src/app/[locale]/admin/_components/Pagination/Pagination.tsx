@@ -1,5 +1,5 @@
-// src/app/[locale]/admin/_components/Pagination.tsx
 "use client";
+
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './Pagination.css';
@@ -23,16 +23,14 @@ const Pagination: React.FC<PaginationProps> = ({
   
   // Generate page numbers to display
   const getPageNumbers = () => {
-    const pages = [];
+    const pages: Array<number | string> = [];
     const maxPagesToShow = 5;
     
     if (totalPages <= maxPagesToShow) {
-      // If there are few pages, show all
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Show pages around current page
       let startPage = Math.max(1, currentPage - 2);
       const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
       
@@ -40,13 +38,11 @@ const Pagination: React.FC<PaginationProps> = ({
         startPage = Math.max(1, endPage - maxPagesToShow + 1);
       }
       
-      // Add first page if not included
       if (startPage > 1) {
         pages.push(1);
         if (startPage > 2) pages.push('...');
       }
       
-      // Add pages around current
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);
       }
