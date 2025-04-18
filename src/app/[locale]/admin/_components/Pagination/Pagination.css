@@ -1,0 +1,100 @@
+/* src/app/[locale]/admin/_components/Pagination.css */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .pagination-info {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .items-per-page {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .items-per-page select {
+    padding: 5px 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+  
+  .page-navigation {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .page-nav-button,
+  .page-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .page-nav-button:hover:not(:disabled),
+  .page-number:hover:not(.active):not(:disabled) {
+    background-color: #f5f5f5;
+    border-color: #d0d0d0;
+  }
+  
+  .page-number.active {
+    background-color: #1e293b;
+    color: white;
+    border-color: #1e293b;
+  }
+  
+  .page-nav-button:disabled,
+  .page-number:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .ellipsis {
+    cursor: default;
+    background-color: transparent;
+    border: none;
+  }
+  
+  @media (max-width: 768px) {
+    .pagination-container {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .pagination-controls {
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+    }
+    
+    .items-per-page {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
