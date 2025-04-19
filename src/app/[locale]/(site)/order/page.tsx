@@ -20,7 +20,7 @@ interface FormData {
   city: string;
   phoneNumber: string;
   deliveryMethod: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   cartItems: any[];
 }
 

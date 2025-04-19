@@ -3,10 +3,20 @@ import axios from "axios";
 import "dotenv/config";
 const URL_API = process.env.NEXT_PUBLIC_URL_API;
 
-const productsServices = {
-  getAllProducts: async (language = "en") => {
+export default class productsServices {
+  static GET_PRODUCTS_ENDPOINT = `${URL_API}/api/products`;
+
+  static GET_ALL_PRODUCTS = `${URL_API}/api/products/all`;
+
+  static GET_ALL_FILTER_OPTIONS = `${URL_API}/api/products/filters`;
+
+  static ORDER_ENDPOINT = `${URL_API}/api/order`;
+
+  static CREATE_ORDER_ENDPOINT = `${URL_API}/api/order/create`;
+
+  static async getAllProducts (language = "en"){
     try {
-      const response = await axios.get(`${URL_API}/api/products/all`, {
+      const response = await axios.get(productsServices.GET_ALL_PRODUCTS, {
         params: { language }
       });
       return response.data;
@@ -14,19 +24,23 @@ const productsServices = {
       console.error("Error fetching products:", error);
       throw error;
     }
-  },
-  getProductById: async (productId: string, language = "en") => {
+  }
+
+  static async getProductById (productId: string, language = "en") {
     try {
-      const response = await axios.get(`${URL_API}/api/products/${productId}`, {
-        params: { language }
+      const response = await axios.get(`${productsServices.GET_PRODUCTS_ENDPOINT}/${productId}`, {
+        params: { 
+          language,
+        }
       });
       return response.data;
     } catch (error) {
       console.error("Error fetching product:", error);
       throw error;
     }
-  },
-  getProductsByCategory: async ({
+  }
+
+  static async getProductsByCategory({
     category = "",
     search = "",
     color = "",
@@ -34,9 +48,9 @@ const productsServices = {
     language = "en",
     page = 1,
     limit = 16
-  }: ProductsSearchParams) => {
+  }: ProductsSearchParams){
     try {
-      const response = await axios.get(`${URL_API}/api/products`, {
+      const response = await axios.get(productsServices.GET_PRODUCTS_ENDPOINT, {
         params: {
           category,
           search,
@@ -47,41 +61,41 @@ const productsServices = {
           limit
         }
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching products:", error);
       throw error;
     }
-  },
+  }
 
-  getFilterOptions: async () => {
+  static async getFilterOptions(){
     try {
-      const response = await axios.get(`${URL_API}/api/products/filters`);
+      const response = await axios.get(productsServices.GET_ALL_FILTER_OPTIONS);
       return response.data;
     } catch (error) {
       console.error("Error fetching filter options:", error);
       throw error;
     }
-  },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sendOrderToBackend: async (orderData: any) => {
+  }
+
+  static async sendOrderToBackend(orderData) {
     try {
-      const response = await axios.post(`${URL_API}/api/order`, orderData);
+      const response = await axios.post(productsServices.ORDER_ENDPOINT, orderData);
       return response.data;
     } catch (error) {
       console.error("Error sending order: ", error);
       throw error;
     }
-  },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createOrder: async (orderData: any) => {
+  }
+
+  static async createOrder(orderData){
     try {
-      const response = await axios.post(`${URL_API}/api/order/create`, orderData);
+      const response = await axios.post(productsServices.CREATE_ORDER_ENDPOINT, orderData);
       return response.data;
     } catch (error) {
+      console.error("Error creating order: ", error);
       throw error;
     }
   }
-};
 
-export default productsServices;
+}

@@ -44,8 +44,8 @@ export default function Search({ onClose }: SearchProps) {
           };
           
           const data = await productsServices.getProductsByCategory(searchParams);
-          if (data.products && data.products.length > 0) {
-            setSearchResults(data.products);
+          if (data?.data.products && data?.data.products.length > 0) {
+            setSearchResults(data?.data.products);
           } else {
             setSearchResults([]);
           }

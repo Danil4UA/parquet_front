@@ -6,20 +6,27 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import ImageLoader from "@/widgets/ImageLoader/ImageLoader";
+import { Product } from "@/types/products";
 interface ProductCardProps {
-  productId: string;
-  productName: string;
-  productPrice: string;
-  productDescription?: string;
-  discount?: number;
-  category: string;
-  images: string[];
-  stock: number;
-  finish?: string
+  product: Product;
 }
 
-const ProductCard = ({ productId, productName, productPrice, discount = 0, category, images, stock, finish }: ProductCardProps) => {
+const ProductCard = ({ 
+  product,
+}: ProductCardProps) => {
   const t = useTranslations("Product");
+
+  const { 
+    _id: productId, 
+    name: productName, 
+    price: productPrice, 
+    discount = 0, 
+    category, 
+    images, 
+    stock, 
+    finish 
+  } = product;
+
   const productPriceWithDiscount = discount ? Number(productPrice) * ((100 - discount) / 100) : Number(productPrice);
   const [imgSrc, setImgSrc] = useState(images[0]);
   const [isLoading, setIsLoading] = useState(true);

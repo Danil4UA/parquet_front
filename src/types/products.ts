@@ -20,7 +20,13 @@ export interface Product {
     model: string
     finish: string
   }
-  
+
+export interface Pagination {
+  total: number;
+  page: number;
+  limit: number;
+  pages: number;
+}
 export interface ProductsSearchParams {
     category?: string;
     search?: string;
@@ -30,3 +36,8 @@ export interface ProductsSearchParams {
     page?: number;
     limit?: number;
   }
+
+export interface ProductsWithPagination {
+    pagination: Pagination;
+    products: Product[];
+}

@@ -8,6 +8,7 @@ import productsServices from "@/services/productsServices";
 import { Product, ProductsSearchParams } from "@/types/products";
 import { usePathname, useSearchParams } from "next/navigation";
 
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,8 +41,8 @@ export default function ProductsPage() {
         };
         
         const data = await productsServices.getProductsByCategory(apiParams);
-        setProducts(data.products || []);
-        setTotalItems(data.pagination?.total || 0);
+        setProducts(data?.data.products || []);
+        setTotalItems(data?.data.pagination?.total || 0);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -119,7 +120,6 @@ export default function ProductsPage() {
           />
         </div>
       </div>
-      
       <div className="products-table-container">
         {isLoading ? (
           <div className="loading-indicator">Loading products...</div>
