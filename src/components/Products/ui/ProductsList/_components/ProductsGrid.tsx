@@ -13,6 +13,8 @@ interface ProductsGridProps {
 }
 
 const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
+  const prevQueryParamsRef = useRef<ProductsSearchParams>(queryParams);
+  
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [currentPage, setCurrentPage] = useState(queryParams.page || 1);
   const [hasMore, setHasMore] = useState(true);
@@ -20,6 +22,27 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
   const dispatch = useDispatch();
   const observerRef = useRef<IntersectionObserver | null>(null);
   const lastProductRef = useRef<HTMLDivElement | null>(null);
+
+
+  useEffect(() => {
+    const hasQueryParamsChanged = () => {
+      const prev = prevQueryParamsRef.current;
+      if (prev.page !== queryParams.page) return false;
+      
+      return prev.category !== queryParams.category ||
+             prev.search !== queryParams.search ||
+             prev.color !== queryParams.color ||
+             prev.type !== queryParams.type ||
+             prev.language !== queryParams.language ||
+             prev.limit !== queryParams.limit;
+    };
+    
+    if (hasQueryParamsChanged()) {
+      setCurrentPage(queryParams.page || 1);
+      setHasMore(true);
+    }
+    prevQueryParamsRef.current = queryParams;
+  }, [queryParams]);
 
   const loadMoreProducts = useCallback(async () => {
     if (isLoadingMore || !hasMore) return;
@@ -43,25 +66,22 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
       }
     } catch (error) {
       console.error("Error loading more products:", error);
+      setHasMore(false);
     } finally {
       setIsLoadingMore(false);
     }
   }, [queryParams, currentPage, dispatch, hasMore, isLoadingMore]);
 
   useEffect(() => {
-    setCurrentPage(queryParams.page || 1);
-  }, [queryParams]);
-
-  useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '20px',
+      rootMargin: '100px',
       threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries) => {
       const [entry] = entries;
-      if (entry.isIntersecting && !isLoadingMore) {
+      if (entry.isIntersecting && !isLoadingMore && hasMore) {
         loadMoreProducts();
       }
     }, options);
@@ -73,7 +93,7 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
         observerRef.current.disconnect();
       }
     };
-  }, [isLoadingMore, loadMoreProducts]);
+  }, [isLoadingMore, loadMoreProducts, hasMore]);
 
   useEffect(() => {
     if (lastProductRef.current && observerRef.current) {
@@ -85,6 +105,7 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
   const setLastProductRef = (node: HTMLDivElement) => {
     lastProductRef.current = node;
     if (node && observerRef.current) {
+      observerRef.current.disconnect();
       observerRef.current.observe(node);
     }
   };
@@ -99,6 +120,7 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
             <div 
               key={product._id} 
               ref={isLastProduct ? setLastProductRef : null}
+              className="product-item"
             >
               <ProductCard
                 product={product ?? {}}
@@ -113,6 +135,12 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
           {Array.from({ length: 4 }).map((_, index) => (
             <ProductCardSkeleton key={`more-${index}`} />
           ))}
+        </div>
+      )}
+      
+      {!hasMore && products.length > 0 && (
+        <div className="no-more-products" style={{ textAlign: 'center', padding: '20px' }}>
+          Все товары загружены
         </div>
       )}
     </>
