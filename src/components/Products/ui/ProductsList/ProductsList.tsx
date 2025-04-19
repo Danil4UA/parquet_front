@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usePathname, useSearchParams } from "next/navigation";
 import { RootState } from "@/redux/store";
-import { setProducts, filterProducts } from "@/components/Products/model/productsSlice";
+import { setProducts } from "@/components/Products/model/productsSlice";
 import { getProductsQueryParams } from "@/Utils/paginationUtils";
 import ProductSort from "../ProductSort/ProductSort";
 import MobileFilterButton from "../MobileFilterButton/MobileFilterButton";
@@ -21,13 +21,11 @@ const ProductsList = ({ category }: ProductsListProps) => {
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const pathname = usePathname();
-  
   const queryParams = getProductsQueryParams(searchParams, pathname, category);
+  
   const { search } = queryParams;
-
   const { data, isPending, isSuccess } = useGetAllProductsByCategory(queryParams);
 
-  const filters = useSelector((state: RootState) => state.products.filters);
   const productsList = useSelector((state: RootState) => state.products.filteredProducts);
 
   useEffect(() => {
@@ -36,9 +34,6 @@ const ProductsList = ({ category }: ProductsListProps) => {
     }
   }, [data, isSuccess, dispatch]);
 
-  useEffect(() => {
-    dispatch(filterProducts(filters));
-  }, [filters, dispatch]);
 
   return (
     <div className="products__list_wrapper">
