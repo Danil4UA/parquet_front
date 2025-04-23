@@ -1,10 +1,9 @@
-// src/app/login/page.tsx
 "use client";
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
-import axios from 'axios';
 import './login.css';
+import userServices from '@/services/userServices';
 
 type LoginFormData = {
   email: string;
@@ -16,8 +15,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/admin';
-  
+  const callbackUrl = searchParams.get('callbackUrl') || '/en/admin';
+
   const { 
     register, 
     handleSubmit, 
@@ -29,7 +28,7 @@ export default function LoginPage() {
     setError(null);
     
     try {
-      const response = await axios.post('/api/auth/login', data);
+      const response = await userServices.login(data.email, data.password)
       
       if (response.data.success) {
         router.push(callbackUrl);
