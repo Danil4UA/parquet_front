@@ -1,31 +1,37 @@
+import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import createIntlMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 
-export async function middleware(req: NextRequest) {
-  const path = req.nextUrl.pathname;
-  const language = path.split("/")[1] || "en";
+const intlMiddleware = createIntlMiddleware(routing);
 
-  const isProtected = path.includes(`/${language}/admin`);
+export async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
   
-  if (isProtected) {
+  const locale = path.split('/')[1];
+  const isLocale = routing.locales.includes(locale as any);
+  
+  const isProtectedRoute = path.includes('/admin') || 
+                          (isLocale && path.includes(`/${locale}/admin`));
+  
+  if (isProtectedRoute) {
     const session = await getToken({ 
-      req, 
+      req: request, 
       secret: process.env.NEXT_AUTH_SECRET 
     });
-
-    console.log("session", session)
     
     if (!session) {
-      return NextResponse.redirect(new URL(`/${language}/login`, req.url));
+      const redirectLocale = isLocale ? locale : routing.defaultLocale;
+      return NextResponse.redirect(new URL(`/${redirectLocale}/login`, request.url));
     }
   }
   
-  return NextResponse.next();
+  return intlMiddleware(request);
 }
 
 export const config = {
   matcher: [
-    '/',
     '/(en|ru|he)/:path*',
     
     '/admin/:path*',
