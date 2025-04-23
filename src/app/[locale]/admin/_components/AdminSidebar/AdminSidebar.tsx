@@ -1,8 +1,8 @@
-// src/app/admin/_components/AdminSidebar.tsx
 "use client";
+
 import React, { useState } from 'react';
 import { Link } from '@/i18n/routing';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   Package, 
   ShoppingBag, 
@@ -12,16 +12,18 @@ import {
   ChevronRight
 } from 'lucide-react';
 import './AdminSidebar.css';
+import { signOut } from 'next-auth/react';
 
 const AdminSidebar = () => {
   const pathname = usePathname();
+  const router = useRouter()
   const language = pathname.split("/")[1];
   const [collapsed, setCollapsed] = useState(false);
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      window.location.href = `/${language}/login`;
+      await signOut({ redirect: false });
+      router.push(`/${language}/login`) 
     } catch (error) {
       console.error('Logout failed', error);
     }
@@ -58,12 +60,6 @@ const AdminSidebar = () => {
               {!collapsed && <span>Products</span>}
             </Link>
           </li>
-          {/* <li className={pathname.startsWith('/admin/users') ? 'active' : ''}>
-            <Link href="/admin/users" title="Users">
-              <Users size={20} />
-              {!collapsed && <span>Users</span>}
-            </Link>
-          </li> */}
           <li className={pathname.startsWith('/admin/settings') ? 'active' : ''}>
             <Link href="/admin/settings" title="Settings">
               <Settings size={20} />

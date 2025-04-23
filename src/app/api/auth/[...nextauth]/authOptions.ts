@@ -1,40 +1,42 @@
-import ApiRouteConstants from "@/constants/ApiRouteConstants";
 import userServices from "@/services/userServices";
 import axios from "axios";
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "username", type: "text" },
+        email: { label: "email", type: "text" },
         password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
         try {
             const payload = {
-                email: credentials?.username,
+                email: credentials?.email,
                 password: credentials?.password,
             };
-
-            const loginResponse = await axios.post(ApiRouteConstants.LOGIN_ENDPOINT, payload);
-
-            const {
-                AccessToken: accessToken,
-            } = loginResponse.data.AuthenticationResult;
             
-            const getUserResponse = await userServices.getUser(accessToken);
-            const role = getUserResponse.data.role;
-            return {    
-                accessToken,
-                role,
-                expires_at: Date.now() + loginResponse.data.AuthenticationResult.ExpiresIn * 1000,
+            console.log("Attempting login with", payload);
+
+            const loginResponse = await axios.post(userServices.LOGIN_ENDPOINT, payload);
+            console.log("Login response", loginResponse.data);
+
+            if (loginResponse.data) {
+              return {
+                id: loginResponse.data.user.id,
+                name: loginResponse.data.user.username || loginResponse.data.user.email,
+                email: loginResponse.data.user.email,
+                accessToken: loginResponse.data.accessToken,
+                refreshToken: loginResponse.data.refreshToken,
               };
-          
+            }
+            
+            return null;
         } catch (error) {
-          console.error("Error", error);
-          throw error;
+          console.error("Auth error:", error);
+          return null;
         }
       },
     }),
@@ -49,17 +51,20 @@ export const authOptions = {
       if (user) {
         return {
           ...token,
-          role: user.role,
+          accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
         };
       }
       
       return token;
     },
-    session: async ({ session, token }) => {
-    if (!session.user) session.user = {};
+    session: async ({ session, token }: { session: any, token: any }) => {
+      if (!session.user) session.user = {};
 
       if (token) {
-        session.user.role = token.role;
+        session.user.id = token.sub;
+        session.accessToken = token.accessToken;
+        session.refreshToken = token.refreshToken;
       }
       return session;
     },
@@ -68,6 +73,7 @@ export const authOptions = {
     signIn: "/login",
     error: "/login",
   },
+  debug: process.env.NODE_ENV === 'development',
 };
 
 export default authOptions;

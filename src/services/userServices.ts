@@ -1,7 +1,6 @@
 import "dotenv/config";
 const URL_API = process.env.NEXT_PUBLIC_URL_API;
 import { signIn } from "next-auth/react";
-import RouteConstants from "@/constants/RouteConstants";
 import axios from "axios";
 
 
@@ -10,28 +9,30 @@ export default class userServices {
 
     static LOG_OUT_ROUTE = `${URL_API}/user/logout`;
 
-    static async login(username, password, router, setIsLoginApiLoading) {
-        try {
-          setIsLoginApiLoading(true);
-          const res = await signIn(
-            "credentials",
-            {
-              redirect: false,
-              username,
-              password,
-            },
-          );
-    
-          if (res?.status === 200) {
-            router.push(RouteConstants.ADMIN_ROUTE);
-          } else {
-            throw res;
-          }
-        } catch (error) {
-          console.log(JSON.stringify(error));
+    static LOGIN_ENDPOINT = `${URL_API}/api/user/login`;
+
+    static REGISTER_USER = `${URL_API}/user/register`;
+
+
+
+    static async login(email, password) {
+      try {
+        
+        const res = await signIn("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
+            
+        if (res?.ok) {
+          return { data: { success: true } };
+        } else {
+          return { data: { success: false, message: res?.error || "Login failed" } };
         }
-        setIsLoginApiLoading(false);
+      } catch (error) {
+        throw error;
       }
+    }
 
     static async getUser(accessToken) {
         try {
@@ -46,7 +47,8 @@ export default class userServices {
         }
     }
 
-    static async logOut(accessToken, refreshToken) {
+    static async logOut(session: any) {
+        const { accessToken, refreshToken } = session
         const config = {
           headers: { authorization: accessToken },
           params: {

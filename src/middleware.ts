@@ -1,41 +1,26 @@
-import { NextResponse } from 'next/server';
-import createIntlMiddleware from 'next-intl/middleware';
-import { routing } from './i18n/routing';
+import { getToken } from 'next-auth/jwt';
+import { NextRequest, NextResponse } from 'next/server';
 
-const intlMiddleware = createIntlMiddleware(routing);
+export async function middleware(req: NextRequest) {
+  const path = req.nextUrl.pathname;
+  const language = path.split("/")[1] || "en";
 
-export default function middleware(request) {
-  const path = request.nextUrl.pathname;
+  const isProtected = path.includes(`/${language}/admin`);
   
-  const isProtectedRoute = /\/(en|ru|he)\/admin/.test(path) || path.startsWith('/admin');
-  
-  const token = request.cookies.get('admin-token')?.value;
-  
-  if (isProtectedRoute && !token) {
-    let locale = 'en';
-    const localeMatch = path.match(/^\/(en|ru|he)/);
-    if (localeMatch) {
-      locale = localeMatch[1];
+  if (isProtected) {
+    const session = await getToken({ 
+      req, 
+      secret: process.env.NEXT_AUTH_SECRET 
+    });
+
+    console.log("session", session)
+    
+    if (!session) {
+      return NextResponse.redirect(new URL(`/${language}/login`, req.url));
     }
-    
-    const loginUrl = new URL(`/${locale}/login`, request.url);
-    
-    loginUrl.searchParams.set('returnTo', path);
-    
-    return NextResponse.redirect(loginUrl);
   }
   
-  if (/\/(en|ru|he)\/login/.test(path) && token) {
-    let locale = 'en';
-    const localeMatch = path.match(/^\/(en|ru|he)/);
-    if (localeMatch) {
-      locale = localeMatch[1];
-    }
-    
-    return NextResponse.redirect(new URL(`/${locale}/admin/dashboard`, request.url));
-  }
-  
-  return intlMiddleware(request);
+  return NextResponse.next();
 }
 
 export const config = {
