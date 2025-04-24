@@ -41,11 +41,6 @@ export const SidebarItemsList: SidebarItemType[] = [
     text: "panels"
   },
   {
-    path: "/products/thresholds",
-    Icon: "",
-    text: "thresholds"
-  },
-  {
     path: "/products/cladding",
     Icon: "",
     text: "cladding"
