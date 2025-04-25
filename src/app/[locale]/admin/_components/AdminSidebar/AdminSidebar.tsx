@@ -17,13 +17,12 @@ import { signOut } from 'next-auth/react';
 const AdminSidebar = () => {
   const pathname = usePathname();
   const router = useRouter()
-  const language = pathname.split("/")[1];
   const [collapsed, setCollapsed] = useState(false);
 
   const handleLogout = async () => {
     try {
       await signOut({ redirect: false });
-      router.push(`/${language}/login`) 
+      router.push(`/`) 
     } catch (error) {
       console.error('Logout failed', error);
     }

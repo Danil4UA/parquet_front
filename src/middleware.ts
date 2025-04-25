@@ -6,12 +6,29 @@ import { routing } from './i18n/routing';
 
 const intlMiddleware = createIntlMiddleware(routing);
 
+const publicPaths = [
+  '/favicon.ico',
+  '/api',
+  '/_next',
+  '/images',
+  '/robots.txt',
+];
+
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
+  if (publicPaths.some(prefix => path.startsWith(prefix))) {
+    return NextResponse.next();
+  }
+
   const locale = path.split('/')[1];
   const isLocale = routing.locales.includes(locale as any);
   
+  if (!isLocale && !path.startsWith('/api/')) {
+    const pathWithoutLeadingSlash = path.startsWith('/') ? path.slice(1) : path;
+    return NextResponse.redirect(new URL(`/${routing.defaultLocale}/${pathWithoutLeadingSlash}`, request.url));
+  }
+
   const isProtectedRoute = path.includes('/admin') || 
                           (isLocale && path.includes(`/${locale}/admin`));
   
@@ -32,12 +49,17 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    '/',
+    
     '/(en|ru|he)/:path*',
     
     '/admin/:path*',
     '/(en|ru|he)/admin/:path*',
     
     '/login',
-    '/(en|ru|he)/login'
+    '/(en|ru|he)/login',
+    
+    '/((?!_next|api|favicon.ico|robots.txt).*)',
+
   ]
 };

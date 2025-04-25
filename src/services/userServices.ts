@@ -15,7 +15,7 @@ export default class userServices {
 
 
 
-    static async login(email, password) {
+    static async login(email: string, password: string) {
       try {
         
         const res = await signIn("credentials", {

@@ -3,7 +3,9 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import "./HomeHeader.css";
+import homeBackGround from "../../../../public/assets/home_background.jpg"
 
 const HomeHeader = () => {
   const pathname = usePathname();
@@ -14,12 +16,17 @@ const HomeHeader = () => {
 
   return (
     <div className="HomePage_wrapper">
-      <div
-        className="HomeHeader__background"
-        style={{
-          backgroundImage: "url(/assets/3d-rendering-loft-luxury-living-room-with-bookshelf.jpg)"
-        }}
-      ></div>
+      <div className="HomeHeader__background">
+      <Image
+        src={homeBackGround.src}
+        alt="Luxury Living Room"
+        fill
+        style={{ objectFit: "cover" }}
+        priority
+        quality={90}
+        sizes="100vw"
+      />        
+      </div>
 
       <div className="HomeHeader__wrapper">
         <div className="HomeHeader__content">
