@@ -1,5 +1,5 @@
 export default function RootNotFound() {
   return <div>
-    Not Found
+    <span className="px-2">Not Found</span>
   </div>
 }

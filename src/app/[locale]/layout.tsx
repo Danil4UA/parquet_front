@@ -1,4 +1,5 @@
-import "./global.css"
+import "@/app/global.css"
+import "@/app/tailwind.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
