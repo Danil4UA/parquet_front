@@ -3,14 +3,12 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   metadataBase: new URL("https://effectparquet.com"),
 
-  // Default title and description (can be overridden by page-specific metadata)
   title: {
     template: "%s | Effect Parquet",
     default: "Effect Parquet - Premium Flooring Solutions"
   },
   description: "Premium quality parquet flooring, panels, and wooden solutions. International delivery available.",
 
-  // OpenGraph metadata
   openGraph: {
     type: "website",
     siteName: "Effect Parquet",
@@ -30,7 +28,6 @@ export const metadata: Metadata = {
     google: "L8LwCwBuHnPSFkzASPa37yA-ShXSVycV7ESncp0BDww"
   },
 
-  // Twitter metadata
   twitter: {
     card: "summary_large_image",
     title: "Effect Parquet - Premium Flooring Solutions",
@@ -38,7 +35,6 @@ export const metadata: Metadata = {
     images: ["/twitter-image.jpg"]
   },
 
-  // Alternate language versions
   alternates: {
     canonical: "https://effectparquet.com",
     languages: {
@@ -48,7 +44,6 @@ export const metadata: Metadata = {
     }
   },
 
-  // Additional metadata
   keywords: "parquet, wooden flooring, hardwood floors, wooden panels, flooring solutions",
   authors: [{ name: "Effect Parquet" }],
   generator: "Next.js",
@@ -62,7 +57,6 @@ export const metadata: Metadata = {
     telephone: false
   },
 
-  // Robots metadata
   robots: {
     index: true,
     follow: true,
@@ -76,7 +70,6 @@ export const metadata: Metadata = {
   }
 };
 
-// Translations for different languages
 export const translations = {
   en: {
     title: "Effect Parquet - Premium Flooring Solutions",
@@ -95,18 +88,14 @@ export const translations = {
   }
 };
 
-// Helper function to get metadata for specific language
-export function getLanguageMetadata(lang): Metadata {
-  // Проверяем, что lang является допустимым значением
+export function getLanguageMetadata(lang: string): Metadata {
   if (!["en", "ru", "he"].includes(lang)) {
-    // Если язык неверный, используем английский как запасной вариант
     lang = "en";
   }
 
   const translation = translations[lang];
   if (!translation) {
     console.error(`Translation not found for language: ${lang}`);
-    // Используем английский как запасной вариант
     return getLanguageMetadata("en");
   }
 

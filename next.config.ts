@@ -9,13 +9,13 @@ const remotePatterns: RemotePattern[] = [
     hostname: "firebasestorage.googleapis.com"
   }
 ];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: { 
-    remotePatterns, 
+  images: {
+    remotePatterns,
     minimumCacheTTL: 3600,
-   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  },
   webpack(config: any) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -27,6 +27,12 @@ const nextConfig = {
     responseLimit: false,
     bodyParser: {
       sizeLimit: '1mb',
+    },
+  },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
     },
   },
 };
