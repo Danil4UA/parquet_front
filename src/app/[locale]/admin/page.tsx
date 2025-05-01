@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, DollarSign, ShoppingCart, Plus, Clock } from 'lucide-react';
-import './dashboard.css';
+import { Button } from "@/components/ui/button";
 
 export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,80 +29,104 @@ export default function AdminDashboard() {
     { id: 'ORD-1231', customer: 'Rachel Klein', date: '2023-04-07', status: 'Shipped', total: '₪920' },
     { id: 'ORD-1230', customer: 'Daniel Rubin', date: '2023-04-06', status: 'Completed', total: '₪1,560' }
   ];
+
+  // Status badge styling helper
+  const getStatusClasses = (status) => {
+    switch(status.toLowerCase()) {
+      case 'completed':
+        return 'bg-green-100 text-green-800';
+      case 'processing':
+        return 'bg-blue-100 text-blue-800';
+      case 'shipped':
+        return 'bg-purple-100 text-purple-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
   
   return (
-    <div className="admin-dashboard">
-      <div className="dashboard-header">
-        <h1>Dashboard</h1>
-        <p>Welcome to your admin dashboard</p>
+    <div className="w-full">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+        <p className="text-gray-600">Welcome to your admin dashboard</p>
       </div>
       
       {isLoading ? (
-        <div className="loading-indicator">Loading dashboard data...</div>
+        <div className="flex justify-center items-center p-8 bg-gray-50 rounded-md">
+          <p className="text-gray-500">Loading dashboard data...</p>
+        </div>
       ) : (
         <>
-          <div className="dashboard-stats">
-            <div className="stat-card">
-              <div className="stat-icon product-icon">
-                <ShoppingBag size={24} />
-              </div>
-              <div className="stat-content">
-                <h3>Total Products</h3>
-                <p className="stat-value">{stats.totalProducts}</p>
-              </div>
-            </div>
-            
-            <div className="stat-card">
-              <div className="stat-icon order-icon">
-                <ShoppingCart size={24} />
-              </div>
-              <div className="stat-content">
-                <h3>Orders</h3>
-                <p className="stat-value">{stats.orders}</p>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+              <div className="flex items-center mb-4">
+                <div className="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                  <ShoppingBag size={24} />
+                </div>
+                <div>
+                  <h3 className="text-gray-500 text-sm font-medium">Total Products</h3>
+                  <p className="text-2xl font-bold text-gray-800">{stats.totalProducts}</p>
+                </div>
               </div>
             </div>
             
-            <div className="stat-card">
-              <div className="stat-icon revenue-icon">
-                <DollarSign size={24} />
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+              <div className="flex items-center mb-4">
+                <div className="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                  <ShoppingCart size={24} />
+                </div>
+                <div>
+                  <h3 className="text-gray-500 text-sm font-medium">Orders</h3>
+                  <p className="text-2xl font-bold text-gray-800">{stats.orders}</p>
+                </div>
               </div>
-              <div className="stat-content">
-                <h3>Revenue</h3>
-                <p className="stat-value">₪{stats.revenue}</p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+              <div className="flex items-center mb-4">
+                <div className="p-3 rounded-full bg-purple-100 text-purple-600 mr-4">
+                  <DollarSign size={24} />
+                </div>
+                <div>
+                  <h3 className="text-gray-500 text-sm font-medium">Revenue</h3>
+                  <p className="text-2xl font-bold text-gray-800">₪{stats.revenue}</p>
+                </div>
               </div>
             </div>
           </div>
           
-          <div className="dashboard-sections">
-            <div className="dashboard-section recent-orders">
-              <div className="section-header">
-                <h2>Recent Orders</h2>
-                <button className="view-all-button">View All</button>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Recent Orders */}
+            <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+              <div className="flex justify-between items-center p-6 border-b border-gray-100">
+                <h2 className="text-lg font-medium text-gray-800">Recent Orders</h2>
+                <Button variant="outline" size="sm">View All</Button>
               </div>
               
-              <div className="section-content">
-                <table className="orders-table">
-                  <thead>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <tr>
-                      <th>Order ID</th>
-                      <th>Customer</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Total</th>
+                      <th className="px-6 py-3 text-left">Order ID</th>
+                      <th className="px-6 py-3 text-left">Customer</th>
+                      <th className="px-6 py-3 text-left">Date</th>
+                      <th className="px-6 py-3 text-left">Status</th>
+                      <th className="px-6 py-3 text-right">Total</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-gray-200">
                     {recentOrders.map(order => (
-                      <tr key={order.id}>
-                        <td>{order.id}</td>
-                        <td>{order.customer}</td>
-                        <td>{order.date}</td>
-                        <td>
-                          <span className={`status-badge status-${order.status.toLowerCase()}`}>
+                      <tr key={order.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">{order.id}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{order.customer}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{order.date}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          <span className={`px-2 py-1 text-xs rounded-full ${getStatusClasses(order.status)}`}>
                             {order.status}
                           </span>
                         </td>
-                        <td>{order.total}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right font-medium">{order.total}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -110,26 +134,27 @@ export default function AdminDashboard() {
               </div>
             </div>
             
-            <div className="dashboard-section quick-actions">
-              <div className="section-header">
-                <h2>Quick Actions</h2>
+            {/* Quick Actions */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-100">
+              <div className="p-6 border-b border-gray-100">
+                <h2 className="text-lg font-medium text-gray-800">Quick Actions</h2>
               </div>
               
-              <div className="quick-actions-grid">
-                <button className="action-card">
-                  <Plus size={20} />
+              <div className="p-6 space-y-4">
+                <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
+                  <Plus size={18} className="mr-3" />
                   <span>Add New Product</span>
-                </button>
+                </Button>
                 
-                <button className="action-card">
-                  <ShoppingCart size={20} />
+                <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
+                  <ShoppingCart size={18} className="mr-3" />
                   <span>View Recent Orders</span>
-                </button>
+                </Button>
                 
-                <button className="action-card">
-                  <Clock size={20} />
+                <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
+                  <Clock size={18} className="mr-3" />
                   <span>Manage Inventory</span>
-                </button>
+                </Button>
               </div>
             </div>
           </div>

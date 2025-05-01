@@ -28,13 +28,13 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === "he" ? "rtl" : "ltr"}>
       <body>
-        <ReduxProvider>
-          <ReactQueryProvider>
-            <NextIntlClientProvider messages={messages}>
-              {children}
-            </NextIntlClientProvider>
-          </ReactQueryProvider>
-        </ReduxProvider>
+        <ReactQueryProvider>
+          <ReduxProvider>
+              <NextIntlClientProvider messages={messages}>
+                {children}
+              </NextIntlClientProvider>
+          </ReduxProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

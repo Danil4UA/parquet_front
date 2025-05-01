@@ -1,14 +1,39 @@
-import React from 'react';
-import AdminSidebar from './_components/AdminSidebar/AdminSidebar';
-import './admin.css';
+"use client";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+import React from 'react';
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import AdminSidebar from './_components/AdminSidebar/AdminSidebar';
+
+function MainContent({ children }: { children: React.ReactNode }) {
   return (
-    <div className="admin-layout">
-      <AdminSidebar />
-      <main className="admin-content">
+    <div 
+      className={`
+        relative
+        w-full
+        transition-[width] 
+        duration-200 
+        ease-linear
+      `}
+    >
+      <div className="absolute top-0 left-0 h-full">
+        <SidebarTrigger className="sticky top-0 left-0" />
+      </div>
+      <div className="p-6">
         {children}
-      </main>
+      </div>
     </div>
+  );
+}
+
+export default function AdminLayout({ 
+  children 
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <SidebarProvider>
+      <AdminSidebar />
+      <MainContent>{children}</MainContent>
+    </SidebarProvider>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from 'react';
 import { Save, Check } from 'lucide-react';
-import './settings.css';
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState({

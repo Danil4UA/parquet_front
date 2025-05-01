@@ -34,17 +34,18 @@ export default class userServices {
       }
     }
 
-    static async getUser(accessToken) {
-        try {
-            const config = {
+    static async getUser(session: any) {
+      const { accessToken } = session
+      try {
+          const config = {
             headers: { authorization: accessToken },
-            };
+          };
 
-            return await axios.get(this.USER_ENDPOINT, config);
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+          return await axios.get(this.USER_ENDPOINT, config);
+      } catch (error) {
+          console.log(error);
+          throw error;
+      }
     }
 
     static async logOut(session: any) {

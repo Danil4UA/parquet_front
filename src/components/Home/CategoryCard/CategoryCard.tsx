@@ -19,7 +19,13 @@ const CategoryCard = ({ category }: CategoryCardProps) => {
       <Link href={category.path}>
         <div className="CategoryCard__image_wrapper">
           <div className="CategoryCard__image">
-            <Image src={category.image} width={300} height={400} alt={"categoryName"} />
+            <Image 
+              src={category.image} 
+              width={300} 
+              height={400} 
+              alt={"categoryName"} 
+              objectFit="cover"
+              />
           </div>
         </div>
         <div className="CategoryCard__content">

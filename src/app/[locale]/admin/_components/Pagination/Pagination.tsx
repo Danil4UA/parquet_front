@@ -1,112 +1,118 @@
-"use client";
-
-import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import './Pagination.css';
+import {
+  ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button"; 
+import { ValidPageSizes } from "@/Utils/utils";
 
 interface PaginationProps {
-  totalItems: number;
-  currentPage: number;
-  itemsPerPage: number;
-  onPageChange: (page: number) => void;
-  onItemsPerPageChange: (itemsPerPage: number) => void;
-}
+    pageIndex: number;
+    pageCount: number;
+    pageSize: number;
+    rowCount: number;
+    gotoPage: (page: number) => void;
+    nextPage: () => void;
+    previousPage: () => void;
+    setPageSize: (size: number) => void;
+    canPreviousPage: boolean;
+    canNextPage: boolean;
+  }
 
-const Pagination: React.FC<PaginationProps> = ({
-  totalItems,
-  currentPage,
-  itemsPerPage,
-  onPageChange,
-  onItemsPerPageChange
-}) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  
-  // Generate page numbers to display
-  const getPageNumbers = () => {
-    const pages: Array<number | string> = [];
-    const maxPagesToShow = 5;
-    
-    if (totalPages <= maxPagesToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      let startPage = Math.max(1, currentPage - 2);
-      const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-      
-      if (endPage - startPage < maxPagesToShow - 1) {
-        startPage = Math.max(1, endPage - maxPagesToShow + 1);
-      }
-      
-      if (startPage > 1) {
-        pages.push(1);
-        if (startPage > 2) pages.push('...');
-      }
-      
-      for (let i = startPage; i <= endPage; i++) {
-        pages.push(i);
-      }
-      
-      if (endPage < totalPages) {
-        if (endPage < totalPages - 1) pages.push('...');
-        pages.push(totalPages);
-      }
-    }
-    
-    return pages;
-  };
-
+export default function Pagination({
+  pageIndex,
+  pageCount,
+  pageSize,
+  rowCount,
+  gotoPage,
+  nextPage,
+  previousPage,
+  setPageSize,
+  canPreviousPage,
+  canNextPage,
+}: PaginationProps) {
   return (
-    <div className="pagination-container">
-      <div className="pagination-info">
-        Showing {Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)} - {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} items
+    <div className="flex items-center justify-between px-2 py-4">
+      <div className="flex-1 text-sm text-gray-500">
+        Showing
+        {" "}
+        {pageIndex * pageSize + 1}
+        {" "}
+        to
+        {" "}
+        {Math.min((pageIndex + 1) * pageSize, rowCount)}
+        {" "}
+        of
+        {" "}
+        {rowCount}
+        {" "}
+        results
       </div>
-      
-      <div className="pagination-controls">
-        <div className="items-per-page">
-          <span>Items per page:</span>
-          <select 
-            value={itemsPerPage} 
-            onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
+      <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-700">Rows per page:</span>
+          <select
+            className="h-8 w-16 rounded border border-gray-300 bg-white px-2 text-sm"
+            value={pageSize}
+            onChange={(e) => setPageSize(Number(e.target.value))}
           >
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="50">50</option>
+            {ValidPageSizes.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
           </select>
         </div>
-        
-        <div className="page-navigation">
-          <button 
-            className="page-nav-button" 
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 p-0"
+            onClick={() => gotoPage(0)}
+            disabled={!canPreviousPage}
           >
-            <ChevronLeft size={16} />
-          </button>
-          
-          {getPageNumbers().map((page, index) => (
-            <button 
-              key={index}
-              className={`page-number ${page === currentPage ? 'active' : ''} ${page === '...' ? 'ellipsis' : ''}`}
-              onClick={() => typeof page === 'number' && onPageChange(page)}
-              disabled={page === '...'}
-            >
-              {page}
-            </button>
-          ))}
-          
-          <button 
-            className="page-nav-button" 
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
+            <ChevronsLeft className="h-4 w-4" />
+            <span className="sr-only">First page</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 p-0"
+            onClick={() => previousPage()}
+            disabled={!canPreviousPage}
           >
-            <ChevronRight size={16} />
-          </button>
+            <ChevronLeft className="h-4 w-4" />
+            <span className="sr-only">Previous page</span>
+          </Button>
+          <span className="text-sm text-gray-700">
+            Page
+            {" "}
+            {pageIndex + 1}
+            {" "}
+            of
+            {" "}
+            {pageCount}
+          </span>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 p-0"
+            onClick={() => nextPage()}
+            disabled={!canNextPage}
+          >
+            <ChevronRight className="h-4 w-4" />
+            <span className="sr-only">Next page</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 p-0"
+            onClick={() => gotoPage(pageCount - 1)}
+            disabled={!canNextPage}
+          >
+            <ChevronsRight className="h-4 w-4" />
+            <span className="sr-only">Last page</span>
+          </Button>
         </div>
       </div>
     </div>
   );
-};
-
-export default Pagination;
+}

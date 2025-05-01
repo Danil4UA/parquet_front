@@ -139,7 +139,7 @@ import {
                         header.getContext(),
                       )}
                       {sorting && header.column.getCanSort() ? (
-                        /* eslint-disable-next-line react/jsx-no-useless-fragment */
+                         
                         <>
                           {{
                             asc: <ArrowUp size={15} />,
@@ -175,7 +175,7 @@ import {
               </TableCell>
             </TableRow>
           ) : (
-            // eslint-disable-next-line react/jsx-no-useless-fragment
+             
             <>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (

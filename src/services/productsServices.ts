@@ -14,6 +14,12 @@ export default class productsServices {
 
   static CREATE_ORDER_ENDPOINT = `${URL_API}/api/order/create`;
 
+  static PRODUCT_ENDPOINT = `${URL_API}/api/admin/product`;
+
+  static EDIT_PRODUCT_ENDPOINT = `${URL_API}/api/admin/product`;
+
+  static ADMIN_PRODUCTS_ENDPOINT = `${URL_API}/api/admin/products`;
+
   static async getAllProducts (language = "en"){
     try {
       const response = await axios.get(productsServices.GET_ALL_PRODUCTS, {
@@ -98,4 +104,44 @@ export default class productsServices {
     }
   }
 
+  static async deleteProducts(session, productIds){
+    const { accessToken } = session ?? {};
+
+    const config = {
+      headers: { 
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        ids: productIds.join(","),
+      },
+    };
+
+    try {
+      return await axios.delete(productsServices.ADMIN_PRODUCTS_ENDPOINT, config);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  static async editProduct(session, productData){
+    const { accessToken } = session ?? {};
+    const { id, ...updateData } = productData;
+
+    const config = {
+      headers: { 
+        Authorization: `Bearer ${accessToken}`,
+      }
+    };
+
+    try {
+      return await axios.patch(
+        `${productsServices.EDIT_PRODUCT_ENDPOINT}/${id}`, 
+        updateData, 
+      config);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 }
