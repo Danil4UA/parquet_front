@@ -41,3 +41,11 @@ export interface ProductsWithPagination {
     pagination: Pagination;
     products: Product[];
 }
+
+export interface Color {
+  name: string
+}
+
+export interface Category {
+  name: string
+}

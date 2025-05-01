@@ -144,4 +144,24 @@ export default class productsServices {
       throw error;
     }
   }
+
+  static async createProduct(session, productData){
+    const { accessToken } = session ?? {};
+
+    const config = {
+      headers: { 
+        Authorization: `Bearer ${accessToken}`,
+      }
+    };
+    try {
+      return await axios.post(
+        productsServices.EDIT_PRODUCT_ENDPOINT, 
+        productData, 
+        config,
+    );
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 }

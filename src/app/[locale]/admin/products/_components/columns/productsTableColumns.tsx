@@ -3,22 +3,63 @@ import { ColumnDef } from "@tanstack/react-table";
 import ProductsHeaderCell from "../ProductsHeaderCell";
 import ProductsTextCell from "../ProductsTextCell";
 import ProductsActionCell from "../ProductsActionCell";
+import { categoryOptions, colorOptions } from "@/Utils/productsUtils";
+import ProductsSelectCell from "../ProductsSelectCell";
+import Image from "next/image";
 
 const createLeadsTableColumns = (): ColumnDef<Product>[] => [
+  {
+    accessorKey: "image",
+    header: () => <ProductsHeaderCell text="Image" className="items-center" />,
+    cell: ({ row }) => (
+      <Image 
+        src={row.original.images[0]} 
+        width={28} 
+        height={28} 
+        alt={row.original.name}
+      />
+    ),
+    size: 40,
+    meta: {
+      cellClass: "flex justify-center"
+    }
+  },
   {
     accessorKey: "name",
     header: () => <ProductsHeaderCell text="Name" className="items-center" />,
     cell: ({ row }) => (
-     <p>{ row.original.name }</p>
+      <ProductsTextCell 
+        row={row}
+        accessorKey="name"
+      />
     ),
     size: 150,
   },
   {
-    accessorKey: "product_category",
+    accessorKey: "category",
     header: () => <ProductsHeaderCell text="Category" className="items-center" />,
     cell: ({ row }) => (
-    <p>{ row.original.category }</p>
+      <ProductsSelectCell
+        row={row}
+        accessorKey="category"
+        options={categoryOptions}
+        size={150}
+      />
     ),
+    size: 150,
+  },
+  {
+    accessorKey: "color",
+    header: () => <ProductsHeaderCell text="Color" className="items-center" />,
+    cell: ({ row }) => (
+      <ProductsSelectCell
+        row={row}
+        accessorKey="color"
+        options={colorOptions}
+        size={150}
+      />
+    ),
+    minSize: 150,
     size: 150,
   },
   {
