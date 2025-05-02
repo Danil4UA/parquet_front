@@ -21,7 +21,57 @@
   --font-family-default: "Montserrat", sans-serif;
   --font-family-hebrew: "Rubik", serif;
   
-  --background: 200 29% 91%;
+  --background: 0 0% 95%; /* Light gray background */
+  --foreground: 0 0% 9%; /* Dark gray text */
+  
+  /* Card & Popover */
+  --card: 0 0% 100%; /* White */
+  --card-foreground: 0 0% 10%; /* Very dark gray */
+  --popover: 0 0% 100%; /* White */
+  --popover-foreground: 0 0% 10%; /* Very dark gray */
+  
+  /* Primary - This controls your blue buttons */
+  --primary: 0 0% 9%; /* Change to #171717 equivalent in HSL */
+  --primary-foreground: 0 0% 100%; /* White text on primary */
+  
+  /* Secondary */
+  --secondary: 0 0% 92%; /* Light gray */
+  --secondary-foreground: 0 0% 15%; /* Dark gray */
+  
+  /* Muted & Accent */
+  --muted: 0 0% 92%; /* Light gray */
+  --muted-foreground: 0 0% 40%; /* Medium gray */
+  --accent: 0 0% 92%; /* Light gray */
+  --accent-foreground: 0 0% 15%; /* Dark gray */
+  
+  /* Destructive */
+  --destructive: 0 84% 60%; /* Keep red for destructive actions */
+  --destructive-foreground: 0 0% 98%; /* Very light gray */
+  
+  /* Borders & Inputs */
+  --border: 0 0% 85%; /* Medium-light gray */
+  --input: 0 0% 85%; /* Medium-light gray */
+  --ring: 0 0% 15%; /* Dark gray */
+  
+  /* Chart Colors - Maybe keep some contrast here */
+  --chart-1: 0 0% 15%; /* Dark gray */
+  --chart-2: 0 0% 35%; /* Medium-dark gray */
+  --chart-3: 0 0% 55%; /* Medium gray */
+  --chart-4: 0 0% 75%; /* Medium-light gray */
+  --chart-5: 0 0% 90%; /* Light gray */
+  
+  /* Sidebar */
+  --sidebar-background: 0 0% 98%; /* Very light gray */
+  --sidebar-foreground: 0 0% 15%; /* Dark gray */
+  --sidebar-primary: 0 0% 9%; /* #171717 equivalent */
+  --sidebar-primary-foreground: 0 0% 98%; /* Very light gray */
+  --sidebar-accent: 0 0% 92%; /* Light gray */
+  --sidebar-accent-foreground: 0 0% 15%; /* Dark gray */
+  --sidebar-border: 0 0% 85%; /* Medium-light gray */
+  --sidebar-ring: 0 0% 15%; /* Dark gray */
+  
+  --radius: 0.5rem; /* Keep the same radius */
+  /* --background: 200 29% 91%;
     --foreground: 217 75% 30%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -53,7 +103,7 @@
     --sidebar-accent: 0 0% 94%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 217.2 91.2% 59.8%; */
 }
 
 html,

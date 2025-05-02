@@ -1,10 +1,10 @@
-import { Product, ProductsSearchParams, ProductsWithPagination } from "@/types/products";
+import { FullProductResponse, Product, ProductsSearchParams, ProductsWithPagination } from "@/types/products";
 import { AxiosResponse } from "axios";
 import { UseQueryOptions } from "@tanstack/react-query";
 import reactQueryFetchFunction from "@/Utils/reactQueryFetchFunction";
 import productsServices from "@/services/productsServices";
 import GlobalConstants from "./GlobalConstants";
-import { allCategoryProductsKey, allProductsKey, ownUserInfoKey } from "./queryKey";
+import { allCategoryProductsKey, allProductsKey, ownUserInfoKey, fullProductKey } from "./queryKey";
 import userServices from "@/services/userServices";
 import { User } from "@/types/user";
 
@@ -33,6 +33,21 @@ UseQueryOptions<AxiosResponse<ProductsWithPagination>> {
   };
 }
 
+export function getFullProduct(session: any, productId: string):
+UseQueryOptions<AxiosResponse<FullProductResponse>> {
+  return {
+    queryKey: [fullProductKey, productId],
+    queryFn: () => reactQueryFetchFunction<FullProductResponse>(
+      productsServices.getFullProduct,
+      [],
+      session,
+      productId,
+    ),
+    enabled: !!session?.accessToken,
+    staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
+  };
+}
+
 export function getOwnUserInfoQuery(session: any):
   UseQueryOptions<AxiosResponse<User>> {
   return {
@@ -42,7 +57,7 @@ export function getOwnUserInfoQuery(session: any):
       [],
       session,
     ),
-    enabled: !!session?.accessToken && !!session?.organizationId,
+    enabled: !!session?.accessToken,
     staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
   };
 }

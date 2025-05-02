@@ -145,6 +145,22 @@ export default class productsServices {
     }
   }
 
+  static async getFullProduct(session: any, productId: string){
+    const { accessToken } = session ?? {};
+
+    const config = {
+      headers: { 
+        Authorization: `Bearer ${accessToken}`,
+      }
+    };
+    try {
+      return await axios.get(`${productsServices.EDIT_PRODUCT_ENDPOINT}/${productId}`, config);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
   static async createProduct(session, productData){
     const { accessToken } = session ?? {};
 

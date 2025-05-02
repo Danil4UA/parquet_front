@@ -99,7 +99,6 @@ function ProductsTextCell({ row, accessorKey, className }: LeadsTextCellProps) {
       const updatedData = {
         [accessorKey]: value,
       };
-      console.log("updatedData", updatedData)
       const session = await getSession();
 
       await productsServices.editProduct(session,{

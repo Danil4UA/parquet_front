@@ -28,10 +28,7 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
     accessorKey: "name",
     header: () => <ProductsHeaderCell text="Name" className="items-center" />,
     cell: ({ row }) => (
-      <ProductsTextCell 
-        row={row}
-        accessorKey="name"
-      />
+      <p>{row.original.name}</p>
     ),
     size: 150,
   },
@@ -62,6 +59,17 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
     minSize: 150,
     size: 150,
   },
+  // {
+  //   accessorKey: "discount",
+  //   header: () => <ProductsHeaderCell text="Discount" className="items-center" />,
+  //   cell: ({ row }) => (
+  //     <ProductsTextCell 
+  //       row={row}
+  //       accessorKey="discount"
+  //     />
+  //   ),
+  //   size: 150,
+  // },
   {
     accessorKey: "detailedDescription",
     header: () => <ProductsHeaderCell text="Description" className="items-center" />,

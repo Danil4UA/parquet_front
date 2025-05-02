@@ -24,3 +24,8 @@ export const categoryOptions = [
   { name: 'Flooring' },
   { name: 'Cladding' },
 ]
+
+export const availableOptions = [
+  { name: 'true' },
+  { name: 'false' },
+]

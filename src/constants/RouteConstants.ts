@@ -7,5 +7,7 @@ export default class RouteConstants {
 
     static get ADMIN_SETTINGS() { return "/admin/settings"; }
 
-    static get SPECIFIC_PRODUCT() {return "/admin/view-product"; }
+    static get VIEW_SPECIFIC_PRODUCT() {return "/admin/view-product"; }
+
+    static get EDIT_SPECIFIC_PRODUCT() {return "/admin/edit-product"; }
 }

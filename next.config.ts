@@ -7,6 +7,10 @@ const remotePatterns: RemotePattern[] = [
   {
     protocol: "https",
     hostname: "firebasestorage.googleapis.com"
+  },
+  {
+    protocol: "https",
+    hostname: "effectparquet.s3.eu-north-1.amazonaws.com"
   }
 ];
 

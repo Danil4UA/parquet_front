@@ -1,3 +1,35 @@
+export interface MultiLanguageProperty {
+  en: string;
+  ru: string;
+  he: string;
+}
+export interface FullProduct {
+  id: string;
+  name: MultiLanguageProperty;
+  description: MultiLanguageProperty;
+  detailedDescription: MultiLanguageProperty;
+  price: string;
+  images: string[];
+  category: string;
+  stock: number;
+  discount: number;
+  isAvailable: boolean;
+  color: string;
+  type: string;
+  material: string;
+  countryOfOrigin: string;
+  width?: string;
+  length?: string;
+  company?: string;
+  thickness?: string
+  model: string
+  finish: string
+}
+
+export interface FullProductResponse {
+  product: FullProduct;
+  message: string;
+}
 export interface Product {
     _id: string;
     name: string;

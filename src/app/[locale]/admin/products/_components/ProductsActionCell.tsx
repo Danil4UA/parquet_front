@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,7 +49,7 @@ function ProductsActionCell({ row }: {
       });
       setIsDeleteDialogOpen(false);
     } catch (error) {
-        console.log("error", error)
+      console.log("error", error)
       setIsErrorDialogOpen(true);
     } finally {
       setIsSubmitting(false);
@@ -102,10 +102,10 @@ function ProductsActionCell({ row }: {
           <MoreVertical size={20} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="flex flex-col w-[165px]">
-          <Link href={`${RouteConstants.SPECIFIC_PRODUCT}/${row.original._id}`}>
+          <Link href={`${RouteConstants.VIEW_SPECIFIC_PRODUCT}/${row.original._id}`}>
             <ProductsActionSelectOption icon={<Eye size={16} />} text="View" />
           </Link>
-          <Link href={`${RouteConstants.SPECIFIC_PRODUCT}/${row.original._id}?edit=true`}>
+          <Link href={`${RouteConstants.EDIT_SPECIFIC_PRODUCT}/${row.original._id}`}>
             <ProductsActionSelectOption icon={<Edit size={16} />} text="Edit" />
           </Link>
           <ProductsActionSelectOption icon={<Trash2 size={16} />} text="Delete" onClick={() => setIsDeleteDialogOpen(true)} />
