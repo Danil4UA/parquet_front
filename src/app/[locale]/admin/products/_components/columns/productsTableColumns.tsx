@@ -10,7 +10,7 @@ import Image from "next/image";
 const createLeadsTableColumns = (): ColumnDef<Product>[] => [
   {
     accessorKey: "image",
-    header: () => <ProductsHeaderCell text="Image" className="items-center" />,
+    header: () => <ProductsHeaderCell text="" className="items-center" />,
     cell: ({ row }) => (
       <Image 
         src={row.original.images[0]} 
@@ -59,31 +59,41 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
     minSize: 150,
     size: 150,
   },
-  // {
-  //   accessorKey: "discount",
-  //   header: () => <ProductsHeaderCell text="Discount" className="items-center" />,
-  //   cell: ({ row }) => (
-  //     <ProductsTextCell 
-  //       row={row}
-  //       accessorKey="discount"
-  //     />
-  //   ),
-  //   size: 150,
-  // },
   {
-    accessorKey: "detailedDescription",
-    header: () => <ProductsHeaderCell text="Description" className="items-center" />,
+    accessorKey: "model",
+    header: () => <ProductsHeaderCell text="Model" className="items-center" />,
     cell: ({ row }) => (
       <ProductsTextCell 
         row={row}
-        accessorKey="detailedDescription"
+        accessorKey="model"
       />
     ),
-    size: 150,
+    size: 100,
+    minSize: 100,
+    meta: {
+      headerClass: "text-center",
+      cellClass: "text-center",
+    },
   },
   {
-    accessorKey: "price",
-    header: () => <ProductsHeaderCell text="Price" className="items-center" />,
+    accessorKey: "discount",
+    header: () => <ProductsHeaderCell text="Discount(%)" className="items-center" />,
+    cell: ({ row }) => (
+      <ProductsTextCell 
+        row={row}
+        accessorKey="discount"
+      />
+    ),
+    size: 100,
+    minSize: 100,
+    meta: {
+      headerClass: "text-center",
+      cellClass: "text-center",
+    },
+  },
+  {
+    accessorKey: "price()",
+    header: () => <ProductsHeaderCell text="Price(₪)" className="items-center" />,
     cell: ({ row }) => (
       <ProductsTextCell
         row={row}
@@ -94,7 +104,8 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
     meta: {
       headerClass: "text-center",
     },
-    size: 50,
+    size: 100,
+    minSize: 100,
   },
   {
     accessorKey: "actions",
@@ -106,7 +117,8 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
       headerClass: "text-center",
       cellClass: "text-center",
     },
-    size: 50,
+    size: 100,
+    minSize: 100,
   }
 ];
 

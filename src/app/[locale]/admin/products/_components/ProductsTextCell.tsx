@@ -83,7 +83,13 @@ function ProductsTextCell({ row, accessorKey, className }: LeadsTextCellProps) {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
 
-    setValue(inputValue);
+    if (accessorKey === "discount") {
+      if (inputValue === "" || /^\d*$/.test(inputValue)) {
+        setValue(inputValue);
+      }
+    } else {
+      setValue(inputValue);
+    }
     adjustTextareaHeight();
   };
 

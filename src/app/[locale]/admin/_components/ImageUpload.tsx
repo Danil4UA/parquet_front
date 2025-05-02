@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import photosServices from '@/services/photosServices';
 import { getSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 
 interface ImageUploadProps {
   value: string[];
@@ -29,7 +30,8 @@ export default function ImageUpload({
 }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  
+  const { productId } = useParams<{ productId: string }>();
+
   const isProcessing = uploading || isUploading;
 
   const uploadSingleImage = async (file: File) => {
@@ -38,6 +40,10 @@ export default function ImageUpload({
       const formData = new FormData();
       formData.append('photo', file);
       
+      if (productId) {
+        formData.append('productId', productId);
+      }
+
       const response = await photosServices.uploadSinglePhoto(freshSession, formData);
       
       if (!response.data.success) {
@@ -59,7 +65,9 @@ export default function ImageUpload({
       files.forEach(file => {
         formData.append('photos', file);
       });
-      
+  
+      formData.append('productId', productId);
+
       const response = await photosServices.uploadMultiplePhoto(freshSession, formData);
       
       if (!response.data.success) {
