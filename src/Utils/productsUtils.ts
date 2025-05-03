@@ -29,3 +29,18 @@ export const availableOptions = [
   { name: 'true' },
   { name: 'false' },
 ]
+
+export const prepareProductData = (product) => {
+  const formattedProduct = { ...product };
+  
+  ['length', 'width', 'thickness', 'price', 'stock', 'discount'].forEach(field => {
+    if (product[field] !== undefined && product[field] !== null) {
+      const numValue = Number(product[field]);
+      if (!isNaN(numValue)) {
+        formattedProduct[field] = numValue;
+      }
+    }
+  });
+  
+  return formattedProduct;
+};

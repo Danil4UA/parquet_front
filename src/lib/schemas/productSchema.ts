@@ -22,13 +22,14 @@ export const productSchema = z.object({
   discount: z.number().min(0).max(100),
   finish: z.string(),
   isAvailable: z.boolean(),
-  length: z.string(),
+  length: z.number().optional().nullable(),
   model: z.string(),
-  price: z.string(),
+  price: z.number(),
   stock: z.number().int().min(0),
-  thickness: z.string(),
+  thickness: z.number().optional().nullable(),
   type: z.string(),
-  width: z.string()
+  width: z.number().optional().nullable(),
+  boxCoverage: z.number().optional().nullable(),
 });
 
 export type ProductFormValues = z.infer<typeof productSchema>;

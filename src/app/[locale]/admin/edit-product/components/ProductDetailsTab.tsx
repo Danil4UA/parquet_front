@@ -65,7 +65,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
               <FormItem>
                 <FormLabel>Model</FormLabel>
                 <FormControl>
-                  <Input placeholder="Model number" {...field} />
+                  <Input placeholder="Model..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -136,13 +136,27 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
               <FormItem>
                 <FormLabel>Length (mm)</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input 
+                    type="number" 
+                    value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
+                    onChange={(e) => {
+                      const value = e.target.value === '' ? '' : Number(e.target.value);
+                      field.onChange(value);
+                    }}
+                    onBlur={() => {
+                      if (field.value === '') {
+                        field.onChange(null);
+                      }
+                    }}
+                    name={field.name}
+                    ref={field.ref}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          
+                    
           <FormField
             control={control}
             name="width"
@@ -150,7 +164,21 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
               <FormItem>
                 <FormLabel>Width (mm)</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input 
+                      type="number" 
+                      value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
+                      onChange={(e) => {
+                        const value = e.target.value === '' ? '' : Number(e.target.value);
+                        field.onChange(value);
+                      }}
+                      onBlur={() => {
+                        if (field.value === '') {
+                          field.onChange(null);
+                        }
+                      }}
+                      name={field.name}
+                      ref={field.ref}
+                    />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -164,7 +192,21 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
               <FormItem>
                 <FormLabel>Thickness (mm)</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input 
+                    type="number" 
+                    value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
+                    onChange={(e) => {
+                      const value = e.target.value === '' ? '' : Number(e.target.value);
+                      field.onChange(value);
+                    }}
+                    onBlur={() => {
+                      if (field.value === '') {
+                        field.onChange(null);
+                      }
+                    }}
+                    name={field.name}
+                    ref={field.ref}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -182,7 +224,21 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input 
+                    type="number" 
+                    value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
+                    onChange={(e) => {
+                      const value = e.target.value === '' ? '' : Number(e.target.value);
+                      field.onChange(value);
+                    }}
+                    onBlur={() => {
+                      if (field.value === '') {
+                        field.onChange(null);
+                      }
+                    }}
+                    name={field.name}
+                    ref={field.ref}
+                  />
                 </FormControl>
                 <FormDescription>Price per unit/m²</FormDescription>
                 <FormMessage />

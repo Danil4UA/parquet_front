@@ -18,12 +18,13 @@ export interface FullProduct {
   type: string;
   material: string;
   countryOfOrigin: string;
-  width?: string;
-  length?: string;
+  width?: number;
+  length?: number;
   company?: string;
-  thickness?: string
+  thickness?: number
   model: string
   finish: string
+  boxCoverage?: number;
 }
 
 export interface FullProductResponse {
