@@ -16,7 +16,7 @@ export default class productsServices {
 
   static PRODUCT_ENDPOINT = `${URL_API}/api/admin/product`;
 
-  static EDIT_PRODUCT_ENDPOINT = `${URL_API}/api/admin/product`;
+  static ADMIN_PRODUCT_ENDPOINT = `${URL_API}/api/admin/product`;
 
   static ADMIN_PRODUCTS_ENDPOINT = `${URL_API}/api/admin/products`;
 
@@ -136,7 +136,7 @@ export default class productsServices {
 
     try {
       return await axios.patch(
-        `${productsServices.EDIT_PRODUCT_ENDPOINT}/${id}`, 
+        `${productsServices.ADMIN_PRODUCT_ENDPOINT}/${id}`, 
         updateData, 
       config);
     } catch (error) {
@@ -154,7 +154,7 @@ export default class productsServices {
       }
     };
     try {
-      return await axios.get(`${productsServices.EDIT_PRODUCT_ENDPOINT}/${productId}`, config);
+      return await axios.get(`${productsServices.ADMIN_PRODUCT_ENDPOINT}/${productId}`, config);
     } catch (error) {
       console.log(error);
       throw error;
@@ -171,7 +171,7 @@ export default class productsServices {
     };
     try {
       return await axios.post(
-        productsServices.EDIT_PRODUCT_ENDPOINT, 
+        productsServices.ADMIN_PRODUCT_ENDPOINT, 
         productData, 
         config,
     );

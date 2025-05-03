@@ -1,6 +1,8 @@
 export default class RouteConstants {
     static get HOMEPAGE_ROUTE() { return "/"; }
 
+    static get ALL_PRODUCTS_PAGE() {return "/products/all"}
+
     static get ADMIN_ROUTE() { return "/admin"; }
 
     static get ADMIN_PRODUCTS() { return "/admin/products"; }
@@ -10,4 +12,8 @@ export default class RouteConstants {
     static get VIEW_SPECIFIC_PRODUCT() {return "/admin/view-product"; }
 
     static get EDIT_SPECIFIC_PRODUCT() {return "/admin/edit-product"; }
+
+    static get ADD_PRODUCT_PAGE() { return "/admin/add-product"; }
+
+    static get MANAGE_PRODUCTS_PAGE() { return "/admin/products"}
 }

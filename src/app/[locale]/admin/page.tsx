@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, DollarSign, ShoppingCart, Plus, Clock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Link } from '@/i18n/routing';
+import RouteConstants from '@/constants/RouteConstants';
 
 export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -140,21 +142,22 @@ export default function AdminDashboard() {
                 <h2 className="text-lg font-medium text-gray-800">Quick Actions</h2>
               </div>
               
-              <div className="p-6 space-y-4">
-                <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
-                  <Plus size={18} className="mr-3" />
-                  <span>Add New Product</span>
-                </Button>
-                
-                <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
-                  <ShoppingCart size={18} className="mr-3" />
-                  <span>View Recent Orders</span>
-                </Button>
-                
-                <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
-                  <Clock size={18} className="mr-3" />
-                  <span>Manage Inventory</span>
-                </Button>
+              <div className="p-6 space-y-4 flex flex-col gap-2">
+                <Link href={RouteConstants.ADD_PRODUCT_PAGE}>
+                  <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
+                    <Plus size={18} className="mr-3" />
+                      <span>Add New Product</span>
+                  </Button>
+                </Link>
+
+
+                <Link href={RouteConstants.MANAGE_PRODUCTS_PAGE}>
+                  <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
+                    <Clock size={18} className="mr-3" />
+
+                      <span>Manage Inventory</span>
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

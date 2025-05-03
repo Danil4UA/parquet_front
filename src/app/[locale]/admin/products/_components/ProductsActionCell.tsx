@@ -10,50 +10,36 @@ import RouteConstants from "@/constants/RouteConstants";
 import {
   Edit, Trash2, Eye, MoreVertical,
 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import productsServices from "@/services/productsServices";
-import { allProductsKey } from "@/constants/queryKey";
+import { allCategoryProductsKey } from "@/constants/queryKey";
 import ErrorDialog from "@/components/ErrorDialog";
 import { getSession } from "next-auth/react";
 import { Row } from "@tanstack/react-table";
 import { Product } from "@/types/products";
 import ProductsActionSelectOption from "./ProductsActionSelectOption";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 function ProductsActionCell({ row }: {
     row: Row<Product>;
 }) {
   const queryClient = useQueryClient();
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
+  const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(false)
 
   const handleDelete = async () => {
     try {
-      setIsSubmitting(true);
       const session = await getSession();
-
-      await productsServices.deleteProducts([row.original._id], session);
+      await productsServices.deleteProducts(session, [row.original._id]);
       await queryClient.invalidateQueries({
-        queryKey: [allProductsKey],
+        queryKey: [allCategoryProductsKey],
       });
-      setIsDeleteDialogOpen(false);
-    } catch (error) {
-      console.log("error", error)
+
+    } catch {
       setIsErrorDialogOpen(true);
-    } finally {
-      setIsSubmitting(false);
-    }
+    } 
+    setIsConfirmDeleteDialogOpen(false)
   };
 
   return (
@@ -70,45 +56,30 @@ function ProductsActionCell({ row }: {
         onCloseDialog={() => setIsErrorDialogOpen(false)}
         title="There was a problem"
       />
+      <ConfirmationDialog
+        isOpen={isConfirmDeleteDialogOpen}
+        title="Delete Product"
+        message={`Are you sure you want to delete the product? name: ${row.original.name} model: ${row.original.model || ""}`}
+        setIsOpen={setIsConfirmDeleteDialogOpen}
+        onConfirmationClick={() => handleDelete()}
+      />
 
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete Lead</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete this lead? This action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="flex gap-2 justify-end">
-            <Button
-              variant="outline"
-              onClick={() => setIsDeleteDialogOpen(false)}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleDelete}
-              className="bg-red-600 hover:bg-red-500"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? <LoadingSpinner /> : "Delete"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <MoreVertical size={20} />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="flex flex-col w-[165px]">
-          <Link href={`${RouteConstants.VIEW_SPECIFIC_PRODUCT}/${row.original._id}`}>
+        <DropdownMenuContent 
+          className="flex flex-col w-[165px]"
+          align="end" 
+          sideOffset={5}
+        >
+          <Link href={`${RouteConstants.ALL_PRODUCTS_PAGE}/${row.original._id}`}>
             <ProductsActionSelectOption icon={<Eye size={16} />} text="View" />
           </Link>
           <Link href={`${RouteConstants.EDIT_SPECIFIC_PRODUCT}/${row.original._id}`}>
             <ProductsActionSelectOption icon={<Edit size={16} />} text="Edit" />
           </Link>
-          <ProductsActionSelectOption icon={<Trash2 size={16} />} text="Delete" onClick={() => setIsDeleteDialogOpen(true)} />
+          <ProductsActionSelectOption icon={<Trash2 size={16} />} text="Delete" onClick={() => setIsConfirmDeleteDialogOpen(true)} />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
