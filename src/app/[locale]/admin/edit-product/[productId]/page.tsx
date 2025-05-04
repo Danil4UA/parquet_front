@@ -51,20 +51,20 @@ export default function EditProductPage({ params }: IEditProduct) {
       name: { en: "", ru: "", he: "" },
       description: { en: "", ru: "", he: "" },
       detailedDescription: { en: "", ru: "", he: "" },
-      category: undefined,
-      color: undefined,
-      countryOfOrigin: undefined,
+      category: "",
+      color: "",
+      countryOfOrigin: "",
       discount: 0,
-      finish: undefined,
+      finish: "",
       isAvailable: true,
-      length: undefined,
-      model: undefined,
+      length: null,
+      model: "",
       price: undefined,
       stock: 0,
-      thickness: undefined,
-      type: undefined,
-      width: undefined,
-      boxCoverage: undefined,
+      thickness: null,
+      type: "",
+      width: null,
+      boxCoverage: null,
     },
   });
 
@@ -150,7 +150,7 @@ export default function EditProductPage({ params }: IEditProduct) {
   return (
     <div className="container mx-auto py-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Edit Product</h1>
+        <h1 className="text-3xl font-bold">Edit Product ({data?.data.product.model})</h1>
         <Button variant="outline" onClick={() => window.history.back()}>
           Cancel
         </Button>
@@ -163,8 +163,6 @@ export default function EditProductPage({ params }: IEditProduct) {
               <TabsTrigger value="en">English</TabsTrigger>
               <TabsTrigger value="ru">Russian</TabsTrigger>
               <TabsTrigger value="he">Hebrew</TabsTrigger>
-              <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="images">Images</TabsTrigger>
             </TabsList>
             
             <TabsContent value="en">
@@ -176,16 +174,19 @@ export default function EditProductPage({ params }: IEditProduct) {
             <TabsContent value="he">
               <LanguageContentTab control={form.control} language="he" title="Hebrew Content" />
             </TabsContent>
-            <TabsContent value="details">
-              <ProductDetailsTab control={form.control} />
-            </TabsContent>
-            <TabsContent value="images">
-               <ProductImagesTab
-                    images={productImages || []}
-                    onChange={setProductImages}
-                />
-            </TabsContent>
           </Tabs>
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold mb-3">Product Details</h2>
+            <ProductDetailsTab control={form.control} />
+          </div>
+          
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold mb-3">Product Images</h2>
+            <ProductImagesTab
+              images={productImages || []}
+              onChange={setProductImages}
+            />
+          </div>
           <div className="flex justify-end space-x-4">
             <Button type="button" variant="outline" onClick={() => {
                 form.reset()

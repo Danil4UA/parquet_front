@@ -2,7 +2,7 @@ import { Control } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { categoryOptions, colorOptions } from "@/Utils/productsUtils";
@@ -43,7 +43,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
               </FormItem>
             )}
           />
-          
+{/*           
           <FormField
             control={control}
             name="type"
@@ -56,7 +56,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           
           <FormField
             control={control}
@@ -97,7 +97,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
             )}
           />
           
-          <FormField
+          {/* <FormField
             control={control}
             name="countryOfOrigin"
             render={({ field }) => (
@@ -109,7 +109,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           
           <FormField
             control={control}
@@ -263,8 +263,37 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
               </FormItem>
             )}
           />
-          
+
           <FormField
+            control={control}
+            name="boxCoverage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Box Coverage</FormLabel>
+                <FormControl>
+                  <Input 
+                    type="number" 
+                    value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
+                    onChange={(e) => {
+                      const value = e.target.value === '' ? '' : Number(e.target.value);
+                      field.onChange(value);
+                    }}
+                    onBlur={() => {
+                      if (field.value === '') {
+                        field.onChange(null);
+                      }
+                    }}
+                    name={field.name}
+                    ref={field.ref}
+                  />
+                </FormControl>
+                <FormDescription>Area covered by one box (m²)</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          {/* <FormField
             control={control}
             name="stock"
             render={({ field }) => (
@@ -280,9 +309,9 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           
-          <FormField
+          {/* <FormField
             control={control}
             name="isAvailable"
             render={({ field }) => (
@@ -301,7 +330,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 </div>
               </FormItem>
             )}
-          />
+          /> */}
         </div>
       </CardContent>
     </Card>

@@ -91,8 +91,6 @@ export default function AddProductPage() {
               <TabsTrigger value="en">English</TabsTrigger>
               <TabsTrigger value="ru">Russian</TabsTrigger>
               <TabsTrigger value="he">Hebrew</TabsTrigger>
-              <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="images">Images</TabsTrigger>
             </TabsList>
             
             <TabsContent value="en">
@@ -104,17 +102,22 @@ export default function AddProductPage() {
             <TabsContent value="he">
               <LanguageContentTab control={form.control} language="he" title="Hebrew Content" />
             </TabsContent>
-            <TabsContent value="details">
-              <ProductDetailsTab control={form.control} />
-            </TabsContent>
-            <TabsContent value="images">
-              <ProductImagesTab
-                images={productImages}
-                onChange={setProductImages}
-              />
-            </TabsContent>
           </Tabs>
-          <div className="flex justify-end space-x-4">
+          
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold mb-3">Product Details</h2>
+            <ProductDetailsTab control={form.control} />
+          </div>
+          
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold mb-3">Product Images</h2>
+            <ProductImagesTab
+              images={productImages}
+              onChange={setProductImages}
+            />
+          </div>
+          
+          <div className="flex justify-end space-x-4 mt-8">
             <Button 
               type="button" 
               variant="outline" 

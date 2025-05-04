@@ -5,9 +5,9 @@ import axios from "axios";
 
 
 export default class userServices {
-    static USER_ENDPOINT = `${URL_API}/user`;
+    static USER_ENDPOINT = `${URL_API}/api/user`;
 
-    static LOG_OUT_ROUTE = `${URL_API}/user/logout`;
+    static LOG_OUT_ROUTE = `${URL_API}/api/user/logout`;
 
     static LOGIN_ENDPOINT = `${URL_API}/api/user/login`;
 
@@ -40,8 +40,7 @@ export default class userServices {
           const config = {
             headers: { authorization: accessToken },
           };
-
-          return await axios.get(this.USER_ENDPOINT, config);
+          return await axios.get(userServices.USER_ENDPOINT, config);
       } catch (error) {
           console.log(error);
           throw error;

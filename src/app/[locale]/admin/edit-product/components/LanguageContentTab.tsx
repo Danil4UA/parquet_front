@@ -31,7 +31,7 @@ export function LanguageContentTab({ control, language, title }: LanguageContent
           )}
         />
         
-        <FormField
+        {/* <FormField
           control={control}
           name={`description.${language}`}
           render={({ field }) => (
@@ -47,7 +47,7 @@ export function LanguageContentTab({ control, language, title }: LanguageContent
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         
         <FormField
           control={control}
