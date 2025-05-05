@@ -49,7 +49,7 @@ export default function EditProductPage({ params }: IEditProduct) {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: { en: "", ru: "", he: "" },
-      description: { en: "", ru: "", he: "" },
+      // description: { en: "", ru: "", he: "" },
       detailedDescription: { en: "", ru: "", he: "" },
       category: "",
       color: "",
@@ -78,11 +78,11 @@ export default function EditProductPage({ params }: IEditProduct) {
           ru: product.name.ru || "",
           he: product.name.he || "",
         },
-        description: {
-          en: product.description.en || "",
-          ru: product.description.ru || "",
-          he: product.description.he || "",
-        },
+        // description: {
+        //   en: product.description.en || "",
+        //   ru: product.description.ru || "",
+        //   he: product.description.he || "",
+        // },
         detailedDescription: {
           en: product.detailedDescription.en || "",
           ru: product.detailedDescription.ru || "",

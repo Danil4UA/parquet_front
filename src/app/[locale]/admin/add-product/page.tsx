@@ -28,7 +28,7 @@ export default function AddProductPage() {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: { en: "", ru: "", he: "" },
-      description: { en: "", ru: "", he: "" },
+      // description: { en: "", ru: "", he: "" },
       detailedDescription: { en: "", ru: "", he: "" },
       category: "",
       color: "",
