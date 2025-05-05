@@ -60,6 +60,7 @@ export default function AddProductPage() {
       images: productImages
     };
 
+
     try {
       const freshSession = await getSession()
       await productsServices.createProduct(freshSession, productData);

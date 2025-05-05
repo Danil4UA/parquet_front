@@ -6,11 +6,6 @@ export const productSchema = z.object({
     ru: z.string().min(3, { message: "Name must be at least 3 characters" }),
     he: z.string().min(3, { message: "Name must be at least 3 characters" }),
   }),
-  description: z.object({
-    en: z.string(),
-    ru: z.string(),
-    he: z.string(),
-  }),
   detailedDescription: z.object({
     en: z.string(),
     ru: z.string(),
@@ -27,7 +22,7 @@ export const productSchema = z.object({
   price: z.number(),
   stock: z.number().int().min(0),
   thickness: z.number().optional().nullable(),
-  type: z.string(),
+  type: z.string().optional(),
   width: z.number().optional().nullable(),
   boxCoverage: z.number().optional().nullable(),
 });

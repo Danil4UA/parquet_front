@@ -11,18 +11,17 @@ export const COLORS = ['Brown', 'Gray', 'Beige', 'White', 'Black', 'Natural', 'R
 export const translatableFields = ['name', 'description', 'detailedDescription'];
 
 export const colorOptions = [
-  { name: 'Brown' },
-  { name: 'Gray' },
-  { name: 'Smoke' },
-  { name: 'Beige' }
+  { id: 'Brown', name: 'Brown' },
+  { id: 'Gray', name: 'Gray' },
+  { id: 'Smoke', name: 'Smoke' },
+  { id: 'Beige', name: 'Beige' }
 ]
-
 export const categoryOptions = [
-  { name: 'SPC' },
-  { name: 'Wood' },
-  { name: 'Laminate' },
-  { name: 'Flooring' },
-  { name: 'Cladding' },
+  { id: "SPC", name: 'SPC' },
+  { id: "Wood", name: 'Wood' },
+  { id: "Laminate", name: 'Laminate' },
+  { id: "Flooring", name: 'Flooring' },
+  { id: "Cladding", name: 'Cladding' },
 ]
 
 export const availableOptions = [
