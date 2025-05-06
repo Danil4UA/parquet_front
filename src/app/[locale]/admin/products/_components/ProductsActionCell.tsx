@@ -9,6 +9,7 @@ import {
 import RouteConstants from "@/constants/RouteConstants";
 import {
   Edit, Trash2, Eye, MoreVertical,
+  Copy,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -80,6 +81,9 @@ function ProductsActionCell({ row }: {
             <ProductsActionSelectOption icon={<Edit size={16} />} text="Edit" />
           </Link>
           <ProductsActionSelectOption icon={<Trash2 size={16} />} text="Delete" onClick={() => setIsConfirmDeleteDialogOpen(true)} />
+          <Link href={`${RouteConstants.ADD_PRODUCT_PAGE}?clone=${row.original._id}`}>
+            <ProductsActionSelectOption icon={<Copy size={16} />} text="Clone" />
+          </Link>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

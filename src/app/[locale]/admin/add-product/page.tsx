@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,15 +14,19 @@ import { ProductFormValues, productSchema } from "@/lib/schemas/productSchema";
 import productsServices from "@/services/productsServices";
 import { useQueryClient } from "@tanstack/react-query";
 import { allCategoryProductsKey } from "@/constants/queryKey";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import RouteConstants from "@/constants/RouteConstants";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function AddProductPage() {
   const [productImages, setProductImages] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const cloneId = searchParams.get('clone');
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -45,6 +49,55 @@ export default function AddProductPage() {
       boxCoverage: undefined,
     },
   });
+
+  useEffect(() => {
+    const loadProductToClone = async () => {
+      if (cloneId) {
+        try {
+          setIsLoading(true);
+          const session = await getSession();
+          const response = await productsServices.getFullProduct(session, cloneId);
+          
+          if (response?.data?.product) {
+            const product = response.data.product;
+            
+            form.reset({
+              name: {
+                en: product.name.en || "",
+                ru: product.name.ru || "",
+                he: product.name.he || "",
+              },
+              detailedDescription: {
+                en: product.detailedDescription.en || "",
+                ru: product.detailedDescription.ru || "",
+                he: product.detailedDescription.he || "",
+              },
+              category: product.category || "",
+              color: product.color || "",
+              countryOfOrigin: product.countryOfOrigin || "",
+              discount: product.discount || 0,
+              finish: product.finish || "",
+              isAvailable: product.isAvailable,
+              length: product.length ? Number(product.length) : undefined,
+              model: `${product.model || ""}`,
+              price: product.price ? Number(product.price) : undefined,
+              stock: product.stock || 0,
+              thickness: product.thickness ? Number(product.thickness) : undefined,
+              type: product.type || "",
+              width: product.width ? Number(product.width) : undefined,
+              boxCoverage: product.boxCoverage ? Number(product.boxCoverage) : undefined,
+            });
+          }
+        } catch (error) {
+          console.error("Error loading product to clone:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadProductToClone();
+  }, [cloneId, form]);
 
   async function onSubmit(values: ProductFormValues) {
     if (!productImages || productImages.length === 0) {
@@ -73,6 +126,15 @@ export default function AddProductPage() {
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <LoadingSpinner />
+        <span className="ml-2">Loading product data...</span>
+      </div>
+    );
   }
 
   return (
