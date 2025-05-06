@@ -24,9 +24,14 @@ export const categoryOptions = [
   { id: "Cladding", name: 'Cladding' },
 ]
 
+export const stockOptions = [
+  { id: "true", name: "Yes"},
+  { id: "false", name: "No"},
+]
+
 export const availableOptions = [
-  { name: 'true' },
-  { name: 'false' },
+  { id: "true", name: "Yes"},
+  { id: "false", name: "No"},
 ]
 
 export const prepareProductData = (product) => {

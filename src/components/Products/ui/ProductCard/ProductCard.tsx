@@ -23,8 +23,8 @@ const ProductCard = ({
     discount = 0, 
     category, 
     images, 
-    stock, 
-    finish 
+    finish,
+    isAvailable,
   } = product;
 
   const productPriceWithDiscount = discount ? Number(productPrice) * ((100 - discount) / 100) : Number(productPrice);
@@ -32,11 +32,11 @@ const ProductCard = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <div className={classNames("ProductCard", { "out-of-stock": stock === 0 }, [])}>
+    <div className={classNames("ProductCard", { "out-of-stock": !isAvailable }, [])}>
       <Link
-        href={stock === 0 ? "#" : `/products/${category}/${productId}`}
+        href={!isAvailable ? "#" : `/products/${category}/${productId}`}
         className="card__media"
-        onClick={(e) => stock === 0 && e.preventDefault()}
+        onClick={(e) => !isAvailable && e.preventDefault()}
       >
         <div className="card__image">
           {isLoading && <ImageLoader />}
@@ -51,7 +51,7 @@ const ProductCard = ({
             className="product-image"
             style={{ opacity: isLoading ? 0 : 1 }}
           />
-          {stock === 0 && (
+          {!isAvailable && (
             <div className="card__out_of_stock_overlay">
               <span className="out_of_stock_text">{t("OutOfStock")}</span>
             </div>
@@ -79,7 +79,7 @@ const ProductCard = ({
               </span>
             )}
           </div>
-          <div className="card__information_button">{stock === 0 ? t("NotifyWhenAvailable") : t("GetMoreDetails")}</div>
+          <div className="card__information_button">{!isAvailable ? t("NotifyWhenAvailable") : t("GetMoreDetails")}</div>
         </div>
       </Link>
     </div>
