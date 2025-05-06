@@ -78,6 +78,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 <FormControl>
                   <Input 
                     type="number" 
+                    className="no-spinner"
                     value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
                     onChange={(e) => {
                       const value = e.target.value === '' ? '' : Number(e.target.value);
@@ -89,6 +90,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                       }
                     }}
                     name={field.name}
+                    onWheel={(e) => (e.target as HTMLInputElement).blur()}
                     ref={field.ref}
                   />
                 </FormControl>
@@ -106,6 +108,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 <FormControl>
                   <Input 
                       type="number" 
+                      className="no-spinner"
                       value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
                       onChange={(e) => {
                         const value = e.target.value === '' ? '' : Number(e.target.value);
@@ -117,6 +120,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                         }
                       }}
                       name={field.name}
+                      onWheel={(e) => (e.target as HTMLInputElement).blur()}
                       ref={field.ref}
                     />
                 </FormControl>
@@ -134,6 +138,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 <FormControl>
                   <Input 
                     type="number" 
+                    className="no-spinner"
                     value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
                     onChange={(e) => {
                       const value = e.target.value === '' ? '' : Number(e.target.value);
@@ -145,6 +150,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                       }
                     }}
                     name={field.name}
+                    onWheel={(e) => (e.target as HTMLInputElement).blur()}
                     ref={field.ref}
                   />
                 </FormControl>
@@ -166,6 +172,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 <FormControl>
                   <Input 
                     type="number" 
+                    className="no-spinner"
                     value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
                     onChange={(e) => {
                       const value = e.target.value === '' ? '' : Number(e.target.value);
@@ -177,6 +184,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                       }
                     }}
                     name={field.name}
+                    onWheel={(e) => (e.target as HTMLInputElement).blur()}
                     ref={field.ref}
                   />
                 </FormControl>
@@ -194,9 +202,11 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 <FormLabel>Discount (%)</FormLabel>
                 <FormControl>
                   <Input 
-                    type="number" 
+                    type="number"
+                    className="no-spinner"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                    onWheel={(e) => (e.target as HTMLInputElement).blur()}
                   />
                 </FormControl>
                 <FormMessage />
@@ -213,6 +223,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                 <FormControl>
                   <Input 
                     type="number" 
+                    className="no-spinner"
                     value={field.value === undefined || field.value === null || field.value === '' ? '' : Number(field.value)}
                     onChange={(e) => {
                       const value = e.target.value === '' ? '' : Number(e.target.value);
@@ -224,6 +235,7 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
                       }
                     }}
                     name={field.name}
+                    onWheel={(e) => (e.target as HTMLInputElement).blur()}
                     ref={field.ref}
                   />
                 </FormControl>

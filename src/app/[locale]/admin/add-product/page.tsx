@@ -28,7 +28,6 @@ export default function AddProductPage() {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: { en: "", ru: "", he: "" },
-      // description: { en: "", ru: "", he: "" },
       detailedDescription: { en: "", ru: "", he: "" },
       category: "",
       color: "",
@@ -48,7 +47,6 @@ export default function AddProductPage() {
   });
 
   async function onSubmit(values: ProductFormValues) {
-    setIsSubmitting(true);
     if (!productImages || productImages.length === 0) {
       alert("Добавьте хотя бы одно изображение продукта");
       setIsSubmitting(false);
@@ -60,8 +58,8 @@ export default function AddProductPage() {
       images: productImages
     };
 
-
     try {
+      setIsSubmitting(true);
       const freshSession = await getSession()
       await productsServices.createProduct(freshSession, productData);
 
@@ -72,8 +70,9 @@ export default function AddProductPage() {
       router.push(RouteConstants.ADMIN_PRODUCTS);
     } catch (error) {
       console.error("Error adding product:", error);
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   }
 
   return (

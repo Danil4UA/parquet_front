@@ -155,3 +155,13 @@ a {
 .hebrew-text {
   font-family: var(--font-family-hebrew);
 }
+
+.no-spinner {
+  -moz-appearance: textfield;
+}
+
+.no-spinner::-webkit-inner-spin-button, 
+.no-spinner::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
