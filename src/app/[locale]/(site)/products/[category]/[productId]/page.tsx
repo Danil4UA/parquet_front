@@ -168,12 +168,20 @@ const ProductPage: FC = () => {
                     {product.color}
                   </p>
                 )}
-                {product.type && (
+                {/* {product.type && (
                   <p className="specification__item">
                     <span className="specification__label">
                       {t("specifications_type")}:
                     </span> 
                     {product.type}
+                  </p>
+                )} */}
+                {product.boxCoverage && (
+                  <p className="specification__item">
+                    <span className="specification__label">
+                      {t("specifications_box_coverage")}:
+                    </span> 
+                    {product.boxCoverage} m² 
                   </p>
                 )}
             </div>

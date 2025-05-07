@@ -52,6 +52,7 @@ export interface Product {
     thickness?: string
     model: string
     finish: string
+    boxCoverage?: number;
   }
 
 export interface Pagination {
