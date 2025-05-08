@@ -9,7 +9,13 @@
     "catalog": "Catalog",
     "panels": "Panels",
     "thresholds": "Thresholds",
-    "cladding": "Cladding"
+    "cladding": "Cladding",
+    "complete": "Complete Order",
+    "per_box": "per box",
+    "box_coverage": "Box coverage",
+    "boxes": "Boxes",
+    "total_area": "Total Area",
+    "added_to_cart": "Added {{boxes}} boxes ({{area}} m²) to cart"
   },
   "Cart": {
     "cart": "Cart",
@@ -207,7 +213,8 @@
     "about_brand_title": "About Brand",
     "delivery_policy_title": "Delivery Policy",
     "product_notice": "It is recommended to add an additional 10% to the amount needed for amortization during installation.",
-    "delivery_policy_text": "Possibility to receive the product within 2-3 working days from payment confirmation"
+    "delivery_policy_text": "Possibility to receive the product within 2-3 working days from payment confirmation",
+    "specifications_box_coverage": "Box Coverage"
 },
   "Navbar": {
     "title": "Effect Parquet"

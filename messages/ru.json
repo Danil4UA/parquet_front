@@ -2,7 +2,12 @@
   "Cart": {
     "cart": "Корзина",
     "complete": "Оформление заказа",
-    "total": "Итого:"
+    "total": "Итого:",
+    "per_box": "per box",
+    "box_coverage": "Box coverage",
+    "boxes": "Boxes",
+    "total_area": "Total Area",
+    "added_to_cart": "Added {{boxes}} boxes ({{area}} m²) to cart"
   },
   "Sidebar": {
     "home": "Главная",
@@ -205,7 +210,8 @@
     "about_brand_title": "О бренде",
     "delivery_policy_title": "Политика доставки",
     "product_notice": "Рекомендуется добавить дополнительно 10% к сумме, необходимой для амортизации при установке.",
-    "delivery_policy_text": "Возможность получения товара в течении 2-3 рабочих дней с момента подтверждения оплаты"
+    "delivery_policy_text": "Возможность получения товара в течении 2-3 рабочих дней с момента подтверждения оплаты",
+    "specifications_box_coverage": "В Коробке"
   },
   "Navbar": {
     "title": "Эффект Паркет"

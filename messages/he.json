@@ -2,7 +2,12 @@
   "Cart": {
     "cart": "עגלת קניות",
     "complete": "השלם הזמנה",
-    "total": "סה\"כ"
+    "total": "סה\"כ",
+    "per_box": "per box",
+    "box_coverage": "Box coverage",
+    "boxes": "Boxes",
+    "total_area": "Total Area",
+    "added_to_cart": "Added {{boxes}} boxes ({{area}} m²) to cart"
   },
   "Sidebar": {
     "home": "בית",
@@ -206,7 +211,8 @@
     "product_description": "השילוב המושלם של עיצוב ועמידות, סוג זה של רצפה יכול לעמוד בכל סכנות השחיקה, בין אם במרכזים מסחריים או בשימוש ביתי. מוצרי למינציה של Berry Alloc משלבים אסתטיקה וטכנולוגיה מתקדמת...",
     "about_brand_title": "אודות המותג",
     "delivery_policy_title": "מדיניות משלוחים",
-    "delivery_policy_text": "אפשרות לקבל את המוצר תוך 2-3 ימי עבודה מאישור התשלום"
+    "delivery_policy_text": "אפשרות לקבל את המוצר תוך 2-3 ימי עבודה מאישור התשלום",
+    "specifications_box_coverage": "כיסוי קופסה"
   },
   "Navbar": {
     "title": "אפקט פרקט"
