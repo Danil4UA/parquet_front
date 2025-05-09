@@ -1,133 +1,74 @@
 "use client";
-import { useSelector } from "react-redux";
-import "./OrderPage.css";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { selectTotalPrice } from "@/components/Cart/model/slice/cartSlice";
+import { clearCart, selectTotalPrice } from "@/components/Cart/model/slice/cartSlice";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import productsServices from "@/services/productsServices";
 import Swal from "sweetalert2";
+import { usePathname, useRouter } from "next/navigation";
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { OrderFormType, orderFormSchema } from "@/lib/schemas/orderFormSchema";
+import TextInputWithLabel from "@/components/Inputs/TextInputWithLabel";
 import Radio from "@/shared/ui/Radio/Radio";
-import { usePathname } from "next/navigation";
-
-interface FormData {
-  name: string;
-  lastName: string;
-  address: string;
-  apartment: string;
-  postalCode: string;
-  city: string;
-  phoneNumber: string;
-  deliveryMethod: string;
-   
-  cartItems: any[];
-}
+import "./OrderPage.css";
+import ErrorDialog from "@/components/ErrorDialog";
+import RouteConstants from "@/constants/RouteConstants";
 
 const OrderPage = () => {
-  const [selectedValue, setSelectedValue] = useState("shipping");
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    lastName: "",
-    address: "",
-    apartment: "",
-    postalCode: "",
-    city: "",
-    phoneNumber: "",
-    deliveryMethod: selectedValue,
-    cartItems: []
-  });
-
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
+  
   const pathname = usePathname();
+  const router = useRouter();
   const t = useTranslations("Order");
+  const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const totalPrice = useSelector((state: RootState) => selectTotalPrice(state));
 
   const lng = pathname.split("/")[1];
   const isHebrew = lng === "he";
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
+  const orderForm = useForm<OrderFormType>({
+    resolver: zodResolver(orderFormSchema),
+    defaultValues: {
+      name: "",
+      lastName: "",
+      address: "",
+      apartment: "",
+      postalCode: "",
+      city: "",
+      phoneNumber: "",
+      deliveryMethod: "shipping",
+    },
+  });
 
-    if (type === "radio") {
-      setFormData((prev) => ({
-        ...prev,
-        deliveryMethod: value as "shipping" | "pickup"
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+  const { handleSubmit, watch, formState: { errors } } = orderForm;
+  const deliveryMethod = watch("deliveryMethod");
 
-    if (errors[name as keyof FormData]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: undefined
-      }));
-    }
-  };
-
-  const handleRadioChange = (value: "shipping" | "pickup") => {
-    setSelectedValue(value);
-    setFormData((prev) => ({
-      ...prev,
-      deliveryMethod: value
-    }));
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {};
-
-    if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.lastName) newErrors.lastName = "Last name is required";
-    if (!formData.address && formData.deliveryMethod === "shipping") {
-      newErrors.address = "Address is required for shipping";
-    }
-    if (!formData.phoneNumber) newErrors.phoneNumber = "Phone number is required";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async () => {
-    if (!validateForm()) {
-      return;
-    }
-
+  const onSubmit = async (data: OrderFormType) => {
     setIsLoading(true);
 
     const orderData = {
-      ...formData,
+      ...data,
       cartItems: cartItems.map((item) => ({
         name: item.name,
         quantity: item.quantity
       }))
     };
-    try {
-      const resultCreate = await productsServices.createOrder(orderData);
 
-      if (resultCreate.success) {
-        const result = await productsServices.sendOrderToBackend(orderData);
-        Swal.fire({
-          icon: "success",
-          text: t(`${result.message}`)
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          text: t("sentFailed")
-        });
-      }
-    } catch (error) {
-      console.error("Error sending order:", error);
+    try {
+      await productsServices.createOrder(orderData);
       Swal.fire({
-        icon: "error",
-        text: t("sentFailed")
+        icon: "success",
+        text: t(`sentSuccess`)
       });
+      dispatch(clearCart());
+      router.push(RouteConstants.HOMEPAGE_ROUTE)
+    } catch {
+      setIsErrorDialogOpen(true)
     } finally {
       setIsLoading(false);
     }
@@ -136,112 +77,115 @@ const OrderPage = () => {
   return (
     <div className="Order__wrapper">
       <div className="Order__wrapper_left">
-        <div>
-          <div className="Delivery__section">
-            <div
-              className={`Delivery__section_container ${selectedValue === "shipping" ? "selected" : ""}`}
-              onClick={() => handleRadioChange("shipping")}
-            >
-              <Radio value="shipping" selected={selectedValue === "shipping"} onChange={handleRadioChange} label={t("shipping")} />
-            </div>
-            <div
-              className={`Delivery__section_container ${selectedValue === "pickup" ? "selected" : ""}`}
-              onClick={() => handleRadioChange("pickup")}
-            >
-              <Radio value="pickup" selected={selectedValue === "pickup"} onChange={handleRadioChange} label={t("pickup")} />
-            </div>
-          </div>
-        </div>
-
-        <div className="Order__section Order__section--address">
-          <input
-            name="name"
-            className={`Order__input--half ${errors.name ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
-            type="text"
-            placeholder={t("name")}
-            value={formData.name}
-            onChange={handleChange}
-          />
-          {errors.name && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.name}</span>}
-
-          <input
-            name="lastName"
-            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
-            type="text"
-            placeholder={t("lastName")}
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-          {errors.lastName && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.lastName}</span>}
-
-          <input
-            name="address"
-            className={`Order__input ${isHebrew ? "hebrew-text" : ""}`}
-            type="text"
-            placeholder={t("address")}
-            value={formData.address}
-            onChange={handleChange}
-          />
-          {errors.address && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.address}</span>}
-
-          <input
-            name="apartment"
-            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
-            type="text"
-            placeholder={t("apartment")}
-            value={formData.apartment}
-            onChange={handleChange}
-          />
-          {errors.apartment && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.address}</span>}
-
-          <input
-            name="postalCode"
-            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
-            type="text"
-            placeholder={t("postalCode")}
-            value={formData.postalCode}
-            onChange={handleChange}
-          />
-          {errors.postalCode && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.postalCode}</span>}
-
-          <input
-            name="city"
-            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
-            type="text"
-            placeholder={t("city")}
-            value={formData.city}
-            onChange={handleChange}
-          />
-          {errors.city && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.city}</span>}
-
-          <input
-            name="phoneNumber"
-            className={`Order__input--half ${isHebrew ? "hebrew-text" : ""}`}
-            type="text"
-            placeholder={t("phoneNumber")}
-            value={formData.phoneNumber}
-            onChange={handleChange}
-          />
-          {errors.phoneNumber && <span className={`error-message ${isHebrew ? "hebrew-text" : ""}`}>{errors.phoneNumber}</span>}
-        </div>
-
-        <button className={`complete_order ${isHebrew ? "hebrew-text" : ""}`} onClick={handleSubmit} disabled={isLoading}>
-          {isLoading ? t("processing") : t("completeOrder")}
-        </button>
-      </div>
-      <div className="Order__wrapper_right">
-        {cartItems.map((item) => (
-          <div key={item._id} className="Order__items">
-            <div className="Order__items_image">
-              <Image src={item.images[0]} alt={item.name} width={60} height={60} />
-              <div className="Order__items_count">
-                <span>{item.quantity}</span>
+        <FormProvider {...orderForm}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Delivery Method Section */}
+            <div className="Delivery__section">
+              <div 
+                className={`Delivery__section_container ${deliveryMethod === "shipping" ? "selected" : ""}`}
+                onClick={() => orderForm.setValue("deliveryMethod", "shipping")}
+              >
+                <Radio 
+                  name="deliveryMethod" 
+                  value="shipping" 
+                  label={t("shipping")} 
+                  containerClass={isHebrew ? "flex-row-reverse" : ""}
+                />
+              </div>
+              <div 
+                className={`Delivery__section_container ${deliveryMethod === "pickup" ? "selected" : ""}`}
+                onClick={() => orderForm.setValue("deliveryMethod", "pickup")}
+              >
+                <Radio 
+                  name="deliveryMethod" 
+                  value="pickup" 
+                  label={t("pickup")} 
+                  containerClass={isHebrew ? "flex-row-reverse" : ""}
+                />
               </div>
             </div>
-            <div className={`Order__items_info ${isHebrew ? "hebrew-text" : ""}`}>{item.name}</div>
-            <div className="price">{item.price}</div>
-          </div>
-        ))}
+
+            <div className="Order__section Order__section--address w-full">
+              <TextInputWithLabel<OrderFormType>
+                label=""
+                nameInSchema="name"
+                placeholder={t("name")}
+                inputClass={`Order__input--half ${errors.name ? "error" : ""} ${isHebrew ? "hebrew-text" : "h-12"}`}
+              />
+              
+              <TextInputWithLabel<OrderFormType>
+                label=""
+                nameInSchema="lastName"
+                placeholder={t("lastName")}
+                inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+              />
+
+              {deliveryMethod === "shipping" && (
+                <>
+                  <TextInputWithLabel<OrderFormType>
+                    label=""
+                    nameInSchema="address"
+                    placeholder={t("address")}
+                    inputClass={`Order__input ${isHebrew ? "hebrew-text" : "h-12"}`}
+                  />
+                  
+                  <TextInputWithLabel<OrderFormType>
+                    label=""
+                    nameInSchema="apartment"
+                    placeholder={t("apartment")}
+                    inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+                  />
+                  
+                  <TextInputWithLabel<OrderFormType>
+                    label=""
+                    nameInSchema="postalCode"
+                    placeholder={t("postalCode")}
+                    inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+                  />
+                  
+                  <TextInputWithLabel<OrderFormType>
+                    label=""
+                    nameInSchema="city"
+                    placeholder={t("city")}
+                    inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+                  />
+                </>
+              )}
+
+              <TextInputWithLabel<OrderFormType>
+                label=""
+                nameInSchema="phoneNumber"
+                placeholder={t("phoneNumber")}
+                inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+              />
+            </div>
+
+            <button 
+              type="submit"
+              disabled={isLoading}
+              className={`complete_order ${isHebrew ? "hebrew-text" : ""}`}
+            >
+              {isLoading ? t("processing") : t("completeOrder")}
+            </button>
+          </form>
+        </FormProvider>
+      </div>
+
+      <div className="Order__wrapper_right">
+        <div className="space-y-4">
+          {cartItems.map((item) => (
+            <div key={item._id} className="Order__items">
+              <div className="Order__items_image">
+                <Image src={item.images[0]} alt={item.name} width={60} height={60} />
+                <div className="Order__items_count">
+                  <span>{item.quantity}</span>
+                </div>
+              </div>
+              <div className={`Order__items_info ${isHebrew ? "hebrew-text" : ""}`}>{item.name}</div>
+              <div className="price">{item.price}₪</div>
+            </div>
+          ))}
+        </div>
 
         <div className="order__footer">
           <div className="promo_code">
@@ -268,7 +212,12 @@ const OrderPage = () => {
           </div>
         </div>
       </div>
-      <div className="order__overlay"></div>
+         <ErrorDialog
+          isOpen={isErrorDialogOpen}
+          message={t("sentFailed")}
+          onCloseDialog={() => setIsErrorDialogOpen(false)}
+          title={t("errorTitle")}
+        />
     </div>
   );
 };

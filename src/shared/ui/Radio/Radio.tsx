@@ -1,31 +1,40 @@
-import React from "react";
-import "./Radio.css";
+import { useFormContext } from "react-hook-form";
 
 interface RadioProps {
-  value: "shipping" | "pickup";
-  selected: boolean;
+  value: string;
   label: string;
-  onChange: (value: "shipping" | "pickup") => void;
+  name: string;
+  containerClass?: string;
 }
-const Radio = ({ value, selected, onChange, label }: RadioProps) => {
+
+const Radio = ({ value, label, name, containerClass = "" }: RadioProps) => {
+  const { register, watch } = useFormContext();
+  const selectedValue = watch(name);
+  
   return (
-    <div
-      role="radio"
-      aria-checked={selected}
-      tabIndex={0}
-      onClick={() => onChange(value)}
-      onKeyUp={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          onChange(value);
-        }
-      }}
-      className="radio-item"
-      aria-label={label}
-    >
-      <div className="radio-outer">
-        <div className="radio-inner" />
+    <div className={`flex items-center cursor-pointer ${containerClass}`}>
+      <input
+        type="radio"
+        id={`${name}-${value}`}
+        value={value}
+        className="hidden"
+        {...register(name)}
+      />
+      <div 
+        className={`w-5 h-5 rounded-full border border-gray-400 flex items-center justify-center mr-2 ${
+          selectedValue === value ? "border-black" : ""
+        }`}
+      >
+        {selectedValue === value && (
+          <div className="w-3 h-3 rounded-full bg-black"></div>
+        )}
       </div>
-      <span className="radio-label">{label}</span>
+      <label 
+        htmlFor={`${name}-${value}`}
+        className="cursor-pointer"
+      >
+        {label}
+      </label>
     </div>
   );
 };

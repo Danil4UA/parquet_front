@@ -190,7 +190,8 @@
     "total": "Total",
     "includingTaxes": "Including taxes",
     "sentSuccess": "✅ Your order has been processed. We will contact you shortly.",
-    "sentFailed": "❌ Order submission failed. Please try again."
+    "sentFailed": "❌ Order submission failed. Please try again.",
+    "errorTitle": "There was a problem"
   },
   "Description": {
     "button_add_to_cart": "Add to Cart",
