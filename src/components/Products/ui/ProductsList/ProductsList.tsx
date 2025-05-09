@@ -21,8 +21,11 @@ const ProductsList = ({ category }: ProductsListProps) => {
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const pathname = usePathname();
-  const queryParams = getProductsQueryParams(searchParams, pathname, category);
-  
+  const baseQueryParams = getProductsQueryParams(searchParams, pathname, category);
+  const queryParams = {
+    ...baseQueryParams,
+    isRandom: category === "all" ? "true" : undefined
+  };
   const { search } = queryParams;
   const { data, isPending, isSuccess } = useGetAllProductsByCategory(queryParams);
 
