@@ -1,46 +1,86 @@
 "use client";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectFilters, setFilters } from "@/components/Products/model/productsSlice";
+import React, { useEffect, useState } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import "./ProductsFilter.css";
-import { RootState } from "@/redux/store";
 import { useTranslations } from "next-intl";
 
 export interface Filters {
   color: string[];
   type: string[];
-  material: string[];
-  countryOfOrigin: string[];
 }
 
 const ProductsFilter = () => {
-  const dispatch = useDispatch();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const t = useTranslations("Filter");
-
-  const filters = useSelector((state: RootState) => selectFilters(state));
+  
+  const getFiltersFromUrl = () => {
+    const filters: Filters = {
+      color: [],
+      type: [],
+    };
+    
+    Object.keys(filters).forEach(key => {
+      const param = searchParams.get(key);
+      if (param) {
+        filters[key as keyof Filters] = param.split(',');
+      }
+    });
+    
+    return filters;
+  };
+  
+  const [filters, setFilters] = useState<Filters>(getFiltersFromUrl());
+  
+  const updateUrlParams = (newFilters: Filters) => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    Object.entries(newFilters).forEach(([key, values]) => {
+      if (values.length > 0) {
+        params.set(key, values.join(','));
+      } else {
+        params.delete(key);
+      }
+    });
+    
+    router.push(`${pathname}?${params.toString()}`);
+  };
+  
+  useEffect(() => {
+    setFilters(getFiltersFromUrl());
+  }, [searchParams]);
   
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
-
+    
     const updatedFilters: Filters = { ...filters };
-
+    
     if (type === "checkbox") {
-      const newFilters = updatedFilters[name as keyof Filters];
-      const newFilterValues = checked 
-        ? [...newFilters, value] 
-        : newFilters.filter((item) => item !== value);
-
-      updatedFilters[name as keyof Filters] = newFilterValues;
+      const newFilters = [...updatedFilters[name as keyof Filters]];
+      if (checked) {
+        if (!newFilters.includes(value)) {
+          newFilters.push(value);
+        }
+      } else {
+        const index = newFilters.indexOf(value);
+        if (index > -1) {
+          newFilters.splice(index, 1);
+        }
+      }
+      
+      updatedFilters[name as keyof Filters] = newFilters;
     } else if (type === "radio" || type === "select-one") {
       updatedFilters[name as keyof Filters] = [value];
     }
     
-    dispatch(setFilters(updatedFilters));
+    setFilters(updatedFilters);
+    updateUrlParams(updatedFilters);
   };
-
+  
   return (
     <div className="ProductsFilter">
-      {/* Color Filter */}
+      
       <div className="ProductsFilter_section">
         <h3 className="ProductsFilter_title">{t("Color")}</h3>
         <div className="ProductsFilter_color">
@@ -48,29 +88,9 @@ const ProductsFilter = () => {
             <input 
               type="checkbox" 
               name="color" 
-              value="White" 
+              value="beige" 
               onChange={handleFilterChange} 
-              checked={filters.color.includes("White")} 
-            />
-            <span className="color-square" style={{ backgroundColor: "#f2f2f2" }}></span>
-          </label>
-          <label className="color-checkbox">
-            <input 
-              type="checkbox" 
-              name="color" 
-              value="Gray" 
-              onChange={handleFilterChange} 
-              checked={filters.color.includes("Gray")} 
-            />
-            <span className="color-square" style={{ backgroundColor: "#808080" }}></span>
-          </label>
-          <label className="color-checkbox">
-            <input 
-              type="checkbox" 
-              name="color" 
-              value="Beige" 
-              onChange={handleFilterChange} 
-              checked={filters.color.includes("Beige")} 
+              checked={filters.color.includes("beige")} 
             />
             <span className="color-square" style={{ backgroundColor: "#F5F5DC" }}></span>
           </label>
@@ -78,16 +98,45 @@ const ProductsFilter = () => {
             <input 
               type="checkbox" 
               name="color" 
-              value="Brown" 
+              value="gray" 
               onChange={handleFilterChange} 
-              checked={filters.color.includes("Brown")} 
+              checked={filters.color.includes("gray")} 
+            />
+            <span className="color-square" style={{ backgroundColor: "#808080" }}></span>
+          </label>
+          <label className="color-checkbox">
+            <input 
+              type="checkbox" 
+              name="color" 
+              value="brown" 
+              onChange={handleFilterChange} 
+              checked={filters.color.includes("brown")} 
             />
             <span className="color-square" style={{ backgroundColor: "#8B4513" }}></span>
+          </label>
+          <label className="color-checkbox">
+            <input 
+              type="checkbox" 
+              name="color" 
+              value="smoke" 
+              onChange={handleFilterChange} 
+              checked={filters.color.includes("smoke")} 
+            />
+            <span className="color-square" style={{ backgroundColor: "#f2f2f2" }}></span>
+          </label>
+          <label className="color-checkbox">
+            <input 
+              type="checkbox" 
+              name="color" 
+              value="dark" 
+              onChange={handleFilterChange} 
+              checked={filters.color.includes("dark")} 
+            />
+            <span className="color-square" style={{ backgroundColor: "#333333" }}></span>
           </label>
         </div>
       </div>
 
-      {/* Type Filter */}
       <div className="ProductsFilter_section">
         <h3 className="ProductsFilter_title">{t("Type")}</h3>
         <div className="ProductsFilter_type">
@@ -95,47 +144,41 @@ const ProductsFilter = () => {
             <input
               type="checkbox"
               name="type"
-              value="Fishbone"
+              value="fishbone"
               onChange={handleFilterChange}
-              checked={filters.type.includes("Fishbone")}
+              checked={filters.type.includes("fishbone")}
             />
-            {t("Herringbone")}
+            {t("Fishbone")}
           </label>
           <label>
             <input 
               type="checkbox" 
               name="type" 
-              value="Plank" 
+              value="plank" 
               onChange={handleFilterChange} 
-              checked={filters.type.includes("Plank")} 
+              checked={filters.type.includes("plank")} 
             />
             {t("Plank")}
           </label>
-        </div>
-      </div>
-
-      <div className="ProductsFilter_section">
-        <h3 className="ProductsFilter_title">{t("Material")}</h3>
-        <div className="ProductsFilter_material">
           <label>
             <input 
               type="checkbox" 
-              name="material" 
-              value="Wood" 
+              name="type" 
+              value="cladding" 
               onChange={handleFilterChange} 
-              checked={filters.material.includes("Wood")} 
+              checked={filters.type.includes("cladding")} 
             />
-            {t("Wood")}
+            {t("Cladding")}
           </label>
           <label>
             <input 
               type="checkbox" 
-              name="material" 
-              value="SPC" 
+              name="type" 
+              value="laminate" 
               onChange={handleFilterChange} 
-              checked={filters.material.includes("SPC")} 
+              checked={filters.type.includes("laminate")} 
             />
-            {t("SPC")}
+            {t("Laminate")}
           </label>
         </div>
       </div>

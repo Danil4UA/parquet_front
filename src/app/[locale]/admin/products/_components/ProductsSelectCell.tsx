@@ -89,7 +89,7 @@ function ProductsSelectCell({
   };
   
   // Calculate the display value
-  const displayValue = value || "Select...";
+  const displayValue = value || "";
 
   return (
     <>

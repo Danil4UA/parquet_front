@@ -4,6 +4,7 @@ import ProductsHeaderCell from "../ProductsHeaderCell";
 import ProductsTextCell from "../ProductsTextCell";
 import ProductsActionCell from "../ProductsActionCell";
 import { 
+  allowedTypes,
   // availableOptions, 
   categoryOptions, colorOptions } from "@/Utils/productsUtils";
 import ProductsSelectCell from "../ProductsSelectCell";
@@ -55,6 +56,20 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
         row={row}
         accessorKey="color"
         options={colorOptions}
+        size={150}
+      />
+    ),
+    minSize: 150,
+    size: 150,
+  },
+  {
+    accessorKey: "type",
+    header: () => <ProductsHeaderCell text="Type" className="items-center" />,
+    cell: ({ row }) => (
+      <ProductsSelectCell
+        row={row}
+        accessorKey="type"
+        options={allowedTypes}
         size={150}
       />
     ),

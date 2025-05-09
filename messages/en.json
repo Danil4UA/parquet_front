@@ -64,13 +64,13 @@
     "VIEW": "VIEW NOW"
   },
   "Filter": {
-    "Color": "Color tone",
+    "Color": "Color",
     "White": "White",
     "Gray": "Gray",
     "Beige": "Beige",
     "Brown": "Brown",
     "Type": "Type",
-    "Herringbone": "Herringbone",
+    "Fishbone": "Fishbone",
     "Chevron": "Chevron",
     "Plank": "Plank",
     "Material": "Material",
@@ -88,8 +88,11 @@
     "AtoZ": "Name: A to Z",
     "ZtoA": "Name: Z to A",
     "Filters": "Filters",
-  "Apply": "Apply filters",
-  "Reset": "Reset filters"
+    "Apply": "Apply filters",
+    "Reset": "Reset",
+    "ClearAll": "Clear All",
+    "Cladding": "Wall Cladding",
+    "Laminate": "Laminate"
   },
   "Footer": {
     "contact_us": "Contact Us",

@@ -9,7 +9,6 @@ import ProductSort from "../ProductSort/ProductSort";
 import MobileFilterButton from "../MobileFilterButton/MobileFilterButton";
 import ProductsGrid from "./_components/ProductsGrid";
 import ProductsLoadingGrid from "./_components/ProductsLoadingGrid";
-import NoProductsMessage from "./_components/NoProductsMessage";
 import useGetAllProductsByCategory from "@/hooks/useGetAllProductsByCategory";
 import "./ProductsList.css";
 
@@ -26,7 +25,6 @@ const ProductsList = ({ category }: ProductsListProps) => {
     ...baseQueryParams,
     isRandom: category === "all" ? "true" : undefined
   };
-  const { search } = queryParams;
   const { data, isPending, isSuccess } = useGetAllProductsByCategory(queryParams);
 
   const productsList = useSelector((state: RootState) => state.products.filteredProducts);
@@ -53,10 +51,6 @@ const ProductsList = ({ category }: ProductsListProps) => {
             products={productsList} 
             queryParams={queryParams}
           />
-          
-          {productsList.length === 0 && (
-            <NoProductsMessage search={search} />
-          )}
         </>
       )}
     </div>

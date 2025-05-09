@@ -137,12 +137,6 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
           ))}
         </div>
       )}
-      
-      {!hasMore && products.length > 0 && (
-        <div className="no-more-products" style={{ textAlign: 'center', padding: '20px' }}>
-          Все товары загружены
-        </div>
-      )}
     </>
   );
 };

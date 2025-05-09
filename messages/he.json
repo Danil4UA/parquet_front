@@ -68,7 +68,7 @@
     "Beige": "בז׳",
     "Brown": "חום",
     "Type": "סוג",
-    "Herringbone": "פישבון",
+    "Fishbone": "פישבון",
     "Chevron": "שברון",
     "Plank": "קרש",
     "Material": "חומר",
@@ -86,8 +86,11 @@
     "AtoZ": "שם: מ-א' עד ת'",
     "ZtoA": "שם: מת' עד א'",
     "Filters": "מסננים",
-    "Apply": "החל מסננים",
-    "Reset": "איפוס מסננים"
+    "Apply": "החל פילטרים",
+    "Reset": "איפוס",
+    "ClearAll": "נקה הכל",
+    "Cladding": "חיפוי קירות",
+    "Laminate": "למינציה"
   },
   "Footer": {
     "contact_us": "צור קשר",
