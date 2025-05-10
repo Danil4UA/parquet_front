@@ -5,7 +5,13 @@ import { useTranslations } from "next-intl";
 import "./MobileFilterButton.css";
 import ProductsFilter from "../ProductsFilter/ProductsFilter";
 
-const MobileFilterButton: React.FC = () => {
+interface MobileFilterButtonProps {
+  category: string;
+}
+
+const MobileFilterButton = ({
+  category,
+}: MobileFilterButtonProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const t = useTranslations("Filter");
 
@@ -43,7 +49,9 @@ const MobileFilterButton: React.FC = () => {
               </button>
             </div>
             <div className="mobile-filter-content">
-              <ProductsFilter />
+              <ProductsFilter 
+                category={category}
+              />
             </div>
             <div className="mobile-filter-footer">
               <button className="apply-filters-button" onClick={toggleFilter}>

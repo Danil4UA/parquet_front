@@ -40,7 +40,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
     <div className="products__list_wrapper">
       <div className="products__list_header">
         <ProductSort />
-        <MobileFilterButton />
+        <MobileFilterButton category={category}/>
       </div>
       
       {isPending ? (

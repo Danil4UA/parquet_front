@@ -11,7 +11,7 @@ const CategoryPage = () => {
     <>
       <div className="CategoryPage">
         <div className="products-page-container">
-          <ProductsFilter />
+          <ProductsFilter category={category}/>
           <ProductsList category={category} />
         </div>
       </div>
