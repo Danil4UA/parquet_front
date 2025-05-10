@@ -197,7 +197,13 @@
     "errorTitle": "There was a problem",
     "totalPackages": "Total packages",
     "inTheBox": "In the box",
-    "boxes": "boxes"
+    "boxes": "boxes",
+    "errors": {
+      "nameRequired": "Name is required",
+      "lastNameRequired": "Last name is required",
+      "phoneRequired": "Phone number is required",
+      "addressRequired": "Address is required for shipping"
+    }
   },
   "Description": {
     "button_add_to_cart": "Add to Cart",

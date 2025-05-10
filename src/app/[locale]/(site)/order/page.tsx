@@ -45,8 +45,10 @@ const OrderPage = () => {
   
   const isHebrew = pathname.split("/")[1] === "he";
 
+  const validationSchema = orderFormSchema(t);
+
   const orderForm = useForm<OrderFormType>({
-    resolver: zodResolver(orderFormSchema),
+    resolver: zodResolver(validationSchema),
     defaultValues: {
       name: "",
       lastName: "",

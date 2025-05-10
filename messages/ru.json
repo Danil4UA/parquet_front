@@ -196,7 +196,13 @@
     "errorTitle": "Произошла ошибка",
     "totalPackages": "Всего коробок",
     "inTheBox": "В коробке",
-    "boxes": "коробок"
+    "boxes": "коробок",
+    "errors": {
+      "nameRequired": "Необходимо указать имя",
+      "lastNameRequired": "Необходимо указать фамилию",
+      "phoneRequired": "Необходимо указать номер телефона",
+      "addressRequired": "Для доставки необходимо указать адрес"
+    }
   },
   "Description": {
     "button_add_to_cart": "Добавить в корзину",

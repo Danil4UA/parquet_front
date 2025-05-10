@@ -195,7 +195,13 @@
     "errorTitle": "הייתה בעיה",
     "totalPackages": "סך הקופסאות",
     "inTheBox": "בקופסה",
-    "boxes": "קופסאות"
+    "boxes": "קופסאות",
+    "errors": {
+      "nameRequired": "שם הוא שדה חובה",
+      "lastNameRequired": "שם משפחה הוא שדה חובה",
+      "phoneRequired": "מספר טלפון הוא שדה חובה",
+      "addressRequired": "כתובת נדרשת למשלוח"
+    }
   },
   "Description": {
     "product_notice": "מומלץ להוסיף 10% נוספים לסכום הנדרש לפחת בהתקנה.",
