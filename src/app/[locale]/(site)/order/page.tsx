@@ -186,14 +186,14 @@ const OrderPage = () => {
                 label=""
                 nameInSchema="name"
                 placeholder={t("name")}
-                inputClass={`Order__input--half ${errors.name ? "error" : ""} ${isHebrew ? "hebrew-text" : "h-12"}`}
+                inputClass={`Order__input--half h-12 ${errors.name ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
               />
               
               <TextInputWithLabel<OrderFormType>
                 label=""
                 nameInSchema="lastName"
                 placeholder={t("lastName")}
-                inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+                inputClass={`Order__input--half h-12 ${isHebrew ? "hebrew-text" : ""}`}
               />
 
               {deliveryMethod === "shipping" && (
@@ -202,28 +202,28 @@ const OrderPage = () => {
                     label=""
                     nameInSchema="address"
                     placeholder={t("address")}
-                    inputClass={`Order__input ${isHebrew ? "hebrew-text" : "h-12"}`}
+                    inputClass={`Order__input h-12 ${isHebrew ? "hebrew-text" : ""}`}
                   />
                   
                   <TextInputWithLabel<OrderFormType>
                     label=""
                     nameInSchema="apartment"
                     placeholder={t("apartment")}
-                    inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+                    inputClass={`Order__input--half h-12 ${isHebrew ? "hebrew-text" : ""}`}
                   />
                   
                   <TextInputWithLabel<OrderFormType>
                     label=""
                     nameInSchema="postalCode"
                     placeholder={t("postalCode")}
-                    inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+                    inputClass={`Order__input--half h-12 ${isHebrew ? "hebrew-text" : ""}`}
                   />
                   
                   <TextInputWithLabel<OrderFormType>
                     label=""
                     nameInSchema="city"
                     placeholder={t("city")}
-                    inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+                    inputClass={`Order__input--half h-12 ${isHebrew ? "hebrew-text" : ""}`}
                   />
                 </>
               )}
@@ -232,7 +232,7 @@ const OrderPage = () => {
                 label=""
                 nameInSchema="phoneNumber"
                 placeholder={t("phoneNumber")}
-                inputClass={`Order__input--half ${isHebrew ? "hebrew-text" : "h-12"}`}
+                inputClass={`Order__input--half h-12 ${isHebrew ? "hebrew-text" : ""}`}
               />
             </div>
 
