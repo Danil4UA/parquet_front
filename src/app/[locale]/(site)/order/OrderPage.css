@@ -111,6 +111,9 @@
 }
 .Order__items_info {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .Order__items_image {

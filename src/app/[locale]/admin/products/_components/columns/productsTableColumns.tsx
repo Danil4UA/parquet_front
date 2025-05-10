@@ -92,6 +92,22 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
       cellClass: "text-center",
     },
   },
+  // {
+  //   accessorKey: "boxCoverage",
+  //   header: () => <ProductsHeaderCell text="Box Coverage" className="items-center" />,
+  //   cell: ({ row }) => (
+  //     <ProductsTextCell 
+  //       row={row}
+  //       accessorKey="boxCoverage"
+  //     />
+  //   ),
+  //   size: 100,
+  //   minSize: 100,
+  //   meta: {
+  //     headerClass: "text-center",
+  //     cellClass: "text-center",
+  //   },
+  // },
   {
     accessorKey: "discount",
     header: () => <ProductsHeaderCell text="Discount(%)" className="items-center" />,

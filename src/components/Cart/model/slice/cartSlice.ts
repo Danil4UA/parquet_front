@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type CartItemType = {
   _id: string;
   name: string;
+  boxCoverage?: number;
   quantity: number;
   price: string;
   images: string[];
