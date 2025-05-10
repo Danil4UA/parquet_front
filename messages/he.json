@@ -12,14 +12,14 @@
   "Sidebar": {
     "home": "בית",
     "flooring": "ריצוף",
-    "laminate": "לְרַבֵּד",
-    "wood": "עץ",
-    "spc": "SPC",
+    "laminate": "למינציה",
+    "wood": "עץ טבעי",
+    "spc": "פרקט SPC",
     "sales": "מבצעים",
     "catalog": "קטלוג",
-    "panels": "לוחות",
+    "panels": "פנלים",
     "thresholds": "ספים",
-    "cladding": "חיפוי"
+    "cladding": "חיפוי קיר"
   },
   "Product": {
     "GetMoreDetails": "Get more details",
@@ -192,8 +192,10 @@
     "includingTaxes": "כולל מיסים",
     "sentSuccess": "✅ ההזמנה שלך התקבלה לעיבוד. ניצור איתך קשר בקרוב.",
     "sentFailed": "❌ שליחת ההזמנה נכשלה. אנא נסה שוב.",
-    "errorTitle": "הייתה בעיה"
-
+    "errorTitle": "הייתה בעיה",
+    "totalPackages": "סך הקופסאות",
+    "inTheBox": "בקופסה",
+    "boxes": "קופסאות"
   },
   "Description": {
     "product_notice": "מומלץ להוסיף 10% נוספים לסכום הנדרש לפחת בהתקנה.",

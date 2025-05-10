@@ -194,7 +194,10 @@
     "includingTaxes": "Including taxes",
     "sentSuccess": "✅ Your order has been processed. We will contact you shortly.",
     "sentFailed": "❌ Order submission failed. Please try again.",
-    "errorTitle": "There was a problem"
+    "errorTitle": "There was a problem",
+    "totalPackages": "Total packages",
+    "inTheBox": "In the box",
+    "boxes": "boxes"
   },
   "Description": {
     "button_add_to_cart": "Add to Cart",
