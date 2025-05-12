@@ -22,8 +22,8 @@ export const categoryOptions = [
   { id: "SPC", name: 'SPC' },
   { id: "Wood", name: 'Wood' },
   { id: "Laminate", name: 'Laminate' },
-  { id: "Flooring", name: 'Flooring' },
   { id: "Cladding", name: 'Cladding' },
+  { id: "Panels", name: 'Panels' },
 ]
 
 export const allowedTypes = [
