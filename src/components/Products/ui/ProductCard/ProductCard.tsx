@@ -59,7 +59,7 @@ const ProductCard = ({
         </div>
         {discount > 0 && <div className="card__sale_badge">-{discount}%</div>}
         <div className="card__information">
-          <div>{`${productName} (${finish ? finish : ""})`}</div>
+          <div>{`${productName} ${finish ? `(${finish})` : ""}`}</div>
           <div className="card__information_price">
             {discount ? (
               <div className="price__container">
