@@ -113,6 +113,7 @@
 .items {
   display: flex;
   flex-direction: column;
+  overflow-y: auto
 }
 
 .items_header {
