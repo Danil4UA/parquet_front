@@ -8,14 +8,23 @@ import { useTranslations } from 'next-intl';
 import { ContactFormType } from '@/lib/schemas/contactFormSchema';
 import ErrorDialog from '@/components/ErrorDialog';
 import contactServices from '@/services/contactServices';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
+import RouteConstants from '@/constants/RouteConstants';
 
 const ContactPage = () => {
     const [isErrorDialogOpen, setIsErrorDialogOpen] = useState<boolean>(false);
     const t = useTranslations();
+    const router = useRouter();
 
     const handleFormSubmit = async (formData: ContactFormType) => {
         try {
             await contactServices.contactUs(formData);
+            Swal.fire({
+                icon: "success",
+                text: t(`Contact.thankYou`)
+            });
+            router.push(RouteConstants.HOMEPAGE_ROUTE); 
         } catch {
             setIsErrorDialogOpen(true);
         }
