@@ -263,7 +263,13 @@
     "addressText": "Address",
     "followUsText": "Follow Us",
     "emailText": "Email",
-    "phoneText": "Phone"
+    "phoneText": "Phone",
+    "errors": {
+      "name_min_length": "Please enter your name",
+      "phone_invalid": "Please enter a valid phone number",
+      "email_invalid": "Please enter a valid email",
+      "message_min_length": "Message must contain at least 10 characters"
+    }
   },
   "Utils": {
     "days": {

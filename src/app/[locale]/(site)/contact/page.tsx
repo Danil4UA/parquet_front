@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Instagram, Facebook, Clock, MessageSquare } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, MessageSquare } from 'lucide-react';
 import { contactData, getGoogleMapsUrl, socialLinks } from '@/Utils/utils';
 import ContactUsForm from './_components/contactUsForm';
 import { useTranslations } from 'next-intl';
@@ -11,6 +11,9 @@ import contactServices from '@/services/contactServices';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import RouteConstants from '@/constants/RouteConstants';
+import InstagramIcon from "@/app/assets/instagram.svg";
+import FacebookIcon from "@/app/assets/facebook.svg";
+import { Link } from "@/i18n/routing";
 
 const ContactPage = () => {
     const [isErrorDialogOpen, setIsErrorDialogOpen] = useState<boolean>(false);
@@ -107,25 +110,17 @@ const ContactPage = () => {
                       
                       <div className="pt-6 border-t border-gray-100">
                         <h3 className="text-sm font-medium text-gray-500 mb-3">{t("Contact.followUsText")}</h3>
-                        <div className="flex gap-3">
-                          <a 
-                            href={socialLinks.instagram} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            aria-label="Instagram"
-                            className="bg-gray-100 p-3 rounded-full hover:bg-gray-200 transition-all"
-                          >
-                            <Instagram className="h-5 w-5 text-[#171717]" />
-                          </a>
-                          <a 
-                            href={socialLinks.facebook} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            aria-label="Facebook"
-                            className="bg-gray-100 p-3 rounded-full hover:bg-gray-200 transition-all"
-                          >
-                            <Facebook className="h-5 w-5 text-[#171717]" />
-                          </a>
+                        <div className="flex">
+                          <span className="h-14 w-14 p-3 rounded-full hover:bg-gray-100 transition-all">
+                            <Link href={socialLinks.facebook}>
+                              <FacebookIcon />
+                            </Link>
+                          </span>
+                          <span className="h-14 w-14 p-3 rounded-full hover:bg-gray-100 transition-all">
+                            <Link href={socialLinks.instagram}>
+                              <InstagramIcon />
+                            </Link>
+                          </span>
                         </div>
                       </div>
                       

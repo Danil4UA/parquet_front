@@ -7,6 +7,9 @@ import ContactContent from "./content-components/ContactContent/ContactContent";
 import ServicesContent from "./content-components/ServicesContent/ServicesContent";
 import AboutContent from "./content-components/AboutContent/AboutContent";
 import { socialLinks, contactData, getGoogleMapsUrl } from "@/Utils/utils";
+import InstagramIcon from "@/app/assets/instagram.svg";
+import FacebookIcon from "@/app/assets/facebook.svg";
+import { Link } from "@/i18n/routing";
 
 const contentComponents: Record<string, React.FC> = {
   about_us: AboutContent,
@@ -85,18 +88,17 @@ const Footer = () => {
 
           <div className="footer-section">
             <h3>{t("follow_us")}</h3>
-            <div className="social-grid">
-              {Object.entries(socialLinks).map(([social, link]) => (
-                <a 
-                  key={social} 
-                  href={link} 
-                  className="social-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t(social)}
-                </a>
-              ))}
+            <div className="flex gap-4">
+            <span className="h-12 w-12">
+              <Link href={socialLinks.instagram}>
+                <InstagramIcon />
+              </Link>
+            </span>
+            <span className="h-12 w-12">
+              <Link href={socialLinks.facebook}>
+                <FacebookIcon />
+              </Link>
+            </span>
             </div>
           </div>
         </div>

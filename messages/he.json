@@ -261,7 +261,13 @@
     "addressText": "כתובת",
     "followUsText": "עקוב אחרינו",
     "emailText": "אימייל",
-    "phoneText": "טלפון"
+    "phoneText": "טלפון",
+    "errors": {
+      "name_min_length": "אנא הכנס את שמך",
+      "phone_invalid": "אנא הכנס מספר טלפון תקין",
+      "email_invalid": "פורמט האימייל אינו תקין",
+      "message_min_length": "אנא הכנס את ההודעה שלך"
+    }
   },
   "Utils": {
     "days": {

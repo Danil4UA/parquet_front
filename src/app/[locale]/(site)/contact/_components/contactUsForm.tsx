@@ -11,9 +11,10 @@ const ContactUsForm = ({ onSubmit }) => {
   const t = useTranslations('Contact');
   const pathname = usePathname();
   const isHebrew = pathname.split("/")[1] === "he";
-
+  const validationSchema = contactFormSchema(t);
+  
   const form = useForm<ContactFormType>({
-      resolver: zodResolver(contactFormSchema),
+      resolver: zodResolver(validationSchema),
       defaultValues: {
         name: '',
         phone: '',

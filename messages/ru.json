@@ -260,7 +260,13 @@
     "addressText": "Адрес",
     "followUsText": "Следите за нами",
     "emailText": "Электронная почта",
-    "phoneText": "Телефон"
+    "phoneText": "Телефон",
+    "errors": {
+      "name_min_length": "Пожалуйста, введите ваше имя",
+      "phone_invalid": "Пожалуйста, введите действительный номер телефона",
+      "email_invalid": "Имейл формат неверный",
+      "message_min_length": "Пожалуйста, введите ваше сообщение"
+    }
   },
   "Utils": {
     "days": {
