@@ -19,7 +19,9 @@
     "catalog": "קטלוג",
     "panels": "פנלים",
     "thresholds": "ספים",
-    "cladding": "חיפוי קיר"
+    "cladding": "חיפוי קיר",
+    "contactUs": "צור קשר",
+    "cleaningProducts": "מוצרי ניקוי"
   },
   "Product": {
     "GetMoreDetails": "Get more details",
@@ -58,6 +60,9 @@
 
     "cladding_title": "חיפוי",
     "cladding_description": "חיפוי אלגנטי ועמיד בפני מזג אוויר לקירות חיצוניים",
+
+    "cleaning_title": "מוצרי ניקוי",
+    "cleaning_description": "מוצרי ניקוי איכותיים לרצפות עץ ולמינציה",
 
     "VIEW": "צפה עכשיו"
   },

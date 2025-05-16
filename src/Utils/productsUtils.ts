@@ -24,6 +24,7 @@ export const categoryOptions = [
   { id: "Laminate", name: 'Laminate' },
   { id: "Cladding", name: 'Cladding' },
   { id: "Panels", name: 'Panels' },
+  { id: "Cleaning", name: 'Cleaning' },
 ]
 
 export const allowedTypes = [

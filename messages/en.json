@@ -10,6 +10,8 @@
     "panels": "Panels",
     "thresholds": "Thresholds",
     "cladding": "Cladding",
+    "contactUs": "Contact Us",
+    "cleaningProducts": "Cleaning Products",
     "complete": "Complete Order",
     "per_box": "per box",
     "box_coverage": "Box coverage",
@@ -61,6 +63,9 @@
     "cladding_title": "Cladding",
     "cladding_description": "Elegant and weather-resistant cladding for exterior walls",
 
+    "cleaning_title": "Cleaning Products",
+    "cleaning_description": "Specialized cleaning products for maintaining your flooring",
+    
     "VIEW": "VIEW NOW"
   },
   "Filter": {

@@ -19,7 +19,9 @@
     "catalog": "Каталог",
     "panels": "Панели",
     "thresholds": "Пороги",
-    "cladding": "Облицовка"
+    "cladding": "Облицовка",
+    "contactUs": "Связаться с нами",
+    "cleaningProducts": "Моющие средства"
   },
   "Product": {
     "GetMoreDetails": "Просмотреть детали",
@@ -59,6 +61,9 @@
 
     "cladding_title": "Облицовка",
     "cladding_description": "Элегантная и устойчивая к погодным условиям облицовка",
+
+    "cleaning_title": "Моющие средства",
+    "cleaning_description": "Эффективные и безопасные моющие средства для паркета",
 
     "VIEW": "ПОСМОТРЕТЬ"
   },

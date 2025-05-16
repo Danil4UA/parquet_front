@@ -61,7 +61,13 @@ const CategoryList = () => {
       path: "/products/cladding",
       title: t("cladding_title"),
       description: t("cladding_description")
-    }
+    },
+    {
+      image: categoryCatalog.src,
+      path: "/products/cleaning",
+      title: t("cleaning_title"),
+      description: t("cleaning_description")
+    },
   ];
 
   return (
