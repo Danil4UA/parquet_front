@@ -240,5 +240,42 @@
     "loading": "טוען...",
     "noResults": "לא נמצאו מוצרים",
     "viewAllResults": "צפה בכל התוצאות"
+  },
+  "Contact": {
+    "contactUs": "צור קשר",
+    "contactInfo": "פרטי התקשרות",
+    "contactUsAnyWay": "צור איתנו קשר בכל דרך נוחה",
+    "workingHours": "שעות פעילות",
+    "weekdays": "ימי חול",
+    "weekends": "סוף שבוע",
+    "sendMessage": "שלח הודעה",
+    "fillForm": "מלא את הטופס ואנו ניצור איתך קשר בהקדם",
+    "name": "השם שלך",
+    "phone": "הטלפון שלך",
+    "email": "האימייל שלך",
+    "message": "ההודעה שלך",
+    "send": "שלח",
+    "sending": "שולח...",
+    "thankYou": "תודה על הודעתך! אנו ניצור איתך קשר בהקדם.",
+    "errorMessage": "אירעה שגיאה בשליחת ההודעה. אנא נסה שוב או צור איתנו קשר בטלפון",
+    "addressText": "כתובת",
+    "followUsText": "עקוב אחרינו",
+    "emailText": "אימייל",
+    "phoneText": "טלפון"
+  },
+  "Utils": {
+    "days": {
+      "monday": "יום שני",
+      "tuesday": "יום שלישי",
+      "wednesday": "יום רביעי",
+      "thursday": "יום חמישי",
+      "friday": "יום שישי",
+      "saturday": "יום שבת",
+      "sunday": "יום ראשון"
+    },
+    "status": {
+      "open": "פתוח",
+      "closed": "סגור"
+    }
   }
 }

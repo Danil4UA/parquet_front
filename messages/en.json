@@ -233,7 +233,7 @@
     "product_notice": "It is recommended to add an additional 10% to the amount needed for amortization during installation.",
     "delivery_policy_text": "Possibility to receive the product within 2-3 working days from payment confirmation",
     "specifications_box_coverage": "Box Coverage"
-},
+  },
   "Navbar": {
     "title": "Effect Parquet"
   },
@@ -242,5 +242,42 @@
     "loading": "Loading...",
     "noResults": "No products found",
     "viewAllResults": "View All Results"
+  },
+  "Contact": {
+    "contactUs": "Contact Us",
+    "contactInfo": "Contact Information",
+    "contactUsAnyWay": "Contact us in any convenient way",
+    "workingHours": "Working Hours",
+    "weekdays": "Weekdays",
+    "weekends": "Weekends",
+    "sendMessage": "Send a Message",
+    "fillForm": "Fill out the form and we will contact you shortly",
+    "name": "Your name",
+    "phone": "Your phone",
+    "email": "Your email",
+    "message": "Your message",
+    "send": "Send",
+    "sending": "Sending...",
+    "thankYou": "Thank you for your message! We will contact you shortly.",
+    "errorMessage": "An error occurred while sending the message. Please try again or contact us by phone",
+    "addressText": "Address",
+    "followUsText": "Follow Us",
+    "emailText": "Email",
+    "phoneText": "Phone"
+  },
+  "Utils": {
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "status": {
+      "open": "Open",
+      "closed": "Closed"
+    }
   }
 }
