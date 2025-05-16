@@ -13,7 +13,6 @@ export default class userServices {
 
     static REGISTER_USER = `${URL_API}/user/register`;
 
-    static CONTACT_US_ENDPOINT = `${URL_API}/api/contact`;
 
 
     static async login(email: string, password: string) {
@@ -63,15 +62,5 @@ export default class userServices {
           console.log(error);
           throw error;
         }
-    }
-
-    static async contactUs(data: any) {
-      try {
-        const response = await axios.post(this.CONTACT_US_ENDPOINT, data);
-        return response.data;
-      } catch (error) {
-        console.error("Error sending contact form:", error);
-        throw error;
-      }
     }
 }

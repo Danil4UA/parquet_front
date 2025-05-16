@@ -7,7 +7,7 @@ import ContactUsForm from './_components/contactUsForm';
 import { useTranslations } from 'next-intl';
 import { ContactFormType } from '@/lib/schemas/contactFormSchema';
 import ErrorDialog from '@/components/ErrorDialog';
-import userServices from '@/services/userServices';
+import contactServices from '@/services/contactServices';
 
 const ContactPage = () => {
     const [isErrorDialogOpen, setIsErrorDialogOpen] = useState<boolean>(false);
@@ -15,8 +15,8 @@ const ContactPage = () => {
 
     const handleFormSubmit = async (formData: ContactFormType) => {
         try {
-            await userServices.contactUs(formData);
-        } catch{
+            await contactServices.contactUs(formData);
+        } catch {
             setIsErrorDialogOpen(true);
         }
     };
