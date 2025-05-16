@@ -25,7 +25,7 @@ const ContactUsForm = ({ onSubmit }) => {
 
   return (
     <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 h-full flex flex-col">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <TextInputWithLabel<ContactFormType>
               label=""
