@@ -95,7 +95,7 @@ const ProductPage: FC = () => {
 
         <div className="product__info_wrapper">
           <div className="product__header">
-            <h1 className="product__name">{`${product.name} ${product.model ? `(${product.model})` : ""}`}</h1>
+            <h1 className="product__name">{`${product.name}`}</h1>
             <div className="product__price">
               {product.discount ? (
                 <div className="product-price product-price--discounted">

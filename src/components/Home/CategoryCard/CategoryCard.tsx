@@ -21,10 +21,9 @@ const CategoryCard = ({ category }: CategoryCardProps) => {
           <div className="CategoryCard__image">
             <Image 
               src={category.image} 
-              width={300} 
-              height={400} 
+              fill
               alt={"categoryName"} 
-              objectFit="cover"
+              style={{ objectFit: "cover" }}
               />
           </div>
         </div>
