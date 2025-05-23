@@ -1,168 +1,93 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { ShoppingBag, DollarSign, ShoppingCart, Plus, Clock } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Link } from '@/i18n/routing';
-import RouteConstants from '@/constants/RouteConstants';
+
+import React, { useState, useMemo } from 'react';
+import { Search } from 'lucide-react';
+import useGetAllOrdersQuery from '@/hooks/useGetAllOrdersQuery';
+import { useSession } from 'next-auth/react';
+import GeneralTable from '@/components/Tables/GeneralTable';
+import createOrdersTableColumns from './_components/columns/ordersTableColumns';
+import { PaginationState } from '@tanstack/react-table';
+import Pagination from './_components/Pagination/Pagination';
+import { useSearchParams } from 'next/navigation';
+import { OrdersSearchParams } from '@/types/orders';
+import { Input } from '@/components/ui/input';
 
 export default function AdminDashboard() {
-  const [isLoading, setIsLoading] = useState(true);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [stats, setStats] = useState({
-    totalProducts: 120,
-    orders: 34,
-    users: 256,
-    revenue: '24,500'
+  const [searchTerm, setSearchTerm] = useState('');
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 20,
   });
-  
-  // Simulate loading of dashboard data
-  useEffect(() => {
-    const loadDashboard = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-    
-    return () => clearTimeout(loadDashboard);
-  }, []);
-  
-  const recentOrders = [
-    { id: 'ORD-1234', customer: 'David Cohen', date: '2023-04-10', status: 'Completed', total: '₪1,240' },
-    { id: 'ORD-1233', customer: 'Sarah Levi', date: '2023-04-09', status: 'Processing', total: '₪850' },
-    { id: 'ORD-1232', customer: 'Moshe Goldberg', date: '2023-04-08', status: 'Completed', total: '₪2,100' },
-    { id: 'ORD-1231', customer: 'Rachel Klein', date: '2023-04-07', status: 'Shipped', total: '₪920' },
-    { id: 'ORD-1230', customer: 'Daniel Rubin', date: '2023-04-06', status: 'Completed', total: '₪1,560' }
-  ];
-
-  // Status badge styling helper
-  const getStatusClasses = (status) => {
-    switch(status.toLowerCase()) {
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'processing':
-        return 'bg-blue-100 text-blue-800';
-      case 'shipped':
-        return 'bg-purple-100 text-purple-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search") || "";
+  const apiParams: OrdersSearchParams = {
+    search: searchTerm || search,
+    page: pagination.pageIndex + 1,
+    limit: pagination.pageSize
   };
   
+  const { data: session } = useSession();
+  const { data, isPending } = useGetAllOrdersQuery(session, apiParams);
+  const allOrders = useMemo(() => data?.data.orders || [], [data?.data]);
+
+  const pageCount = data?.data?.pagination?.pages || 0;
+  const totalRows = data?.data?.pagination?.total || 0;
+
+  const ordersTableColumns = useMemo(
+    () => createOrdersTableColumns(),
+    [],
+  );
+
+  const handlePageChange = (newPage: number) => {
+    setPagination((prev) => ({
+      ...prev,
+      pageIndex: newPage,
+    }));
+  };
+
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPagination({
+      pageIndex: 0,
+      pageSize: newPageSize,
+    });
+  };
+
   return (
-    <div className="w-full">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-        <p className="text-gray-600">Welcome to your admin dashboard</p>
-      </div>
-      
-      {isLoading ? (
-        <div className="flex justify-center items-center p-8 bg-gray-50 rounded-md">
-          <p className="text-gray-500">Loading dashboard data...</p>
+    <div className="flex w-full flex-col h-full max-h-[calc(100vh-58px)] gap-4 bg-white overflow-hidden">
+      <div className="flex justify-end items-center gap-3 m-2">
+        <div className="relative max-w-[300px] w-full">
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="text" 
+            placeholder="Search orders..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-8 pr-1 py-0 text-sm h-[30px] w-full"
+          />
         </div>
-      ) : (
-        <>
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <div className="flex items-center mb-4">
-                <div className="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
-                  <ShoppingBag size={24} />
-                </div>
-                <div>
-                  <h3 className="text-gray-500 text-sm font-medium">Total Products</h3>
-                  <p className="text-2xl font-bold text-gray-800">{stats.totalProducts}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <div className="flex items-center mb-4">
-                <div className="p-3 rounded-full bg-green-100 text-green-600 mr-4">
-                  <ShoppingCart size={24} />
-                </div>
-                <div>
-                  <h3 className="text-gray-500 text-sm font-medium">Orders</h3>
-                  <p className="text-2xl font-bold text-gray-800">{stats.orders}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <div className="flex items-center mb-4">
-                <div className="p-3 rounded-full bg-purple-100 text-purple-600 mr-4">
-                  <DollarSign size={24} />
-                </div>
-                <div>
-                  <h3 className="text-gray-500 text-sm font-medium">Revenue</h3>
-                  <p className="text-2xl font-bold text-gray-800">₪{stats.revenue}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Recent Orders */}
-            <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-              <div className="flex justify-between items-center p-6 border-b border-gray-100">
-                <h2 className="text-lg font-medium text-gray-800">Recent Orders</h2>
-                <Button variant="outline" size="sm">View All</Button>
-              </div>
-              
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <tr>
-                      <th className="px-6 py-3 text-left">Order ID</th>
-                      <th className="px-6 py-3 text-left">Customer</th>
-                      <th className="px-6 py-3 text-left">Date</th>
-                      <th className="px-6 py-3 text-left">Status</th>
-                      <th className="px-6 py-3 text-right">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {recentOrders.map(order => (
-                      <tr key={order.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">{order.id}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{order.customer}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{order.date}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                          <span className={`px-2 py-1 text-xs rounded-full ${getStatusClasses(order.status)}`}>
-                            {order.status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right font-medium">{order.total}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            
-            {/* Quick Actions */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-100">
-              <div className="p-6 border-b border-gray-100">
-                <h2 className="text-lg font-medium text-gray-800">Quick Actions</h2>
-              </div>
-              
-              <div className="p-6 space-y-4 flex flex-col gap-2">
-                <Link href={RouteConstants.ADD_PRODUCT_PAGE}>
-                  <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
-                    <Plus size={18} className="mr-3" />
-                      <span>Add New Product</span>
-                  </Button>
-                </Link>
-
-
-                <Link href={RouteConstants.MANAGE_PRODUCTS_PAGE}>
-                  <Button variant="outline" className="w-full justify-start text-left h-auto py-4 px-4">
-                    <Clock size={18} className="mr-3" />
-
-                      <span>Manage Inventory</span>
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      </div>
+      <GeneralTable
+        columns={ordersTableColumns}
+        data={allOrders}
+        isPending={isPending}
+        showBorders
+        rowIdField="_id"
+        cellClass="text-gray-800"
+        headerClass="text-gray-900 bg-gray-50 border-r last:border-r-0 uppercase"
+        wrapperTableClass="border"
+      />
+      <Pagination
+        pageIndex={pagination.pageIndex}
+        pageSize={pagination.pageSize}
+        pageCount={pageCount}
+        rowCount={totalRows}
+        gotoPage={handlePageChange}
+        nextPage={() => handlePageChange(pagination.pageIndex + 1)}
+        previousPage={() => handlePageChange(pagination.pageIndex - 1)}
+        setPageSize={handlePageSizeChange}
+        canPreviousPage={pagination.pageIndex > 0}
+        canNextPage={pagination.pageIndex < pageCount - 1}
+      />
     </div>
   );
 }

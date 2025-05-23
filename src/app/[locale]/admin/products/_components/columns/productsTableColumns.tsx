@@ -4,9 +4,8 @@ import ProductsHeaderCell from "../ProductsHeaderCell";
 import ProductsTextCell from "../ProductsTextCell";
 import ProductsActionCell from "../ProductsActionCell";
 import { 
-  allowedTypes,
-  // availableOptions, 
-  categoryOptions, colorOptions } from "@/Utils/productsUtils";
+  allowedTypes, categoryOptions, colorOptions 
+} from "@/Utils/productsUtils";
 import ProductsSelectCell from "../ProductsSelectCell";
 import Image from "next/image";
 

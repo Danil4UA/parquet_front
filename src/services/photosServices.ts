@@ -47,8 +47,4 @@ export default class photosServices {
             throw error;
         }
     }
-
-    static async deletePhoto () {
-
-    }
 }

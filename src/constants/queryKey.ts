@@ -5,3 +5,5 @@ export const allCategoryProductsKey = "allCategoryProducts";
 export const ownUserInfoKey = "user";
 
 export const fullProductKey = "fullProduct";
+
+export const allOrdersQueryKey = "allOrders";

@@ -1,4 +1,8 @@
 import RouteConstants from "@/constants/RouteConstants";
+import parsePhoneNumber, {
+  CountryCode,
+  formatIncompletePhoneNumber, isValidPhoneNumber,
+} from "libphonenumber-js";
 
 export const socialLinks = {
     instagram: "https://www.instagram.com/effectparquet?igsh=MTZwMWpwM2V3c2w2dQ==",
@@ -24,3 +28,56 @@ export const isStartsWithRoute = (specificItem, pathname) => {
     return pathname.startsWith(specificItem.route);
   }
 export const ValidPageSizes = [10, 20, 30, 50];
+
+export default class Utils {
+  static formatDateString(date, includeTime = false) {
+    if (!date) return '';
+    
+    const newDate = new Date(date);
+    
+    if (isNaN(newDate.getTime())) return 'Invalid Date';
+    
+    if (includeTime) {
+      return newDate.toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "UTC",
+      });
+    }
+
+    return newDate.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  }
+
+  static formatPhoneNumber = (
+    phoneNumber: string | number,
+    defaultCountry: CountryCode = "IL"
+  ) => {
+    if (!phoneNumber) return "";
+
+    try {
+      let cleanedNumber = String(phoneNumber);
+
+      if (cleanedNumber.startsWith("+")) {
+        cleanedNumber = `+${cleanedNumber.slice(1).replace(/\D/g, "")}`;
+      } else {
+        cleanedNumber = cleanedNumber.replace(/\D/g, "");
+      }
+      const parsedNumber = parsePhoneNumber(cleanedNumber, defaultCountry);
+      if (parsedNumber && isValidPhoneNumber(parsedNumber.number)) {
+        return parsedNumber.formatInternational();
+      }
+
+      return formatIncompletePhoneNumber(cleanedNumber, defaultCountry);
+    } catch {
+      return phoneNumber;
+    }
+  };
+}

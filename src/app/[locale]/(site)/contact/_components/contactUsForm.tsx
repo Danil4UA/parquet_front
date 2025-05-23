@@ -62,7 +62,7 @@ const ContactUsForm = ({ onSubmit }) => {
           
           <Button
             type="submit" 
-            className="w-full bg-[#171717] hover:bg-[#2a2a2a]" 
+            className="w-full bg-[#171717] hover:bg-[#2a2a2a] py-6" 
             disabled={isSubmitting}
           >
             {isSubmitting ? t("sending") : t("send")}

@@ -24,13 +24,10 @@ import {
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function NavFooter() {
-
   const { data: session } = useSession();
-
   const { isMobile } = useSidebar();
   const router = useRouter();
   const queryClient = useQueryClient();
-
   const userData = useGetOwnUserInfoQuery(session);
 
   async function handleSignOut() {

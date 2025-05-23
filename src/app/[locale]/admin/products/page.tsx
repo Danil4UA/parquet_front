@@ -99,30 +99,28 @@ export default function ProductsPage() {
           <span>Add Product</span>
         </Button>
       </div>
-      <div className="mt-4 flex min-h-0 flex-1 flex-col px-2">
-        <GeneralTable
-          columns={productTableColumns}
-          data={allProducts}
-          isPending={isPending}
-          showBorders
-          rowIdField="_id"
-          cellClass="text-gray-800"
-          headerClass="text-gray-900 bg-gray-50 border-r last:border-r-0 uppercase"
-          wrapperTableClass="border"
-        />
-        <Pagination
-          pageIndex={pagination.pageIndex}
-          pageSize={pagination.pageSize}
-          pageCount={pageCount}
-          rowCount={totalRows}
-          gotoPage={handlePageChange}
-          nextPage={() => handlePageChange(pagination.pageIndex + 1)}
-          previousPage={() => handlePageChange(pagination.pageIndex - 1)}
-          setPageSize={handlePageSizeChange}
-          canPreviousPage={pagination.pageIndex > 0}
-          canNextPage={pagination.pageIndex < pageCount - 1}
-        />
-      </div>
+      <GeneralTable
+        columns={productTableColumns}
+        data={allProducts}
+        isPending={isPending}
+        showBorders
+        rowIdField="_id"
+        cellClass="text-gray-800"
+        headerClass="text-gray-900 bg-gray-50 border-r last:border-r-0 uppercase"
+        wrapperTableClass="border"
+      />
+      <Pagination
+        pageIndex={pagination.pageIndex}
+        pageSize={pagination.pageSize}
+        pageCount={pageCount}
+        rowCount={totalRows}
+        gotoPage={handlePageChange}
+        nextPage={() => handlePageChange(pagination.pageIndex + 1)}
+        previousPage={() => handlePageChange(pagination.pageIndex - 1)}
+        setPageSize={handlePageSizeChange}
+        canPreviousPage={pagination.pageIndex > 0}
+        canNextPage={pagination.pageIndex < pageCount - 1}
+      />
     </div>
   );
 }

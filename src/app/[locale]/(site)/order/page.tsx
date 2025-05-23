@@ -125,8 +125,11 @@ const OrderPage = () => {
     const orderData = {
       ...data,
       cartItems: cartItems.map((item) => ({
+        id: item._id,
         name: item.name,
+        model: item.model,
         quantity: item.quantity,
+        price: item.price,
         actualArea: totalArea[item._id] || item.quantity,
         boxes: totalBoxes[item._id] || item.quantity,
         totalPrice: itemTotalPrices[item._id] || (Number(item.price) * Number(item.quantity))
@@ -134,7 +137,6 @@ const OrderPage = () => {
       shippingCost: deliveryMethod === "shipping" ? SHIPPING_COST : 0,
       totalPrice: totalPrice
     };
-
     try {
       await productsServices.createOrder(orderData);
       Swal.fire({
