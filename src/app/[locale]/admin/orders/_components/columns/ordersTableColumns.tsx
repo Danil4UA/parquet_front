@@ -1,11 +1,11 @@
 import { Order } from "@/types/orders";
 import { ColumnDef } from "@tanstack/react-table";
-import ProductsHeaderCell from "../../products/_components/ProductsHeaderCell";
-import OrderTextCell from "../OrderTextCell";
-import OrderSelectCell from "../OrderSelectCell";
+import ProductsHeaderCell from "../../../products/_components/ProductsHeaderCell";
+import OrderTextCell from "../../../_components/OrderTextCell";
+import OrderSelectCell from "../../../_components/OrderSelectCell";
 import OrdersUtils from "@/Utils/ordersUtils";
 import Utils from "@/Utils/utils";
-import OrderActionCell from "../OrderActionCell";
+import OrderActionCell from "../../../_components/OrderActionCell";
 
 const {
   deliveryOptions,
@@ -30,8 +30,7 @@ const createOrdersTableColumns = (): ColumnDef<Order>[] => [
         accessorKey: "totalPrice",
         header: () => <ProductsHeaderCell text="Total" className="items-center" />,
         cell: ({ row }) => (
-          <p>{row.original.totalPrice}</p>
-        ),
+          <p>{row.original.totalPrice !== undefined ? `${row.original.totalPrice} ₪` : ""}</p>        ),
         size: 150,
         minSize: 150,
     },

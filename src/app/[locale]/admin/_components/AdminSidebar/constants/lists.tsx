@@ -16,11 +16,11 @@ export const mainList = [
     name: "Products",
     icon: BriefcaseBusiness,
     route: RouteConstants.ADMIN_PRODUCTS,
-  }
-  // {
-  //   id: "main-3",
-  //   name: "My Settings",
-  //   icon: Settings,
-  //   route: RouteConstants.ADMIN_SETTINGS,
-  // }
+  },
+  {
+    id: "main-3",
+    name: "Orders",
+    icon: BriefcaseBusiness,
+    route: RouteConstants.ADMIN_ORDERS,
+  },
 ];

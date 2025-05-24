@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import ImageUpload from '../../_components/ImageUpload';
+import ImageUpload from '../../../_components/ImageUpload';
 
 interface ProductImagesTabProps {
   images: string[];

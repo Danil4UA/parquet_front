@@ -83,95 +83,95 @@ function OrderSelectCell({
       )}
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger
-  asChild
-  disabled={isSubmitting}
-  onClick={(e) => e.stopPropagation()}
->
-  <div className="w-full relative">
-    {selectedOption ? (
-      <div 
-        className={cn(
-          "w-full flex items-center justify-between gap-1 px-3 py-1.5 rounded-md text-xs font-medium border cursor-pointer",
-          selectedOption.color || "bg-gray-100 text-gray-800 border-gray-200",
-          isSubmitting && "opacity-60"
-        )}
-      >
-        <div className="flex items-center gap-1">
-          {selectedOption.icon && <span>{selectedOption.icon}</span>}
-          {selectedOption.name}
+        asChild
+        disabled={isSubmitting}
+        onClick={(e) => e.stopPropagation()}
+        >
+        <div className="w-full relative">
+            {selectedOption ? (
+            <div 
+                className={cn(
+                "w-full flex items-center justify-between gap-1 px-3 py-1.5 rounded-md text-xs font-medium border cursor-pointer",
+                selectedOption.color || "bg-gray-100 text-gray-800 border-gray-200",
+                isSubmitting && "opacity-60"
+                )}
+            >
+                <div className="flex items-center gap-1">
+                {selectedOption.icon && <span>{selectedOption.icon}</span>}
+                {selectedOption.name}
+                </div>
+                {!isSubmitting && <ChevronDown className="h-3 w-3 flex-shrink-0" />}
+                {isSubmitting && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <LoadingSpinner />
+                </div>
+                )}
+            </div>
+            ) : (
+            <div className="w-full flex items-center justify-between text-gray-500 text-sm px-3 py-1.5 relative">
+                <span className={cn(isSubmitting && "opacity-60")}>-</span>
+                {!isSubmitting && <ChevronDown className="h-3 w-3" />}
+                {isSubmitting && (
+                <div className="absolute inset-0 flex items-center justify-end pr-3">
+                    <LoadingSpinner />
+                </div>
+                )}
+            </div>
+            )}
         </div>
-        {!isSubmitting && <ChevronDown className="h-3 w-3 flex-shrink-0" />}
-        {isSubmitting && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <LoadingSpinner />
-          </div>
-        )}
-      </div>
-    ) : (
-      <div className="w-full flex items-center justify-between text-gray-500 text-sm px-3 py-1.5 relative">
-        <span className={cn(isSubmitting && "opacity-60")}>-</span>
-        {!isSubmitting && <ChevronDown className="h-3 w-3" />}
-        {isSubmitting && (
-        <div className="absolute inset-0 flex items-center justify-end pr-3">
-            <LoadingSpinner />
-          </div>
-        )}
-      </div>
-    )}
-  </div>
-</DropdownMenuTrigger>
+        </DropdownMenuTrigger>
         
         <DropdownMenuContent 
-  className="p-1" 
-  style={{ width: `${size || 150}px` }} 
-  sideOffset={5} 
-  align="start"
->
-  {value && (
-    <div
-      role="presentation"
-      className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded-md text-gray-500 mb-1"
-      onClick={(e) => {
-        e.stopPropagation();
-        if (!isSubmitting) {
-          handleSelect(null);
-        }
-      }}
-    >
-      Clear selection
-    </div>
-  )}
-  
-  <div className="px-1">
-    {options.length ? options.map((option) => (
-      <div
-        key={option.id}
-        role="presentation"
-        className="mb-1 rounded-md cursor-pointer hover:bg-gray-100 p-1 transition-colors"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (!isSubmitting) {
-            handleSelect(option.id);
-          }
-        }}
-      >
-        <div 
-          className={cn(
-            "flex items-center gap-2 px-3 py-2 rounded text-sm font-medium transition-all",
-            option.color || "bg-gray-100 text-gray-800",
-            option.id === value && "shadow-sm"
-          )}
+        className="p-1" 
+        style={{ width: `${size || 150}px` }} 
+        sideOffset={5} 
+        align="end"
         >
-          {option.icon && <span>{option.icon}</span>}
-          <span>{option.name}</span>
-          {option.id === value && <span className="ml-auto">✓</span>}
+        {value && (
+            <div
+            role="presentation"
+            className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded-md text-gray-500 mb-1"
+            onClick={(e) => {
+                e.stopPropagation();
+                if (!isSubmitting) {
+                handleSelect(null);
+                }
+            }}
+            >
+            Clear selection
+            </div>
+        )}
+        
+        <div className="px-1">
+            {options.length ? options.map((option) => (
+            <div
+                key={option.id}
+                role="presentation"
+                className="mb-1 rounded-md cursor-pointer hover:bg-gray-100 p-1 transition-colors"
+                onClick={(e) => {
+                e.stopPropagation();
+                if (!isSubmitting) {
+                    handleSelect(option.id);
+                }
+                }}
+            >
+                <div 
+                className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded text-sm font-medium transition-all",
+                    option.color || "bg-gray-100 text-gray-800",
+                    option.id === value && "shadow-sm"
+                )}
+                >
+                {option.icon && <span>{option.icon}</span>}
+                <span>{option.name}</span>
+                {option.id === value && <span className="ml-auto">✓</span>}
+                </div>
+            </div>
+            )) : (
+            <p className="text-sm text-center py-2 text-gray-500">No Options Available</p>
+            )}
         </div>
-      </div>
-    )) : (
-      <p className="text-sm text-center py-2 text-gray-500">No Options Available</p>
-    )}
-  </div>
-</DropdownMenuContent>
+        </DropdownMenuContent>
       </DropdownMenu>
     </>
   );

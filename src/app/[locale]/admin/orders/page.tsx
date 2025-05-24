@@ -1,52 +1,40 @@
 "use client";
-import React, { useState, useMemo, useEffect } from 'react';
-import { Search, PlusCircle } from 'lucide-react';
 
-import { ProductsSearchParams } from "@/types/products";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import React, { useState, useMemo } from 'react';
+import { Search } from 'lucide-react';
+import useGetAllOrdersQuery from '@/hooks/useGetAllOrdersQuery';
+import { useSession } from 'next-auth/react';
 import GeneralTable from '@/components/Tables/GeneralTable';
-import useGetAllProductsByCategory from '@/hooks/useGetAllProductsByCategory';
-import createLeadsTableColumns from './_components/columns/productsTableColumns';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import Pagination from '../_components/Pagination/Pagination';
+import createOrdersTableColumns from './_components/columns/ordersTableColumns';
 import { PaginationState } from '@tanstack/react-table';
-import RouteConstants from '@/constants/RouteConstants';
+import Pagination from '../_components/Pagination/Pagination';
+import { useSearchParams } from 'next/navigation';
+import { OrdersSearchParams } from '@/types/orders';
+import { Input } from '@/components/ui/input';
 
-export default function ProductsPage() {
+export default function OrdersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 20,
   });
-  
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-  const language = pathname.split("/")[1];
-  
   const search = searchParams.get("search") || "";
-  const color = searchParams.get("color") || "";
-  const type = searchParams.get("type") || "";
-  
-  const apiParams: ProductsSearchParams = {
-    category: 'all',
+  const apiParams: OrdersSearchParams = {
     search: searchTerm || search,
-    color,
-    type,
-    language,
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize
   };
   
-  const { data, isPending } = useGetAllProductsByCategory(apiParams);
-  
-  const allProducts = useMemo(() => data?.data.products || [], [data?.data]);
-  const pageCount = data?.data.pagination.pages || 0;
-  const totalRows = data?.data.pagination.total || 0;
+  const { data: session } = useSession();
+  const { data, isPending } = useGetAllOrdersQuery(session, apiParams);
+  const allOrders = useMemo(() => data?.data.orders || [], [data?.data]);
 
-  const productTableColumns = useMemo(
-    () => createLeadsTableColumns(),
+  const pageCount = data?.data?.pagination?.pages || 0;
+  const totalRows = data?.data?.pagination?.total || 0;
+
+  const ordersTableColumns = useMemo(
+    () => createOrdersTableColumns(),
     [],
   );
 
@@ -64,45 +52,23 @@ export default function ProductsPage() {
     });
   };
 
-  const handleAddProduct = () => {
-    router.push(RouteConstants.ADD_PRODUCT_PAGE);
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchTerm !== search) {
-        setPagination(prev => ({ ...prev, pageIndex: 0 }));
-      }
-    }, 500);
-    
-    return () => clearTimeout(timer);
-  }, [searchTerm, search]);
-
   return (
     <div className="flex w-full flex-col h-full max-h-[calc(100vh-58px)] gap-4 bg-white overflow-hidden">
       <div className="flex justify-end items-center gap-3 m-2">
         <div className="relative max-w-[300px] w-full">
           <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
+          <Input
             type="text" 
-            placeholder="Search products..." 
+            placeholder="Search orders..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-8 pr-1 py-0 text-sm h-[30px] w-full"
           />
         </div>
-        <Button 
-          onClick={handleAddProduct}
-          size="sm" 
-          className="flex items-center gap-1 h-[30px] bg-primary text-white hover:bg-primary/90"
-        >
-          <PlusCircle className="h-4 w-4" />
-          <span>Add Product</span>
-        </Button>
       </div>
       <GeneralTable
-        columns={productTableColumns}
-        data={allProducts}
+        columns={ordersTableColumns}
+        data={allOrders}
         isPending={isPending}
         showBorders
         rowIdField="_id"
