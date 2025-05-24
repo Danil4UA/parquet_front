@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import productsServices from "@/services/productsServices";
-import { allProductsKey } from "@/constants/queryKey";
+import { allOrdersQueryKey } from "@/constants/queryKey";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ErrorDialog from "@/components/ErrorDialog";
 import {
@@ -14,44 +13,30 @@ import {
 import { ChevronDown } from "lucide-react";
 import { getSession } from "next-auth/react";
 import { Row } from "@tanstack/react-table";
-
-import {
-  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Color, Category } from "@/types/products";
-import { Order } from "@/types/orders";
+import { Order, StatusOption } from "@/types/orders";
+import OrderService from "@/services/orderServices";
+import { cn } from "@/lib/utils";
 
 interface OrderSelectCellProps {
   row: Row<Order>;
   accessorKey: Exclude<keyof Order, 'cartItems'>;
-  options: Color[];
+  options: StatusOption[];
   size: number;
 }
 
 function OrderSelectCell({
   row, accessorKey, options, size,
 }: OrderSelectCellProps) {
-
   const [value, setValue] = useState(row.original[accessorKey] || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [isTruncated, setIsTruncated] = useState(false);
-  const textRef = useRef<HTMLSpanElement>(null);
 
   const queryClient = useQueryClient();
 
   useEffect(() => {
     setValue(row.original[accessorKey] || "");
   }, [row.original, accessorKey]);
-
-  useEffect(() => {
-    if (textRef.current) {
-      setIsTruncated(
-        textRef.current.scrollWidth > textRef.current.clientWidth,
-      );
-    }
-  }, [value, row]);
 
   const handleSelect = async (newValueId: string | null) => {
     if (newValueId === value) {
@@ -66,13 +51,13 @@ function OrderSelectCell({
         [accessorKey]: newValueId,
       };
       const session = await getSession();
-      await productsServices.editProduct(session, {
+      await OrderService.editOrder(session, {
         id: row.original._id,
         ...updatedData,
       });
 
       await queryClient.invalidateQueries({
-        queryKey: [allProductsKey],
+        queryKey: [allOrdersQueryKey],
       });
 
       setValue(newValueId || "");
@@ -84,12 +69,7 @@ function OrderSelectCell({
     }
   };
 
-  const getOptionDisplayName = (option: Color | Category) => {
-    return option.name;
-  };
-  
-  // Calculate the display value
-  const displayValue = value || "";
+  const selectedOption = options.find(option => option.id === value);
 
   return (
     <>
@@ -97,76 +77,101 @@ function OrderSelectCell({
         <ErrorDialog
           isOpen={isErrorDialogOpen}
           onCloseDialog={() => setIsErrorDialogOpen(false)}
-          title="Error updating product"
-          message="There was a problem updating the product. Please try again."
+          title="Error updating order"
+          message="There was a problem updating the order. Please try again."
         />
       )}
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger
-          asChild
-          disabled={isSubmitting}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <div className="flex items-center cursor-pointer justify-between">
-            <TooltipProvider>
-              <Tooltip delayDuration={300}>
-                <TooltipTrigger asChild>
-                  <span ref={textRef} className="truncate max-w-full">
-                    {displayValue}
-                  </span>
-                </TooltipTrigger>
-                {isTruncated && (
-                  <TooltipContent side="top" align="start" className="max-w-xs">
-                    <p className="break-words">{displayValue}</p>
-                  </TooltipContent>
-                )}
-              </Tooltip>
-            </TooltipProvider>
-
-            {isSubmitting ? (
-              <span className="ml-2">
-                <LoadingSpinner />
-              </span>
-            ) : (
-              <ChevronDown className="h-4 w-4 ml-1 flex-shrink-0" />
-            )}
+  asChild
+  disabled={isSubmitting}
+  onClick={(e) => e.stopPropagation()}
+>
+  <div className="w-full relative">
+    {selectedOption ? (
+      <div 
+        className={cn(
+          "w-full flex items-center justify-between gap-1 px-3 py-1.5 rounded-md text-xs font-medium border cursor-pointer",
+          selectedOption.color || "bg-gray-100 text-gray-800 border-gray-200",
+          isSubmitting && "opacity-60"
+        )}
+      >
+        <div className="flex items-center gap-1">
+          {selectedOption.icon && <span>{selectedOption.icon}</span>}
+          {selectedOption.name}
+        </div>
+        {!isSubmitting && <ChevronDown className="h-3 w-3 flex-shrink-0" />}
+        {isSubmitting && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <LoadingSpinner />
           </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[150px]" style={{ width: `${size || 150}px` }} sideOffset={10} align="end">
-          {value && (
-          <div
-            role="presentation"
-            className="px-2 py-1 text-sm cursor-pointer hover:bg-gray-100 text-gray-500 border-b border-gray-200"
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!isSubmitting) {
-                handleSelect(null);
-              }
-            }}
-          >
-            Clear selection
+        )}
+      </div>
+    ) : (
+      <div className="w-full flex items-center justify-between text-gray-500 text-sm px-3 py-1.5 relative">
+        <span className={cn(isSubmitting && "opacity-60")}>-</span>
+        {!isSubmitting && <ChevronDown className="h-3 w-3" />}
+        {isSubmitting && (
+        <div className="absolute inset-0 flex items-center justify-end pr-3">
+            <LoadingSpinner />
           </div>
+        )}
+      </div>
+    )}
+  </div>
+</DropdownMenuTrigger>
+        
+        <DropdownMenuContent 
+  className="p-1" 
+  style={{ width: `${size || 150}px` }} 
+  sideOffset={5} 
+  align="start"
+>
+  {value && (
+    <div
+      role="presentation"
+      className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded-md text-gray-500 mb-1"
+      onClick={(e) => {
+        e.stopPropagation();
+        if (!isSubmitting) {
+          handleSelect(null);
+        }
+      }}
+    >
+      Clear selection
+    </div>
+  )}
+  
+  <div className="px-1">
+    {options.length ? options.map((option) => (
+      <div
+        key={option.id}
+        role="presentation"
+        className="mb-1 rounded-md cursor-pointer hover:bg-gray-100 p-1 transition-colors"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (!isSubmitting) {
+            handleSelect(option.id);
+          }
+        }}
+      >
+        <div 
+          className={cn(
+            "flex items-center gap-2 px-3 py-2 rounded text-sm font-medium transition-all",
+            option.color || "bg-gray-100 text-gray-800",
+            option.id === value && "shadow-sm"
           )}
-          {options.length ? options.map((option: Color | Category) => (
-            <div
-              key={option.name}
-              role="presentation"
-              className={`px-2 py-1 text-sm cursor-pointer hover:bg-gray-100 ${
-                option.name === value ? "bg-gray-100 font-medium" : ""
-              }`}
-              onClick={(e) => {
-                e.stopPropagation();
-                if (!isSubmitting) {
-                  handleSelect(option.name);
-                }
-              }}
-            >
-              {getOptionDisplayName(option)}
-            </div>
-          )) : <p className="text-sm text-center">No Options Available</p>}
-        </DropdownMenuContent>
+        >
+          {option.icon && <span>{option.icon}</span>}
+          <span>{option.name}</span>
+          {option.id === value && <span className="ml-auto">✓</span>}
+        </div>
+      </div>
+    )) : (
+      <p className="text-sm text-center py-2 text-gray-500">No Options Available</p>
+    )}
+  </div>
+</DropdownMenuContent>
       </DropdownMenu>
     </>
   );

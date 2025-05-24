@@ -1,3 +1,9 @@
+export interface StatusOption {
+  id: string;
+  name: string;
+  color?: string;
+  icon?: string;
+}
 export interface Pagination {
   total: number;
   page: number;
@@ -23,6 +29,10 @@ export interface Order {
     notes: string;
     cartItems: CartItem[]
     totalPrice: number;
+    address: string;
+    apartment: string;
+    postalCode: string;
+    city: string;
 }
 
 export interface OrdersSearchParams {

@@ -55,7 +55,7 @@ const createOrdersTableColumns = (): ColumnDef<Order>[] => [
         cell: ({ row }) => (
           <OrderSelectCell 
             row={row}
-            accessorKey="deliveryMethod"
+            accessorKey="status"
             options={statusOptions}
             size={200}
           />

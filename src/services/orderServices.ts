@@ -51,18 +51,17 @@ class OrderService {
 
     static deleteOrder = async (session: Session | null, orderId: string) => {
         const { accessToken } = session ?? {};
-
         const config = {
             headers: {
                 Authorization: `Bearer ${accessToken}`
-            },
-            params: {
-                id: orderId,
             }
         };
 
         try {
-            return await axios.delete(OrderService.SPECIFIC_ORDER_ENDPOINT, config);
+            return await axios.delete(
+                `${OrderService.SPECIFIC_ORDER_ENDPOINT}/${orderId}`, 
+                config
+            );
         } catch (error) {
             console.error("Error fetching orders:", error);
             throw error;

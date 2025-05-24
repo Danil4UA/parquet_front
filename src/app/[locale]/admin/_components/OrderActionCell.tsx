@@ -8,7 +8,7 @@ import {
 import { Trash2, MoreVertical,} from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { allCategoryProductsKey } from "@/constants/queryKey";
+import { allOrdersQueryKey } from "@/constants/queryKey";
 import ErrorDialog from "@/components/ErrorDialog";
 import { getSession } from "next-auth/react";
 import { Row } from "@tanstack/react-table";
@@ -29,7 +29,7 @@ function OrderActionCell({ row }: {
       const session = await getSession();
       await OrderService.deleteOrder(session, row.original._id);
       await queryClient.invalidateQueries({
-        queryKey: [allCategoryProductsKey],
+        queryKey: [allOrdersQueryKey],
       });
 
     } catch {
