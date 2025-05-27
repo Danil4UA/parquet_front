@@ -26,7 +26,7 @@ export default function Search({ onClose }: SearchProps) {
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
   
   useEffect(() => {
-    if (search.trim().length > 2) {
+    if (search.trim().length > 0) {
       setLoading(true);
       
       if (searchTimeout.current) {
