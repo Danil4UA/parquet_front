@@ -16,9 +16,10 @@ interface LeadsTextCellProps {
   row: Row<Product>;
   accessorKey: keyof Product;
   className?: string
+  isEditable?: boolean;
 }
 
-function ProductsTextCell({ row, accessorKey, className }: LeadsTextCellProps) {
+function ProductsTextCell({ row, accessorKey, className, isEditable = true  }: LeadsTextCellProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState<any>(row.original[accessorKey] || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -126,7 +127,7 @@ function ProductsTextCell({ row, accessorKey, className }: LeadsTextCellProps) {
     }
   };
 
-  if (isEditing) {
+  if (isEditing && isEditable) {
     return (
       <div
         className="flex items-center relative w-full p-0 min-h-[24px]"
@@ -163,6 +164,13 @@ function ProductsTextCell({ row, accessorKey, className }: LeadsTextCellProps) {
     );
   }
 
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isEditable) {
+      setIsEditing(true);
+    }
+  };
+  
   return (
     <>
       <ErrorDialog
@@ -173,12 +181,9 @@ function ProductsTextCell({ row, accessorKey, className }: LeadsTextCellProps) {
       />
       <div
         className={`
-          cursor-text truncate max-w-full min-h-[24px] ${className}`}
+          ${isEditable ? 'cursor-text' : 'cursor-default'} truncate max-w-full min-h-[24px] ${className}`}
         role="presentation"
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsEditing(true);
-        }}
+        onClick={handleClick}  
       >
         <TooltipProvider>
           <Tooltip delayDuration={300}>

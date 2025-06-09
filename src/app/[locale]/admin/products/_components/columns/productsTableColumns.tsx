@@ -30,7 +30,11 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
     accessorKey: "name",
     header: () => <ProductsHeaderCell text="Name" className="items-center" />,
     cell: ({ row }) => (
-      <p>{row.original.name}</p>
+      <ProductsTextCell
+        row={row}
+        accessorKey="name"
+        isEditable={false}
+      />
     ),
     size: 150,
   },

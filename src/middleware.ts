@@ -14,6 +14,8 @@ const publicPaths = [
   '/robots.txt',
 ];
 
+const adminAllowedLocales = ['en', 'ru'];
+
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
@@ -32,6 +34,14 @@ export async function middleware(request: NextRequest) {
   const isProtectedRoute = path.includes('/admin') || 
                           (isLocale && path.includes(`/${locale}/admin`));
   
+  const isLoginRoute = path.includes('/login') || 
+                          (isLocale && path.includes(`/${locale}/login`));
+
+  if ((isProtectedRoute || isLoginRoute) && isLocale && !adminAllowedLocales.includes(locale)) {
+    const newPath = path.replace(`/${locale}/`, '/en/');
+    return NextResponse.redirect(new URL(newPath, request.url));
+  }
+  
   if (isProtectedRoute) {
     const session = await getToken({ 
       req: request, 
@@ -39,7 +49,7 @@ export async function middleware(request: NextRequest) {
     });
     
     if (!session) {
-      const redirectLocale = isLocale ? locale : routing.defaultLocale;
+      const redirectLocale = (isLocale && adminAllowedLocales.includes(locale)) ? locale : 'en';
       return NextResponse.redirect(new URL(`/${redirectLocale}/login`, request.url));
     }
   }

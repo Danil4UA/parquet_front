@@ -1,10 +1,12 @@
 "use client";
 
 import React from 'react';
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import AdminSidebar from './_components/AdminSidebar/AdminSidebar';
 
 function MainContent({ children }: { children: React.ReactNode }) {
+  const { state } = useSidebar();
+
   return (
     <div 
       className={`
@@ -13,6 +15,7 @@ function MainContent({ children }: { children: React.ReactNode }) {
         transition-[width] 
         duration-200 
         ease-linear
+        ${state === "expanded" ? "md:w-[calc(100%-theme(spacing.64))]" : "md:w-[calc(100%-theme(spacing.12))]"}
       `}
     >
       <div className="absolute top-0 left-0 h-full">
