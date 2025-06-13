@@ -16,10 +16,15 @@ export type CartItem = {
     name: string;
     model: string;
     quantity: string;
+    price: number;
+    actualArea: number;
+    boxes: number;
+    totalPrice: number;
 }
 export interface Order {
     _id: string;
     name: string;
+    orderNumber: string;
     lastName: string;
     phoneNumber: string;
     status: string;
@@ -33,6 +38,7 @@ export interface Order {
     apartment: string;
     postalCode: string;
     city: string;
+    shippingCost: number
 }
 
 export interface OrdersSearchParams {

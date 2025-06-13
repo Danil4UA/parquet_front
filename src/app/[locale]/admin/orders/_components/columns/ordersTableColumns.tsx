@@ -6,6 +6,9 @@ import OrderSelectCell from "../../../_components/OrderSelectCell";
 import OrdersUtils from "@/Utils/ordersUtils";
 import Utils from "@/Utils/utils";
 import OrderActionCell from "../../../_components/OrderActionCell";
+import CartItemsDialog from "../../../_components/CartItemsDialog";
+import { Button } from "@/components/ui/button";
+import { Eye } from "lucide-react";
 
 const {
   deliveryOptions,
@@ -93,7 +96,17 @@ const createOrdersTableColumns = (): ColumnDef<Order>[] => [
         accessorKey: "cartItems",
         header: () => <ProductsHeaderCell text="Items" className="items-center" />,
         cell: ({ row }) => (
-          row.original.cartItems.length || ""
+         <div className="flex items-center justify-center gap-2">
+            <span className="text-sm font-medium">{row.original.cartItems.length}</span>
+            <CartItemsDialog
+              order={row.original}
+              trigger={
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-blue-50">
+                  <Eye className="h-4 w-4 text-blue-600" />
+                </Button>
+              }
+            />
+          </div>
         ),
         size: 150,
         minSize: 150,
