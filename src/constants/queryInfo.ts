@@ -1,15 +1,15 @@
-import { FullProductResponse, Product, ProductsSearchParams, ProductsWithPagination } from "@/types/products";
+import { DashboardStats, FullProductResponse, Product, ProductByCategory, ProductsSearchParams, ProductsWithPagination } from "@/types/products";
 import { AxiosResponse } from "axios";
 import { UseQueryOptions } from "@tanstack/react-query";
 import reactQueryFetchFunction from "@/Utils/reactQueryFetchFunction";
 import productsServices from "@/services/productsServices";
 import GlobalConstants from "./GlobalConstants";
-import { allCategoryProductsKey, allProductsKey, ownUserInfoKey, fullProductKey, allOrdersQueryKey } from "./queryKey";
+import { allCategoryProductsKey, allProductsKey, ownUserInfoKey, fullProductKey, allOrdersQueryKey, allProductsByCategoryQueryKey, allOrderStatusesDistributionQueryKey, allOrdersTimelineQueryKey, allDashboardStatsQueryKey } from "./queryKey";
 import userServices from "@/services/userServices";
 import { User } from "@/types/user";
 import { Session } from "next-auth";
 import OrderService from "@/services/orderServices";
-import { OrdersSearchParams, OrdersWithPagination } from "@/types/orders";
+import { OrdersSearchParams, OrderStatusDistribution, OrdersWithPagination, OrderTimeline, OrderTimeLineParams } from "@/types/orders";
 
 export function allProducts():
 UseQueryOptions<AxiosResponse<Product[]>> {
@@ -80,4 +80,64 @@ UseQueryOptions<AxiosResponse<OrdersWithPagination>> {
   };
 }
 
+export function allProductsByCategoryQuery(session: Session | null):
+UseQueryOptions<AxiosResponse<ProductByCategory[]>> {
+  return {
+    queryKey: [allProductsByCategoryQueryKey],
+    queryFn: () => reactQueryFetchFunction<ProductByCategory[]>(
+      productsServices.getAllProductsByCategory,
+      [],
+      session,
+    ),
+    enabled: !!session?.accessToken,
+    staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
+  };
+}
 
+export function allOrderStatusesDistributionQuery(session: Session | null):
+UseQueryOptions<AxiosResponse<OrderStatusDistribution[]>> {
+  return {
+    queryKey: [allOrderStatusesDistributionQueryKey],
+    queryFn: () => reactQueryFetchFunction<OrderStatusDistribution[]>(
+      OrderService.getAllOrderStatusesDistribution,
+      [],
+      session,
+    ),
+    enabled: !!session?.accessToken,
+    staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
+  };
+}
+
+export function allOrdersTimelineQuery(
+  session: Session | null, 
+  params: OrderTimeLineParams,
+):
+UseQueryOptions<AxiosResponse<OrderTimeline[]>> {
+  return {
+    queryKey: [allOrdersTimelineQueryKey, params],
+    queryFn: () => reactQueryFetchFunction<OrderTimeline[]>(
+      OrderService.getAllOrdersTimeline,
+      [],
+      session,
+      params,
+    ),
+    enabled: !!session?.accessToken,
+    staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
+  };
+}
+
+export function allDashboardStatsQuery(
+  session: Session | null,
+):
+UseQueryOptions<AxiosResponse<DashboardStats>> {
+  return {
+    queryKey: [allDashboardStatsQueryKey],
+    queryFn: () => reactQueryFetchFunction<DashboardStats>(
+      productsServices.getAllDashboardStats,
+      [],
+      session,
+    ),
+    enabled: !!session?.accessToken,
+    staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
+  };
+}

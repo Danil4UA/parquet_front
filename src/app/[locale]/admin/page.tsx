@@ -31,62 +31,47 @@ import {
   Legend
 } from 'recharts';
 import { useRouter } from 'next/navigation';
-
-const mockOrdersData = [
-  { date: '2024-01-01', orders: 12 },
-  { date: '2024-01-02', orders: 8 },
-  { date: '2024-01-03', orders: 15 },
-  { date: '2024-01-04', orders: 10 },
-  { date: '2024-01-05', orders: 18 },
-  { date: '2024-01-06', orders: 14 },
-  { date: '2024-01-07', orders: 22 }
-];
-
-const mockOrderStatusData = [
-  { name: 'Pending', value: 15, color: '#f59e0b' },
-  { name: 'Completed', value: 35, color: '#22c55e' },
-  { name: 'Canceled', value: 8, color: '#ef4444' }
-];
-
-const mockCategoryData = [
-  { category: 'Laminate', count: 28 },
-  { category: 'SPC', count: 22 },
-  { category: 'Wood', count: 18 },
-  { category: 'Sales', count: 15 },
-  { category: 'Panels', count: 12 },
-  { category: 'Cladding', count: 8 },
-  { category: 'Cleaning Products', count: 5 }
-];
+import useGetAllAdminDashboardQueries from '@/hooks/useGetAllAdminDashboarQueries';
+import { useSession } from 'next-auth/react';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import RouteConstants from '@/constants/RouteConstants';
 
 export default function AdminDashboard() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const [
+    allProductsByCategoriesData,
+    allOrderStatusesDistributionData,
+    allOrdersTimelineData,
+    allDashboardStatsData,
+  ] = useGetAllAdminDashboardQueries(session, {
+    all: "true"
+  })
 
-  // Здесь будут ваши API вызовы
-  // const { data: statsData } = useGetDashboardStats();
-  // const { data: ordersData } = useGetOrdersStats();
-  // const { data: categoriesData } = useGetProductsByCategory();
-
+  const allProductsByCategories = allProductsByCategoriesData?.data?.data || [];
+  const allOrderStatusesDistribution = allOrderStatusesDistributionData?.data?.data || [];
+  const allOrdersTimeline = allOrdersTimelineData?.data?.data || [];
+  const allDashboardStats = allDashboardStatsData?.data?.data;
+  console.log("allDashboardStats", allDashboardStats)
   const handleNavigate = (path: string) => {
     router.push(path);
   };
 
   return (
     <div className="p-6 space-y-6 min-h-screen">
-      {/* Header */}
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-gray-600">Welcome back! Heres your store overview.</p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={() => handleNavigate('/admin/products/add-product')} className="flex items-center gap-2">
+          <Button onClick={() => handleNavigate(RouteConstants.ADD_PRODUCT_PAGE)} className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
             Add Product
           </Button>
         </div>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-white shadow-sm border-0 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -94,10 +79,16 @@ export default function AdminDashboard() {
             <ShoppingCart className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">58</div>
+            <div className="text-2xl font-bold text-gray-900">
+              {allDashboardStatsData?.isLoading ? (
+                <LoadingSpinner />
+              ) : (
+                allDashboardStats?.totalOrders || 0
+              )}
+            </div>
             <p className="text-xs text-blue-600 flex items-center gap-1">
               <TrendingUp className="h-3 w-3" />
-              +3 this week
+              +{allDashboardStats?.ordersThisWeek || 0} this week
             </p>
           </CardContent>
         </Card>
@@ -108,8 +99,16 @@ export default function AdminDashboard() {
             <CheckCircle className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">35</div>
-            <p className="text-xs text-green-600">60.3% success rate</p>
+            <div className="text-2xl font-bold text-gray-900">
+              {allDashboardStatsData?.isLoading ? (
+                <LoadingSpinner />
+              ) : (
+                allDashboardStats?.completedOrders || 0
+              )}
+            </div>
+            <p className="text-xs text-green-600">
+              {allDashboardStats?.successRate || 0}% success rate
+            </p>
           </CardContent>
         </Card>
 
@@ -119,7 +118,13 @@ export default function AdminDashboard() {
             <Clock className="h-4 w-4 text-orange-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">15</div>
+            <div className="text-2xl font-bold text-gray-900">
+              {allDashboardStatsData?.isLoading ? (
+                <LoadingSpinner />
+              ) : (
+                allDashboardStats?.pendingOrders || 0
+              )}
+            </div>
             <p className="text-xs text-orange-600">Need attention</p>
           </CardContent>
         </Card>
@@ -130,15 +135,19 @@ export default function AdminDashboard() {
             <Package className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">108</div>
+            <div className="text-2xl font-bold text-gray-900">
+              {allDashboardStatsData?.isLoading ? (
+                <LoadingSpinner />
+              ) : (
+                allDashboardStats?.totalProducts || 0
+              )}
+            </div>
             <p className="text-xs text-gray-500">Across all categories</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Orders Timeline */}
         <Card className="bg-white shadow-sm border-0">
           <CardHeader>
             <CardTitle className="text-gray-900">Orders This Week</CardTitle>
@@ -146,7 +155,7 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={mockOrdersData}>
+              <AreaChart data={allOrdersTimeline}>
                 <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                 <XAxis 
                   dataKey="date" 
@@ -176,7 +185,6 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        {/* Order Status Distribution */}
         <Card className="bg-white shadow-sm border-0">
           <CardHeader>
             <CardTitle className="text-gray-900">Order Status</CardTitle>
@@ -186,7 +194,7 @@ export default function AdminDashboard() {
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={mockOrderStatusData}
+                  data={allOrderStatusesDistribution}
                   cx="50%"
                   cy="50%"
                   innerRadius={60}
@@ -194,7 +202,7 @@ export default function AdminDashboard() {
                   paddingAngle={5}
                   dataKey="value"
                 >
-                  {mockOrderStatusData.map((entry, index) => (
+                  {allOrderStatusesDistribution.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -221,9 +229,10 @@ export default function AdminDashboard() {
             <CardTitle className="text-gray-900">Products by Category</CardTitle>
             <CardDescription>Number of products in each category</CardDescription>
           </CardHeader>
+          {allProductsByCategoriesData.isLoading ? <LoadingSpinner /> : 
           <CardContent>
             <div className="space-y-4">
-              {mockCategoryData.map((item, index) => (
+              {allProductsByCategories.map((item, index) => (
                 <div key={item.category} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div 
@@ -237,7 +246,7 @@ export default function AdminDashboard() {
                       <div 
                         className="h-2 rounded-full transition-all duration-300"
                         style={{ 
-                          width: `${(item.count / Math.max(...mockCategoryData.map(d => d.count))) * 100}%`,
+                          width: `${(item.count / Math.max(...allProductsByCategories.map(d => d.count))) * 100}%`,
                           backgroundColor: ['#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#6366f1', '#8b5cf6'][index]
                         }}
                       />
@@ -250,15 +259,15 @@ export default function AdminDashboard() {
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">Total Products:</span>
                   <span className="text-lg font-bold text-gray-900">
-                    {mockCategoryData.reduce((sum, item) => sum + item.count, 0)}
+                    {allProductsByCategories.reduce((sum, item) => sum + item.count, 0)}
                   </span>
                 </div>
               </div>
             </div>
           </CardContent>
+          }
         </Card>
 
-        {/* Quick Actions */}
         <Card className="bg-white shadow-sm border-0">
           <CardHeader>
             <CardTitle className="text-gray-900">Quick Actions</CardTitle>
@@ -266,7 +275,7 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent className="space-y-4">
             <Button 
-              onClick={() => handleNavigate('/admin/products')} 
+              onClick={() => handleNavigate(RouteConstants.ADMIN_PRODUCTS)} 
               variant="outline" 
               className="w-full justify-start gap-3 h-12 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
             >
@@ -278,7 +287,7 @@ export default function AdminDashboard() {
             </Button>
             
             <Button 
-              onClick={() => handleNavigate('/admin/orders')} 
+              onClick={() => handleNavigate(RouteConstants.ADMIN_ORDERS)} 
               variant="outline" 
               className="w-full justify-start gap-3 h-12 hover:bg-green-50 hover:text-green-600 hover:border-green-200"
             >
@@ -290,7 +299,7 @@ export default function AdminDashboard() {
             </Button>
             
             <Button 
-              onClick={() => handleNavigate('/admin/products/add-product')} 
+              onClick={() => handleNavigate(RouteConstants.ADD_PRODUCT_PAGE)} 
               variant="outline" 
               className="w-full justify-start gap-3 h-12 hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200"
             >

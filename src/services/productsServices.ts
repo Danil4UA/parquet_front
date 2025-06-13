@@ -20,6 +20,10 @@ export default class productsServices {
 
   static ADMIN_PRODUCTS_ENDPOINT = `${URL_API}/api/admin/products`;
 
+  static ALL_PRODUCTS_BY_CATEGORY = `${URL_API}/api/admin/products-by-category`;
+
+  static ALL_DASHBOARD_STATS  = `${URL_API}/api/admin/stats`;
+
   static async getAllProducts (language = "en"){
     try {
       const response = await axios.get(productsServices.GET_ALL_PRODUCTS, {
@@ -177,6 +181,38 @@ export default class productsServices {
         productData, 
         config,
     );
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  static async getAllProductsByCategory(session){
+    const { accessToken } = session ?? {};
+
+    const config = {
+      headers: { 
+        Authorization: `Bearer ${accessToken}`,
+      }
+    };
+    try {
+      return await axios.get(productsServices.ALL_PRODUCTS_BY_CATEGORY, config)
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  static async getAllDashboardStats(session){
+    const { accessToken } = session ?? {};
+
+    const config = {
+      headers: { 
+        Authorization: `Bearer ${accessToken}`,
+      }
+    };
+    try {
+      return await axios.get(productsServices.ALL_DASHBOARD_STATS, config)
     } catch (error) {
       console.log(error);
       throw error;

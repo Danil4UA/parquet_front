@@ -46,3 +46,18 @@ export interface OrdersWithPagination {
     pagination: Pagination;
 }
 
+export interface OrderStatusDistribution {
+  name: string;
+  value: number;
+  color: string;
+}
+
+export interface OrderTimeline {
+  data: string;
+  orders: number;
+}
+
+export interface OrderTimeLineParams {
+  days?: number;
+  all?: string;
+}

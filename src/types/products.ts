@@ -84,3 +84,18 @@ export interface Color {
 export interface Category {
   name: string
 }
+
+export interface ProductByCategory {
+  category: string
+  count: number
+}
+
+export interface DashboardStats {
+  totalOrders: number
+  completedOrders: number
+  pendingOrders: number
+  canceledOrders: number
+  totalProducts: number
+  successRate: string
+  ordersThisWeek: number
+}
