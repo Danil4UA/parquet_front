@@ -16,6 +16,7 @@ import {
   Plus,
   CheckCircle,
   Clock,
+  AlertTriangle,
 } from 'lucide-react';
 import {
   AreaChart,
@@ -52,7 +53,7 @@ export default function AdminDashboard() {
   const allOrderStatusesDistribution = allOrderStatusesDistributionData?.data?.data || [];
   const allOrdersTimeline = allOrdersTimelineData?.data?.data || [];
   const allDashboardStats = allDashboardStatsData?.data?.data;
-  console.log("allDashboardStats", allDashboardStats)
+
   const handleNavigate = (path: string) => {
     router.push(path);
   };
@@ -72,77 +73,90 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-white shadow-sm border-0 hover:shadow-md transition-shadow">
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-0 hover:shadow-lg transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Orders</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-blue-600" />
+            <CardTitle className="text-sm font-medium text-blue-700">Total Orders</CardTitle>
+            <div className="p-2 bg-blue-600 rounded-lg">
+              <ShoppingCart className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">
+            <div className="text-2xl font-bold text-blue-900">
               {allDashboardStatsData?.isLoading ? (
                 <LoadingSpinner />
               ) : (
                 allDashboardStats?.totalOrders || 0
               )}
             </div>
-            <p className="text-xs text-blue-600 flex items-center gap-1">
+            <p className="text-xs text-blue-600 flex items-center gap-1 mt-1">
               <TrendingUp className="h-3 w-3" />
               +{allDashboardStats?.ordersThisWeek || 0} this week
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white shadow-sm border-0 hover:shadow-md transition-shadow">
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-0 hover:shadow-lg transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Completed Orders</CardTitle>
-            <CheckCircle className="h-4 w-4 text-green-600" />
+            <CardTitle className="text-sm font-medium text-green-700">Completed Orders</CardTitle>
+            <div className="p-2 bg-green-600 rounded-lg">
+              <CheckCircle className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">
+            <div className="text-2xl font-bold text-green-900">
               {allDashboardStatsData?.isLoading ? (
                 <LoadingSpinner />
               ) : (
                 allDashboardStats?.completedOrders || 0
               )}
             </div>
-            <p className="text-xs text-green-600">
+            <p className="text-xs text-green-600 mt-1">
               {allDashboardStats?.successRate || 0}% success rate
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white shadow-sm border-0 hover:shadow-md transition-shadow">
+        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-0 hover:shadow-lg transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Pending Orders</CardTitle>
-            <Clock className="h-4 w-4 text-orange-600" />
+            <CardTitle className="text-sm font-medium text-orange-700">Pending Orders</CardTitle>
+            <div className="p-2 bg-orange-600 rounded-lg">
+              <Clock className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">
+            <div className="text-2xl font-bold text-orange-900">
               {allDashboardStatsData?.isLoading ? (
                 <LoadingSpinner />
               ) : (
                 allDashboardStats?.pendingOrders || 0
               )}
             </div>
-            <p className="text-xs text-orange-600">Need attention</p>
+            <p className="text-xs text-orange-600 mt-1 flex items-center gap-1">
+              <AlertTriangle className="h-3 w-3" />
+              Need attention
+            </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white shadow-sm border-0 hover:shadow-md transition-shadow">
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-0 hover:shadow-lg transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Products</CardTitle>
-            <Package className="h-4 w-4 text-purple-600" />
+            <CardTitle className="text-sm font-medium text-purple-700">Total Products</CardTitle>
+            <div className="p-2 bg-purple-600 rounded-lg">
+              <Package className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">
+            <div className="text-2xl font-bold text-purple-900">
               {allDashboardStatsData?.isLoading ? (
                 <LoadingSpinner />
               ) : (
                 allDashboardStats?.totalProducts || 0
               )}
             </div>
-            <p className="text-xs text-gray-500">Across all categories</p>
+            <p className="text-xs text-purple-600 mt-1">
+              Across all categories
+            </p>
           </CardContent>
         </Card>
       </div>

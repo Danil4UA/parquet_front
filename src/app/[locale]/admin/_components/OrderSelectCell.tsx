@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { allOrdersQueryKey } from "@/constants/queryKey";
+import { allDashboardStatsQueryKey, allOrdersQueryKey, allOrderStatusesDistributionQueryKey, allOrdersTimelineQueryKey } from "@/constants/queryKey";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ErrorDialog from "@/components/ErrorDialog";
 import {
@@ -59,7 +59,15 @@ function OrderSelectCell({
       await queryClient.invalidateQueries({
         queryKey: [allOrdersQueryKey],
       });
-
+      queryClient.invalidateQueries({
+        queryKey: [allOrderStatusesDistributionQueryKey],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [allOrdersTimelineQueryKey],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [allDashboardStatsQueryKey],
+      });
       setValue(newValueId || "");
     } catch {
       setIsErrorDialogOpen(true);

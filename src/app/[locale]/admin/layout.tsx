@@ -10,6 +10,7 @@ function MainContent({ children }: { children: React.ReactNode }) {
   return (
     <div 
       className={`
+        bg-gray-50
         relative
         w-full
         transition-[width] 

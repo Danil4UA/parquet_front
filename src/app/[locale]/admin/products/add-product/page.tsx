@@ -13,7 +13,7 @@ import { ProductImagesTab } from "../edit-product/components/ProductImagesTab";
 import { ProductFormValues, productSchema } from "@/lib/schemas/productSchema";
 import productsServices from "@/services/productsServices";
 import { useQueryClient } from "@tanstack/react-query";
-import { allCategoryProductsKey } from "@/constants/queryKey";
+import { allCategoryProductsKey, allDashboardStatsQueryKey, allProductsByCategoryQueryKey } from "@/constants/queryKey";
 import { useRouter, useSearchParams } from "next/navigation";
 import RouteConstants from "@/constants/RouteConstants";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -118,6 +118,14 @@ export default function AddProductPage() {
 
       await queryClient.invalidateQueries({
         queryKey: [allCategoryProductsKey],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [allDashboardStatsQueryKey],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [allProductsByCategoryQueryKey],
       });
       
       router.push(RouteConstants.ADMIN_PRODUCTS);

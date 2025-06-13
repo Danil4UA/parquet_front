@@ -79,7 +79,7 @@ export default function ProductsPage() {
   }, [searchTerm, search]);
 
   return (
-    <div className="flex w-full flex-col h-full max-h-[calc(100vh-58px)] gap-4 bg-white overflow-hidden">
+    <div className="flex w-full flex-col h-full max-h-[calc(100vh-58px)] gap-4 overflow-hidden bg-transparent">
       <div className="flex justify-end items-center gap-3 m-2">
         <div className="relative max-w-[300px] w-full">
           <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
