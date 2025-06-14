@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useState, useMemo } from "react";
 import productsServices from "@/services/productsServices";
-import Swal from "sweetalert2";
 import { usePathname, useRouter } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +15,7 @@ import Radio from "@/shared/ui/Radio/Radio";
 import "./OrderPage.css";
 import ErrorDialog from "@/components/ErrorDialog";
 import RouteConstants from "@/constants/RouteConstants";
+import SuccessDialog from "@/components/SuccessDialog";
 
 type BoxesMap = Record<string, number>;
 type AreaMap = Record<string, number>;
@@ -32,8 +32,11 @@ const OrderPage = () => {
   const [totalBoxes, setTotalBoxes] = useState<BoxesMap>({});
   const [totalArea, setTotalArea] = useState<AreaMap>({});
   const [itemTotalPrices, setItemTotalPrices] = useState<PriceMap>({});
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState<boolean>(false);
+  const [orderNumber, setOrderNumber] = useState<string>("");
 
   const pathname = usePathname();
+  const lng = pathname.split("/")[1];
   const router = useRouter();
   const t = useTranslations("Order");
   const dispatch = useDispatch();
@@ -119,6 +122,12 @@ const OrderPage = () => {
     setItemTotalPrices(itemPrices);
   }, [cartItems, deliveryMethod]);
 
+  const handleSuccessDialogClose = () => {
+    setIsSuccessDialogOpen(false);
+    setOrderNumber("");
+    router.push(`${RouteConstants.HOMEPAGE_ROUTE}/${lng}`);
+  };
+
   const onSubmit = async (data: OrderFormType) => {
     setIsLoading(true);
 
@@ -138,15 +147,11 @@ const OrderPage = () => {
       totalPrice: totalPrice
     };
     try {
-      await productsServices.createOrder(orderData);
-      Swal.fire({
-        icon: "success",
-        text: t(`sentSuccess`)
-      });
+      const response = await productsServices.createOrder(orderData);
+      setOrderNumber(response.orderNumber)
+      setIsSuccessDialogOpen(true)
       dispatch(clearCart());
-      router.push(RouteConstants.HOMEPAGE_ROUTE);
-    } catch (error) {
-      console.error("Order submission error:", error);
+    } catch {
       setIsErrorDialogOpen(true);
     } finally {
       setIsLoading(false);
@@ -352,9 +357,16 @@ const OrderPage = () => {
         </div>
         <ErrorDialog
           isOpen={isErrorDialogOpen}
-          message={t("sentFailed")}
+          message={t("sentFailedMessage")}
           onCloseDialog={() => setIsErrorDialogOpen(false)}
-          title={t("errorTitle")}
+          title={t("sentFailedTitle")}
+        />
+        <SuccessDialog
+          isOpen={isSuccessDialogOpen}
+          setIsOpen={setIsSuccessDialogOpen}
+          onClose={handleSuccessDialogClose}
+          title={t(`sentSuccessTitle`)}
+          text={`${t(`sentSuccessMessage`)} ${orderNumber}`}
         />
       </div>
     </div>
