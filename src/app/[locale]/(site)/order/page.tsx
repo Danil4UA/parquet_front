@@ -14,7 +14,6 @@ import TextInputWithLabel from "@/components/Inputs/TextInputWithLabel";
 import Radio from "@/shared/ui/Radio/Radio";
 import "./OrderPage.css";
 import ErrorDialog from "@/components/ErrorDialog";
-import RouteConstants from "@/constants/RouteConstants";
 import SuccessDialog from "@/components/SuccessDialog";
 
 type BoxesMap = Record<string, number>;
@@ -125,7 +124,7 @@ const OrderPage = () => {
   const handleSuccessDialogClose = () => {
     setIsSuccessDialogOpen(false);
     setOrderNumber("");
-    router.push(`${RouteConstants.HOMEPAGE_ROUTE}/${lng}`);
+    router.push(`/${lng}`);
   };
 
   const onSubmit = async (data: OrderFormType) => {
