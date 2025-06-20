@@ -8,31 +8,41 @@ import { useTranslations } from 'next-intl';
 import { ContactFormType } from '@/lib/schemas/contactFormSchema';
 import ErrorDialog from '@/components/ErrorDialog';
 import contactServices from '@/services/contactServices';
-import Swal from 'sweetalert2';
-import { useRouter } from 'next/navigation';
-import RouteConstants from '@/constants/RouteConstants';
+import { usePathname, useRouter } from 'next/navigation';
 import InstagramIcon from "@/app/assets/instagram.svg";
 import FacebookIcon from "@/app/assets/facebook.svg";
 import { Link } from "@/i18n/routing";
+import SuccessDialog from '@/components/SuccessDialog';
 
 const ContactPage = () => {
     const [isErrorDialogOpen, setIsErrorDialogOpen] = useState<boolean>(false);
+    const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState<boolean>(false);
+
     const t = useTranslations();
     const router = useRouter();
+    const pathname = usePathname();
+    const lng = pathname.split("/")[1];
 
     const handleFormSubmit = async (formData: ContactFormType) => {
         try {
-            await contactServices.contactUs(formData);
-            Swal.fire({
-                icon: "success",
-                text: t(`Contact.thankYou`)
-            });
-            router.push(RouteConstants.HOMEPAGE_ROUTE); 
+            const cleanedFormData = Object.fromEntries(
+              Object.entries(formData).map(([key, value]) => [
+                  key,
+                  typeof value === 'string' && value.trim() === '' ? undefined : value
+              ])
+          ) as ContactFormType;
+          
+            await contactServices.contactUs(cleanedFormData);
+            setIsSuccessDialogOpen(true)
         } catch {
             setIsErrorDialogOpen(true);
         }
     };
-  
+    
+    const handleSuccessDialogClose = () => {
+      setIsSuccessDialogOpen(false);
+      router.push(`/${lng}`);
+    };
     return (
         <div className="min-h-screen w-full">
           <div className="bg-[#171717] text-white py-16">
@@ -206,6 +216,13 @@ const ContactPage = () => {
             onCloseDialog={() => setIsErrorDialogOpen(false)}
             title={""}
             message={t("Contact.errorMessage")}
+          />
+          <SuccessDialog
+            isOpen={isSuccessDialogOpen}
+            setIsOpen={setIsSuccessDialogOpen}
+            onClose={handleSuccessDialogClose}
+            title={t(`Contact.thankYou`)}
+            text=""
           />
         </div>
       );
