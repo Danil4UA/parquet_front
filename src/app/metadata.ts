@@ -73,17 +73,17 @@ export const metadata: Metadata = {
 export const translations = {
   en: {
     title: "Effect Parquet - Premium Flooring Solutions",
-    description: "Premium quality parquet flooring, panels, and wooden solutions. International delivery available.",
+    description: "Premium quality parquet flooring, panels, and wooden solutions.",
     keywords: "parquet, wooden flooring, hardwood floors, wooden panels, flooring solutions"
   },
   ru: {
     title: "Effect Parquet - Премиальные Решения для Паркета",
-    description: "Паркет премиального качества, панели и деревянные решения. Доступна международная доставка.",
+    description: "Паркет премиального качества, панели и деревянные решения.",
     keywords: "паркет, деревянные полы, массив, панели, напольные покрытия"
   },
   he: {
     title: "Effect Parquet - פתרונות פרקט יוקרתיים",
-    description: "פרקט איכותי, פנלים ופתרונות עץ. משלוח בינלאומי זמין.",
+    description: "פרקט איכותי, פנלים ופתרונות עץ.",
     keywords: "פרקט, רצפת עץ, רצפת עץ קשה, פנלים מעץ, פתרונות ריצוף"
   }
 };

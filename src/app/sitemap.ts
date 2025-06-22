@@ -9,9 +9,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/contact",
     "/products/all",
     "/products/sales",
-    "/products/flooring",
+    "/products/laminate",
+    "/products/spc",
+    "/products/wood",
     "/products/panels",
-    "/products/cladding"
+    "/products/cladding",
+    "/products/cleaning"
   ];
 
   const languages = ["he", "ru", "en"];
