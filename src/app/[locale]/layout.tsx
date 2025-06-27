@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import { ReduxProvider } from "@/redux/ReduxProvider";
 import { getLanguageMetadata } from "../metadata";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import Script from 'next/script';
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -27,6 +28,20 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={locale === "he" ? "rtl" : "ltr"}>
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-16970698709"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-16970698709');
+          `}
+        </Script>
+      </head>
       <body>
         <ReactQueryProvider>
           <ReduxProvider>
