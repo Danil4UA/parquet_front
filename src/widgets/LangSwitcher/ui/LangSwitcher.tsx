@@ -1,13 +1,12 @@
 "use client";
 import "./LangSwitcher.css";
 import { memo, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Select from "@/shared/ui/Select/Select";
 import { languageOptions, getLocaleFromPath } from "@/Utils/languageUtils";
 
 export const LangSwitcher = () => {
   const pathname = usePathname();
-  const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
 
   const [currentLocale, setCurrentLocale] = useState(() => 
@@ -34,7 +33,7 @@ export const LangSwitcher = () => {
 
   const onSelectChange = (newLocale: string) => {
     const path = pathname.split("/").slice(2).join("/");
-    router.push(`/${newLocale}/${path}`);
+    window.location.href = `/${newLocale}/${path}`;
   };
 
   const currentLanguage = languageOptions.find(lang => lang.value === currentLocale);
