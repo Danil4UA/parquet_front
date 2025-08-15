@@ -15,3 +15,5 @@ export const allOrderStatusesDistributionQueryKey = "allOrderStatusesDistributio
 export const allOrdersTimelineQueryKey = "allOrdersTimeline";
 
 export const allDashboardStatsQueryKey = "allDashboardStats";
+
+export const allReviewsQueryKey = "allReviews";

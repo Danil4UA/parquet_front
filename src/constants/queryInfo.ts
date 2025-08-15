@@ -4,12 +4,14 @@ import { UseQueryOptions } from "@tanstack/react-query";
 import reactQueryFetchFunction from "@/Utils/reactQueryFetchFunction";
 import productsServices from "@/services/productsServices";
 import GlobalConstants from "./GlobalConstants";
-import { allCategoryProductsKey, allProductsKey, ownUserInfoKey, fullProductKey, allOrdersQueryKey, allProductsByCategoryQueryKey, allOrderStatusesDistributionQueryKey, allOrdersTimelineQueryKey, allDashboardStatsQueryKey } from "./queryKey";
+import { allCategoryProductsKey, allProductsKey, ownUserInfoKey, fullProductKey, allOrdersQueryKey, allProductsByCategoryQueryKey, allOrderStatusesDistributionQueryKey, allOrdersTimelineQueryKey, allDashboardStatsQueryKey, allReviewsQueryKey } from "./queryKey";
 import userServices from "@/services/userServices";
 import { User } from "@/types/user";
 import { Session } from "next-auth";
 import OrderService from "@/services/orderServices";
 import { OrdersSearchParams, OrderStatusDistribution, OrdersWithPagination, OrderTimeline, OrderTimeLineParams } from "@/types/orders";
+import GoogleService from "@/services/googleServices";
+import { ReviewsResponse } from "@/types/reviews";
 
 export function allProducts():
 UseQueryOptions<AxiosResponse<Product[]>> {
@@ -138,6 +140,19 @@ UseQueryOptions<AxiosResponse<DashboardStats>> {
       session,
     ),
     enabled: !!session?.accessToken,
+    staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
+  };
+}
+
+export function allReviewsQuery(lng?: string):
+UseQueryOptions<AxiosResponse<ReviewsResponse>> {
+  return {
+    queryKey: [allReviewsQueryKey, lng],
+    queryFn: () => reactQueryFetchFunction<ReviewsResponse>(
+      GoogleService.getAllReviews,
+      [],
+      lng,
+    ),
     staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
   };
 }

@@ -80,4 +80,6 @@ export default class Utils {
       return phoneNumber;
     }
   };
+
+  static moreReviewsLink = "https://www.google.com/search?q=אפקט הפרקט Reviews";
 }
