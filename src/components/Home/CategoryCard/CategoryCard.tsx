@@ -18,7 +18,6 @@ const CategoryCard = ({ category }: CategoryCardProps) => {
   const { isMobile } = useIsMobileDebounce();
   const t = useTranslations("Categories");
 
-  console.log("isMobile", isMobile);
   return (
     <div className={cn(
       // Базовые стили
