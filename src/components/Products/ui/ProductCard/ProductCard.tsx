@@ -1,11 +1,11 @@
 "use client";
-import { classNames } from "@/shared/lib/classNames/classNames";
 import { Link } from "@/i18n/routing";
 import "./ProductCard.css";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Product } from "@/types/products";
+import { cn } from "@/lib/utils";
 interface ProductCardProps {
   product: Product;
 }
@@ -30,9 +30,9 @@ const ProductCard = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <div className={classNames(
-      "relative w-full max-w-[300px] mx-auto bg-white rounded-lg overflow-hidden transition-all duration-300 ease-in-out hover:scale-[1.02] group",
-      { "opacity-80": !isAvailable },
+    <div className={cn(
+      "relative w-full bg-white rounded-lg overflow-hidden transition-all duration-300 ease-in-out hover:scale-[1.02] group",
+      !isAvailable && "opacity-80",
       []
     )}>
       <Link
@@ -49,15 +49,14 @@ const ProductCard = ({
           
           <Image
             src={imgSrc}
-            width={300}
-            height={300}
+            fill
             alt={productName}
             quality={75}
             onError={() => setImgSrc("/assets/category_flooring.jpg")}
             onLoad={() => setIsLoading(false)}
-            className={classNames(
+            className={cn(
               "w-full h-full object-cover transition-all duration-500 group-hover:scale-105",
-              { "opacity-0": isLoading, "opacity-100": !isLoading },
+              isLoading ? "opacity-0" : "opacity-100",
               []
             )}
             sizes="(max-width: 750px) 50vw, (max-width: 980px) 33vw, 25vw"
@@ -79,9 +78,9 @@ const ProductCard = ({
           )}
           {isAvailable && (
           <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 pointer-events-none">
-            <button className={classNames(
+            <button className={cn(
               "px-6 py-3 rounded-lg font-medium shadow-lg backdrop-blur-sm transition-colors duration-200",
-              { "bg-gray-400 text-gray-600": !isAvailable, "bg-white/90 text-gray-800 hover:bg-white": isAvailable },
+              isAvailable ? "bg-white text-gray-800 hover:bg-gray-100" : "bg-gray-400 text-gray-600 cursor-not-allowed",
               []
             )}>
                {t("GetMoreDetails")}
@@ -90,7 +89,7 @@ const ProductCard = ({
           )}
         </div>
 
-        <div className="p-4 space-y-2 text-center">
+        <div className="p-4 flex-1 flex flex-col justify-between">
           <h3 className="text-lg font-medium text-gray-800 line-clamp-2 leading-tight">
             {productName}
           </h3>
