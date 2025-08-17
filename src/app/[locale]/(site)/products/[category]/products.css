@@ -10,7 +10,7 @@
   font-size: 56px;
   padding: 20px;
 }
-.products-page-container {
+/* .products-page-container {
   min-height: 100dvh;
   display: grid;
   grid-template-columns: 2fr 9fr;
@@ -25,4 +25,4 @@
     justify-content: center;
     display: block;
   }
-}
+} */

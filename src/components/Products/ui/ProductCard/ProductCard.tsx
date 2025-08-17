@@ -37,7 +37,7 @@ const ProductCard = ({
     )}>
       <Link
         href={!isAvailable ? "#" : `/products/${category}/${productId}`}
-        className="block"
+        className="block overflow-hidden"
         onClick={(e) => !isAvailable && e.preventDefault()}
       >
         <div className="relative aspect-square w-full bg-gray-100 overflow-hidden rounded-lg">

@@ -9,9 +9,11 @@ const CategoryPage = () => {
 
   return (
     <>
-      <div className="CategoryPage">
-        <div className="products-page-container">
-          <ProductsFilter category={category}/>
+      <div className="flex flex-col items-center w-full">
+        <div className="flex w-full">
+          <div className="hidden md:block">
+            <ProductsFilter category={category}/>
+          </div>
           <ProductsList category={category} />
         </div>
       </div>

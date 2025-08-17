@@ -37,8 +37,8 @@ const ProductsList = ({ category }: ProductsListProps) => {
 
 
   return (
-    <div className="products__list_wrapper">
-      <div className="products__list_header">
+    <div className="relative w-full">
+      <div className="flex items-center gap-2 p-2">
         <ProductSort />
         <MobileFilterButton category={category}/>
       </div>

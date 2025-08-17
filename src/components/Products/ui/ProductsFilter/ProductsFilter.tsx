@@ -139,11 +139,10 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
   );
   
   return (
-    <div className="ProductsFilter">
-      
+<div className="md:w-[222px] p-2">
       {currentConfig.showColorFilter && (
         <div className="ProductsFilter_section">
-          <h3 className="ProductsFilter_title">{t("Color")}</h3>
+          <h3 className="py-3">{t("Color")}</h3>
           <div className="ProductsFilter_color">
             <label className="color-checkbox">
               <input 

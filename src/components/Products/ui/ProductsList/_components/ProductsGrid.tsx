@@ -112,7 +112,7 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 p-4 sm:p-6 lg:p-8 pt-2 sm:pt-4 min-h-screen">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 px-2 min-h-screen">
         {products.map((product, index) => {
           const isLastProduct = index === products.length - 1;
           
