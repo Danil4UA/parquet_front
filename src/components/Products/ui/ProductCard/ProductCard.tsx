@@ -90,7 +90,7 @@ const ProductCard = ({
         </div>
 
         <div className="p-4 flex-1 flex flex-col justify-between">
-          <h3 className="text-lg font-medium text-gray-800 line-clamp-2 leading-tight">
+          <h3 className="text-lg font-medium text-gray-800 line-clamp-2 leading-tight text-center">
             {productName}
           </h3>
 
