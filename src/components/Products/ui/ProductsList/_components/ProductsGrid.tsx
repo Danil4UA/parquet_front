@@ -112,7 +112,7 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
 
   return (
     <>
-      <div className="products__list">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 p-4 sm:p-6 lg:p-8 pt-2 sm:pt-4 min-h-screen">
         {products.map((product, index) => {
           const isLastProduct = index === products.length - 1;
           
@@ -120,7 +120,7 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
             <div 
               key={product._id} 
               ref={isLastProduct ? setLastProductRef : null}
-              className="product-item"
+              className="w-full"
             >
               <ProductCard
                 product={product ?? {}}
@@ -131,7 +131,7 @@ const ProductsGrid = ({ products, queryParams }: ProductsGridProps) => {
       </div>
       
       {isLoadingMore && (
-        <div className="products__list loading-more">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 lg:pb-8">
           {Array.from({ length: 4 }).map((_, index) => (
             <ProductCardSkeleton key={`more-${index}`} />
           ))}

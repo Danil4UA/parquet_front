@@ -11,14 +11,14 @@
   padding: 20px;
 }
 .products-page-container {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: 2fr 9fr;
   max-width: 1440px;
   position: relative;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 768px) {
   .products-page-container {
     min-width: 100dvw;
     flex-direction: column;
