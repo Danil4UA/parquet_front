@@ -26,7 +26,10 @@
   "Product": {
     "GetMoreDetails": "Get more details",
     "OutOfStock": "אזל מהמלאי",
-    "NotifyWhenAvailable": "הודע כשיהיה במלאי"
+    "NotifyWhenAvailable": "הודע כשיהיה במלאי",
+    "OurPicksForYou": "ההמלצות שלנו בשבילך",
+    "SpecialsForYou": "מיוחדים עבורך",
+    "SeeMoreProducts": "ראה עוד מוצרים"
   },
   "HomePage": {
     "subtitle": "ללקוחות פרטיים ומסחריים",

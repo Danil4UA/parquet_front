@@ -27,7 +27,10 @@
   "Product": {
     "GetMoreDetails": "Get more details",
     "OutOfStock": "Out of Stock",
-    "NotifyWhenAvailable": "Notify When Available"
+    "NotifyWhenAvailable": "Notify When Available",
+    "OurPicksForYou": "Our Picks for You",
+    "SpecialsForYou": "Specials For You",
+    "SeeMoreProducts": "See More Products"
   },
   "HomePage": {
     "subtitle": "for residential & trade customers",

@@ -26,7 +26,10 @@
   "Product": {
     "GetMoreDetails": "Просмотреть детали",
     "NotifyWhenAvailable": "Уведомить о поступлении",
-    "OutOfStock": "Нет в наличии"
+    "OutOfStock": "Нет в наличии",
+    "OurPicksForYou": "Подборка для вас",
+    "SpecialsForYou": "Специально для вас",
+    "SeeMoreProducts": "Посмотреть больше товаров"
   },
   "HomePage": {
     "subtitle": "для частных и коммерческих клиентов",

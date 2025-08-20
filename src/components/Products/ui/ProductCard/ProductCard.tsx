@@ -8,10 +8,12 @@ import { Product } from "@/types/products";
 import { cn } from "@/lib/utils";
 interface ProductCardProps {
   product: Product;
+  className?: string;
 }
 
 const ProductCard = ({ 
   product,
+  className,
 }: ProductCardProps) => {
   const t = useTranslations("Product");
 
@@ -33,6 +35,7 @@ const ProductCard = ({
     <div className={cn(
       "relative w-full bg-white rounded-lg overflow-hidden transition-all duration-300 ease-in-out hover:scale-[1.02] group",
       !isAvailable && "opacity-80",
+      className,
       []
     )}>
       <Link
