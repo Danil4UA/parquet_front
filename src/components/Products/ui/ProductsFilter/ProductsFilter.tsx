@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import "./ProductsFilter.css";
 import { useTranslations } from "next-intl";
-interface CategoryConfig {
-  showColorFilter: boolean;
-  showTypeFilter: boolean;
-  excludeTypes: string[];
-}
+import Utils from "@/Utils/utils";
+import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 interface TypeOption {
   value: string;
   label: string;
@@ -20,6 +20,8 @@ export interface Filters {
 interface ProductsFilterProps {
   category: string;
 }
+
+const categoryConfig = Utils.filterCategoryConfig;
 
 const ProductsFilter = ({ category }: ProductsFilterProps) => {
   const router = useRouter();
@@ -62,66 +64,73 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
   useEffect(() => {
     setFilters(getFiltersFromUrl());
   }, [searchParams]);
-  
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = e.target as HTMLInputElement;
+
+  const handleColorChange = (colorValue: string, checked: boolean) => {
+    const updatedFilters = { ...filters };
+    const newColors = [...updatedFilters.color];
     
-    const updatedFilters: Filters = { ...filters };
-    
-    if (type === "checkbox") {
-      const newFilters = [...updatedFilters[name as keyof Filters]];
-      if (checked) {
-        if (!newFilters.includes(value)) {
-          newFilters.push(value);
-        }
-      } else {
-        const index = newFilters.indexOf(value);
-        if (index > -1) {
-          newFilters.splice(index, 1);
-        }
+    if (checked) {
+      if (!newColors.includes(colorValue)) {
+        newColors.push(colorValue);
       }
-      
-      updatedFilters[name as keyof Filters] = newFilters;
-    } else if (type === "radio" || type === "select-one") {
-      updatedFilters[name as keyof Filters] = [value];
+    } else {
+      const index = newColors.indexOf(colorValue);
+      if (index > -1) {
+        newColors.splice(index, 1);
+      }
     }
     
+    updatedFilters.color = newColors;
+    setFilters(updatedFilters);
+    updateUrlParams(updatedFilters);
+  };
+
+  const handleTypeChange = (typeValue: string, checked: boolean) => {
+    const updatedFilters = { ...filters };
+    const newTypes = [...updatedFilters.type];
+    
+    if (checked) {
+      if (!newTypes.includes(typeValue)) {
+        newTypes.push(typeValue);
+      }
+    } else {
+      const index = newTypes.indexOf(typeValue);
+      if (index > -1) {
+        newTypes.splice(index, 1);
+      }
+    }
+    
+    updatedFilters.type = newTypes;
     setFilters(updatedFilters);
     updateUrlParams(updatedFilters);
   };
   
-  const categoryConfig: Record<string, CategoryConfig> = {
-    all: {
-      showColorFilter: true,
-      showTypeFilter: true,
-      excludeTypes: []
-    },
-    cladding: {
-      showColorFilter: true,
-      showTypeFilter: false,
-      excludeTypes: []
-    },
-    laminate: {
-      showColorFilter: true,
-      showTypeFilter: true,
-      excludeTypes: ["laminate", "cladding"]
-    },
-    wood: {
-      showColorFilter: true,
-      showTypeFilter: true,
-      excludeTypes: ["cladding", "laminate"]
-    },
-    spc: {
-      showColorFilter: true,
-      showTypeFilter: true,
-      excludeTypes: ["cladding", "laminate"]
-    },
-    default: {
-      showColorFilter: true,
-      showTypeFilter: true,
-      excludeTypes: []
-    }
-  };
+  // const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  //   const { name, value, type, checked } = e.target as HTMLInputElement;
+    
+  //   const updatedFilters: Filters = { ...filters };
+    
+  //   if (type === "checkbox") {
+  //     const newFilters = [...updatedFilters[name as keyof Filters]];
+  //     if (checked) {
+  //       if (!newFilters.includes(value)) {
+  //         newFilters.push(value);
+  //       }
+  //     } else {
+  //       const index = newFilters.indexOf(value);
+  //       if (index > -1) {
+  //         newFilters.splice(index, 1);
+  //       }
+  //     }
+      
+  //     updatedFilters[name as keyof Filters] = newFilters;
+  //   } else if (type === "radio" || type === "select-one") {
+  //     updatedFilters[name as keyof Filters] = [value];
+  //   }
+    
+  //   setFilters(updatedFilters);
+  //   updateUrlParams(updatedFilters);
+  // };
   
   const currentConfig = categoryConfig[
     category.toLowerCase() as keyof typeof categoryConfig
@@ -131,93 +140,168 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
     { value: "fishbone", label: t("Fishbone") },
     { value: "plank", label: t("Plank") },
     { value: "cladding", label: t("Cladding") },
-    // { value: "laminate", label: t("Laminate") }
   ];
   
   const typeOptions = allTypeOptions.filter(option => 
     !currentConfig.excludeTypes.includes(option.value)
   );
-  
-  return (
-<div className="md:w-[222px] p-2">
-      {currentConfig.showColorFilter && (
-        <div className="ProductsFilter_section">
-          <h3 className="py-3">{t("Color")}</h3>
-          <div className="ProductsFilter_color">
-            <label className="color-checkbox">
-              <input 
-                type="checkbox" 
-                name="color" 
-                value="beige" 
-                onChange={handleFilterChange} 
-                checked={filters.color.includes("beige")} 
-              />
-              <span className="color-square" style={{ backgroundColor: "#F5F5DC" }}></span>
-            </label>
-            <label className="color-checkbox">
-              <input 
-                type="checkbox" 
-                name="color" 
-                value="gray" 
-                onChange={handleFilterChange} 
-                checked={filters.color.includes("gray")} 
-              />
-              <span className="color-square" style={{ backgroundColor: "#808080" }}></span>
-            </label>
-            <label className="color-checkbox">
-              <input 
-                type="checkbox" 
-                name="color" 
-                value="brown" 
-                onChange={handleFilterChange} 
-                checked={filters.color.includes("brown")} 
-              />
-              <span className="color-square" style={{ backgroundColor: "#8B4513" }}></span>
-            </label>
-            <label className="color-checkbox">
-              <input 
-                type="checkbox" 
-                name="color" 
-                value="smoke" 
-                onChange={handleFilterChange} 
-                checked={filters.color.includes("smoke")} 
-              />
-              <span className="color-square" style={{ backgroundColor: "#f2f2f2" }}></span>
-            </label>
-            <label className="color-checkbox">
-              <input 
-                type="checkbox" 
-                name="color" 
-                value="dark" 
-                onChange={handleFilterChange} 
-                checked={filters.color.includes("dark")} 
-              />
-              <span className="color-square" style={{ backgroundColor: "#333333" }}></span>
-            </label>
-          </div>
-        </div>
-      )}
 
-      {currentConfig.showTypeFilter && (
-        <div className="ProductsFilter_section">
-          <h3 className="ProductsFilter_title">{t("Type")}</h3>
-          <div className="ProductsFilter_type">
-            {typeOptions.map(option => (
-              <label key={option.value}>
-                <input
-                  type="checkbox"
-                  name="type"
-                  value={option.value}
-                  onChange={handleFilterChange}
-                  checked={filters.type.includes(option.value)}
-                />
-                {option.label}
-              </label>
-            ))}
+  const colorOptions = [
+    { value: "beige", color: "#F5F5DC", label: "Beige" },
+    { value: "gray", color: "#808080", label: "Gray" },
+    { value: "brown", color: "#8B4513", label: "Brown" },
+    { value: "smoke", color: "#f2f2f2", label: "Smoke" },
+    { value: "dark", color: "#333333", label: "Dark" },
+  ];
+  
+//   return (
+// <div className="md:w-[222px] p-2">
+//       {currentConfig.showColorFilter && (
+//         <div className="ProductsFilter_section">
+//           {/* <h3 className="py-3">{t("Color")}</h3> */}
+//           <div className="ProductsFilter_color">
+//             <label className="color-checkbox">
+//               <input 
+//                 type="checkbox" 
+//                 name="color" 
+//                 value="beige" 
+//                 onChange={handleFilterChange} 
+//                 checked={filters.color.includes("beige")} 
+//               />
+//               <span className="color-square" style={{ backgroundColor: "#F5F5DC" }}></span>
+//             </label>
+//             <label className="color-checkbox">
+//               <input 
+//                 type="checkbox" 
+//                 name="color" 
+//                 value="gray" 
+//                 onChange={handleFilterChange} 
+//                 checked={filters.color.includes("gray")} 
+//               />
+//               <span className="color-square" style={{ backgroundColor: "#808080" }}></span>
+//             </label>
+//             <label className="color-checkbox">
+//               <input 
+//                 type="checkbox" 
+//                 name="color" 
+//                 value="brown" 
+//                 onChange={handleFilterChange} 
+//                 checked={filters.color.includes("brown")} 
+//               />
+//               <span className="color-square" style={{ backgroundColor: "#8B4513" }}></span>
+//             </label>
+//             <label className="color-checkbox">
+//               <input 
+//                 type="checkbox" 
+//                 name="color" 
+//                 value="smoke" 
+//                 onChange={handleFilterChange} 
+//                 checked={filters.color.includes("smoke")} 
+//               />
+//               <span className="color-square" style={{ backgroundColor: "#f2f2f2" }}></span>
+//             </label>
+//             <label className="color-checkbox">
+//               <input 
+//                 type="checkbox" 
+//                 name="color" 
+//                 value="dark" 
+//                 onChange={handleFilterChange} 
+//                 checked={filters.color.includes("dark")} 
+//               />
+//               <span className="color-square" style={{ backgroundColor: "#333333" }}></span>
+//             </label>
+//           </div>
+//         </div>
+//       )}
+
+//       {currentConfig.showTypeFilter && (
+//         <div className="ProductsFilter_section">
+//           <h3 className="ProductsFilter_title">{t("Type")}</h3>
+//           <div className="ProductsFilter_type">
+//             {typeOptions.map(option => (
+//               <label key={option.value}>
+//                 <input
+//                   type="checkbox"
+//                   name="type"
+//                   value={option.value}
+//                   onChange={handleFilterChange}
+//                   checked={filters.type.includes(option.value)}
+//                 />
+//                 {option.label}
+//               </label>
+//             ))}
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+return (
+    <Card className="max-w-[250px] shadow-none border-none border-r">
+      <CardContent className="p-0">
+        {currentConfig.showColorFilter && (
+          <div>
+            {/* <h3 className="font-medium text-sm">{t("Color")}</h3> */}
+            <div className="flex flex-wrap gap-2 min-h-[58px] py-2 items-center px-2">
+              {colorOptions.map((color) => (
+                <div key={color.value} className="flex items-center space-x-1">
+                  <Checkbox
+                    id={`color-${color.value}`}
+                    checked={filters.color.includes(color.value)}
+                    onCheckedChange={(checked) => 
+                      handleColorChange(color.value, checked as boolean)
+                    }
+                    className="sr-only"
+                  />
+                  <Label
+                    htmlFor={`color-${color.value}`}
+                    className="cursor-pointer"
+                  >
+                    <div
+                      className={`w-8 h-8 rounded border-2 transition-all hover:scale-110 ${
+                        filters.color.includes(color.value)
+                          ? 'border-primary shadow-md ring-2 ring-primary/20'
+                          : 'border-gray-300 hover:border-gray-400'
+                      }`}
+                      style={{ backgroundColor: color.color }}
+                      title={color.label}
+                    />
+                  </Label>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+
+        {currentConfig.showColorFilter && currentConfig.showTypeFilter && (
+          <Separator />
+        )}
+
+        {currentConfig.showTypeFilter && (
+          <div className="p-3 space-y-2">
+            <h3 className="font-medium text-sm">{t("Type")}</h3>
+            <div className="">
+              {typeOptions.map((option) => (
+                <div key={option.value} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`type-${option.value}`}
+                    checked={filters.type.includes(option.value)}
+                    onCheckedChange={(checked) => 
+                      handleTypeChange(option.value, checked as boolean)
+                    }
+                  />
+                  <Label
+                    htmlFor={`type-${option.value}`}
+                    className="font-normal cursor-pointer px-2 text-md"
+                  >
+                    {option.label}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 

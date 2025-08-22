@@ -38,9 +38,10 @@ const ProductsList = ({ category }: ProductsListProps) => {
       fetchNextPage()
     }
   }, [entry])
+
   return (
     <div className="relative w-full">
-      <div className="flex items-center gap-2 p-2">
+      <div className="flex items-center gap-2 p-2 fixed top-18 z-50 bg-white w-full h-[58px] border-b items-center">
         <ProductSort />
         <MobileFilterButton category={category}/>
       </div>
@@ -49,7 +50,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
         <ProductsLoadingGrid />
       ) : (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 px-2 min-h-screen">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 px-2 pt-[58px]">
             {allProducts.map((product)=> (
               <ProductCard
                 key={product._id} 
