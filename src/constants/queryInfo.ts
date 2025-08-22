@@ -156,3 +156,22 @@ UseQueryOptions<AxiosResponse<ReviewsResponse>> {
     staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
   };
 }
+
+export function allProductsByCategoryInfinite(
+  params: Omit<ProductsSearchParams, 'page'>
+) {
+  return {
+    queryKey: [allCategoryProductsKey, params],
+    queryFn: ({ pageParam = 1 }) => reactQueryFetchFunction<ProductsWithPagination>(
+      productsServices.getProductsByCategory,
+      [],
+      { ...params, page: pageParam },
+    ),
+    getNextPageParam: (lastPage) => {
+      const { pagination } = lastPage.data;
+      return pagination.page < pagination.pages ? pagination.page + 1 : undefined;
+    },
+    staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
+    initialPageParam: 1,
+  };
+}

@@ -1,41 +1,43 @@
 "use client";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { usePathname, useSearchParams } from "next/navigation";
-import { RootState } from "@/redux/store";
-import { setProducts } from "@/components/Products/model/productsSlice";
 import { getProductsQueryParams } from "@/Utils/paginationUtils";
 import ProductSort from "../ProductSort/ProductSort";
 import MobileFilterButton from "../MobileFilterButton/MobileFilterButton";
-import ProductsGrid from "./_components/ProductsGrid";
 import ProductsLoadingGrid from "./_components/ProductsLoadingGrid";
-import useGetAllProductsByCategory from "@/hooks/useGetAllProductsByCategory";
-import "./ProductsList.css";
+import ProductCard from "../ProductCard/ProductCard";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { allProductsByCategoryInfinite } from "@/constants/queryInfo";
 
 interface ProductsListProps {
   category: string;
 }
-
 const ProductsList = ({ category }: ProductsListProps) => {
+  const { ref, inView, entry } = useInView();
   const searchParams = useSearchParams();
-  const dispatch = useDispatch();
   const pathname = usePathname();
   const baseQueryParams = getProductsQueryParams(searchParams, pathname, category);
   const queryParams = {
     ...baseQueryParams,
     isRandom: category === "all" ? "true" : undefined
   };
-  const { data, isPending, isSuccess } = useGetAllProductsByCategory(queryParams);
+   const {
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+    isPending
+  } = useInfiniteQuery(allProductsByCategoryInfinite(queryParams));
 
-  const productsList = useSelector((state: RootState) => state.products.filteredProducts);
+  console.log("data", data)
+  const allProducts = data?.pages.flatMap(page => page.data.products) || [];
 
   useEffect(() => {
-    if (isSuccess && data?.data) {
-      dispatch(setProducts(data.data.products));
+    if(entry && inView){
+      fetchNextPage()
     }
-  }, [data, isSuccess, dispatch]);
-
-
+  }, [entry])
   return (
     <div className="relative w-full">
       <div className="flex items-center gap-2 p-2">
@@ -47,10 +49,19 @@ const ProductsList = ({ category }: ProductsListProps) => {
         <ProductsLoadingGrid />
       ) : (
         <>
-          <ProductsGrid 
-            products={productsList} 
-            queryParams={queryParams}
-          />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 px-2 min-h-screen">
+            {allProducts.map((product)=> (
+              <ProductCard
+                key={product._id} 
+                product={product}
+                className="bg-transparent"
+              />
+            ))}
+          </div>
+
+          {isFetchingNextPage 
+          ? <LoadingSpinner className="m-2"/>
+          : <div ref={ref}/>}
         </>
       )}
     </div>
