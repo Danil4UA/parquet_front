@@ -6,38 +6,14 @@ import MobileFilterButton from "../MobileFilterButton/MobileFilterButton";
 import ProductsLoadingGrid from "./_components/ProductsLoadingGrid";
 import ProductCard from "../ProductCard/ProductCard";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { allCategoryProductsKey } from "@/constants/queryKey";
-import { ProductsSearchParams, ProductsWithPagination } from "@/types/products";
-import reactQueryFetchFunction from "@/Utils/reactQueryFetchFunction";
-import productsServices from "@/services/productsServices";
-import GlobalConstants from "@/constants/GlobalConstants";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { allProductsByCategoryInfinite } from "@/constants/queryInfo";
 
 interface ProductsListProps {
   category: string;
 }
-
-export function allProductsByCategoryInfinite(
-  params: Omit<ProductsSearchParams, 'page'>
-) {
-  return {
-    queryKey: [allCategoryProductsKey, params],
-    queryFn: ({ pageParam = 1 }) => reactQueryFetchFunction<ProductsWithPagination>(
-      productsServices.getProductsByCategory,
-      [],
-      { ...params, page: pageParam },
-    ),
-    getNextPageParam: (lastPage) => {
-      const { pagination } = lastPage.data;
-      return pagination.page < pagination.pages ? pagination.page + 1 : undefined;
-    },
-    staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
-    initialPageParam: 1,
-  };
-}
-
 const ProductsList = ({ category }: ProductsListProps) => {
   const { ref, inView, entry } = useInView();
   const searchParams = useSearchParams();
