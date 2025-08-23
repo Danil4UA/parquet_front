@@ -13,7 +13,7 @@ export function getProductsQueryParams(
   searchParams: ReadonlyURLSearchParams,
   pathname: string,
   category: string,
-  defaultLimit = 16
+  defaultLimit = 20
 ): ProductsSearchParams {
   // Extract language from path
   const language = pathname.split("/")[1];

@@ -58,7 +58,7 @@ export default class productsServices {
     sortBy = "",
     language = "en",
     page = 1,
-    limit = 1,
+    limit = 20,
     isRandom,
   }: ProductsSearchParams){
     try {
