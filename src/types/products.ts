@@ -99,3 +99,9 @@ export interface DashboardStats {
   successRate: string
   ordersThisWeek: number
 }
+
+export type FilterCategoryConfig = {
+  showColorFilter: boolean;
+  showTypeFilter: boolean;
+  excludeTypes: string[];
+}

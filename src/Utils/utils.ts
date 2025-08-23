@@ -1,4 +1,5 @@
 import RouteConstants from "@/constants/RouteConstants";
+import { FilterCategoryConfig } from "@/types/products";
 import parsePhoneNumber, {
   CountryCode,
   formatIncompletePhoneNumber, isValidPhoneNumber,
@@ -82,4 +83,37 @@ export default class Utils {
   };
 
   static moreReviewsLink = "https://www.google.com/search?q=אפקט הפרקט Reviews";
+
+  static filterCategoryConfig: Record<string, FilterCategoryConfig> = {
+    all: {
+      showColorFilter: true,
+      showTypeFilter: true,
+      excludeTypes: []
+    },
+    cladding: {
+      showColorFilter: true,
+      showTypeFilter: false,
+      excludeTypes: []
+    },
+    laminate: {
+      showColorFilter: true,
+      showTypeFilter: true,
+      excludeTypes: ["laminate", "cladding"]
+    },
+    wood: {
+      showColorFilter: true,
+      showTypeFilter: true,
+      excludeTypes: ["cladding", "laminate"]
+    },
+    spc: {
+      showColorFilter: true,
+      showTypeFilter: true,
+      excludeTypes: ["cladding", "laminate"]
+    },
+    default: {
+      showColorFilter: true,
+      showTypeFilter: true,
+      excludeTypes: []
+    }
+  }
 }
