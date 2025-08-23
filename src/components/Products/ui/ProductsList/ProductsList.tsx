@@ -10,6 +10,11 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { allProductsByCategoryInfinite } from "@/constants/queryInfo";
+import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { selectNavbarVisible } from "@/components/Navbar/model/navbarSlice";
+import { cn } from "@/lib/utils";
 
 interface ProductsListProps {
   category: string;
@@ -18,6 +23,9 @@ const ProductsList = ({ category }: ProductsListProps) => {
   const { ref, inView, entry } = useInView();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const isNavbarVisible = useSelector((state: RootState) => selectNavbarVisible(state));
+  const { isMobile } = useIsMobileDebounce();
+
   const baseQueryParams = getProductsQueryParams(searchParams, pathname, category);
   const queryParams = {
     ...baseQueryParams,
@@ -30,7 +38,6 @@ const ProductsList = ({ category }: ProductsListProps) => {
     isPending
   } = useInfiniteQuery(allProductsByCategoryInfinite(queryParams));
 
-  console.log("data", data)
   const allProducts = data?.pages.flatMap(page => page.data.products) || [];
 
   useEffect(() => {
@@ -39,9 +46,19 @@ const ProductsList = ({ category }: ProductsListProps) => {
     }
   }, [entry])
 
+     const getFilterPosition = () => {
+    if (!isMobile) {
+      return "top-[var(--navbar-height)]";
+    }
+    return isNavbarVisible ? "top-[var(--navbar-height)]" : "top-0";
+  };
+
   return (
     <div className="relative w-full">
-      <div className="flex items-center gap-2 p-2 fixed top-18 z-50 bg-white w-full h-[58px] border-b items-center">
+      <div className={cn(
+        "flex items-center gap-2 p-2 fixed z-50 bg-white w-full h-[58px] items-center transition-all duration-300",
+        getFilterPosition()
+      )}>
         <ProductSort />
         <MobileFilterButton category={category}/>
       </div>

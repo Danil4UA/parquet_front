@@ -1,7 +1,8 @@
 "use client";
+
 import Sidebar from "../Sidebar/Sidebar";
 import "./Navbar.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, Search as SearchIcon, ShoppingCart } from "lucide-react";
 import LangSwitcher from "@/widgets/LangSwitcher/ui/LangSwitcher";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,32 +12,50 @@ import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import logoPhoto from "@/app/assets/logo_photo.png";
 import Search from "../Search/Search";
+import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
+import { setNavbarVisible } from "./model/navbarSlice";
 
 const useScrollDirection = () => {
-  const [lastScrollY, setLastScrollY] = useState(0);
-  useEffect(() => {
+  const lastScrollY = useRef(0);
+  const { isMobile } = useIsMobileDebounce();
+  const dispatch = useDispatch();
+
+  useEffect(() => {    
+    if (!isMobile) {
+      document.body.classList.remove("scrolled", "scroll-up");
+      dispatch(setNavbarVisible(true));
+      return;
+    }
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const navbarElement = document.querySelector(".Navbar");
+      
+      if (!navbarElement) return;
 
-      if (currentScrollY > document.querySelector(".Navbar")!.clientHeight) {
+      if (Math.abs(currentScrollY - lastScrollY.current) < 2) return;
+
+      if (currentScrollY > navbarElement.clientHeight) {
         document.body.classList.add("scrolled");
 
-        if (currentScrollY < lastScrollY) {
+        if (currentScrollY < lastScrollY.current) {
           document.body.classList.add("scroll-up");
           document.body.classList.remove("scrolled");
+          dispatch(setNavbarVisible(true));
         } else {
           document.body.classList.remove("scroll-up");
+          dispatch(setNavbarVisible(false));
         }
       } else {
         document.body.classList.remove("scrolled", "scroll-up");
+        dispatch(setNavbarVisible(true));
       }
 
-      setLastScrollY(currentScrollY);
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, [isMobile, dispatch]);
 };
 export const Navbar = () => {
   const [collapsedSidebar, setCollapsedSidebar] = useState(true);
