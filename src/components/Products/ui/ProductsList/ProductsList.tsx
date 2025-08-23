@@ -68,9 +68,9 @@ const ProductsList = ({ category }: ProductsListProps) => {
       ) : (
         <>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 px-2 pt-[58px]">
-            {allProducts.map((product)=> (
+            {allProducts.map((product, index)=> (
               <ProductCard
-                key={product._id} 
+                key={`${product._id}-${index}`} 
                 product={product}
                 className="bg-transparent"
               />

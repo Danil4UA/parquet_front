@@ -70,6 +70,7 @@ export interface ProductsSearchParams {
     page?: number;
     limit?: number;
     isRandom?: string;
+    sortBy?: string;
   }
 
 export interface ProductsWithPagination {

@@ -128,7 +128,7 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
   ];
 
   return (
-    <Card className="max-w-[250px] shadow-none border-none border-r">
+    <Card className="sm:max-w-[250px] w-full shadow-none border-none border-r">
       <CardContent className="p-0">
         {currentConfig.showColorFilter && (
           <div>

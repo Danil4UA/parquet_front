@@ -24,6 +24,8 @@ export function getProductsQueryParams(
   const type = searchParams.get("type") || "";
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || defaultLimit.toString());
+  const sortBy = searchParams.get("sortBy") || "";
+
   
   return {
     category,
@@ -32,7 +34,8 @@ export function getProductsQueryParams(
     type,
     language,
     page,
-    limit
+    limit,
+    sortBy,
   };
 }
 

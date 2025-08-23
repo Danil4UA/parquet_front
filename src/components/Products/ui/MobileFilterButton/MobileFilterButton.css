@@ -17,10 +17,6 @@
   .mobile-filter-button:hover {
     background-color: var(--color-secondary-inverted);
   }
-
-  .mobile-filter-text {
-    font-size: 18px;
-  }
   
   .mobile-filter-overlay {
     position: fixed;

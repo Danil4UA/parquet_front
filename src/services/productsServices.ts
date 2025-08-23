@@ -55,6 +55,7 @@ export default class productsServices {
     search = "",
     color = "",
     type = "",
+    sortBy = "",
     language = "en",
     page = 1,
     limit = 1,
@@ -71,6 +72,7 @@ export default class productsServices {
           page,
           limit,
           isRandom,
+          sortBy,
         }
       });
       return response;

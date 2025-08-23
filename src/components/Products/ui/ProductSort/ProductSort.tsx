@@ -1,53 +1,52 @@
-import { RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { setFilteredList } from "../../model/productsSlice";
-import { Product } from "@/types/products";
-import "./ProductSort.css";
 import { useTranslations } from "next-intl";
-import Select from "@/shared/ui/Select/Select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const ProductSort = () => {
-  const dispatch = useDispatch();
-  const productsList = useSelector((state: RootState) => state.products.filteredProducts);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const t = useTranslations("Filter");
 
+  const currentSort = searchParams.get("sortBy") || "";
+
   const sortOptions = [
-    { value: "priceAsc", label: t("LowToHight") },
-    { value: "priceDesc", label: t("HightToLow") },
-    { value: "nameAsc", label: t("AtoZ") },
-    { value: "nameDesc", label: t("ZtoA") }
+    { value: "price_asc", label: t("LowToHight") },
+    { value: "price_desc", label: t("HightToLow") },
   ];
 
-  const handleSortProducts = (selectedLabel: string) => {
-    const sortCriteria = sortOptions.find((option) => option.label === selectedLabel)?.value;
+  const handleSortProducts = (sortValue: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    if (sortValue) {
+      params.set("sortBy", sortValue);
+    } else {
+      params.delete("sortBy");
+    }
 
-    const sortedList: Product[] = [...productsList].sort((a, b) => {
-      const getEffectivePrice = (product: Product) => {
-        const discount = product.discount || 0;
-        return Number(product.price) * (1 - discount / 100);
-      };
-
-      switch (sortCriteria) {
-        case "priceAsc":
-          return getEffectivePrice(a) - getEffectivePrice(b);
-        case "priceDesc":
-          return getEffectivePrice(b) - getEffectivePrice(a);
-        case "nameAsc":
-          return a.name.localeCompare(b.name);
-        case "nameDesc":
-          return b.name.localeCompare(a.name);
-        default:
-          return 0;
-      }
-    });
-
-    dispatch(setFilteredList(sortedList));
+    console.log(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (
-    <div className="ProductSort">
-      <Select options={sortOptions.map((option) => option.label)} onChange={handleSortProducts} placeholder={t("SortBy")} />
-    </div>
+    <Select onValueChange={handleSortProducts} value={currentSort}>
+      <SelectTrigger className="w-[200px] h-8 md:h-10 border text-lg text-black hover:bg-gray-100">
+        <SelectValue placeholder={t("SortBy")} />
+      </SelectTrigger>
+      <SelectContent>
+        {sortOptions.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 
