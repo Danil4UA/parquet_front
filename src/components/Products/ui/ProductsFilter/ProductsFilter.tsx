@@ -105,33 +105,6 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
     updateUrlParams(updatedFilters);
   };
   
-  // const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-  //   const { name, value, type, checked } = e.target as HTMLInputElement;
-    
-  //   const updatedFilters: Filters = { ...filters };
-    
-  //   if (type === "checkbox") {
-  //     const newFilters = [...updatedFilters[name as keyof Filters]];
-  //     if (checked) {
-  //       if (!newFilters.includes(value)) {
-  //         newFilters.push(value);
-  //       }
-  //     } else {
-  //       const index = newFilters.indexOf(value);
-  //       if (index > -1) {
-  //         newFilters.splice(index, 1);
-  //       }
-  //     }
-      
-  //     updatedFilters[name as keyof Filters] = newFilters;
-  //   } else if (type === "radio" || type === "select-one") {
-  //     updatedFilters[name as keyof Filters] = [value];
-  //   }
-    
-  //   setFilters(updatedFilters);
-  //   updateUrlParams(updatedFilters);
-  // };
-  
   const currentConfig = categoryConfig[
     category.toLowerCase() as keyof typeof categoryConfig
   ] || categoryConfig.default;
@@ -153,89 +126,8 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
     { value: "smoke", color: "#f2f2f2", label: "Smoke" },
     { value: "dark", color: "#333333", label: "Dark" },
   ];
-  
-//   return (
-// <div className="md:w-[222px] p-2">
-//       {currentConfig.showColorFilter && (
-//         <div className="ProductsFilter_section">
-//           {/* <h3 className="py-3">{t("Color")}</h3> */}
-//           <div className="ProductsFilter_color">
-//             <label className="color-checkbox">
-//               <input 
-//                 type="checkbox" 
-//                 name="color" 
-//                 value="beige" 
-//                 onChange={handleFilterChange} 
-//                 checked={filters.color.includes("beige")} 
-//               />
-//               <span className="color-square" style={{ backgroundColor: "#F5F5DC" }}></span>
-//             </label>
-//             <label className="color-checkbox">
-//               <input 
-//                 type="checkbox" 
-//                 name="color" 
-//                 value="gray" 
-//                 onChange={handleFilterChange} 
-//                 checked={filters.color.includes("gray")} 
-//               />
-//               <span className="color-square" style={{ backgroundColor: "#808080" }}></span>
-//             </label>
-//             <label className="color-checkbox">
-//               <input 
-//                 type="checkbox" 
-//                 name="color" 
-//                 value="brown" 
-//                 onChange={handleFilterChange} 
-//                 checked={filters.color.includes("brown")} 
-//               />
-//               <span className="color-square" style={{ backgroundColor: "#8B4513" }}></span>
-//             </label>
-//             <label className="color-checkbox">
-//               <input 
-//                 type="checkbox" 
-//                 name="color" 
-//                 value="smoke" 
-//                 onChange={handleFilterChange} 
-//                 checked={filters.color.includes("smoke")} 
-//               />
-//               <span className="color-square" style={{ backgroundColor: "#f2f2f2" }}></span>
-//             </label>
-//             <label className="color-checkbox">
-//               <input 
-//                 type="checkbox" 
-//                 name="color" 
-//                 value="dark" 
-//                 onChange={handleFilterChange} 
-//                 checked={filters.color.includes("dark")} 
-//               />
-//               <span className="color-square" style={{ backgroundColor: "#333333" }}></span>
-//             </label>
-//           </div>
-//         </div>
-//       )}
 
-//       {currentConfig.showTypeFilter && (
-//         <div className="ProductsFilter_section">
-//           <h3 className="ProductsFilter_title">{t("Type")}</h3>
-//           <div className="ProductsFilter_type">
-//             {typeOptions.map(option => (
-//               <label key={option.value}>
-//                 <input
-//                   type="checkbox"
-//                   name="type"
-//                   value={option.value}
-//                   onChange={handleFilterChange}
-//                   checked={filters.type.includes(option.value)}
-//                 />
-//                 {option.label}
-//               </label>
-//             ))}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-return (
+  return (
     <Card className="max-w-[250px] shadow-none border-none border-r">
       <CardContent className="p-0">
         {currentConfig.showColorFilter && (
