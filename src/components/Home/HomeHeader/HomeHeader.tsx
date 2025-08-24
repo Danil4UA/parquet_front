@@ -66,7 +66,7 @@ const HomeHeader = () => {
   };
 
   return (
-    <div className="relative min-h-[calc(100dvh-var(--navbar-height))] overflow-hidden">
+    <div className="relative min-h-[calc(100vh-var(--navbar-height))] overflow-hidden">
       {/* Carousel Background */}
       <div className="absolute inset-0">
         {heroImages.map((image, index) => (
