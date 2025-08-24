@@ -2,7 +2,6 @@
 
 import HomeHeader from "@/components/Home/HomeHeader/HomeHeader";
 import HomeMain from "@/components/Home/HomeMain/HomeMain";
-import "./home.css";
 import ReviewsSection from "@/components/Reviews/ReviewsSection";
 import { useQueries } from "@tanstack/react-query";
 import { allReviewsQuery } from "@/constants/queryInfo";
@@ -20,7 +19,7 @@ export default function HomePage() {
     ]
   })
   return (
-    <div className="HomePage_wapper">
+    <div className="w-full flex flex-col min-h-screen">
       <HomeHeader />
       <HomeMain />
       <ReviewsSection

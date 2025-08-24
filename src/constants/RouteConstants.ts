@@ -3,6 +3,8 @@ export default class RouteConstants {
 
     static get ALL_PRODUCTS_PAGE() {return "/products/all"}
 
+    static get CONTACT_US_PAGE() {return "/contact"}
+
     static get ADMIN_ROUTE() { return "/admin"; }
 
     static get ADMIN_PRODUCTS() { return "/admin/products"; }
