@@ -145,7 +145,7 @@ const HomeHeader = () => {
               className={`flex flex-col mt-[75px] sm:flex-row gap-3 sm:gap-4 ${isHebrew ? "sm:justify-start" : "sm:justify-start"}`}
             >
               <button
-                onClick={() => router.push(`/${lng}/products/all`)}
+                onClick={() => router.push(`/${lng}/${RouteConstants.ALL_PRODUCTS_PAGE}`)}
                 className="group relative px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-gray-800 to-gray-900 text-white font-semibold rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gray-900/50 text-sm sm:text-base border border-gray-700"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
