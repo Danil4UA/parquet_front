@@ -10,24 +10,24 @@ const HomeMain = () => {
   const isHebrew = lng === "he";
 
   const fadeInVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 }
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 }
   };
 
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
+     const staggerContainer = {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.2,
+          delayChildren: 0.3
+        }
       }
-    }
-  };
+    };
 
   return (
-    <div className="relative bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="relative bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="hidden lg:block absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-100/20 to-purple-100/20 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-green-100/20 to-blue-100/20 rounded-full blur-3xl" />
       </div>
@@ -37,15 +37,13 @@ const HomeMain = () => {
           className="max-w-4xl mx-auto text-center px-5 sm:px-6 mb-4"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true }}
           variants={staggerContainer}
+          transition={{ duration: 0.3 }}
         >
-          <motion.div 
-            variants={fadeInVariants}
-            className="flex justify-center mb-6"
-          >
+          <div className="flex justify-center mb-6">
             <div className="w-16 h-1 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full" />
-          </motion.div>
+          </div>
 
           <motion.h2 
             variants={fadeInVariants}
@@ -65,25 +63,14 @@ const HomeMain = () => {
             {t("floor_update_message")}
           </motion.p>
 
-          <motion.div 
-            variants={fadeInVariants}
-            className="flex justify-center mt-8"
-          >
+          <div className="flex justify-center mt-8">
             <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-gray-400 to-transparent" />
-          </motion.div>
+          </div>
         </motion.div>
 
-        <motion.div 
-          className="w-full max-w-7xl mx-auto px-2 sm:px-6"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={staggerContainer}
-        >
-          <motion.div variants={fadeInVariants}>
-            <CategoryList />
-          </motion.div>
-        </motion.div>
+        <div className="w-full max-w-7xl mx-auto px-2 sm:px-6">
+          <CategoryList />
+        </div>
       </div>
     </div>
   );
