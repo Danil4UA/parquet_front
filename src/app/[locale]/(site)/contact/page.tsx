@@ -280,9 +280,9 @@ const ContactPage = () => {
             <div className="container mx-auto px-3 sm:px-4">
               <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-6 sm:mb-8">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Find Us</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">{t("Contact.findUs")}</h2>
                   <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base px-4 sm:px-0">
-                    Visit our showroom to see our products in person and get expert advice from our team
+                    {t("Contact.visitUsText")}
                   </p>
                 </div>
                 <Card className="overflow-hidden shadow-2xl border-0">

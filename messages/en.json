@@ -284,7 +284,9 @@
       "phone_invalid": "Please enter a valid phone number",
       "email_invalid": "Please enter a valid email",
       "message_min_length": "Message must contain at least 10 characters"
-    }
+    },
+    "findUs": "Find Us",
+    "visitUsText": "Visit our showroom to see our products in person and get expert advice from our team"
   },
   "Utils": {
     "days": {
