@@ -1,5 +1,6 @@
 import CategoryCard from "../CategoryCard/CategoryCard";
 import { useTranslations } from "next-intl";
+import { motion } from "framer-motion";
 import categoryFlooring from "/public/assets/category_flooring_new.jpg"
 import categoryLaminate from "/public/assets/category_laminate.jpg"
 import categorySpc from "/public/assets/category_spc.jpg"
@@ -7,8 +8,6 @@ import categoryWood from "/public/assets/category_wood.jpg"
 import categoryCatalog from "/public/assets/category_catalog.jpg"
 import categoryPanel from "/public/assets/category_panel.jpg"
 import categorySeeling from "/public/assets/category_seeling.jpg"
-
-import "./CategoryList.css";
 
 export type Category = {
   image: string;
@@ -70,12 +69,60 @@ const CategoryList = () => {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+      }
+    }
+  };
+
   return (
-    <div className="CategoryList">
+    <motion.div 
+      className={`
+        grid gap-6 p-6 max-w-[1300px] mx-auto
+        grid-cols-4
+        lg:grid-cols-4
+        md:grid-cols-2
+        sm:grid-cols-2
+        xs:grid-cols-2
+        auto-rows-max
+        
+        xl:gap-8 xl:p-8
+        lg:gap-6 lg:p-6
+        md:gap-5 md:p-4
+        sm:gap-4 sm:p-4
+        max-[400px]:grid-cols-2 max-[400px]:gap-3 max-[400px]:p-3
+      `}
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+    >
       {categories.map((category) => (
-        <CategoryCard key={category.path} category={category} />
+        <motion.div
+          key={category.path}
+          variants={itemVariants}
+          className="flex justify-center"
+        >
+          <CategoryCard category={category} />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 
