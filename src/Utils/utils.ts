@@ -7,13 +7,15 @@ import parsePhoneNumber, {
 
 export const socialLinks = {
     instagram: "https://www.instagram.com/effectparquet?igsh=MTZwMWpwM2V3c2w2dQ==",
-    facebook: "https://www.facebook.com/share/18rNsCJ3sR/?mibextid=wwXIfr"
+    facebook: "https://www.facebook.com/share/18rNsCJ3sR/?mibextid=wwXIfr",
+    whatsapp: "https://wa.me/+972584455478",
+    waze: "https://waze.com/ul?q=110+Herzl+Street+Rishon+LeZion&navigate=yes"
 };
 
 
 export const contactData = {
     email: "effectparquet@gmail.com",
-    phone: "0584455478",
+    phone: "058-44-55-478",
     address: "הרצל 110, ראשון לציון"
 };
 

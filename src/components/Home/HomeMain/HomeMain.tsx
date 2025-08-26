@@ -32,7 +32,7 @@ const HomeMain = () => {
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-green-100/20 to-blue-100/20 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-start py-4 sm:py-8">
+      <div className="relative z-10 flex flex-col items-center justify-start py-4 sm:py-8">
         <motion.div 
           className="max-w-4xl mx-auto text-center px-5 sm:px-6 mb-4"
           initial="hidden"
