@@ -20,6 +20,7 @@ import Modal from "@/shared/ui/Modal/Modal";
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
 
 const fadeInVariants = {
   hidden: { opacity: 0 },
@@ -93,6 +94,12 @@ const Footer = () => {
     }
   ];
 
+  const handleSocialClick = (href: string) => {
+    if (href) {
+      window.open(href, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <footer className="relative bg-gradient-to-b from-gray-900 to-black text-white">
       {isShownModal && ModalContent && (
@@ -101,10 +108,12 @@ const Footer = () => {
         </Modal>
       )}
       
-      <div className="absolute inset-0 opacity-10 hidden md:block">
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-gray-700/30 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gray-600/20 rounded-full blur-2xl"></div>
-      </div>
+      {!isMobile && (
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-64 h-64 bg-gray-700/30 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gray-600/20 rounded-full blur-2xl"></div>
+        </div>
+      )}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
@@ -113,11 +122,20 @@ const Footer = () => {
             initial="hidden"
             whileInView="visible"
             variants={animationVariants}
-            transition={{ duration: isMobile ? 0.3 : 0.6, delay: 0 }}
+            transition={{ 
+              duration: isMobile ? 0.2 : 0.6, 
+              delay: 0,
+              ease: "easeOut"
+            }}
             viewport={{ once: true, margin: "-50px" }}
             className="sm:col-span-2 lg:col-span-2"
           >
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <h2 className={cn(
+              "text-2xl sm:text-3xl lg:text-4xl font-bold mb-4",
+              isMobile 
+                ? "text-white" 
+                : "bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
+            )}>
               {t("made_by")}
             </h2>
           </motion.div>
@@ -126,13 +144,28 @@ const Footer = () => {
             initial="hidden"
             whileInView="visible"
             variants={animationVariants}
-            transition={{ duration: isMobile ? 0.3 : 0.6, delay: isMobile ? 0.1 : 0.2 }}
+            transition={{ 
+              duration: isMobile ? 0.2 : 0.6, 
+              delay: isMobile ? 0.05 : 0.2,
+              ease: "easeOut"
+            }}
             viewport={{ once: true, margin: "-50px" }}
           >
             <h3 className="text-lg sm:text-xl font-semibold mb-4 text-white">{t("quick_links")}</h3>
             <ul className="space-y-2 sm:space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.key}>
+              {quickLinks.map((link, index) => (
+                <motion.li 
+                  key={link.key}
+                  initial="hidden"
+                  whileInView="visible"
+                  variants={animationVariants}
+                  transition={{ 
+                    duration: isMobile ? 0.15 : 0.4, 
+                    delay: isMobile ? index * 0.02 : (0.3 + index * 0.1),
+                    ease: "easeOut"
+                  }}
+                  viewport={{ once: true, margin: "-50px" }}
+                >
                   <button
                     className={cn(
                       "w-full text-gray-300 hover:text-white transition-colors duration-200 py-1",
@@ -142,7 +175,7 @@ const Footer = () => {
                   >
                     {t(`${link.key}`)}
                   </button>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </motion.div>
@@ -151,7 +184,11 @@ const Footer = () => {
             initial="hidden"
             whileInView="visible"
             variants={animationVariants}
-            transition={{ duration: isMobile ? 0.3 : 0.6, delay: isMobile ? 0.2 : 0.4 }}
+            transition={{ 
+              duration: isMobile ? 0.2 : 0.6, 
+              delay: isMobile ? 0.1 : 0.4,
+              ease: "easeOut"
+            }}
             viewport={{ once: true, margin: "-50px" }}
           >
             <h3 className="text-lg sm:text-xl font-semibold mb-4 text-white">{t("contact")}</h3>
@@ -193,24 +230,41 @@ const Footer = () => {
             <div className="mt-6 sm:mt-8">
               <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4 text-white">{t("follow_us")}</h4>
               <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                {socialIcons.map((social) => {
+                {socialIcons.map((social, index) => {
                   const IconComponent = social.icon;
                   return (
-                    <a
+                    <motion.div
                       key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`group relative p-3 rounded-xl bg-gradient-to-r ${social.color} ${social.hoverColor} transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden`}
+                      initial="hidden"
+                      whileInView="visible"
+                      variants={animationVariants}
+                      transition={{ 
+                        duration: isMobile ? 0.15 : 0.4, 
+                        delay: isMobile ? (0.15 + index * 0.02) : (0.5 + index * 0.1),
+                        ease: "easeOut"
+                      }}
+                      viewport={{ once: true, margin: "-50px" }}
                     >
-                      <div className="flex items-center justify-center space-x-2">
-                        <IconComponent className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" />
-                        <span className="text-sm font-medium text-white opacity-0 max-w-0 overflow-hidden group-hover:opacity-100 group-hover:max-w-xs transition-all duration-500">
-                          {social.label}
-                        </span>
-                      </div>
-                      <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-                    </a>
+                      <Button
+                        onClick={() => handleSocialClick(social.href)}
+                        className={cn(
+                          "group relative p-3 rounded-xl transition-all duration-300 overflow-hidden w-full",
+                          isMobile 
+                            ? `bg-gray-800 hover:bg-gray-700 border border-gray-600`
+                            : `bg-gradient-to-r ${social.color} ${social.hoverColor}`
+                        )}
+                      >
+                        <div className="flex items-center justify-center space-x-2">
+                          <IconComponent className="w-5 h-5 text-white transition-transform duration-300" />
+                          <span className="text-sm font-medium text-white px-2">
+                            {social.label}
+                          </span>
+                        </div>
+                        {!isMobile && (
+                          <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                        )}
+                      </Button>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -222,7 +276,11 @@ const Footer = () => {
           initial="hidden"
           whileInView="visible"
           variants={animationVariants}
-          transition={{ duration: isMobile ? 0.3 : 0.6, delay: isMobile ? 0.3 : 0.6 }}
+          transition={{ 
+            duration: isMobile ? 0.2 : 0.6, 
+            delay: isMobile ? 0.2 : 0.6,
+            ease: "easeOut"
+          }}
           viewport={{ once: true, margin: "-50px" }}
           className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-700/50"
         >

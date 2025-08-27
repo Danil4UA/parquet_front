@@ -12,23 +12,35 @@ import { Button } from "../ui/button";
 import Utils from "@/Utils/utils";
 import { motion } from "framer-motion";
 import { ArrowRight, Star } from "lucide-react";
+import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
 
 type IReviewsSection = {
     reviewsData: UseQueryResult<AxiosResponse<ReviewsResponse>, Error>
 }
 
 const fadeInVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+};
+
+const desktopFadeInVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 }
 };
 
-const cardVariants = {
+const mobileCardVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+};
+
+const desktopCardVariants = {
   hidden: { opacity: 0, scale: 0.95, y: 20 },
   visible: { opacity: 1, scale: 1, y: 0 }
 };
 
 export default function ReviewsSection({ reviewsData }: IReviewsSection) {
   const t = useTranslations("HomePage");
+  const { isMobile } = useIsMobileDebounce();
 
   const reviews = reviewsData?.data?.data?.reviews || [];
   const total_reviews = reviewsData?.data?.data?.total_reviews || 0;
@@ -51,21 +63,28 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
     ? (reviews.reduce((acc: number, review: Review) => acc + review.rating, 0) / reviews.length).toFixed(1)
     : "5.0";
     
+  const currentFadeVariants = isMobile ? fadeInVariants : desktopFadeInVariants;
+  const currentCardVariants = isMobile ? mobileCardVariants : desktopCardVariants;
   return (
     <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-16 lg:py-24 overflow-hidden" dir={"ltr"}>
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-3xl"></div>
-        <div className="absolute bottom-32 right-32 w-48 h-48 bg-blue-500 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500 rounded-full blur-3xl"></div>
-      </div>
+      {!isMobile && (
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-32 right-32 w-48 h-48 bg-blue-500 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500 rounded-full blur-3xl"></div>
+        </div>
+      )}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          variants={fadeInVariants}
-          transition={{ duration: 0.8 }}
+          variants={currentFadeVariants}
+          transition={{ 
+            duration: isMobile ? 0.3 : 0.8,
+            ease: "easeOut"
+          }}
           className="text-center mb-12 lg:mb-16"
         >
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -73,10 +92,13 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
             <span className="text-yellow-400 font-semibold text-lg">{averageRating}</span>
           </div>
           
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent mb-4">
+          <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${
+            isMobile 
+              ? "text-white" 
+              : "bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent"
+          }`}>
             {t("customer_reviews")}
           </h2>
-          
         </motion.div>
         
         {/* Mobile View */}
@@ -88,8 +110,12 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
-                variants={cardVariants}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                variants={currentCardVariants}
+                transition={{ 
+                  duration: 0.2, 
+                  delay: index * 0.02,
+                  ease: "easeOut"
+                }}
               >
                 <ReviewCard review={review} />
               </motion.div>
@@ -100,17 +126,25 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                variants={fadeInVariants}
-                transition={{ duration: 0.6, delay: 0.3 }}
+                variants={currentFadeVariants}
+                transition={{ 
+                  duration: 0.2, 
+                  delay: 0.1,
+                  ease: "easeOut"
+                }}
                 className="text-center mt-8"
               >
                 <Button 
                   onClick={handleMoreReviewsClick}
-                  className="group px-8 py-4 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gray-900/50 border border-gray-600"
+                  className={`group px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 border border-gray-600 ${
+                    isMobile
+                      ? "bg-gray-800 hover:bg-gray-700"
+                      : "bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 hover:scale-105 hover:shadow-2xl hover:shadow-gray-900/50"
+                  }`}
                 >
                   <span className="flex items-center gap-2">
                     {t("get_more_reviews")}
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className={`w-5 h-5 transition-transform ${!isMobile ? 'group-hover:translate-x-1' : ''}`} />
                   </span>
                 </Button>
               </motion.div>
@@ -118,13 +152,16 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
           </div>
         </div>
         
-        {/* Desktop View */}
         <motion.div 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          variants={fadeInVariants}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          variants={currentFadeVariants}
+          transition={{ 
+            duration: isMobile ? 0.3 : 0.8, 
+            delay: isMobile ? 0.1 : 0.2,
+            ease: "easeOut"
+          }}
           className="hidden md:block"
         >
           <div className="relative">
@@ -162,8 +199,12 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                variants={fadeInVariants}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                variants={currentFadeVariants}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: 0.4,
+                  ease: "easeOut"
+                }}
                 className="text-center mt-12"
               >
                 <Button 
@@ -181,7 +222,9 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-900 to-transparent pointer-events-none"></div>
+      {!isMobile && (
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-900 to-transparent pointer-events-none"></div>
+      )}
     </section>
   );
 }
