@@ -10,6 +10,7 @@ import homeBackGround from "../../../../public/assets/home_background.jpg";
 import homeBackGround_2 from "../../../../public/assets/home_background_2.jpg";
 import homeBackGround_3 from "../../../../public/assets/main_1.jpg";
 import RouteConstants from "@/constants/RouteConstants";
+import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
 
 const heroImages = [
   homeBackGround_2.src,
@@ -17,16 +18,24 @@ const heroImages = [
   homeBackGround_3.src,
 ];
 
-const fadeInVariants = {
+const mobileVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+};
+
+const desktopVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 }
 };
 
+
 const HomeHeader = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const lng = pathname.split("/")[1];
   const t = useTranslations("HomePage");
+  const { isMobile } = useIsMobileDebounce();
+
+  const lng = pathname.split("/")[1];
   const isHebrew = lng === "he";
   
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -65,14 +74,17 @@ const HomeHeader = () => {
     setIsAutoPlaying(false);
   };
 
-  return (
+  const animationVariants = isMobile ? mobileVariants : desktopVariants;
+
+   return (
     <div className="relative min-h-[calc(100vh-var(--navbar-height))] overflow-hidden">
-      {/* Carousel Background */}
       <div className="absolute inset-0">
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            className={`absolute inset-0 transition-opacity ${
+              isMobile ? 'duration-500' : 'duration-1000'
+            } ease-in-out ${
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -82,54 +94,73 @@ const HomeHeader = () => {
               fill
               className="object-cover"
               priority={index === 0}
-              quality={90}
+              quality={isMobile ? 70 : 90} 
               sizes="100vw"
             />
-            {/* Dark gradient overlay for better contrast */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/40" />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50" />
+            {isMobile ? (
+              <div className="absolute inset-0 bg-black/70" />
+            ) : (
+              <>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/40" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50" />
+              </>
+            )}
           </div>
         ))}
       </div>
 
       <button
         onClick={prevSlide}
-        className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-gray-900/40 backdrop-blur-md border border-gray-700/50 text-white hover:bg-gray-800/60 transition-all duration-300 group"
+        className={`absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full text-white transition-all duration-300 ${
+          isMobile 
+            ? 'bg-black/50 hover:bg-black/70' 
+            : 'bg-gray-900/40 backdrop-blur-md border border-gray-700/50 hover:bg-gray-800/60 group'
+        }`}
       >
-        <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+        <ChevronLeft className={`w-4 h-4 sm:w-6 sm:h-6 ${!isMobile ? 'group-hover:scale-110 transition-transform' : ''}`} />
       </button>
       
       <button
         onClick={nextSlide}
-        className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-gray-900/40 backdrop-blur-md border border-gray-700/50 text-white hover:bg-gray-800/60 transition-all duration-300 group"
+        className={`absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full text-white transition-all duration-300 ${
+          isMobile 
+            ? 'bg-black/50 hover:bg-black/70' 
+            : 'bg-gray-900/40 backdrop-blur-md border border-gray-700/50 hover:bg-gray-800/60 group'
+        }`}
       >
-        <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+        <ChevronRight className={`w-4 h-4 sm:w-6 sm:h-6 ${!isMobile ? 'group-hover:scale-110 transition-transform' : ''}`} />
       </button>
 
       <div className="relative z-10 h-full flex items-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
-            {/* Заголовок с анимацией */}
             <motion.h1 
               initial="hidden"
               animate="visible"
-              variants={fadeInVariants}
-              transition={{ duration: 0.8, delay: 0 }}
+              variants={animationVariants}
+              transition={{ 
+                duration: isMobile ? 0.3 : 0.8, 
+                delay: 0,
+                ease: "easeOut"
+              }}
               className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-4 sm:mb-6 leading-tight ${
                 isHebrew ? "text-right" : "text-left"
               }`}
             >
-              <span className="block transform hover:scale-105 transition-transform duration-300">
+              <span className={`block transition-transform duration-300 ${!isMobile ? 'hover:scale-105' : ''}`}>
                 {t("effect_parquet")}
               </span>
             </motion.h1>
 
-            {/* Описание с анимацией */}
             <motion.p 
               initial="hidden"
               animate="visible"
-              variants={fadeInVariants}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              variants={animationVariants}
+              transition={{ 
+                duration: isMobile ? 0.3 : 0.8, 
+                delay: isMobile ? 0.1 : 0.4,
+                ease: "easeOut"
+              }}
               className={`text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200/90 mb-6 sm:mb-8 max-w-2xl leading-relaxed ${
                 isHebrew ? "text-right" : "text-left"
               }`}
@@ -140,23 +171,37 @@ const HomeHeader = () => {
             <motion.div 
               initial="hidden"
               animate="visible"
-              variants={fadeInVariants}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              variants={animationVariants}
+              transition={{ 
+                duration: isMobile ? 0.3 : 0.8, 
+                delay: isMobile ? 0.15 : 0.6,
+                ease: "easeOut"
+              }}
               className={`flex flex-col mt-[75px] sm:flex-row gap-3 sm:gap-4 ${isHebrew ? "sm:justify-start" : "sm:justify-start"}`}
             >
               <button
                 onClick={() => router.push(`/${lng}/${RouteConstants.ALL_PRODUCTS_PAGE}`)}
-                className="group relative px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-gray-800 to-gray-900 text-white font-semibold rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gray-900/50 text-sm sm:text-base border border-gray-700"
+                className={`group relative px-4 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 text-sm sm:text-base border border-gray-700 ${
+                  isMobile
+                    ? 'bg-gray-800 hover:bg-gray-700'
+                    : 'bg-gradient-to-r from-gray-800 to-gray-900 hover:scale-105 hover:shadow-2xl hover:shadow-gray-900/50'
+                }`}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   {t("view_products")}
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${!isMobile ? 'group-hover:translate-x-1' : ''}`} />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-800 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                {!isMobile && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-800 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                )}
               </button>
 
               <button 
-                className="group px-4 sm:px-8 py-3 sm:py-4 bg-gray-900/30 backdrop-blur-sm border border-gray-600/50 text-white font-semibold rounded-lg sm:rounded-xl transition-all duration-300 hover:bg-gray-800/40 hover:scale-105 text-sm sm:text-base"
+                className={`group px-4 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-lg sm:rounded-xl transition-all duration-300 text-sm sm:text-base ${
+                  isMobile
+                    ? 'bg-gray-700/80 border border-gray-600 hover:bg-gray-600/80'
+                    : 'bg-gray-900/30 backdrop-blur-sm border border-gray-600/50 hover:bg-gray-800/40 hover:scale-105'
+                }`}
                 onClick={(() => router.push(`${lng}/${RouteConstants.CONTACT_US_PAGE}`))}
               >
                 <span className="flex items-center justify-center gap-2">
@@ -169,8 +214,12 @@ const HomeHeader = () => {
             <motion.div 
               initial="hidden"
               animate="visible"
-              variants={fadeInVariants}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              variants={animationVariants}
+              transition={{ 
+                duration: isMobile ? 0.3 : 0.8, 
+                delay: isMobile ? 0.2 : 0.8,
+                ease: "easeOut"
+              }}
               className="flex justify-center sm:justify-start gap-4 sm:gap-8 mt-6 sm:mt-12"
             >
               <div className="text-center">
@@ -206,18 +255,24 @@ const HomeHeader = () => {
         </div>
       </div>
 
-      <motion.div 
-        initial="hidden"
-        animate="visible"
-        variants={fadeInVariants}
-        transition={{ duration: 0.8, delay: 1.0 }}
-        className="hidden lg:block absolute bottom-6 sm:bottom-8 left-6 sm:left-8 z-20 text-gray-300/70"
-      >
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-xs sm:text-sm transform -rotate-90 origin-center whitespace-nowrap">{t("scroll_down")}</span>
-          <div className="w-px h-8 sm:h-12 bg-gradient-to-b from-gray-300/70 to-transparent animate-pulse"></div>
-        </div>
-      </motion.div>
+      {!isMobile && (
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={animationVariants}
+          transition={{ 
+            duration: 0.8, 
+            delay: 1.0,
+            ease: "easeOut"
+          }}
+          className="hidden lg:block absolute bottom-6 sm:bottom-8 left-6 sm:left-8 z-20 text-gray-300/70"
+        >
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-xs sm:text-sm transform -rotate-90 origin-center whitespace-nowrap">{t("scroll_down")}</span>
+            <div className="w-px h-8 sm:h-12 bg-gradient-to-b from-gray-300/70 to-transparent animate-pulse"></div>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 };
