@@ -68,6 +68,8 @@ const Footer = () => {
       icon: Instagram, 
       href: socialLinks.instagram, 
       label: "Instagram",
+      color_phone: "bg-pink-500",
+      color_phone_hover: "hover:bg-pink-600",
       color: "from-pink-500 to-purple-600",
       hoverColor: "hover:from-pink-600 hover:to-purple-700"
     },
@@ -75,6 +77,8 @@ const Footer = () => {
       icon: Facebook, 
       href: socialLinks.facebook, 
       label: "Facebook",
+      color_phone: "bg-blue-500",
+      color_phone_hover: "hover:bg-blue-600",
       color: "from-blue-600 to-blue-700",
       hoverColor: "hover:from-blue-700 hover:to-blue-800"
     },
@@ -82,6 +86,8 @@ const Footer = () => {
       icon: MessageCircle, 
       href: socialLinks.whatsapp, 
       label: "WhatsApp",
+      color_phone: "bg-green-500",
+      color_phone_hover: "hover:bg-green-600",
       color: "from-green-500 to-green-600",
       hoverColor: "hover:from-green-600 hover:to-green-700"
     },
@@ -89,6 +95,8 @@ const Footer = () => {
       icon: Navigation, 
       href: socialLinks.waze, 
       label: "Waze",
+      color_phone: "bg-blue-400",
+      color_phone_hover: "hover:bg-blue-500",
       color: "from-blue-400 to-blue-500",
       hoverColor: "hover:from-blue-500 hover:to-blue-600"
     }
@@ -248,9 +256,9 @@ const Footer = () => {
                       <Button
                         onClick={() => handleSocialClick(social.href)}
                         className={cn(
-                          "group relative p-3 rounded-xl transition-all duration-300 overflow-hidden w-full",
+                          "group relative px-3 py-5 rounded-xl transition-all duration-300 overflow-hidden w-full",
                           isMobile 
-                            ? `bg-gray-800 hover:bg-gray-700 border border-gray-600`
+                            ? `${social.color_phone} ${social.color_phone_hover} border border-gray-600`
                             : `bg-gradient-to-r ${social.color} ${social.hoverColor}`
                         )}
                       >
