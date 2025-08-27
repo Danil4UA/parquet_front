@@ -8,6 +8,7 @@ import categoryWood from "/public/assets/category_wood.jpg"
 import categoryCatalog from "/public/assets/category_catalog.jpg"
 import categoryPanel from "/public/assets/category_panel.jpg"
 import categorySeeling from "/public/assets/category_seeling.jpg"
+import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
 
 export type Category = {
   image: string;
@@ -18,6 +19,8 @@ export type Category = {
 
 const CategoryList = () => {
   const t = useTranslations("Categories");
+  const { isMobile } = useIsMobileDebounce();
+
   const categories: Category[] = [
     {
       image: categoryFlooring.src,
@@ -69,7 +72,28 @@ const CategoryList = () => {
     },
   ];
 
-  const containerVariants = {
+  const mobileContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.03,
+        delayChildren: 0.05
+      }
+    }
+  };
+
+  const mobileItemVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: {
+        duration: 0.2
+      }
+    }
+  };
+
+  const desktopContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -80,16 +104,18 @@ const CategoryList = () => {
     }
   };
 
-  const itemVariants = {
+  const desktopItemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.5,
+        duration: 0.5
       }
     }
   };
+  const containerVariants = isMobile ? mobileContainerVariants : desktopContainerVariants;
+  const itemVariants = isMobile ? mobileItemVariants : desktopItemVariants;
 
   return (
     <motion.div 
@@ -111,13 +137,21 @@ const CategoryList = () => {
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ 
+        once: true, 
+        margin: isMobile ? "-20px" : "-50px"
+      }}
     >
-      {categories.map((category) => (
+      {categories.map((category, index) => (
         <motion.div
           key={category.path}
           variants={itemVariants}
           className="flex justify-center"
+          {...(!isMobile && {
+            transition: {
+              delay: index * 0.05 
+            }
+          })}
         >
           <CategoryCard category={category} />
         </motion.div>
