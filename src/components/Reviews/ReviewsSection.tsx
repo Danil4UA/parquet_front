@@ -66,7 +66,7 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
   const currentFadeVariants = isMobile ? fadeInVariants : desktopFadeInVariants;
   const currentCardVariants = isMobile ? mobileCardVariants : desktopCardVariants;
   return (
-    <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-16 lg:py-24 overflow-hidden" dir={"ltr"}>
+    <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-4 sm:py-16 overflow-hidden" dir={"ltr"}>
       {!isMobile && (
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-3xl"></div>

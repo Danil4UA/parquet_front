@@ -121,9 +121,9 @@ const CategoryList = () => {
     <motion.div 
       className={`
         grid gap-6 p-6 max-w-[1300px] mx-auto
-        grid-cols-4
+        grid-cols-2
         lg:grid-cols-4
-        md:grid-cols-2
+        md:grid-cols-3
         sm:grid-cols-2
         xs:grid-cols-2
         auto-rows-max
@@ -132,7 +132,7 @@ const CategoryList = () => {
         lg:gap-6 lg:p-6
         md:gap-5 md:p-4
         sm:gap-4 sm:p-4
-        max-[400px]:grid-cols-2 max-[400px]:gap-3 max-[400px]:p-3
+        max-[400px]:grid-cols-2 max-[400px]:gap-3 max-[400px]:px-0 max-[400px]:py-3
       `}
       variants={containerVariants}
       initial="hidden"
