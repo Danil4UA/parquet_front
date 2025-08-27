@@ -122,6 +122,7 @@
     "privacy_policy": "Privacy Policy",
     "follow_us": "Follow Us",
     "facebook": "Facebook",
+    "whatsapp": "WhatsApp",
     "twitter": "Twitter",
     "instagram": "Instagram",
     "linkedin": "LinkedIn",
@@ -130,7 +131,10 @@
     "about_us_content": "We are a leading provider of high-quality parquet flooring. With over 10 years of experience, we offer a wide range of wood types, finishes, and styles to suit any interior. Our mission is to bring elegance and durability to your home.",
     "services_content": "Our services include parquet installation, restoration, and maintenance. We also provide free consultations to help you choose the perfect flooring for your space. Let us transform your floors into works of art!",
     "contact_content": "For any inquiries, feel free to reach out to us via email or phone. Visit our store at 123 Main St, City, Country, or fill out the contact form on our website. We're here to help!",
-    "privacy_policy_content": "We respect your privacy. Your personal information is securely stored and will never be shared with third parties without your consent. For more details, please read our full Privacy Policy."
+    "privacy_policy_content": "We respect your privacy. Your personal information is securely stored and will never be shared with third parties without your consent. For more details, please read our full Privacy Policy.",
+    "call_us": "Call Us",
+    "email_us": "Email Us",
+    "whats_app": "WhatsApp"
   },
   "ContactContent": {
     "branch_title": "Rishon Lezion Branch",

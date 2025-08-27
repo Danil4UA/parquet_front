@@ -3,33 +3,36 @@
 import { cn } from "@/lib/utils";
 import { contactData, socialLinks } from "@/Utils/utils";
 import { Mail, MessageCircle, MessageSquare, Phone } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const ContactButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  
-  const isHebrew = pathname.split("/")[1] === "he";
+  const t = useTranslations("Footer");
 
+  const isHebrew = pathname.split("/")[1] === "he";
+  console.log("isHebrew", isHebrew)
+  
   const contacts = [
     {
       icon: MessageSquare,
-      label: 'WhatsApp',
+      label: 'whats_app',
       color: 'text-green-600',
       bgHover: 'hover:bg-green-50',
       action: () =>  window.open(socialLinks.whatsapp, '_blank', 'noopener,noreferrer')
     },
     {
       icon: Phone,
-      label: 'Call',
+      label: 'call_us',
       color: 'text-blue-600',
       bgHover: 'hover:bg-blue-50',
       action: () => window.location.href = `tel:${contactData.phone.replace(/\s+/g, "")}`
     },
     {
       icon: Mail,
-      label: 'Email',
+      label: 'email_us',
       color: 'text-purple-600',
       bgHover: 'hover:bg-purple-50',
       action: () => window.location.href = `mailto:${contactData.email}`
@@ -38,8 +41,9 @@ const ContactButton = () => {
 
     return (
     <div className={cn(
-        "fixed bottom-4 sm:bottom-6 sm:right-6 z-50",
-        isHebrew ? "left-4" : "right-4"
+        "fixed bottom-4 z-50",
+        isHebrew ? "left-4 sm:left-6" : "right-4 sm:right-6",
+        "sm:bottom-6",
     )}>
         {isOpen && (
         <div 
@@ -58,14 +62,13 @@ const ContactButton = () => {
                 return (
                     <div
                         key={contact.label}
-                        className={`
-                            flex items-center justify-end gap-3 cursor-pointer group
-                            transition-all duration-300 ease-out
-                            ${isOpen 
+                        className={cn(
+                            "flex items-center gap-3 cursor-pointer group transition-all duration-300 ease-out",
+                            isHebrew ? "justify-start flex-row-reverse" : "justify-end flex-row-reverse",
+                            isOpen 
                                 ? 'translate-y-0 opacity-100' 
                                 : 'translate-y-2 opacity-0'
-                            }
-                        `}
+                        )}
                         style={{
                             transitionDelay: isOpen ? `${index * 80}ms` : '0ms'
                         }}
@@ -80,7 +83,7 @@ const ContactButton = () => {
                         
                         <div className="bg-white/95 backdrop-blur-md rounded-full px-4 py-2.5 shadow-lg border border-gray-200/50 hover:bg-white hover:shadow-xl transition-all duration-200 group-hover:scale-105">
                             <span className="text-sm font-semibold text-gray-800 whitespace-nowrap">
-                                {contact.label}
+                                {t(contact.label)}
                             </span>
                         </div>
                     </div>
