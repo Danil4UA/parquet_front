@@ -7,6 +7,8 @@ import ProductsFilter from "../ProductsFilter/ProductsFilter";
 import { Button } from "@/components/ui/button";
 import { ListFilter, X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface MobileFilterButtonProps {
   category: string;
@@ -37,18 +39,41 @@ const MobileFilterButton = ({
 
   return (
     <>
-      <Button 
-        className="sm:hidden h-8 md:h-10 border text-lg text-gray-800 hover:bg-gray-100"
-        onClick={toggleFilter}
-        variant="ghost"
+      <motion.div
+        initial={{ opacity: 0, x: 10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
       >
-       <ListFilter className="h-5 w-5" />
-        {t("Filters")}
-      </Button>
+        <Button 
+          className={cn(
+            "sm:hidden h-8 md:h-10 border text-sm transition-all duration-200",
+            "bg-white/80 backdrop-blur-sm text-gray-800 hover:bg-white/90"
+          )}
+          onClick={toggleFilter}
+          variant="ghost"
+        >
+          <ListFilter className="h-4 w-4 mr-2" />
+          {t("Filters")}
+        </Button>
+      </motion.div>
 
       {isFilterOpen && (
-        <div className="mobile-filter-overlay">
-          <div className="mobile-filter-container">
+        <motion.div 
+          className="mobile-filter-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          onClick={toggleFilter}
+        >
+          <motion.div 
+            className="mobile-filter-container"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="mobile-filter-header">
               <h3>{t("Filters")}</h3>
               <Button 
@@ -56,7 +81,7 @@ const MobileFilterButton = ({
                 className="p-1 h-7 w-7"
                 onClick={toggleFilter}
               >
-                <X className="h-5 w-5 "/>
+                <X className="h-5 w-5" />
               </Button>
             </div>
             <div className="mobile-filter-content">
@@ -64,7 +89,12 @@ const MobileFilterButton = ({
                 category={category}
               />
             </div>
-            <div className="flex p-4 border-t gap-2">
+            <motion.div 
+              className="flex p-4 border-t gap-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
               <Button 
                 size="lg" 
                 className="w-full font-bold" 
@@ -72,7 +102,7 @@ const MobileFilterButton = ({
               >
                 {t("Apply")}
               </Button>
-               <Button 
+              <Button 
                 size="lg" 
                 variant="ghost" 
                 className="font-bold border bg-white" 
@@ -80,9 +110,9 @@ const MobileFilterButton = ({
               >
                 Reset
               </Button>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       )}
     </>
   );

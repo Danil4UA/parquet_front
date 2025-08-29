@@ -26,7 +26,7 @@ const CategoryPage = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center w-full">
+      <div className="flex flex-col items-center w-full bg-gray-50">
         <div className="flex w-full">
           <div className={cn(
             "hidden md:block fixed z-50 transition-all duration-300",

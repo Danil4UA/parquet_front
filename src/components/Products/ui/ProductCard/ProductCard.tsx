@@ -33,7 +33,7 @@ const ProductCard = ({
 
   return (
     <div className={cn(
-      "relative w-full bg-white rounded-lg overflow-hidden transition-all duration-300 ease-in-out hover:scale-[1.02] group",
+      "relative w-full bg-white rounded-lg overflow-hidden transition-all duration-300 ease-in-out group",
       !isAvailable && "opacity-80",
       className,
       []
@@ -92,8 +92,8 @@ const ProductCard = ({
           )}
         </div>
 
-        <div className="p-4 flex-1 flex flex-col justify-between">
-          <h3 className="text-lg font-medium text-gray-800 line-clamp-2 leading-tight text-center">
+        <div className="p-2 sm:p-4 flex-1 flex flex-col justify-between">
+          <h3 className="text-md font-medium text-gray-800 line-clamp-2 leading-tight text-center">
             {productName}
           </h3>
 
