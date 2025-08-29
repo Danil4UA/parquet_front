@@ -33,7 +33,7 @@ const Gallery = ({ images }: GalleryProps) => {
 
   if (!images || images.length === 0) {
     return (
-      <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
+      <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center rounded-2xl overflow-hidden">
         <span className="text-muted-foreground">No images available</span>
       </div>
     );
@@ -46,8 +46,8 @@ const Gallery = ({ images }: GalleryProps) => {
   };
 
   return (
-    <div className="w-full space-y-4">
-      <div className="relative " dir="ltr">
+    <div className="w-full space-y-4 rounded-xl overflow-hidden">
+      <div className="relative" dir="ltr">
         <Carousel 
           setApi={setApi}
           className="w-full"
