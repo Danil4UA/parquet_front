@@ -2,13 +2,15 @@ export interface SidebarItemType {
   path: string;
   text: string;
   Icon?: string;
+  exactMatch?: boolean
 }
 
 export const SidebarItemsList: SidebarItemType[] = [
   {
     path: "/",
     Icon: "",
-    text: "home"
+    text: "home",
+    exactMatch: true
   },
   {
     path: "/products/all",
@@ -53,6 +55,7 @@ export const SidebarItemsList: SidebarItemType[] = [
   {
     path: "/contact",
     Icon: "",
-    text: "contactUs"
+    text: "contactUs",
+    exactMatch: true
   },
 ];

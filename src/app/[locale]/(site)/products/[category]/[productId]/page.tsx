@@ -68,7 +68,7 @@ const ProductPage: FC = () => {
 
   if (isLoading) {
     return (
-      <section className="min-h-screen bg-gray-50 w-full flex items-center justify-center">
+      <section className=" bg-gray-50 w-full flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner />
         </div>
