@@ -130,7 +130,7 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
                     {t("cart")}
                   </h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {cartItems.length} {cartItems.length === 1 ? "item" : "items"}
+                    {cartItems.length} {cartItems.length === 1 ? t("item") : t("items")}
                   </p>
                 </div>
               </div>
@@ -150,10 +150,10 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
                     <ShoppingBag className="w-8 h-8 text-gray-400" />
                   </div>
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                    Your cart is empty
+                    {t("cart_is_empty")}
                   </h3>
                   <p className="text-gray-500 dark:text-gray-400 text-sm">
-                    Add some products to get started
+                    {t("add_some_products")}
                   </p>
                 </div>
               ) : (

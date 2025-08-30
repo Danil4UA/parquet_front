@@ -7,7 +7,12 @@
     "box_coverage": "Box coverage",
     "boxes": "Boxes",
     "total_area": "Total Area",
-    "added_to_cart": "Added {{boxes}} boxes ({{area}} m²) to cart"
+    "added_to_cart": "Added {{boxes}} boxes ({{area}} m²) to cart",
+    "cart_is_empty": "Ваша корзина пуста",
+    "add_some_products": "Добавьте товары, чтобы начать",
+    "each": "за штуку",
+    "item": "Предмет",
+    "items": "Предметов"
   },
   "Sidebar": {
     "home": "Главная",
@@ -21,7 +26,10 @@
     "thresholds": "Пороги",
     "cladding": "Облицовка",
     "contactUs": "Связаться с нами",
-    "cleaningProducts": "Моющие средства"
+    "cleaningProducts": "Моющие средства",
+    "menu": "Меню",
+    "navigation": "Навигация",
+    "follow_us": "Следите за нами"
   },
   "Product": {
     "GetMoreDetails": "Просмотреть детали",

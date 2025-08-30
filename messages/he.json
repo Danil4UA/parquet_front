@@ -7,7 +7,12 @@
     "box_coverage": "Box coverage",
     "boxes": "Boxes",
     "total_area": "Total Area",
-    "added_to_cart": "Added {{boxes}} boxes ({{area}} m²) to cart"
+    "added_to_cart": "Added {{boxes}} boxes ({{area}} m²) to cart",
+    "cart_is_empty": "העגלה שלך ריקה",
+    "add_some_products": "הוסף מוצרים כדי להתחיל",
+    "each": "כל אחד",
+    "item": "פריט",
+    "items": "פריטים"
   },
   "Sidebar": {
     "home": "בית",
@@ -21,7 +26,10 @@
     "thresholds": "ספים",
     "cladding": "חיפוי קיר",
     "contactUs": "צור קשר",
-    "cleaningProducts": "מוצרי ניקוי"
+    "cleaningProducts": "מוצרי ניקוי",
+    "menu": "תפריט",
+    "navigation": "ניווט",
+    "follow_us": "עקוב אחרינו"
   },
   "Product": {
     "GetMoreDetails": "Get more details",

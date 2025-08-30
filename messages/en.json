@@ -17,12 +17,21 @@
     "box_coverage": "Box coverage",
     "boxes": "Boxes",
     "total_area": "Total Area",
-    "added_to_cart": "Added {{boxes}} boxes ({{area}} m²) to cart"
+    "added_to_cart": "Added {{boxes}} boxes ({{area}} m²) to cart",
+    "menu": "Menu",
+    "navigation": "Navigation",
+    "follow_us": "Follow Us"
+    
   },
   "Cart": {
     "cart": "Cart",
     "complete": "Complete order",
-    "total": "Total:"
+    "total": "Total:",
+    "cart_is_empty": "Your cart is empty",
+    "add_some_products": "Add some products to get started",
+    "each": "each",
+    "item": "item",
+    "items": "items"
   },
   "Product": {
     "GetMoreDetails": "Get more details",

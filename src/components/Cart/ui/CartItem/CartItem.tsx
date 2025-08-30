@@ -6,6 +6,7 @@ import { RootState } from "@/redux/store";
 import { memo, useState, useEffect } from "react";
 import Image from "next/image";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface CartItemProps {
   item: CartItemType;
@@ -15,6 +16,8 @@ const CartItem = (props: CartItemProps) => {
   const { name, quantity, images, _id } = props.item;
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const t = useTranslations("Cart");
+
   const item = cartItems.find((cartItem) => cartItem._id === _id);
 
   // Local state for input
@@ -151,7 +154,7 @@ const CartItem = (props: CartItemProps) => {
                     ₪{totalItemPrice.toFixed(0)}
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    ₪{item.price} each
+                    ₪{item.price} {t("each")}
                   </div>
                 </div>
               )}

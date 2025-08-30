@@ -9,6 +9,7 @@ import { socialLinks } from "@/Utils/utils";
 import { Link } from "@/i18n/routing";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Instagram, Facebook } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -16,6 +17,7 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
+  const t = useTranslations("Sidebar");
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const isHebrew = lng === "he";
@@ -127,10 +129,10 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
                 </div> */}
                 <div>
                   <h2 className="text-lg font-semibold text-gray-900">
-                    Menu
+                    {t("menu")}
                   </h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Navigation
+                    {t("navigation")}
                   </p>
                 </div>
               </div>
@@ -156,7 +158,7 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
                 {/* Social Links */}
                 <div>
                   <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                    Follow Us
+                    {t("follow_us")}
                   </h3>
                   <div className="flex items-center gap-3">
                     <Link 
