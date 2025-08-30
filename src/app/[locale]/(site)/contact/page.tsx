@@ -66,11 +66,6 @@ const ContactPage = () => {
         window.open(`https://wa.me/+972584455478?text=${message}`, '_blank');
     };
 
-    // const handleWazeClick = () => {
-    //     const wazeUrl = `https://waze.com/ul?q=${encodeURIComponent(contactData.address)}`;
-    //     window.open(wazeUrl, '_blank');
-    // };
-
     const handleGoogleMapsClick = () => {
         const googleMapsUrl = getGoogleMapsUrl(contactData.address);
         window.open(googleMapsUrl, '_blank');

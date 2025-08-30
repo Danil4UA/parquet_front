@@ -1,6 +1,4 @@
 "use client";
-import "./Sidebar.css";
-import { classNames } from "@/shared/lib/classNames/classNames";
 import { useEffect, useMemo } from "react";
 import { SidebarItemsList } from "./model/items";
 import SidebarItem from "./SideBarItem/SideBarItem";
@@ -10,6 +8,7 @@ import { Link } from "@/i18n/routing";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Instagram, Facebook } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -101,7 +100,7 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
             exit="closed"
             variants={overlayVariants}
             transition={overlayTransition}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150]"
+            className="fixed inset-0 min-h-screen bg-black/60 backdrop-blur-sm z-[150]"
             onClick={onClose}
           />
 
@@ -112,21 +111,15 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
             exit="closed"
             variants={sidebarVariants}
             transition={sidebarTransition}
-            className={classNames(
-              "fixed top-0 h-full bg-white dark:bg-gray-900 shadow-2xl z-[200] flex flex-col",
-              { 
-                "left-0": !isHebrew, 
-                "right-0": isHebrew 
-              }
+            className={cn(
+              "fixed top-0 h-screen bg-white dark:bg-gray-900 shadow-2xl z-[200] flex flex-col",
+              isHebrew ? "right-0" : "left-0",
             )}
             style={{ width: "min(100vw, 380px)" }}
           >
             {/* Modern Header */}
             <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 bg-gray-50/50 h-[70px]">
               <div className="flex items-center gap-3">
-                {/* <div className="p-2 bg-gray-700 rounded-lg">
-                  <Menu className="w-5 h-5 text-white" />
-                </div> */}
                 <div>
                   <h2 className="text-lg font-semibold text-gray-900">
                     {t("menu")}
