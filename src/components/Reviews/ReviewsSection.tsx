@@ -104,7 +104,7 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
         {/* Mobile View */}
         <div className="block md:hidden">
           <div className="space-y-6">
-            {reviews.slice(0, 6).map((review: Review, index: number) => (
+            {reviews.slice(0, 5).map((review: Review, index: number) => (
               <motion.div 
                 key={`mobile-${review.author_name}-${index}`}
                 initial="hidden"
@@ -121,7 +121,7 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
               </motion.div>
             ))}
 
-            {total_reviews > 5 && (
+            {total_reviews > 4 && (
               <motion.div 
                 initial="hidden"
                 whileInView="visible"
@@ -132,7 +132,7 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
                   delay: 0.1,
                   ease: "easeOut"
                 }}
-                className="text-center mt-8"
+                className="text-center"
               >
                 <Button 
                   onClick={handleMoreReviewsClick}
