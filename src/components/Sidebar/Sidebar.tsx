@@ -120,7 +120,7 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
             style={{ width: "min(100vw, 380px)" }}
           >
             {/* Modern Header */}
-            <div className="flex items-center justify-between p-2 sm:p-6 border-b border-gray-200 bg-gray-50/50 h-[70px]">
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 bg-gray-50/50 h-[70px]">
               <div className="flex items-center gap-3">
                 {/* <div className="p-2 bg-gray-700 rounded-lg">
                   <Menu className="w-5 h-5 text-white" />
@@ -151,7 +151,7 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
             </div>
 
             {/* Enhanced Footer */}
-            <div className="border-t border-gray-200 dark:border-gray-700 p-2 sm:p-4 bg-gray-50/50 dark:bg-gray-800/50">
+            <div className="border-t border-gray-200 dark:border-gray-700 p-4 sm:p-6 bg-gray-50/50 dark:bg-gray-800/50">
               <div className="space-y-4">
                 {/* Social Links */}
                 <div>
