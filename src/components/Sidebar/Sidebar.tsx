@@ -112,7 +112,7 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
             variants={sidebarVariants}
             transition={sidebarTransition}
             className={cn(
-              "fixed top-0 h-screen bg-white dark:bg-gray-900 shadow-2xl z-[200] flex flex-col",
+              "fixed top-0 h-[100dvh] bg-white dark:bg-gray-900 shadow-2xl z-[200] flex flex-col",
               isHebrew ? "right-0" : "left-0",
             )}
             style={{ width: "min(100vw, 380px)" }}
