@@ -7,6 +7,7 @@ import SearchResultItem from './_components/SearchResultItem';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
+import { trackSearch } from '@/lib/fbPixel';
 
 interface SearchProps {
   onClose: () => void;
@@ -48,6 +49,10 @@ export default function Search({ onClose }: SearchProps) {
             setSearchResults(data?.data.products);
           } else {
             setSearchResults([]);
+          }
+
+          if (search.trim().length > 2) { // Minimum 2 characters
+            trackSearch(search.trim());
           }
         } catch (error) {
           console.error('Search error:', error);

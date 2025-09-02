@@ -15,6 +15,7 @@ import Radio from "@/shared/ui/Radio/Radio";
 import "./OrderPage.css";
 import ErrorDialog from "@/components/ErrorDialog";
 import SuccessDialog from "@/components/SuccessDialog";
+import { trackInitiateCheckout, trackPurchase } from "@/lib/fbPixel";
 
 type BoxesMap = Record<string, number>;
 type AreaMap = Record<string, number>;
@@ -65,6 +66,15 @@ const OrderPage = () => {
 
   const { handleSubmit, watch, formState: { errors } } = orderForm;
   const deliveryMethod = watch("deliveryMethod");
+
+  useEffect(() => {
+    if (cartItems.length > 0 && totalPrice > 0) {
+      const contentIds = cartItems.map(item => item._id);
+      const totalQuantity = cartItems.reduce((sum, item) => sum + Number(item.quantity), 0);
+      
+      trackInitiateCheckout(contentIds, totalQuantity, totalPrice);
+    }
+  }, [cartItems, totalPrice]);
 
   useEffect(() => {
     if (deliveryMethod === "shipping") {
@@ -147,6 +157,7 @@ const OrderPage = () => {
     };
     try {
       const response = await productsServices.createOrder(orderData);
+      trackPurchase(totalPrice, response.orderNumber);
       setOrderNumber(response.orderNumber)
       setIsSuccessDialogOpen(true)
       dispatch(clearCart());

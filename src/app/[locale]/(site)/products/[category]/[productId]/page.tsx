@@ -24,6 +24,7 @@ import {
   Shield
 } from "lucide-react";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { trackAddToCart, trackViewContent } from "@/lib/fbPixel";
 
 const ProductPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +46,12 @@ const ProductPage: FC = () => {
         const fetchedProduct = await productsServices.getProductById(productId, language);
         if (fetchedProduct) {
           setProduct(fetchedProduct);
+
+          const productPrice = fetchedProduct.discount 
+            ? Number(fetchedProduct.price) * ((100 - fetchedProduct.discount) / 100) 
+            : Number(fetchedProduct.price);
+
+           trackViewContent(fetchedProduct._id, productPrice);
         } else {
           setError("Failed to fetch product.");
         }
@@ -64,6 +71,11 @@ const ProductPage: FC = () => {
     const newProduct = { ...product, quantity: 1 };
     dispatch(addToCart(newProduct));
     dispatch(setCollapsedСart(false));
+    trackAddToCart(
+      product._id,
+      Number(product.price),
+      1
+    );
   };
 
   if (isLoading) {
