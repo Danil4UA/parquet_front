@@ -13,7 +13,6 @@ const ContactButton = () => {
   const t = useTranslations("Footer");
 
   const isHebrew = pathname.split("/")[1] === "he";
-  console.log("isHebrew", isHebrew)
   
   const contacts = [
     {
