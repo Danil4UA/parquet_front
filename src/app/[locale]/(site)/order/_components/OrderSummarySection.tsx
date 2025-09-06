@@ -35,7 +35,7 @@ export default function OrderSummarySection ({
       
       <div className="space-y-3">
         {cartItems.map((item) => (
-          <div key={item._id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border">
+          <div key={item._id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border ">
             <div className="relative flex-shrink-0">
               <Image 
                 src={item.images[0]} 
@@ -49,10 +49,13 @@ export default function OrderSummarySection ({
               </div>
             </div>
             
-            <div className={`flex-1 min-w-0 ${isHebrew ? "hebrew-text text-right" : ""}`}>
-              <p className="font-medium text-sm text-gray-800 dark:text-gray-200 truncate">
-                {item.name}
-              </p>
+            <div className={`flex-1 min-w-0 overflow-hidden ${isHebrew ? "hebrew-text text-right" : ""}`}>
+              <p 
+                  className="font-medium text-sm text-gray-800 dark:text-gray-200 mb-1" 
+                  title={item.name}
+                >
+                  {item.name.length > 20 ? `${item.name.substring(0, 20)}...` : item.name}
+                </p>
               {item.boxCoverage && (
                 <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
                   <p>{t("inTheBox")} {item.boxCoverage} m²</p>
@@ -100,7 +103,7 @@ export default function OrderSummarySection ({
         <div key={`calc-${item._id}`} className="space-y-1">
           <div className="flex justify-between items-center">
             <span className={`text-gray-700 dark:text-gray-300 font-medium text-sm ${isHebrew ? "hebrew-text" : ""}`}>
-              {item.name}:
+              {item.name.length > 30 ? `${item.name.substring(0, 30)}...` : item.name}
             </span>
             <span className={`font-semibold ${isHebrew ? "hebrew-text" : ""}`}>
               {itemTotalPrices[item._id]}₪
