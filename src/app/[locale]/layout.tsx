@@ -30,8 +30,50 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === "he" ? "rtl" : "ltr"}>
       <head>
+        <Script id="utm-capture" strategy="beforeInteractive">
+          {`
+            (function() {
+              if (typeof window !== 'undefined' && window.location.search) {
+                const params = new URLSearchParams(window.location.search);
+                const utmData = {};
+                
+                const trackingKeys = [
+                  'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
+                  'fbclid',    // Facebook Click ID
+                  'gclid',     // Google Click ID
+                  'ttclid',    // TikTok Click ID  
+                ];
+                
+                trackingKeys.forEach(key => {
+                  const value = params.get(key);
+                  if (value) utmData[key] = value;
+                });
+                
+                if (Object.keys(utmData).length > 0) {
+                  const data = {
+                    params: utmData,
+                    timestamp: Date.now(),
+                    expiresAt: Date.now() + (30 * 24 * 60 * 60 * 1000), // 30 days
+                    url: window.location.href,
+                    referrer: document.referrer
+                  };
+                  
+                  try {
+                    localStorage.setItem('utm_params', JSON.stringify(data));
+                    
+                    if (window.location.hostname === 'localhost') {
+                      console.log('UTM:', utmData);
+                    }
+                  } catch (e) {
+                    console.warn('Could not save UTM:', e);
+                  }
+                }
+              }
+            })();
+          `}
+        </Script>
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-16970698709"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -39,7 +81,16 @@ export default async function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'AW-16970698709');
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
+              'campaign_content': true,
+              'campaign_id': true,
+              'campaign_medium': true,
+              'campaign_name': true,
+              'campaign_source': true,
+              'campaign_term': true,
+              'send_page_view': true,
+              'anonymize_ip': true
+            });
           `}
         </Script>
 
@@ -55,7 +106,25 @@ export default async function RootLayout({
             'https://connect.facebook.net/en_US/fbevents.js');
             
             fbq('init', '${process.env.NEXT_PUBLIC_FB_PIXEL_ID}');
-            fbq('track', 'PageView');
+            
+            try {
+              const stored = localStorage.getItem('utm_params');
+              if (stored) {
+                const data = JSON.parse(stored);
+                const utmParams = data.params;
+                
+                fbq('track', 'PageView', {
+                  utm_source: utmParams.utm_source,
+                  utm_medium: utmParams.utm_medium,
+                  utm_campaign: utmParams.utm_campaign,
+                  fbclid: utmParams.fbclid
+                });
+              } else {
+                fbq('track', 'PageView');
+              }
+            } catch (e) {
+              fbq('track', 'PageView');
+            }
           `}
         </Script>
 
