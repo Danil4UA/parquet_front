@@ -227,10 +227,14 @@
     "totalPackages": "סך הקופסאות",
     "inTheBox": "בקופסה",
     "boxes": "קופסאות",
+    "customerInformation": "פרטי לקוח",
+    "deliveryMethod": "אופן משלוח",
+    "orderSummary": "סיכום הזמנה",
     "errors": {
       "nameRequired": "שם הוא שדה חובה",
       "lastNameRequired": "שם משפחה הוא שדה חובה",
       "phoneRequired": "מספר טלפון הוא שדה חובה",
+      "phoneInvalid": "מספר הטלפון אינו תקין",
       "addressRequired": "כתובת נדרשת למשלוח"
     }
   },
