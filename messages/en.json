@@ -231,10 +231,14 @@
     "totalPackages": "Total packages",
     "inTheBox": "In the box",
     "boxes": "boxes",
+    "customerInformation": "Customer Information",
+    "deliveryMethod": "Delivery Method",
+    "orderSummary": "Order Summary",
     "errors": {
       "nameRequired": "Name is required",
       "lastNameRequired": "Last name is required",
       "phoneRequired": "Phone number is required",
+      "phoneInvalid": "Phone number is invalid",
       "addressRequired": "Address is required for shipping"
     }
   },

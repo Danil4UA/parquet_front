@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isValidPhoneNumber } from "libphonenumber-js";
 
 export type OrderFormType = {
   name: string;
@@ -18,7 +19,8 @@ export type OrderFormType = {
 export const orderFormSchema = (t: (key: string) => string) => z.object({
   name: z.string().min(1, t("errors.nameRequired")),
   lastName: z.string().min(1, t("errors.lastNameRequired")),
-  phoneNumber: z.string().min(1, t("errors.phoneRequired")),
+  phoneNumber: z.string().min(1, t("errors.phoneRequired"))
+    .refine((phone) => isValidPhoneNumber(phone), { message: t("errors.phoneInvalid") }),
   deliveryMethod: z.enum(["shipping", "pickup"]),
   address: z.string().optional(),
   apartment: z.string().optional(),

@@ -228,10 +228,14 @@
     "totalPackages": "Всего коробок",
     "inTheBox": "В коробке",
     "boxes": "коробок",
+    "customerInformation": "Информация о клиенте",
+    "deliveryMethod": "Способ доставки",
+    "orderSummary": "Итог заказа",
     "errors": {
       "nameRequired": "Необходимо указать имя",
       "lastNameRequired": "Необходимо указать фамилию",
       "phoneRequired": "Необходимо указать номер телефона",
+      "phoneInvalid": "Телефонный номер не валиден",
       "addressRequired": "Для доставки необходимо указать адрес"
     }
   },

@@ -27,18 +27,6 @@ const nextConfig = {
     });
     return config;
   },
-  api: {
-    responseLimit: false,
-    bodyParser: {
-      sizeLimit: '1mb',
-    },
-  },
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
 };
 
 export default withNextIntl(nextConfig);
