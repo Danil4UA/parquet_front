@@ -45,10 +45,11 @@ export function ProductImagesTab({
                 />
               </FormControl>
               {images.length === 0 && (
-              <FormMessage className="text-red-600">
-                Добавьте хотя бы одно изображение
-              </FormMessage>
-            )}            </FormItem>
+                <FormMessage className="text-red-600">
+                  Добавьте хотя бы одно изображение
+                </FormMessage>
+              )}            
+            </FormItem>
           )}
         />
         <p className="text-sm text-muted-foreground mt-2">

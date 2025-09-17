@@ -1,13 +1,27 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Upload, X, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Upload, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import photosServices from '@/services/photosServices';
 import { getSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
+import {
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+  DndContext,
+  closestCenter,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  rectSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+import SortableImageItem from './SortableImageItem';
 
 interface ImageUploadProps {
   value: string[];
@@ -30,6 +44,7 @@ export default function ImageUpload({
 }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+
   const { productId } = useParams<{ productId: string }>();
 
   const isProcessing = uploading || isUploading;
@@ -121,56 +136,60 @@ export default function ImageUpload({
   const handleRemove = async (indexToRemove: number) => {
     const url = value[indexToRemove];
     const fileName = url.split('/').pop();
-    console.log("indexToRemove", indexToRemove)
-    console.log("fileName,", fileName)
-    console.log("url", url)
     if (fileName) {
       try {
-        // Если у вас есть метод для удаления файла
         // const freshSession = await getSession();
         // await photosServices.deletePhoto(freshSession, fileName);
       } catch (error) {
         console.error('Error deleting image:', error);
       }
     }
-    console.log("i am here")
     onChange(value.filter((_, index) => index !== indexToRemove));
   };
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (active.id !== over?.id && over?.id) {
+      const oldIndex = value.findIndex((url) => url === active.id);
+      const newIndex = value.findIndex((url) => url === over.id);
+
+      onChange(arrayMove(value, oldIndex, newIndex));
+    }
+  }
   return (
     <div className="space-y-4">
       {value.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {value.map((url, index) => (
-            <Card
-              key={`${url}-${index}`}
-              className="relative group aspect-square overflow-hidden"
-            >
-              <div 
-                className="absolute inset-0 bg-contain bg-center bg-no-repeat" 
-                style={{ backgroundImage: `url(${url})` }} 
-              />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="icon"
-                  onClick={() => handleRemove(index)}
-                  className="h-8 w-8"
-                  disabled={isProcessing}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-              {index === 0 && (
-                <div className="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded">
-                  Main
-                </div>
-              )}
-            </Card>
-          ))}
-        </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={value} strategy={rectSortingStrategy}>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {value.map((url, index) => (
+                <SortableImageItem
+                  key={url}
+                  url={url}
+                  index={index}
+                  onRemove={() => handleRemove(index)}
+                  isProcessing={isProcessing}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       {value.length < maxFiles && (
