@@ -127,6 +127,11 @@ export default async function RootLayout({
             }
           `}
         </Script>
+        <Script 
+          src="https://cdn.enable.co.il/licenses/enable-L48504psqgdw51ja-1025-74560/init.js"
+          strategy="lazyOnload"
+          id="enable-accessibility"
+        />
 
         <noscript>
           <img 

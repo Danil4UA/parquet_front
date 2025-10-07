@@ -41,8 +41,8 @@ const ContactButton = () => {
     return (
     <div className={cn(
         "fixed bottom-4 z-50",
-        isHebrew ? "left-4 sm:left-6" : "right-4 sm:right-6",
-        "sm:bottom-6",
+        isHebrew ? "right-4 sm:right-4" : "left-4 sm:left-4",
+        "sm:bottom-4",
     )}>
         {isOpen && (
         <div 
@@ -54,7 +54,7 @@ const ContactButton = () => {
         <div className={cn(
             "absolute bottom-16 mb-2 space-y-2 transition-all duration-300 ease-out",
             isOpen ? "opacity-100 visible" : "opacity-0 invisible",
-            isHebrew ? "left-0" : "right-0",
+            isHebrew ? "right-0" : "left-0",
         )}>
             {contacts.map((contact, index) => {
                 const Icon = contact.icon;
