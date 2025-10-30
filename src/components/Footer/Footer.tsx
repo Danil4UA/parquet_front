@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { 
   Mail, 
@@ -13,14 +13,11 @@ import {
 } from "lucide-react";
 import { contactData, socialLinks } from "@/Utils/utils";
 import { useTranslations } from "next-intl";
-import AboutContent from "./content-components/AboutContent/AboutContent";
-import ServicesContent from "./content-components/ServicesContent/ServicesContent";
-import ContactContent from "./content-components/ContactContent/ContactContent";
-import Modal from "@/shared/ui/Modal/Modal";
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import RouteConstants from "@/constants/RouteConstants";
 
 const fadeInVariants = {
   hidden: { opacity: 0 },
@@ -32,35 +29,22 @@ const mobileVariants = {
   visible: { opacity: 1, y: 0 }
 };
 
-const contentComponents: Record<string, React.FC> = {
-  about_us: AboutContent,
-  services: ServicesContent,
-  contact: ContactContent,
-};
-
 const Footer = () => {
-  const [isShownModal, setIsShownModal] = useState(false);
-  const [ModalContent, setModalContent] = useState<React.FC | null>(null);
   const { isMobile } = useIsMobileDebounce();
   const t = useTranslations("Footer");
   const pathname = usePathname();
-
+  const router = useRouter();
 
   const lng = pathname.split("/")[1];
   const isHebrew = lng === "he";
   const currentYear = new Date().getFullYear();
   const animationVariants = isMobile ? mobileVariants : fadeInVariants;
 
-
-  const handleLinkClick = (contentKey: string) => {
-      setModalContent(() => contentComponents[contentKey] || null);
-      setIsShownModal(true);
-    };
-
   const quickLinks = [
-    { key: "about_us" },
-    { key: "services" },
-    { key: "contact" },
+    { key: "about_us", page: RouteConstants.ABOUT_US_PAGE },
+    { key: "services", page: RouteConstants.SERVICES_PAGE },
+    { key: "contact", page: RouteConstants.CONTACT_US_PAGE },
+    { key: "terms_and_conditions", page: RouteConstants.TERMS_AND_CONDITIONS_PAGE },
   ];
 
   const socialIcons = [
@@ -110,12 +94,6 @@ const Footer = () => {
 
   return (
     <footer className="relative bg-gradient-to-b from-gray-900 to-black text-white">
-      {isShownModal && ModalContent && (
-        <Modal onClose={() => setIsShownModal(false)}>
-          <ModalContent />
-        </Modal>
-      )}
-      
       {!isMobile && (
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-1/4 w-64 h-64 bg-gray-700/30 rounded-full blur-2xl"></div>
@@ -179,7 +157,7 @@ const Footer = () => {
                       "w-full text-gray-300 hover:text-white transition-colors duration-200 py-1",
                       isHebrew ? "text-right" : "text-left",
                     )}
-                    onClick={() => handleLinkClick(link.key)}
+                    onClick={() => router.push(`/${lng}/${link.page}`)}
                   >
                     {t(`${link.key}`)}
                   </button>
@@ -230,7 +208,7 @@ const Footer = () => {
                   <MapPin className="w-4 h-4" />
                 </div>
                 <span className="text-sm sm:text-base leading-relaxed px-2">
-                  {contactData.address}
+                  {t("address")}
                 </span>
               </div>
             </div>
@@ -294,7 +272,7 @@ const Footer = () => {
         >
           <div className="text-center sm:flex sm:justify-between sm:items-center">
             <p className="text-gray-400 text-xs sm:text-sm">
-              © {currentYear} {t("made_by")} - {t("all_rights_reserved")}
+              © {currentYear} {t("made_by")}
             </p>
           </div>
         </motion.div>

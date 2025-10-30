@@ -5,6 +5,12 @@ export default class RouteConstants {
 
     static get CONTACT_US_PAGE() {return "/contact"}
 
+    static get ABOUT_US_PAGE() {return "/about"}
+
+    static get SERVICES_PAGE() {return "/services"}
+
+    static get TERMS_AND_CONDITIONS_PAGE() { return "/terms"; }
+
     static get ADMIN_ROUTE() { return "/admin"; }
 
     static get ADMIN_PRODUCTS() { return "/admin/products"; }

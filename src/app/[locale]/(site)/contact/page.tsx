@@ -15,6 +15,7 @@ import { Link } from "@/i18n/routing";
 import SuccessDialog from '@/components/SuccessDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import PageTitleSection from '@/components/Pages/PageTitleSection';
 
 const fadeInVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -73,35 +74,7 @@ const ContactPage = () => {
 
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-gray-50 via-white to-gray-100">
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={fadeInVariants}
-            transition={{ duration: 0.8 }}
-            className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-4 sm:py-10 overflow-hidden"
-          >
-            <div className="container mx-auto px-4 sm:px-6 relative">
-              <div className="text-center max-w-4xl mx-auto">
-                <motion.h1 
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight"
-                >
-                  {t("Contact.contactUs")}
-                </motion.h1>
-                <motion.p 
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="text-base sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed px-2"
-                >
-                  {t("Contact.contactUsAnyWay")}
-                </motion.p>
-              </div>
-            </div>
-          </motion.div>
-    
+          <PageTitleSection title={t("Contact.contactUs")} />
           <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-12">
             <motion.div 
               initial="hidden"
@@ -134,7 +107,7 @@ const ContactPage = () => {
                                   className="h-7 px-2 text-xs hover:bg-blue-50 hover:border-blue-200 border font-bold"
                                 >
                                   <Map className="h-5 w-5" />
-                                  {contactData.address}
+                                  {t("ContactContent.address")}
                                 </Button>
                               </div>
                             </div>
