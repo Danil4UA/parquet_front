@@ -53,6 +53,7 @@ export interface Product {
     model: string
     finish: string
     boxCoverage?: number;
+    installationType?: string;
   }
 
 export interface Pagination {

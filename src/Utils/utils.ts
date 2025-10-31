@@ -1,5 +1,5 @@
 import RouteConstants from "@/constants/RouteConstants";
-import { FilterCategoryConfig } from "@/types/products";
+import { FilterCategoryConfig, Product } from "@/types/products";
 import parsePhoneNumber, {
   CountryCode,
   formatIncompletePhoneNumber, isValidPhoneNumber,
@@ -118,4 +118,97 @@ export default class Utils {
       excludeTypes: []
     }
   }
+
+  static generateProductSchema = (product: Product, productPriceWithDiscount: number) => {
+    const schema = {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": product.name,
+      "image": product.images,
+      "description": product.description || product.detailedDescription,
+      "sku": product.model || product._id,
+      "mpn": product.model,
+      "brand": {
+        "@type": "Brand",
+        "name": "Effect Parquet"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": typeof window !== 'undefined' ? window.location.href : '',
+        "priceCurrency": "ILS",
+        "price": productPriceWithDiscount.toFixed(2),
+        "priceValidUntil": new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 90 днів
+        "availability": product.isAvailable && product.stock > 0 
+          ? "https://schema.org/InStock" 
+          : "https://schema.org/OutOfStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@type": "Organization",
+          "name": "Effect Parquet"
+        }
+      }
+    };
+
+    if (product.color) {
+      schema["color"] = product.color;
+    }
+
+    if (product.length && product.width) {
+      schema["depth"] = {
+        "@type": "QuantitativeValue",
+        "value": product.length,
+        "unitCode": "MMT"
+      };
+      schema["width"] = {
+        "@type": "QuantitativeValue",
+        "value": product.width,
+        "unitCode": "MMT"
+      };
+    }
+
+    if (product.thickness) {
+      schema["height"] = {
+        "@type": "QuantitativeValue",
+        "value": product.thickness,
+        "unitCode": "MMT"
+      };
+    }
+
+    const additionalProperties: any[] = [];
+
+    if (product.finish) {
+      additionalProperties.push({
+        "@type": "PropertyValue",
+        "name": "Finish",
+        "value": product.finish
+      });
+    }
+
+    if (product?.installationType) {
+      additionalProperties.push({
+        "@type": "PropertyValue",
+        "name": "Installation Type",
+        "value": product?.installationType
+      });
+    }
+
+    if (product.boxCoverage) {
+      additionalProperties.push({
+        "@type": "PropertyValue",
+        "name": "Box Coverage",
+        "value": product.boxCoverage,
+        "unitText": "m²"
+      });
+    }
+
+    if (additionalProperties.length > 0) {
+      schema["additionalProperty"] = additionalProperties;
+    }
+
+    if (product.category) {
+      schema["category"] = product.category;
+    }
+
+    return schema;
+  };
 }

@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { trackAddToCart, trackViewContent } from "@/lib/fbPixel";
+import Utils from "@/Utils/utils";
 
 const ProductPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +40,12 @@ const ProductPage: FC = () => {
 
   const dispatch = useDispatch();
   const { productId } = useParams<{ productId: string }>();
+
+  const productPriceWithDiscount = product?.discount 
+    ? Number(product.price) * ((100 - product?.discount) / 100) 
+    : Number(product?.price);
+
+  const productSchema = product ? Utils.generateProductSchema(product, productPriceWithDiscount) : null;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -101,10 +108,6 @@ const ProductPage: FC = () => {
       </section>
     );
   }
-  
-  const productPriceWithDiscount = product.discount 
-    ? Number(product.price) * ((100 - product.discount) / 100) 
-    : Number(product.price);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -129,6 +132,15 @@ const ProductPage: FC = () => {
   };
 
   return (
+    <>
+    {productSchema && (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(productSchema)
+        }}
+      />
+    )}
     <div className="min-h-screen bg-gray-50 w-full flex items-center justify-center">
       <motion.section 
         initial="hidden"
@@ -161,11 +173,6 @@ const ProductPage: FC = () => {
                   )}>
                     {product.name}
                   </h1>
-                  {/* {product.discount &&(
-                    <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-                      -{product.discount}%
-                    </div>
-                  )} */}
                 </div>
 
                 <div className={cn("mb-6", isHebrew ? "text-right" : "text-left")}>
@@ -351,6 +358,7 @@ const ProductPage: FC = () => {
         </motion.div>
       </motion.section>
     </div>
+    </>
   );
 };
 
