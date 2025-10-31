@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import productsServices from "@/services/productsServices";
 import Gallery from "@/components/Gallery/Gallery";
 import { useTranslations } from "next-intl";
@@ -26,12 +26,14 @@ import {
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { trackAddToCart, trackViewContent } from "@/lib/fbPixel";
 import Utils from "@/Utils/utils";
+import RouteConstants from "@/constants/RouteConstants";
 
 const ProductPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
   
+  const router = useRouter();
   const pathname = usePathname();
   const language = pathname.split("/")[1];
   const isHebrew = language === "he";
@@ -340,13 +342,17 @@ const ProductPage: FC = () => {
                     <span className="text-gray-700 font-medium">{t("delivery_ready_in")}</span>
                   </div>
                 </div>
-                
-                {/* <div className="mt-6 p-4 bg-white/40 rounded-xl border border-green-200/30">
-                  <p className="text-gray-600 text-sm flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600" />
-                    {t("delivery_check_store")}
-                  </p>
-                </div> */}
+                <div className="mt-6 pt-4 border-t border-green-200/50">
+                <p className="text-sm text-gray-600 text-center">
+                  {t("see_our")}{" "}
+                  <span 
+                    className="text-green-600 hover:text-green-700 font-medium underline underline-offset-2 transition-colors cursor-pointer"
+                    onClick={() => router.push(`/${language}/${RouteConstants.TERMS_AND_CONDITIONS_PAGE}`)}
+                  >
+                    {t("terms_and_conditions")}
+                  </span>
+                </p>
+              </div>
               </motion.div>
             </div>
           </div>

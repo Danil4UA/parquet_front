@@ -360,7 +360,9 @@
     "about_brand_title": "אודות המותג",
     "delivery_policy_title": "מדיניות משלוחים",
     "delivery_policy_text": "אפשרות לקבל את המוצר תוך 2-3 ימי עבודה מאישור התשלום",
-    "specifications_box_coverage": "כיסוי קופסה"
+    "specifications_box_coverage": "כיסוי קופסה",
+    "see_our": "עיינו ב",
+    "terms_and_conditions": "תנאים והגבלות"
   },
   "Navbar": {
     "title": "אפקט פרקט"
