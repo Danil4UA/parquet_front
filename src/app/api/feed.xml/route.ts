@@ -9,7 +9,7 @@ export const revalidate = 86400;
 
 export async function GET() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/products/all?language=en`, {
+    const response = await fetch(`${API_BASE_URL}/api/products/all?language=he`, {
       cache: 'no-store',
     });
 
