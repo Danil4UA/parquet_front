@@ -17,7 +17,6 @@ import CustomerInformationSection from "./_components/CustomerInformationSection
 import { COMMON_STYLES } from "./_components/orderClasses";
 import OrderSummarySection from "./_components/OrderSummarySection";
 import ErrorDialog from "@/components/ErrorDialog";
-import SuccessDialog from "@/components/SuccessDialog";
 import "./OrderPage.css";
 
 type BoxesMap = Record<string, number>;
@@ -34,8 +33,6 @@ export default function OrderPage(){
   const [totalBoxes, setTotalBoxes] = useState<BoxesMap>({});
   const [totalArea, setTotalArea] = useState<AreaMap>({});
   const [itemTotalPrices, setItemTotalPrices] = useState<PriceMap>({});
-  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState<boolean>(false);
-  const [orderNumber, setOrderNumber] = useState<string>("");
 
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
@@ -133,12 +130,6 @@ export default function OrderPage(){
     setItemTotalPrices(itemPrices);
   }, [cartItems, deliveryMethod]);
 
-  const handleSuccessDialogClose = () => {
-    setIsSuccessDialogOpen(false);
-    setOrderNumber("");
-    router.push(`/${lng}`);
-  };
-
   const onSubmit = async (data: OrderFormType) => {
     setIsLoading(true);
 
@@ -159,10 +150,12 @@ export default function OrderPage(){
     };
     try {
       const response = await productsServices.createOrder(orderData);
+      console.log("response", response);
       trackPurchase(totalPrice, response.orderNumber);
-      setOrderNumber(response.orderNumber)
-      setIsSuccessDialogOpen(true)
       dispatch(clearCart());
+      router.push(
+        `/${lng}/thank-you?order=${response.orderNumber}&total=${response.totalPrice}`
+      );
     } catch {
       setIsErrorDialogOpen(true);
     } finally {
@@ -228,13 +221,6 @@ export default function OrderPage(){
         message={t("sentFailedMessage")}
         onCloseDialog={() => setIsErrorDialogOpen(false)}
         title={t("sentFailedTitle")}
-      />
-      <SuccessDialog
-        isOpen={isSuccessDialogOpen}
-        setIsOpen={setIsSuccessDialogOpen}
-        onClose={handleSuccessDialogClose}
-        title={t("sentSuccessTitle")}
-        text={`${t("sentSuccessMessage")} ${orderNumber}`}
       />
     </div>
   );

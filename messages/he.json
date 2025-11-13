@@ -417,5 +417,23 @@
       "open": "פתוח",
       "closed": "סגור"
     }
+  },
+  "ThankYou": {
+    "orderPlaced": "ההזמנה שלך הושלמה!",
+    "orderNumber": "מספר ההזמנה שלך הוא",
+    "paymentInfoTitle": "פרטי תשלום",
+    "paymentInfo": "אתה יכול לשלם את ההזמנה שלך באמצעות הפרטים הבאים:",
+    "recipient": "מקבל",
+    "bank": "בנק",
+    "branch": "סניף",
+    "accountNumber": "מספר חשבון",
+    "iban": "IBAN",
+    "paymentPurpose": "מטרת התשלום",
+    "paymentPurposeText": "תשלום עבור הזמנה מס׳ {orderNumber}",
+    "waitForCall": "או חכה שהמנהלת שלנו תיצור איתך קשר.",
+    "backHome": "חזרה לדף הבית",
+    "orderNotFound": "מספר ההזמנה לא נמצא",
+    "returnHomeMessage": "אנא חזור לדף הבית או בצע הזמנה חדשה.",
+    "totalAmount": "סכום כולל"
   }
 }

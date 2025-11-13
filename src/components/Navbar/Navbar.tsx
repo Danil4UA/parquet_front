@@ -1,7 +1,6 @@
 "use client";
 
 import Sidebar from "../Sidebar/Sidebar";
-import "./Navbar.css";
 import { useEffect, useRef, useState } from "react";
 import { Menu, Search as SearchIcon, ShoppingCart } from "lucide-react";
 import LangSwitcher from "@/widgets/LangSwitcher/ui/LangSwitcher";
@@ -14,6 +13,7 @@ import logoPhoto from "@/app/assets/logo_photo.png";
 import Search from "../Search/Search";
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
 import { setNavbarVisible } from "./model/navbarSlice";
+import "./Navbar.css";
 
 const useScrollDirection = () => {
   const lastScrollY = useRef(0);

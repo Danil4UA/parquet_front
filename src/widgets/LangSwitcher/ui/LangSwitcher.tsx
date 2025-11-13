@@ -1,12 +1,15 @@
 "use client";
-import "./LangSwitcher.css";
+
 import { memo, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Select from "@/shared/ui/Select/Select";
 import { languageOptions, getLocaleFromPath } from "@/Utils/languageUtils";
+import "./LangSwitcher.css";
 
 export const LangSwitcher = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [isMobile, setIsMobile] = useState(false);
 
   const [currentLocale, setCurrentLocale] = useState(() => 
@@ -31,9 +34,24 @@ export const LangSwitcher = () => {
     setCurrentLocale(localeFromPath);
   }, [pathname]);
 
+  // const onSelectChange = (newLocale: string) => {
+  //   const path = pathname.split("/").slice(2).join("/");
+  //   window.location.href = `/${newLocale}/${path}`;
+  // };
+
   const onSelectChange = (newLocale: string) => {
-    const path = pathname.split("/").slice(2).join("/");
-    window.location.href = `/${newLocale}/${path}`;
+    const segments = pathname.split("/").filter(Boolean);
+
+    const pathWithoutLocale = languageOptions.some(l => l.value === segments[0])
+      ? segments.slice(1)
+      : segments;
+
+    const newPath = `/${newLocale}/${pathWithoutLocale.join("/")}`;
+
+    const params = searchParams.toString();
+    const finalUrl = params ? `${newPath}?${params}` : newPath;
+
+    window.location.href = finalUrl;
   };
 
   const currentLanguage = languageOptions.find(lang => lang.value === currentLocale);

@@ -421,5 +421,23 @@
       "open": "Open",
       "closed": "Closed"
     }
+  },
+  "ThankYou": {
+    "orderPlaced": "Your order has been placed!",
+    "orderNumber": "Your order number is",
+    "paymentInfoTitle": "Payment Details",
+    "paymentInfo": "You can pay your order using the following details:",
+    "recipient": "Recipient",
+    "bank": "Bank",
+    "branch": "Branch",
+    "accountNumber": "Account number",
+    "iban": "IBAN",
+    "paymentPurpose": "Payment Purpose",
+    "paymentPurposeText": "Payment for order № {orderNumber}",
+    "waitForCall": "Or wait for our manager to contact you.",
+    "backHome": "Back to Home",
+    "orderNotFound": "Order number not found",
+    "returnHomeMessage": "Please return to the home page or place a new order.",
+    "totalAmount": "Total Amount"
   }
 }
