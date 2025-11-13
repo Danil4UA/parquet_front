@@ -1,13 +1,17 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import PaymentConstants from "@/constants/paymentConstants";
+import RouteConstants from "@/constants/RouteConstants";
 
 export default function ThankYouPage() {
   const t = useTranslations("ThankYou");
+  const pathname = usePathname();
+  const lng = pathname.split("/")[1];
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const orderNumber = searchParams.get("order");
@@ -66,7 +70,7 @@ export default function ThankYouPage() {
 
       <p className="text-gray-600 max-w-md">{t("waitForCall")}</p>
 
-      <Button variant="default" size="lg" onClick={() => router.push("/")}>
+      <Button variant="default" size="lg" onClick={() => router.push(`/${lng}/${RouteConstants.HOMEPAGE_ROUTE}`)}>
         {t("backHome")}
       </Button>
     </div>
