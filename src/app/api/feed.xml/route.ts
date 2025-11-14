@@ -53,7 +53,7 @@ function generateFeedItem(product: Product): string {
     ? (Number(product.price) * ((100 - product.discount) / 100)).toFixed(2)
     : Number(product.price).toFixed(2);
   
-  const link = `${SITE_URL}/en/products/${encodeURIComponent(product.type)}/${product._id}`;
+  const link = `${SITE_URL}/he/products/${encodeURIComponent(product.type)}/${product._id}`;
   const availability = product.isAvailable && product.stock > 0 ? 'in_stock' : 'out_of_stock';
   
   const additionalImages = product.images
