@@ -150,11 +150,10 @@ export default function OrderPage(){
     };
     try {
       const response = await productsServices.createOrder(orderData);
-      console.log("response", response);
       trackPurchase(totalPrice, response.orderNumber);
       dispatch(clearCart());
       router.push(
-        `/${lng}/thank-you?order=${response.orderNumber}&total=${response.totalPrice}`
+        `/${lng}/thank-you?order=${response.orderNumber}&total=${response.totalPrice}&items=${encodeURIComponent(JSON.stringify(orderData.cartItems))}&shipping=${orderData.shippingCost}`
       );
     } catch {
       setIsErrorDialogOpen(true);
@@ -162,6 +161,7 @@ export default function OrderPage(){
       setIsLoading(false);
     }
   };
+
   return (
     <div className="Order__wrapper flex flex-col lg:flex-row gap-8">
       <div className="Order__wrapper_left flex-1">

@@ -154,7 +154,8 @@ export default function OrderSummarySection ({
           </div>
         </div>
         <div className={`text-xl font-bold text-gray-900 dark:text-white ${isHebrew ? "hebrew-text" : ""}`}>
-          <span className="text-sm text-gray-500 dark:text-gray-400">ILS</span> {totalPrice}₪
+          <span className="text-sm text-gray-500 dark:text-gray-400">ILS</span>
+            {Number(totalPrice).toFixed(2)}₪
         </div>
       </div>
     </div>

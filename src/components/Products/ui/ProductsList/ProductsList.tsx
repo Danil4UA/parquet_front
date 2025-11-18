@@ -8,7 +8,7 @@ import ProductsLoadingGrid from "./_components/ProductsLoadingGrid";
 import ProductCard from "../ProductCard/ProductCard";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { allProductsByCategoryInfinite } from "@/constants/queryInfo";
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
@@ -34,6 +34,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
     ...baseQueryParams,
     isRandom: category === "all" ? "true" : undefined
   };
+  const sentViewItemListRef = useRef(false);
 
   const {
     data,
@@ -49,6 +50,40 @@ const ProductsList = ({ category }: ProductsListProps) => {
       fetchNextPage()
     }
   }, [entry])
+
+  useEffect(() => {
+    if (sentViewItemListRef.current) return;
+    if (!data?.pages?.length) return;
+    if (isPending) return;
+
+    if (!isPending && data.pages.length > 0) {
+      const firstPageProducts = data.pages[0].data.products;
+
+      if (firstPageProducts?.length > 0) {
+        const itemsForEcommerce = firstPageProducts.map((product, index) => ({
+          item_id: product._id,
+          item_name: product.name,
+          price: Number(product.price),
+          item_category: product.category,
+          index: index + 1
+        }));
+
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "view_item_list",
+          ecommerce: {
+            item_list_id: category,
+            item_list_name: category,
+            items: itemsForEcommerce
+          }
+        });
+
+        // DEBUG
+        sentViewItemListRef.current = true; 
+      }
+    }
+  }, [isPending, data, category]);
+
 
   const getFilterPosition = () => {
     if (!isMobile) {

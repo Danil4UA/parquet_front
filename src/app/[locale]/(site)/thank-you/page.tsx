@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useTranslations } from "next-intl";
 import PaymentConstants from "@/constants/paymentConstants";
 import RouteConstants from "@/constants/RouteConstants";
+import { useEffect, useMemo } from "react";
 
 export default function ThankYouPage() {
   const t = useTranslations("ThankYou");
@@ -16,6 +17,51 @@ export default function ThankYouPage() {
   const router = useRouter();
   const orderNumber = searchParams.get("order");
   const totalPrice = searchParams.get("total");
+
+  const shipping = searchParams.get("shipping");
+  const items = useMemo(() => {
+    try {
+      return JSON.parse(searchParams.get("items") || "[]");
+    } catch {
+      return [];
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!orderNumber || !items.length) return;
+
+    const storageKey = `ga_purchase_${orderNumber}`;
+    if (sessionStorage.getItem(storageKey)) return;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null });
+
+    const gaItems = items.map((item: any) => ({
+      item_id: item.id,
+      item_name: item.name,
+      item_category: item.category,
+      item_variant: item.model || "",
+      price: Number(item.price),
+      quantity: Number(item.quantity)
+    }));
+
+    window.dataLayer.push({
+      event: "purchase",
+      ecommerce: {
+        transaction_id: orderNumber,
+        affiliation: "effectparquet.com",
+        currency: "ILS",
+        value: Number(totalPrice),
+        tax: 0,
+        shipping: shipping,
+        coupon: "",
+        items: gaItems
+      }
+    });
+
+    sessionStorage.setItem(storageKey, "true");
+  }, [orderNumber, items, shipping, totalPrice]);
+
 
   if (!orderNumber) {
     return (

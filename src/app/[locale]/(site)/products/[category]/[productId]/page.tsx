@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
 import { useParams, useRouter } from "next/navigation";
@@ -49,6 +49,8 @@ const ProductPage: FC = () => {
 
   const productSchema = product ? Utils.generateProductSchema(product, productPriceWithDiscount) : null;
 
+  const hasSentViewItem = useRef(false);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -60,7 +62,32 @@ const ProductPage: FC = () => {
             ? Number(fetchedProduct.price) * ((100 - fetchedProduct.discount) / 100) 
             : Number(fetchedProduct.price);
 
-           trackViewContent(fetchedProduct._id, productPrice);
+          if (!hasSentViewItem.current) {
+            const item = {
+              item_id: fetchedProduct._id,
+              item_name: fetchedProduct.name,
+              price: productPrice,
+              currency: "ILS",
+              item_category: fetchedProduct.category,
+              item_variant: fetchedProduct.model,
+            };
+
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+              event: "view_item",
+              ecommerce: {
+                currency: "ILS",
+                value: productPrice,
+                items: [item]
+              }
+            });
+
+            console.log("GA4 view_item fired", item);
+
+            hasSentViewItem.current = true;
+          }
+
+          trackViewContent(fetchedProduct._id, productPrice);
         } else {
           setError("Failed to fetch product.");
         }
@@ -77,9 +104,41 @@ const ProductPage: FC = () => {
 
   const handleAddToCart = async () => {
     if (!product) return;
-    const newProduct = { ...product, quantity: 1 };
+
+    const quantity = 1;
+
+    const price = product.discount
+      ? Number(product.price) * ((100 - product.discount) / 100)
+      : Number(product.price);
+
+    const value = price * quantity;
+
+    const newProduct = { ...product, quantity };
+
     dispatch(addToCart(newProduct));
     dispatch(setCollapsedСart(false));
+
+    window.dataLayer = window.dataLayer || [];
+
+    window.dataLayer.push({ ecommerce: null });
+
+    window.dataLayer.push({
+      event: "add_to_cart",
+      ecommerce: {
+        currency: "ILS",
+        value: value,
+        items: [
+          {
+            item_id: product._id,
+            item_name: product.name,
+            price: price,
+            quantity: quantity,
+            item_variant: product.model,
+            currency: "ILS"
+          }
+        ]
+      }
+    });
     trackAddToCart(
       product._id,
       Number(product.price),
