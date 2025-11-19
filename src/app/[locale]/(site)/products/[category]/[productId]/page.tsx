@@ -27,6 +27,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { trackAddToCart, trackViewContent } from "@/lib/fbPixel";
 import Utils from "@/Utils/utils";
 import RouteConstants from "@/constants/RouteConstants";
+import { pushEcommerceEvent } from "@/Utils/googleUtils";
 
 const ProductPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -67,22 +68,15 @@ const ProductPage: FC = () => {
               item_id: fetchedProduct._id,
               item_name: fetchedProduct.name,
               price: productPrice,
-              currency: "ILS",
               item_category: fetchedProduct.category,
               item_variant: fetchedProduct.model,
             };
 
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-              event: "view_item",
-              ecommerce: {
-                currency: "ILS",
-                value: productPrice,
-                items: [item]
-              }
+            pushEcommerceEvent("view_item", {
+              currency: "ILS",
+              value: productPrice,
+              items: [item]
             });
-
-            console.log("GA4 view_item fired", item);
 
             hasSentViewItem.current = true;
           }

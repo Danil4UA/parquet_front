@@ -17,6 +17,7 @@ import { RootState } from "@/redux/store";
 import { selectNavbarVisible } from "@/components/Navbar/model/navbarSlice";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { pushEcommerceEvent } from "@/Utils/googleUtils";
 
 interface ProductsListProps {
   category: string;
@@ -59,27 +60,22 @@ const ProductsList = ({ category }: ProductsListProps) => {
     if (!isPending && data.pages.length > 0) {
       const firstPageProducts = data.pages[0].data.products;
 
-      if (firstPageProducts?.length > 0) {
-        const itemsForEcommerce = firstPageProducts.map((product, index) => ({
-          item_id: product._id,
-          item_name: product.name,
-          price: Number(product.price),
-          item_category: product.category,
-          index: index + 1
-        }));
+      const itemsForEcommerce = firstPageProducts.map((product, index) => ({
+        item_id: product._id,
+        item_name: product.name,
+        price: Number(product.price),
+        item_category: product.category,
+        index: index + 1
+      }));
 
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: "view_item_list",
-          ecommerce: {
+      if (firstPageProducts.length > 0) {
+          pushEcommerceEvent("view_item_list", {
             item_list_id: category,
             item_list_name: category,
             items: itemsForEcommerce
-          }
-        });
+          });
 
-        // DEBUG
-        sentViewItemListRef.current = true; 
+          sentViewItemListRef.current = true;
       }
     }
   }, [isPending, data, category]);
