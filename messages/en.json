@@ -366,7 +366,15 @@
     "delivery_policy_text": "Possibility to receive the product within 2-3 working days from payment confirmation",
     "specifications_box_coverage": "Box Coverage",
     "see_our": "See our",
-    "terms_and_conditions": "Terms & Conditions"
+    "terms_and_conditions": "Terms & Conditions",
+    "price_per_meter": "per m²",
+    "price_per_box": "Price per box",
+    "per_box": "per box",
+    "square_meters": "m²",
+    "millimeters": "mm",
+    "delivery_free_with_installation": "FREE delivery when ordering flooring with installation!",
+    "delivery_standard_cost": "Standard delivery cost - {cost} shekels",
+    "free": "FREE"
   },
   "Navbar": {
     "title": "Effect Parquet"
@@ -405,7 +413,30 @@
       "message_min_length": "Message must contain at least 10 characters"
     },
     "findUs": "Find Us",
-    "visitUsText": "Visit our showroom to see our products in person and get expert advice from our team"
+    "visitUsText": "Visit our showroom to see our products in person and get expert advice from our team",
+    "need_help": "Need help with your purchase?",
+    "contact_expert": "Contact our expert for personalized assistance",
+    "consultation": "Consultation",
+    "consultation_desc": "Get expert advice on product selection",
+    "calculation_help": "Calculation Help",
+    "calculation_desc": "Help with quantity and area calculations",
+    "consultation_form": "Request Consultation",
+    "consultation_subtitle": "Our expert will call you back",
+    "calculation_form": "Calculation Help",
+    "calculation_subtitle": "Get help with measurements and quantities",
+    "name_label": "Your Name",
+    "name_placeholder": "Enter your name",
+    "phone_label": "Phone Number",
+    "phone_placeholder": "Enter your phone",
+    "message_label": "Additional Information",
+    "message_placeholder": "Room dimensions, special requirements...",
+    "send_request": "Send Request",
+    "back": "Back",
+    "form_submitted": "Thank you for your request!",
+    "error_occurred": "An error occurred, please try again",
+    "contact_soon": "We will contact you soon",
+    "send_another": "Send another request",
+    "free": "Free"
   },
   "Utils": {
     "days": {

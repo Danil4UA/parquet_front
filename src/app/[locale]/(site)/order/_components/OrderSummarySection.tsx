@@ -90,7 +90,6 @@ export default function OrderSummarySection ({
             ${COMMON_STYLES.promoButton}
             ${isHebrew ? "hebrew-text" : ""}
           `}
-          onClick={() => console.log("Promo code submitted")}
         >
           {t("submit")}
         </button>

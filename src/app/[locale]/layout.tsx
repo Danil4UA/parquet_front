@@ -10,6 +10,7 @@ import { ReduxProvider } from "@/redux/ReduxProvider";
 import { getLanguageMetadata } from "../metadata";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import Script from 'next/script';
+import { Toaster } from "sonner";
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -162,6 +163,7 @@ export default async function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
+        <Toaster />
         <ReactQueryProvider>
           <ReduxProvider>
               <NextIntlClientProvider messages={messages}>

@@ -118,8 +118,7 @@ function ProductsTextCell({ row, accessorKey, className, isEditable = true  }: L
       });
 
       setIsEditing(false);
-    } catch (err) {
-        console.log('err', err)
+    } catch {
       setIsErrorDialogOpen(true);
       setValue(row.original[accessorKey] || "");
     } finally {

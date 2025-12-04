@@ -10,5 +10,4 @@ export const pushEcommerceEvent = (eventName: string, ecommerceData: any) => {
     ecommerce: ecommerceData,
   });
 
-  console.log(`GA4: ${eventName}`, ecommerceData);
 };

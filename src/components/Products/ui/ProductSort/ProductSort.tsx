@@ -34,7 +34,6 @@ const ProductSort = () => {
       params.delete("sortBy");
     }
 
-    console.log(`${pathname}?${params.toString()}`);
     router.push(`${pathname}?${params.toString()}`);
   };
 

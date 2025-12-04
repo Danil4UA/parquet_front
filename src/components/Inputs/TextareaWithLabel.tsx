@@ -46,7 +46,7 @@ export default function TextareaWithLabel<S>({
               id={nameInSchema}
               {...props}
               {...field}
-              className={cn(textareaClass, "min-h-32")}
+              className={cn("min-h-32", textareaClass)}
               value={field.value || ""}
               onChange={(e) => {
                 let newValue = e.target.value;

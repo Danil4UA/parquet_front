@@ -362,7 +362,15 @@
     "delivery_policy_text": "אפשרות לקבל את המוצר תוך 2-3 ימי עבודה מאישור התשלום",
     "specifications_box_coverage": "כיסוי קופסה",
     "see_our": "עיינו ב",
-    "terms_and_conditions": "תנאים והגבלות"
+    "terms_and_conditions": "תנאים והגבלות",
+    "price_per_meter": "למ״ר",
+    "price_per_box": "מחיר לקופסא",
+    "per_box": "לקופסא",
+    "square_meters": "מ״ר",
+    "millimeters": "מ״מ",
+    "delivery_free_with_installation": "משלוח חינם בהזמנת ריצוף עם התקנה!",
+    "delivery_standard_cost": "עלות משלוח סטנדרטית - {cost} שקלים",
+    "free": "חינם"
   },
   "Navbar": {
     "title": "אפקט פרקט"
@@ -401,7 +409,30 @@
       "message_min_length": "אנא הכנס את ההודעה שלך"
     },
     "findUs": "מצאו אותנו",
-    "visitUsText": "בקרו באולם התצוגה שלנו כדי לראות את המוצרים שלנו במו עיניכם ולקבל ייעוץ מקצועי מהצוות שלנו"
+    "visitUsText": "בקרו באולם התצוגה שלנו כדי לראות את המוצרים שלנו במו עיניכם ולקבל ייעוץ מקצועי מהצוות שלנו",
+    "need_help": "צריכים עזרה עם הרכישה?",
+    "contact_expert": "צרו קשר עם המומחה שלנו לייעוץ אישי",
+    "consultation": "ייעוץ",
+    "consultation_desc": "קבלו ייעוץ מומחה בבחירת המוצר",
+    "calculation_help": "עזרה בחישוב",
+    "calculation_desc": "עזרה בחישוב כמות ושטח",
+    "consultation_form": "בקשת ייעוץ",
+    "consultation_subtitle": "המומחה שלנו יחזור אליכם",
+    "calculation_form": "עזרה בחישוב",
+    "calculation_subtitle": "עזרה עם מדידות וכמויות חומר",
+    "name_label": "השם שלכם",
+    "name_placeholder": "הכניסו את שמכם",
+    "phone_label": "מספר טלפון",
+    "phone_placeholder": "הכניסו את הטלפון שלכם",
+    "message_label": "מידע נוסף",
+    "message_placeholder": "מידות החדר, דרישות מיוחדות...",
+    "send_request": "שליחת בקשה",
+    "back": "חזרה",
+    "form_submitted": "תודה על הבקשה!",
+    "error_occurred": "אירעה שגיאה, אנא נסו שוב",
+    "contact_soon": "ניצור איתכם קשר בקרוב",
+    "send_another": "שליחת בקשה נוספת",
+    "free": "חינם"
   },
   "Utils": {
     "days": {
