@@ -5,18 +5,17 @@ import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-import { Phone, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import TextInputWithLabel from "@/components/Inputs/TextInputWithLabel";
 import PhoneNumberInputWithLabel from "@/components/Inputs/PhoneNumberInputWithLabel";
 import TextareaWithLabel from "@/components/Inputs/TextareaWithLabel";
 import contactServices from "@/services/contactServices";
 
-type FormType = "consultation" | "calculation";
+// type FormType = "consultation" | "calculation";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -33,7 +32,6 @@ interface ContactFormProps {
 }
 
 const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
-  const [activeTab, setActiveTab] = useState<FormType>("consultation");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const t = useTranslations("Contact");
 
@@ -50,7 +48,7 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
     setIsSubmitting(true);
     
     try {
-      const payload = { ...data, formType: activeTab, productId }
+      const payload = { ...data, formType: "consultation", productId }
       console.log("Form submitted:", payload);
       await contactServices.sendConsultationRequest(payload)
       
@@ -65,25 +63,25 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
     }
   };
 
-  const tabsConfig = {
-    consultation: {
-      title: t("consultation"),
-      subtitle: t("consultation_desc"),
-      icon: Phone,
-      color: "blue",
-    }
-    // calculation: {
-    //   title: t("calculation_help"),
-    //   subtitle: t("calculation_desc"),
-    //   icon: Calculator,
-    //   color: "green",
-    // },
-  };
+  // const tabsConfig = {
+  //   consultation: {
+  //     title: t("consultation"),
+  //     subtitle: t("consultation_desc"),
+  //     icon: Phone,
+  //     color: "blue",
+  //   }
+  //   calculation: {
+  //     title: t("calculation_help"),
+  //     subtitle: t("calculation_desc"),
+  //     icon: Calculator,
+  //     color: "green",
+  //   },
+  // };
 
   return (
-    <div className={cn("w-full", className)}>
-      <div className="bg-white border rounded-lg p-6">
-        <div className="mb-6">
+    <div className={cn("w-full", className)} data-contact-form>
+      <div className="bg-white border rounded-lg p-4">
+        <div className="mb-4">
           <h3 className="font-bold text-2xl text-gray-900 mb-2">
             {t("need_help")}
           </h3>
@@ -92,8 +90,8 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
           </p>
         </div>
 
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as FormType)}>
-            <TabsList className="grid w-full grid-cols-1 mb-6 bg-white border p-1">
+        {/* <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as FormType)}> */}
+            {/* <TabsList className="grid w-full grid-cols-1 mb-6 bg-white border p-1">
             {Object.entries(tabsConfig).map(([key, config]) => {
               return (
                 <TabsTrigger 
@@ -105,15 +103,15 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
                 </TabsTrigger>
               );
             })}
-          </TabsList>
-
+          </TabsList> */}
+{/* 
           {Object.entries(tabsConfig).map(([key, config]) => (
-            <TabsContent key={key} value={key} className="space-y-4">
-              <div className="mb-4">
+            <TabsContent key={key} value={key} className="space-y-4"> */}
+              {/* <div className="mb-4">
                 <p className="text-sm text-gray-600">
                   {config.subtitle}
                 </p>
-              </div>
+              </div> */}
 
               <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -164,9 +162,9 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
                   </Button>
                 </form>
               </FormProvider>
-            </TabsContent>
-          ))}
-        </Tabs>
+            {/* </TabsContent> */}
+          {/* ))} */}
+        {/* </Tabs> */}
       </div>
     </div>
   );

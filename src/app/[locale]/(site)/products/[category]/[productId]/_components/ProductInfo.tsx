@@ -19,7 +19,6 @@ const ProductInfo: FC<ProductInfoProps> = ({
 }) => {
   const dispatch = useDispatch();
   const t = useTranslations("Description");
-
   const handleAddToCart = async () => {
     if (!product) return;
 
@@ -67,12 +66,14 @@ const ProductInfo: FC<ProductInfoProps> = ({
                 <span className="text-xl font-bold">
                 {formatPrice(Number(product.price))}
                 </span>
-                <span className="text-sm text-gray-600">/ {t("price_per_meter")}</span>
+                  {product.category !== "Cleaning" && (
+                    <span className="text-sm text-gray-600">/ {t("price_per_meter")}</span>
+                  )}
             </div>
             )}
         </div>
 
-        {boxPrice && (
+        {boxPrice && product.category !== "Cleaning" && (
             <div className="text-sm">
             <span className="font-semibold">{formatPrice(Number(boxPrice))}</span>
             <span className="text-gray-600"> {t("per_box")}</span>

@@ -46,7 +46,7 @@ const Gallery = ({ images }: GalleryProps) => {
   };
 
   return (
-    <div className="w-full space-y-4 rounded-xl overflow-hidden">
+    <div className="w-full space-y-4 rounded overflow-hidden">
       <div className="relative" dir="ltr">
         <Carousel 
           setApi={setApi}

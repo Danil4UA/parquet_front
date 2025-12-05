@@ -16,6 +16,8 @@ import ErrorState from "@/components/ErrorState";
 import { useProductData } from "@/hooks/useProductDataReturn";
 import { calculateDiscountedPrice } from "@/Utils/productsUtils";
 import ContactForm from "./_components/ContactForm";
+import Benefits from "./_components/Benefits";
+import InstallationServiceCTA from "./_components/InstallationServiceCTA";
 
 const ProductPage: FC = () => {
   const router = useRouter();
@@ -97,7 +99,6 @@ const ProductPage: FC = () => {
                 />
                 
                 <ProductSpecifications product={product} />
-                
                 <motion.div variants={itemVariants}>
                   <ContactForm language={language} productId={productId}/>
                 </motion.div>
@@ -109,6 +110,8 @@ const ProductPage: FC = () => {
             </div>
           </div>
           
+          <Benefits /> 
+          <InstallationServiceCTA />
           <RelatedProductsSection />
         </motion.section>
       </div>

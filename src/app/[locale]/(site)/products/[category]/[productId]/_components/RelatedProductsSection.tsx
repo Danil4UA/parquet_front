@@ -45,9 +45,9 @@ const RelatedProductsSection = () => {
 
   if (allProductsData.isPending) {
     return (
-      <section className="py-6 sm:py-12 lg:py-16 bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50">
+      <section className="py-4 bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[85%]">
-          <div className="text-center mb-8 mb-6 sm:mb-12">
+          <div className="text-center mb-4">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4">
               You also might like
             </h2>
@@ -66,9 +66,9 @@ const RelatedProductsSection = () => {
   }
 
   return (
-    <section className="py-6 sm:py-12 lg:py-16 bg-gray-50" dir="ltr">
+    <section className="pb-4 bg-gray-50" dir="ltr">
       <div className="max-w-7xl mx-auto px-2 sm:px-6">
-        <div className="text-center mb-6 sm:mb-12">
+        <div className="text-center mb-4">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
             {t("SpecialsForYou")}
           </h2>
@@ -76,7 +76,7 @@ const RelatedProductsSection = () => {
         </div>
         
         {/* Mobile Grid */}
-        <div className="block lg:hidden mb-8">
+        <div className="block lg:hidden mb-4">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4">
             {relatedProducts.slice(0, 6).map((product) => (
               <div key={product._id} className="w-full">
@@ -90,7 +90,7 @@ const RelatedProductsSection = () => {
         </div>
 
         {/* Desktop Carousel */}
-        <div className="hidden lg:block mb-8">
+        <div className="hidden lg:block mb-4">
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
