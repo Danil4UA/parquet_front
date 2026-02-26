@@ -51,7 +51,7 @@ export const LangSwitcher = () => {
           <ChevronDown className="w-3.5 h-3.5 opacity-70" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent align="start" className="z-[200]">
         {languageOptions.map(lang => (
           <DropdownMenuItem
             key={lang.value}

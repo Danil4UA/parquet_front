@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -18,16 +17,10 @@ const heroImages = [
   homeBackGround_3.src,
 ];
 
-const mobileVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 }
-};
-
-const desktopVariants = {
-  hidden: { opacity: 0, y: 30 },
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 }
 };
-
 
 const HomeHeader = () => {
   const pathname = usePathname();
@@ -37,54 +30,49 @@ const HomeHeader = () => {
 
   const lng = pathname.split("/")[1];
   const isHebrew = lng === "he";
-  
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
-    
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 5000);
-
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
-   const nextSlide = () => {
-    if (isHebrew) {
-      setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length);
-    } else {
-      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-    }
+  const nextSlide = () => {
+    setCurrentSlide((prev) =>
+      isHebrew
+        ? (prev - 1 + heroImages.length) % heroImages.length
+        : (prev + 1) % heroImages.length
+    );
     setIsAutoPlaying(false);
   };
 
   const prevSlide = () => {
-    if (isHebrew) {
-      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-    } else {
-      setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length);
-    }
+    setCurrentSlide((prev) =>
+      isHebrew
+        ? (prev + 1) % heroImages.length
+        : (prev - 1 + heroImages.length) % heroImages.length
+    );
     setIsAutoPlaying(false);
   };
 
-  const goToSlide = (index) => {
+  const goToSlide = (index: number) => {
     setCurrentSlide(index);
     setIsAutoPlaying(false);
   };
 
-  const animationVariants = isMobile ? mobileVariants : desktopVariants;
-
-   return (
+  return (
     <div className="relative min-h-[calc(100vh-var(--navbar-height))] overflow-hidden">
+      {/* Background slides */}
       <div className="absolute inset-0">
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity ${
-              isMobile ? 'duration-500' : 'duration-1000'
-            } ease-in-out ${
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -94,185 +82,124 @@ const HomeHeader = () => {
               fill
               className="object-cover"
               priority={index === 0}
-              quality={isMobile ? 70 : 90} 
+              quality={isMobile ? 70 : 90}
               sizes="100vw"
             />
-            {isMobile ? (
-              <div className="absolute inset-0 bg-black/70" />
-            ) : (
-              <>
-                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/40" />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50" />
-              </>
-            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
           </div>
         ))}
       </div>
 
+      {/* Prev/Next buttons */}
       <button
         onClick={prevSlide}
-        className={`absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full text-white transition-all duration-300 ${
-          isMobile 
-            ? 'bg-black/50 hover:bg-black/70' 
-            : 'bg-gray-900/40 backdrop-blur-md border border-gray-700/50 hover:bg-gray-800/60 group'
-        }`}
+        className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full text-white bg-black/40 hover:bg-black/60 border border-white/10 transition-all duration-200"
       >
-        <ChevronLeft className={`w-4 h-4 sm:w-6 sm:h-6 ${!isMobile ? 'group-hover:scale-110 transition-transform' : ''}`} />
-      </button>
-      
-      <button
-        onClick={nextSlide}
-        className={`absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full text-white transition-all duration-300 ${
-          isMobile 
-            ? 'bg-black/50 hover:bg-black/70' 
-            : 'bg-gray-900/40 backdrop-blur-md border border-gray-700/50 hover:bg-gray-800/60 group'
-        }`}
-      >
-        <ChevronRight className={`w-4 h-4 sm:w-6 sm:h-6 ${!isMobile ? 'group-hover:scale-110 transition-transform' : ''}`} />
+        <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
       </button>
 
-      <div className="relative z-10 h-full flex items-center">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl">
-            <motion.h1 
+      <button
+        onClick={nextSlide}
+        className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full text-white bg-black/40 hover:bg-black/60 border border-white/10 transition-all duration-200"
+      >
+        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+      </button>
+
+      {/* Content */}
+      <div className="relative z-10 h-full flex items-center pt-[var(--navbar-height)]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="max-w-3xl">
+            <motion.h1
               initial="hidden"
               animate="visible"
-              variants={animationVariants}
-              transition={{ 
-                duration: isMobile ? 0.3 : 0.8, 
-                delay: 0,
-                ease: "easeOut"
-              }}
-              className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-4 sm:mb-6 leading-tight ${
+              variants={fadeUp}
+              transition={{ duration: 0.6, delay: 0, ease: "easeOut" }}
+              className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-5 leading-tight ${
                 isHebrew ? "text-right" : "text-left"
               }`}
             >
-              <span className={`block transition-transform duration-300 ${!isMobile ? 'hover:scale-105' : ''}`}>
-                {t("effect_parquet")}
-              </span>
+              {t("effect_parquet")}
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               initial="hidden"
               animate="visible"
-              variants={animationVariants}
-              transition={{ 
-                duration: isMobile ? 0.3 : 0.8, 
-                delay: isMobile ? 0.1 : 0.4,
-                ease: "easeOut"
-              }}
-              className={`text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200/90 mb-6 sm:mb-8 max-w-2xl leading-relaxed ${
+              variants={fadeUp}
+              transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+              className={`text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-10 max-w-2xl leading-relaxed ${
                 isHebrew ? "text-right" : "text-left"
               }`}
             >
               {t("description")}
             </motion.p>
 
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate="visible"
-              variants={animationVariants}
-              transition={{ 
-                duration: isMobile ? 0.3 : 0.8, 
-                delay: isMobile ? 0.15 : 0.6,
-                ease: "easeOut"
-              }}
-              className={`flex flex-col mt-[75px] sm:flex-row gap-3 sm:gap-4 ${isHebrew ? "sm:justify-start" : "sm:justify-start"}`}
+              variants={fadeUp}
+              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+              className="flex flex-col sm:flex-row gap-3"
             >
               <button
                 onClick={() => router.push(`/${lng}/${RouteConstants.ALL_PRODUCTS_PAGE}`)}
-                className={`group relative px-4 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 text-sm sm:text-base border border-gray-700 ${
-                  isMobile
-                    ? 'bg-gray-800 hover:bg-gray-700'
-                    : 'bg-gradient-to-r from-gray-800 to-gray-900 hover:scale-105 hover:shadow-2xl hover:shadow-gray-900/50'
-                }`}
+                className="group flex items-center justify-center gap-2 px-6 py-3 sm:py-3.5 bg-stone-700/80 border border-stone-500/50 text-white font-semibold rounded-xl text-sm sm:text-base hover:bg-stone-600/90 hover:border-stone-400/60 transition-all duration-200"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  {t("view_products")}
-                  <ArrowRight className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${!isMobile ? 'group-hover:translate-x-1' : ''}`} />
-                </span>
-                {!isMobile && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-800 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-                )}
+                {t("view_products")}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </button>
 
-              <button 
-                className={`group px-4 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-lg sm:rounded-xl transition-all duration-300 text-sm sm:text-base ${
-                  isMobile
-                    ? 'bg-gray-700/80 border border-gray-600 hover:bg-gray-600/80'
-                    : 'bg-gray-900/30 backdrop-blur-sm border border-gray-600/50 hover:bg-gray-800/40 hover:scale-105'
-                }`}
-                onClick={(() => router.push(`${lng}/${RouteConstants.CONTACT_US_PAGE}`))}
+              <button
+                onClick={() => router.push(`/${lng}/${RouteConstants.CONTACT_US_PAGE}`)}
+                className="flex items-center justify-center gap-2 px-6 py-3 sm:py-3.5 border border-white/20 text-white/80 font-semibold rounded-xl text-sm sm:text-base hover:bg-white/10 hover:border-white/40 hover:text-white transition-all duration-200"
               >
-                <span className="flex items-center justify-center gap-2">
-                  <Contact className="w-4 h-4 sm:w-5 sm:h-5" />
-                  {t("contact_us")}
-                </span>
+                <Contact className="w-4 h-4" />
+                {t("contact_us")}
               </button>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate="visible"
-              variants={animationVariants}
-              transition={{ 
-                duration: isMobile ? 0.3 : 0.8, 
-                delay: isMobile ? 0.2 : 0.8,
-                ease: "easeOut"
-              }}
-              className="flex justify-center sm:justify-start gap-4 sm:gap-8 mt-6 sm:mt-12"
+              variants={fadeUp}
+              transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
+              className={`flex gap-8 sm:gap-12 mt-10 sm:mt-14 ${isHebrew ? "justify-end" : "justify-start"}`}
             >
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-white">1000+</div>
-                <div className="text-xs sm:text-sm text-gray-300/80">{t("happy_clients")}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-white">5+</div>
-                <div className="text-xs sm:text-sm text-gray-300/80">{t("years_of_experience")}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-white">100+</div>
-                <div className="text-xs sm:text-sm text-gray-300/80">{t("excellent_products")}</div>
-              </div>
+              {[
+                { value: "1000+", label: t("happy_clients") },
+                { value: "5+",    label: t("years_of_experience") },
+                { value: "100+",  label: t("excellent_products") },
+              ].map(stat => (
+                <div key={stat.value} className="text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-white">{stat.value}</div>
+                  <div className="text-xs sm:text-sm text-gray-400 mt-0.5">{stat.label}</div>
+                </div>
+              ))}
             </motion.div>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20">
-        <div className="flex gap-2 sm:gap-3">
-          {heroImages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-3 h-3 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide
-                  ? "bg-white scale-125"
-                  : "bg-gray-400/60 hover:bg-gray-300/80"
-              }`}
-            />
-          ))}
-        </div>
+      {/* Slide dots */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {heroImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`rounded-full transition-all duration-300 ${
+              index === currentSlide
+                ? "w-6 h-2 bg-white"
+                : "w-2 h-2 bg-white/40 hover:bg-white/70"
+            }`}
+          />
+        ))}
       </div>
 
-      {!isMobile && (
-        <motion.div 
-          initial="hidden"
-          animate="visible"
-          variants={animationVariants}
-          transition={{ 
-            duration: 0.8, 
-            delay: 1.0,
-            ease: "easeOut"
-          }}
-          className="hidden lg:block absolute bottom-6 sm:bottom-8 left-6 sm:left-8 z-20 text-gray-300/70"
-        >
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-xs sm:text-sm transform -rotate-90 origin-center whitespace-nowrap">{t("scroll_down")}</span>
-            <div className="w-px h-8 sm:h-12 bg-gradient-to-b from-gray-300/70 to-transparent animate-pulse"></div>
-          </div>
-        </motion.div>
-      )}
+      {/* Scroll hint */}
+      <div className="hidden lg:flex absolute bottom-6 left-8 z-20 flex-col items-center gap-2 text-white/40">
+        <span className="text-xs transform -rotate-90 origin-center whitespace-nowrap">{t("scroll_down")}</span>
+        <div className="w-px h-10 bg-gradient-to-b from-white/40 to-transparent" />
+      </div>
     </div>
   );
 };
