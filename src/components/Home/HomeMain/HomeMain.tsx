@@ -12,40 +12,20 @@ const HomeMain = () => {
   const lng = pathname.split("/")[1];
   const isHebrew = lng === "he";
 
-  const mobileVariants = {
+  const fadeVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 }
   };
 
-  const desktopVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
-  };
-
-  const desktopStaggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
+  const currentContainer = isMobile
+    ? {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.1 } }
       }
-    }
-  };
-
-  const mobileStaggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.1
-      }
-    }
-  };
-
-  const currentVariants = isMobile ? mobileVariants : desktopVariants;
-  const currentContainer = isMobile ? mobileStaggerContainer : desktopStaggerContainer;
+    : {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2, delayChildren: 0.3 } }
+      };
 
   return (
     <div className={`relative ${
@@ -74,7 +54,7 @@ const HomeMain = () => {
         >
           <motion.div 
             className="flex justify-center mb-6"
-            variants={currentVariants}
+            variants={fadeVariants}
           >
             <div className={`w-16 h-1 rounded-full ${
               isMobile 
@@ -84,7 +64,7 @@ const HomeMain = () => {
           </motion.div>
 
           <motion.h2 
-            variants={currentVariants}
+            variants={fadeVariants}
             className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 leading-tight ${
               isMobile
                 ? 'text-gray-800 dark:text-gray-100'
@@ -95,7 +75,7 @@ const HomeMain = () => {
           </motion.h2>
 
           <motion.p 
-            variants={currentVariants}
+            variants={fadeVariants}
             className={`text-lg sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto ${
               isHebrew ? "text-right" : "text-left"
             }`}
@@ -105,7 +85,7 @@ const HomeMain = () => {
 
           <motion.div 
             className="flex justify-center mt-8"
-            variants={currentVariants}
+            variants={fadeVariants}
           >
             <div className={`w-24 h-0.5 ${
               isMobile 
@@ -120,7 +100,7 @@ const HomeMain = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          variants={currentVariants}
+          variants={fadeVariants}
           transition={{ 
             duration: isMobile ? 0.2 : 0.4, 
             delay: isMobile ? 0.1 : 0.6,

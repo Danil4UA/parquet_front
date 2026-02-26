@@ -20,7 +20,7 @@ const useScrollDirection = () => {
   const { isMobile } = useIsMobileDebounce();
   const dispatch = useDispatch();
 
-  useEffect(() => {    
+  useEffect(() => {
     if (!isMobile) {
       document.body.classList.remove("scrolled", "scroll-up");
       dispatch(setNavbarVisible(true));
@@ -29,9 +29,8 @@ const useScrollDirection = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const navbarElement = document.querySelector(".Navbar");
-      
-      if (!navbarElement) return;
 
+      if (!navbarElement) return;
       if (Math.abs(currentScrollY - lastScrollY.current) < 2) return;
 
       if (currentScrollY > navbarElement.clientHeight) {
@@ -57,9 +56,10 @@ const useScrollDirection = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isMobile, dispatch]);
 };
+
 export const Navbar = () => {
   const [collapsedSidebar, setCollapsedSidebar] = useState(true);
-  const [openSearch, setOpenSearch] = useState(false)
+  const [openSearch, setOpenSearch] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _scrollDirection = useScrollDirection();
@@ -71,38 +71,47 @@ export const Navbar = () => {
     dispatch(setCollapsedСart(!collapsedCart));
   };
 
-  const onToggleMenu = () => {
-    setCollapsedSidebar((prev) => !prev);
-  };
-
   return (
-    <div className="Navbar">
-      <div className="navbar-left">
-        <span className="navbar_menu" onClick={onToggleMenu}>
+    <div className="Navbar fixed top-0 left-0 w-full h-[var(--navbar-height)] bg-[#171717] flex items-center justify-between px-4 sm:px-8 lg:px-16 text-white transition-transform duration-300 ease-in-out z-[100]">
+      <div className="flex items-center gap-5 z-10">
+        <button
+          className="flex items-center justify-center w-9 h-9 text-white cursor-pointer"
+          onClick={() => setCollapsedSidebar(prev => !prev)}
+        >
           <Menu size={32} />
-        </span>
-        <span className="language-container">
-          <LangSwitcher />
-        </span>
+        </button>
+        <LangSwitcher />
       </div>
-    
-      <div className="navbar-logo">
+
+      <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
         <Link href="/">
           <Image src={logoPhoto} alt="logo" width={48} height={48} />
         </Link>
       </div>
-      <div className="navbar-right">
-        <div className="navbar_search" onClick={() => setOpenSearch((prev) => !prev)}>
+
+      <div className="flex items-center gap-5 z-10">
+        <button
+          className="flex items-center justify-center w-9 h-9 text-white cursor-pointer"
+          onClick={() => setOpenSearch(prev => !prev)}
+        >
           <SearchIcon size={32} />
-        </div>
-        <div className="navbar_cart" onClick={() => onToggleCart()}>
+        </button>
+        <button
+          className="relative flex items-center justify-center w-9 h-9 text-white cursor-pointer"
+          onClick={onToggleCart}
+        >
           <ShoppingCart size={32} />
-          <span className="navbar_cart_counter">{cartItems > 0 && cartItems}</span>
-        </div>
+          {cartItems > 0 && (
+            <span className="absolute -top-1 -right-2.5 bg-red-500 text-white text-[10px] min-w-4 h-4 rounded-full flex items-center justify-center px-1">
+              {cartItems}
+            </span>
+          )}
+        </button>
       </div>
+
       <Sidebar collapsed={collapsedSidebar} onClose={() => setCollapsedSidebar(true)} />
       {openSearch && <Search onClose={() => setOpenSearch(false)} />}
-  </div>
+    </div>
   );
 };
 

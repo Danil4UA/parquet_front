@@ -119,21 +119,7 @@ const CategoryList = () => {
 
   return (
     <motion.div 
-      className={`
-        grid gap-6 p-6 max-w-[1300px] mx-auto
-        grid-cols-2
-        lg:grid-cols-4
-        md:grid-cols-3
-        sm:grid-cols-2
-        xs:grid-cols-2
-        auto-rows-max
-        
-        xl:gap-8 xl:p-8
-        lg:gap-6 lg:p-6
-        md:gap-5 md:p-4
-        sm:gap-4 sm:p-4
-        max-[400px]:grid-cols-2 max-[400px]:gap-3 max-[400px]:px-0 max-[400px]:py-3
-      `}
+      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6 xl:gap-8 p-3 sm:p-4 lg:p-6 xl:p-8 max-w-[1300px] mx-auto"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
