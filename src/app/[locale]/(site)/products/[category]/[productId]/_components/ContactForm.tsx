@@ -15,7 +15,6 @@ import PhoneNumberInputWithLabel from "@/components/Inputs/PhoneNumberInputWithL
 import TextareaWithLabel from "@/components/Inputs/TextareaWithLabel";
 import contactServices from "@/services/contactServices";
 
-// type FormType = "consultation" | "calculation";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -51,7 +50,8 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
       const payload = { ...data, formType: "consultation", productId }
       console.log("Form submitted:", payload);
       await contactServices.sendConsultationRequest(payload)
-      
+
+      window.dataLayer?.push({ event: "form_submit", form_name: "consultation" });
       toast.success(`${t("form_submitted")} ${t("contact_soon")}`);
       
       form.reset();
@@ -62,21 +62,6 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
       setIsSubmitting(false);
     }
   };
-
-  // const tabsConfig = {
-  //   consultation: {
-  //     title: t("consultation"),
-  //     subtitle: t("consultation_desc"),
-  //     icon: Phone,
-  //     color: "blue",
-  //   }
-  //   calculation: {
-  //     title: t("calculation_help"),
-  //     subtitle: t("calculation_desc"),
-  //     icon: Calculator,
-  //     color: "green",
-  //   },
-  // };
 
   return (
     <div className={cn("w-full", className)} data-contact-form>
@@ -89,30 +74,6 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
             {t("contact_expert")}
           </p>
         </div>
-
-        {/* <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as FormType)}> */}
-            {/* <TabsList className="grid w-full grid-cols-1 mb-6 bg-white border p-1">
-            {Object.entries(tabsConfig).map(([key, config]) => {
-              return (
-                <TabsTrigger 
-                  key={key} 
-                  value={key}
-                  className="flex items-center gap-2 text-sm font-medium"
-                >
-                  <span>{config.title}</span>
-                </TabsTrigger>
-              );
-            })}
-          </TabsList> */}
-{/* 
-          {Object.entries(tabsConfig).map(([key, config]) => (
-            <TabsContent key={key} value={key} className="space-y-4"> */}
-              {/* <div className="mb-4">
-                <p className="text-sm text-gray-600">
-                  {config.subtitle}
-                </p>
-              </div> */}
-
               <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <TextInputWithLabel
@@ -162,9 +123,6 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
                   </Button>
                 </form>
               </FormProvider>
-            {/* </TabsContent> */}
-          {/* ))} */}
-        {/* </Tabs> */}
       </div>
     </div>
   );

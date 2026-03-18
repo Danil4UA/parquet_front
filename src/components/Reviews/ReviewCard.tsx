@@ -34,12 +34,8 @@ export default function ReviewCard({ review }: { review: Review }) {
         {/* Header with user info and Google logo */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-lg">
-                {getInitials(review.author_name)}
-              </div>
-              {/* Online indicator */}
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-gray-800"></div>
+            <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+              {getInitials(review.author_name)}
             </div>
             <div className="min-w-0 flex-1">
               <h4 className="font-semibold text-white text-base truncate">
