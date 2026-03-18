@@ -51,12 +51,12 @@ export const LangSwitcher = () => {
           <ChevronDown className="w-3.5 h-3.5 opacity-70" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="z-[200]">
+      <DropdownMenuContent align={currentLocale === "he" ? "end" : "start"} className="z-[200]">
         {languageOptions.map(lang => (
           <DropdownMenuItem
             key={lang.value}
             onClick={() => onSelectChange(lang.value)}
-            className={currentLocale === lang.value ? "font-semibold" : ""}
+            className={`${currentLocale === lang.value ? "font-semibold" : ""} ${currentLocale === "he" ? "text-right justify-end" : ""}`}
           >
             {isMobile ? lang.abbr : lang.label}
           </DropdownMenuItem>
