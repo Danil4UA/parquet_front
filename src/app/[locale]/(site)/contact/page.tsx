@@ -51,6 +51,7 @@ const ContactPage = () => {
           ) as ContactFormType;
           
             await contactServices.contactUs(cleanedFormData);
+            window.dataLayer?.push({ event: "form_submit", form_name: "contact_us" });
             setIsSuccessDialogOpen(true)
         } catch {
             setIsErrorDialogOpen(true);
