@@ -51,7 +51,6 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
       console.log("Form submitted:", payload);
       await contactServices.sendConsultationRequest(payload)
 
-      window.dataLayer?.push({ event: "form_submit", form_name: "consultation" });
       toast.success(`${t("form_submitted")} ${t("contact_soon")}`);
       
       form.reset();
