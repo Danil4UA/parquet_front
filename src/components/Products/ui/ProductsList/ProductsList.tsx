@@ -19,6 +19,7 @@ import { selectNavbarVisible } from "@/components/Navbar/model/navbarSlice";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { pushEcommerceEvent } from "@/Utils/googleUtils";
+import Utils from "@/Utils/utils";
 
 interface ProductsListProps {
   category: string;
@@ -101,7 +102,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
         getFilterPosition()
       )}>
         <ProductSort />
-        <MobileFilterButton category={category}/>
+        {Utils.categoryHasFilters(category) && <MobileFilterButton category={category}/>}
       </div>
       
       {isPending ? (
@@ -133,9 +134,9 @@ const ProductsList = ({ category }: ProductsListProps) => {
                   product={product}
                   className={cn(
                     "transition-all duration-200",
-                    isMobile 
+                    isMobile
                       ? "bg-transparent rounded-lg border-none"
-                      : "bg-transparent rounded-xl border-none hover:shadow-md border"
+                      : "bg-transparent rounded-xl border-none"
                   )}
                 />
               </motion.div>

@@ -2,11 +2,13 @@
 
 import Sidebar from "../Sidebar/Sidebar";
 import { useEffect, useRef, useState } from "react";
-import { Menu, Search as SearchIcon, ShoppingCart } from "lucide-react";
+import { Menu, Search as SearchIcon, ShoppingCart, Heart } from "lucide-react";
 import LangSwitcher from "@/widgets/LangSwitcher/ui/LangSwitcher";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { selectTotalItems, setCollapsedСart } from "../Cart/model/slice/cartSlice";
+import { selectTotalFavorites } from "../Favorites/model/slice/favoritesSlice";
+import RouteConstants from "@/constants/RouteConstants";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import logoPhoto from "@/app/logo_transparent.png";
@@ -66,6 +68,7 @@ export const Navbar = () => {
   const dispatch = useDispatch();
   const collapsedCart = useSelector((state: RootState) => state.cart.isCollapsedCart);
   const cartItems = useSelector((state: RootState) => selectTotalItems(state));
+  const favoritesCount = useSelector((state: RootState) => selectTotalFavorites(state));
 
   const onToggleCart = () => {
     dispatch(setCollapsedСart(!collapsedCart));
@@ -96,6 +99,18 @@ export const Navbar = () => {
         >
           <SearchIcon size={32} />
         </button>
+        <Link
+          href={RouteConstants.FAVORITES_PAGE}
+          className="relative flex items-center justify-center w-9 h-9 text-white cursor-pointer"
+          aria-label="Favorites"
+        >
+          <Heart size={30} />
+          {favoritesCount > 0 && (
+            <span className="absolute -top-1 -right-2.5 bg-red-500 text-white text-[10px] min-w-4 h-4 rounded-full flex items-center justify-center px-1">
+              {favoritesCount}
+            </span>
+          )}
+        </Link>
         <button
           className="relative flex items-center justify-center w-9 h-9 text-white cursor-pointer"
           onClick={onToggleCart}

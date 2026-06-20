@@ -41,11 +41,11 @@ export default function AboutPage() {
           <div className="bg-white border border-gray-200 rounded-xl p-12 shadow-sm">
             <div className="grid grid-cols-2 gap-8 text-center">
               <div>
-                <div className="text-4xl font-bold text-gray-900 mb-2">1000+</div>
+                <div className="text-4xl font-bold text-gray-900 mb-2">300+</div>
                 <div className="text-gray-600">{t("About.stats_clients")}</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-gray-900 mb-2">200+</div>
+                <div className="text-4xl font-bold text-gray-900 mb-2">246</div>
                 <div className="text-gray-600">{t("About.stats_products")}</div>
               </div>
             </div>

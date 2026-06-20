@@ -244,7 +244,7 @@
     "page_title": "About Us",
     "company_title": "Effect Parquet - Premium Flooring Solutions",
     "intro_question": "Think updating your floor is expensive? Think again! At Effect Parquet, we specialize in affordable and high-quality engineered wooden coverings that transform your space without exceeding your budget.",
-    "experience_text": "With years of experience and more than 1000 satisfied clients, we have established ourselves as a leading provider of premium flooring solutions. Our commitment to quality and customer satisfaction has made us the go-to choice for homeowners and businesses alike.",
+    "experience_text": "With 3 years on the market and more than 300 satisfied clients, we have established ourselves as a leading provider of premium flooring solutions. Our commitment to quality and customer satisfaction has made us the go-to choice for homeowners and businesses alike.",
     "mission_title": "Our Mission",
     "mission_text": "To provide exceptional flooring solutions that combine quality, affordability, and style, helping our clients create beautiful spaces they love.",
     "values_title": "Our Values",
@@ -487,6 +487,13 @@
     "noResults": "No products found",
     "noResultsHint": "Try changing or clearing the selected filters.",
     "viewAllResults": "View All Results"
+  },
+  "Favorites": {
+    "page_title": "Favorites",
+    "empty_title": "Your favorites list is empty",
+    "empty_subtitle": "Tap the heart on any product to save it here for later.",
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
   },
   "Contact": {
     "contactUs": "Contact Us",

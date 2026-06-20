@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import CartLoader from "@/components/CartLoader/CartLoader";
+import FavoritesLoader from "@/components/Favorites/FavoritesLoader";
 import ProductFilterLoader from "@/components/Products/ui/ProductFilterLoader/ProductFilterLoader";
 import ClientCart from "@/components/Cart/ui/ClientCart/ClientCart";
 import ContactButton from "@/components/ContactButton";
@@ -9,6 +10,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <CartLoader />
+      <FavoritesLoader />
       <ProductFilterLoader />
       <Navbar />
       <ClientCart />

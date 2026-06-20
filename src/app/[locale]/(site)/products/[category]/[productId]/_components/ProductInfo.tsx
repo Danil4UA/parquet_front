@@ -7,6 +7,7 @@ import { Product } from "@/types/products";
 import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
 import { trackAddToCart } from "@/lib/fbPixel";
 import { createAddToCartEvent, formatPrice } from "@/Utils/productsUtils";
+import FavoriteButton from "@/components/Favorites/FavoriteButton";
 
 interface ProductInfoProps {
   product: Product;
@@ -89,15 +90,22 @@ const ProductInfo: FC<ProductInfoProps> = ({
 
         <p className="text-xs text-gray-500">{t("product_notice")}</p>
         
-        <Button 
-            size="lg"
-            className={cn(
-            "w-full font-bold text-lg bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white border-0 rounded-md transition-all duration-300",
-            )}
-            onClick={handleAddToCart}
-        >
-            {t("button_add_to_cart")}
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button
+              size="lg"
+              className={cn(
+              "flex-1 font-bold text-lg bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white border-0 rounded-md transition-all duration-300",
+              )}
+              onClick={handleAddToCart}
+          >
+              {t("button_add_to_cart")}
+          </Button>
+          <FavoriteButton
+              product={product}
+              className="w-12 h-12 shrink-0 border border-gray-300 shadow-none bg-white hover:bg-gray-50"
+              iconSize={22}
+          />
+        </div>
     </div>
     );
 };

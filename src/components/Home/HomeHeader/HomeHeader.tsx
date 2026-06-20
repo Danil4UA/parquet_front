@@ -166,9 +166,9 @@ const HomeHeader = () => {
               className={`flex gap-8 sm:gap-12 mt-10 sm:mt-14 ${isHebrew ? "justify-end" : "justify-start"}`}
             >
               {[
-                { value: "1000+", label: t("happy_clients") },
-                { value: "5+",    label: t("years_of_experience") },
-                { value: "100+",  label: t("excellent_products") },
+                { value: "300+", label: t("happy_clients") },
+                { value: "3",    label: t("years_of_experience") },
+                { value: "246",  label: t("excellent_products") },
               ].map(stat => (
                 <div key={stat.value} className="text-center">
                   <div className="text-2xl sm:text-3xl font-bold text-white">{stat.value}</div>

@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Product } from "@/types/products";
 import { cn } from "@/lib/utils";
+import FavoriteButton from "@/components/Favorites/FavoriteButton";
 interface ProductCardProps {
   product: Product;
   className?: string;
@@ -28,8 +29,11 @@ const ProductCard = ({
   } = product;
 
   const productPriceWithDiscount = discount ? Number(productPrice) * ((100 - discount) / 100) : Number(productPrice);
+  const hasSecondImage = images.length > 1 && Boolean(images[1]);
   const [imgSrc, setImgSrc] = useState(images[0]);
+  const [secondImgSrc, setSecondImgSrc] = useState(images[1]);
   const [isLoading, setIsLoading] = useState(true);
+  const [secondLoaded, setSecondLoaded] = useState(false);
 
   return (
     <div className={cn(
@@ -38,6 +42,7 @@ const ProductCard = ({
       className,
       []
     )}>
+      <FavoriteButton product={product} className="absolute top-2 left-2 z-30" />
       <Link
         href={!isAvailable ? "#" : `/products/${category}/${productId}`}
         className="block overflow-hidden"
@@ -60,11 +65,28 @@ const ProductCard = ({
             className={cn(
               "w-full h-full object-cover transition-all duration-500 group-hover:scale-105",
               isLoading ? "opacity-0" : "opacity-100",
-              []
+              hasSecondImage && secondLoaded && "group-hover:opacity-0"
             )}
             sizes="(max-width: 750px) 50vw, (max-width: 980px) 33vw, 25vw"
             priority={false}
           />
+
+          {hasSecondImage && (
+            <Image
+              src={secondImgSrc}
+              fill
+              alt={productName}
+              quality={75}
+              onError={() => setSecondImgSrc(imgSrc)}
+              onLoad={() => setSecondLoaded(true)}
+              className={cn(
+                "w-full h-full object-cover opacity-0 transition-all duration-500 group-hover:scale-105",
+                secondLoaded && "group-hover:opacity-100"
+              )}
+              sizes="(max-width: 750px) 50vw, (max-width: 980px) 33vw, 25vw"
+              priority={false}
+            />
+          )}
 
           {discount > 0 && (
             <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-semibold z-0">
@@ -78,17 +100,6 @@ const ProductCard = ({
                 {t("OutOfStock")}
               </span>
             </div>
-          )}
-          {isAvailable && (
-          <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 pointer-events-none">
-            <button className={cn(
-              "px-6 py-3 rounded-lg font-medium shadow-lg backdrop-blur-sm transition-colors duration-200",
-              isAvailable ? "bg-white text-gray-800 hover:bg-gray-100" : "bg-gray-400 text-gray-600 cursor-not-allowed",
-              []
-            )}>
-               {t("GetMoreDetails")}
-            </button>
-          </div>
           )}
         </div>
 

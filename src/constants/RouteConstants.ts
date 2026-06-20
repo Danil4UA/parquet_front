@@ -15,6 +15,8 @@ export default class RouteConstants {
 
     static get ACCESSIBILITY_PAGE() { return "/accessibility"; }
 
+    static get FAVORITES_PAGE() { return "/favorites"; }
+
     static get ADMIN_ROUTE() { return "/admin"; }
 
     static get ADMIN_PRODUCTS() { return "/admin/products"; }

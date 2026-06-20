@@ -112,12 +112,31 @@ export default class Utils {
       showTypeFilter: true,
       excludeTypes: ["cladding", "laminate"]
     },
+    cleaning: {
+      // Cleaning products have no decor/color or layout type — hide both filters.
+      showColorFilter: false,
+      showTypeFilter: false,
+      excludeTypes: []
+    },
+    panels: {
+      // Panels are sold by color/decor but not by floor layout type (fishbone/plank).
+      showColorFilter: true,
+      showTypeFilter: false,
+      excludeTypes: []
+    },
     default: {
       showColorFilter: true,
       showTypeFilter: true,
       excludeTypes: []
     }
   }
+
+  static categoryHasFilters = (category?: string) => {
+    const config = Utils.filterCategoryConfig[
+      (category || "").toLowerCase()
+    ] || Utils.filterCategoryConfig.default;
+    return config.showColorFilter || config.showTypeFilter;
+  };
 
   static generateProductSchema = (product: Product, productPriceWithDiscount: number) => {
     const schema = {

@@ -133,6 +133,10 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
     { value: "dark", color: "#333333", label: "Dark" },
   ];
 
+  if (!currentConfig.showColorFilter && !currentConfig.showTypeFilter) {
+    return null;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
