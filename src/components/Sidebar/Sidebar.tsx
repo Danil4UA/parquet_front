@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Instagram, Facebook } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import useSalesAvailable from "@/hooks/useSalesAvailable";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -20,6 +21,7 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const isHebrew = lng === "he";
+  const { salesAvailable } = useSalesAvailable(lng);
 
   useEffect(() => {
     const body = document.body;
@@ -52,15 +54,17 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
   }, [onClose]);
 
   const itemsList = useMemo(() => {
-    return SidebarItemsList.map((item) => (
-      <SidebarItem 
-        item={item} 
-        collapsed={collapsed} 
-        onClose={onClose} 
-        key={item.path} 
-      />
-    ));
-  }, [collapsed, onClose]);
+    return SidebarItemsList
+      .filter((item) => salesAvailable || item.path !== "/products/sales")
+      .map((item) => (
+        <SidebarItem
+          item={item}
+          collapsed={collapsed}
+          onClose={onClose}
+          key={item.path}
+        />
+      ));
+  }, [collapsed, onClose, salesAvailable]);
 
   const sidebarVariants = {
     closed: {

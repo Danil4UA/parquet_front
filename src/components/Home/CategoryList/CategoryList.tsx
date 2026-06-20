@@ -1,6 +1,7 @@
 import CategoryCard from "../CategoryCard/CategoryCard";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { motion } from "framer-motion";
+import useSalesAvailable from "@/hooks/useSalesAvailable";
 import categoryFlooring from "/public/assets/category_flooring_new.jpg"
 import categoryLaminate from "/public/assets/category_laminate.jpg"
 import categorySpc from "/public/assets/category_spc.jpg"
@@ -19,7 +20,9 @@ export type Category = {
 
 const CategoryList = () => {
   const t = useTranslations("Categories");
+  const locale = useLocale();
   const { isMobile } = useIsMobileDebounce();
+  const { salesAvailable } = useSalesAvailable(locale);
 
   const categories: Category[] = [
     {
@@ -128,7 +131,9 @@ const CategoryList = () => {
         margin: isMobile ? "-20px" : "-50px"
       }}
     >
-      {categories.map((category, index) => (
+      {categories
+        .filter((category) => salesAvailable || category.path !== "/products/sales")
+        .map((category, index) => (
         <motion.div
           key={category.path}
           variants={itemVariants}

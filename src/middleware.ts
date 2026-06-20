@@ -8,6 +8,10 @@ const intlMiddleware = createIntlMiddleware(routing);
 
 const publicPaths = [
   '/favicon.ico',
+  '/icon.png',
+  '/apple-icon.png',
+  '/manifest.webmanifest',
+  '/sitemap.xml',
   '/api',
   '/_next',
   '/images',
@@ -69,7 +73,7 @@ export const config = {
     '/login',
     '/(en|ru|he)/login',
     
-    '/((?!_next|api|favicon.ico|robots.txt).*)',
+    '/((?!_next|api|favicon.ico|icon.png|apple-icon.png|manifest.webmanifest|sitemap.xml|robots.txt).*)',
 
   ]
 };
