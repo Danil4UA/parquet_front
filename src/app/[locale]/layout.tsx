@@ -11,6 +11,7 @@ import { getLanguageMetadata } from "../metadata";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import Script from 'next/script';
 import { Toaster } from "sonner";
+import CookieBanner from "@/components/CookieBanner/CookieBanner";
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -168,6 +169,7 @@ export default async function RootLayout({
           <ReduxProvider>
               <NextIntlClientProvider messages={messages}>
                 {children}
+                <CookieBanner />
               </NextIntlClientProvider>
           </ReduxProvider>
         </ReactQueryProvider>

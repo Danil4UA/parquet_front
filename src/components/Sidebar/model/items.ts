@@ -53,6 +53,18 @@ export const SidebarItemsList: SidebarItemType[] = [
     text: "cleaningProducts"
   },
   {
+    path: "/about",
+    Icon: "",
+    text: "aboutUs",
+    exactMatch: true
+  },
+  {
+    path: "/services",
+    Icon: "",
+    text: "services",
+    exactMatch: true
+  },
+  {
     path: "/contact",
     Icon: "",
     text: "contactUs",

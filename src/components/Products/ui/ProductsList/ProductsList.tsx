@@ -5,6 +5,7 @@ import { getProductsQueryParams } from "@/Utils/paginationUtils";
 import ProductSort from "../ProductSort/ProductSort";
 import MobileFilterButton from "../MobileFilterButton/MobileFilterButton";
 import ProductsLoadingGrid from "./_components/ProductsLoadingGrid";
+import NoProductsMessage from "./_components/NoProductsMessage";
 import ProductCard from "../ProductCard/ProductCard";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
@@ -105,6 +106,10 @@ const ProductsList = ({ category }: ProductsListProps) => {
       
       {isPending ? (
         <ProductsLoadingGrid />
+      ) : allProducts.length === 0 ? (
+        <div className="pt-[58px]">
+          <NoProductsMessage />
+        </div>
       ) : (
         <div className="pt-[58px]">
           <motion.div 

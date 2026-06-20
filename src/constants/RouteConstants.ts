@@ -11,6 +11,10 @@ export default class RouteConstants {
 
     static get TERMS_AND_CONDITIONS_PAGE() { return "/terms"; }
 
+    static get PRIVACY_POLICY_PAGE() { return "/privacy-policy"; }
+
+    static get ACCESSIBILITY_PAGE() { return "/accessibility"; }
+
     static get ADMIN_ROUTE() { return "/admin"; }
 
     static get ADMIN_PRODUCTS() { return "/admin/products"; }

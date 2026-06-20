@@ -37,6 +37,8 @@ const Footer = () => {
     { key: "services", page: RouteConstants.SERVICES_PAGE },
     { key: "contact", page: RouteConstants.CONTACT_US_PAGE },
     { key: "terms_and_conditions", page: RouteConstants.TERMS_AND_CONDITIONS_PAGE },
+    { key: "privacy_policy", page: RouteConstants.PRIVACY_POLICY_PAGE },
+    { key: "accessibility", page: RouteConstants.ACCESSIBILITY_PAGE },
   ];
 
   const socialIcons = [

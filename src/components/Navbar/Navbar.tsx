@@ -9,7 +9,7 @@ import { RootState } from "@/redux/store";
 import { selectTotalItems, setCollapsedСart } from "../Cart/model/slice/cartSlice";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
-import logoPhoto from "@/app/assets/logo_photo.png";
+import logoPhoto from "@/app/logo_transparent.png";
 import Search from "../Search/Search";
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
 import { setNavbarVisible } from "./model/navbarSlice";
