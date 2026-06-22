@@ -22,16 +22,18 @@ export function getProductsQueryParams(
   const search = searchParams.get("search") || "";
   const color = searchParams.get("color") || "";
   const type = searchParams.get("type") || "";
+  const material = searchParams.get("material") || "";
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || defaultLimit.toString());
   const sortBy = searchParams.get("sortBy") || "";
 
-  
+
   return {
     category,
     search,
     color,
     type,
+    material,
     language,
     page,
     limit,

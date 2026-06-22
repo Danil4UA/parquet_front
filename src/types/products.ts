@@ -67,6 +67,7 @@ export interface ProductsSearchParams {
     search?: string;
     color?: string;
     type?: string;
+    material?: string;
     language?: string;
     page?: number;
     limit?: number;
@@ -105,5 +106,6 @@ export interface DashboardStats {
 export type FilterCategoryConfig = {
   showColorFilter: boolean;
   showTypeFilter: boolean;
+  showMaterialFilter?: boolean;
   excludeTypes: string[];
 }

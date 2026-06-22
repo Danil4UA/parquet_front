@@ -14,6 +14,7 @@ const initialState: ProductsState = {
     filters:{
         color: [],
         type: [],
+        material: [],
     }
 };
 

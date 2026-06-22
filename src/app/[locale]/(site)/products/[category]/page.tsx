@@ -33,6 +33,7 @@ const CategoryPage = () => {
           {hasFilters && (
             <div className={cn(
               "hidden md:block fixed z-50 transition-all duration-300",
+              "max-h-[calc(100dvh-var(--navbar-height))] overflow-y-auto",
               isHebrew ? "right-0" : "left-0",
               getFilterPosition(),
             )}>

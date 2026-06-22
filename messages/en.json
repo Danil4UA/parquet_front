@@ -119,7 +119,8 @@
     "Reset": "Reset",
     "ClearAll": "Clear All",
     "Cladding": "Wall Cladding",
-    "Laminate": "Laminate"
+    "Laminate": "Laminate",
+    "Panels": "Panels"
   },
   "Footer": {
     "contact_us": "Contact Us",

@@ -20,6 +20,7 @@ interface TypeOption {
 export interface Filters {
   color: string[];
   type: string[];
+  material: string[];
 }
 
 interface ProductsFilterProps {
@@ -39,6 +40,7 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
     const filters: Filters = {
       color: [],
       type: [],
+      material: [],
     };
     
     Object.keys(filters).forEach(key => {
@@ -110,7 +112,27 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
     setFilters(updatedFilters);
     updateUrlParams(updatedFilters);
   };
-  
+
+  const handleMaterialChange = (materialValue: string, checked: boolean) => {
+    const updatedFilters = { ...filters };
+    const newMaterials = [...updatedFilters.material];
+
+    if (checked) {
+      if (!newMaterials.includes(materialValue)) {
+        newMaterials.push(materialValue);
+      }
+    } else {
+      const index = newMaterials.indexOf(materialValue);
+      if (index > -1) {
+        newMaterials.splice(index, 1);
+      }
+    }
+
+    updatedFilters.material = newMaterials;
+    setFilters(updatedFilters);
+    updateUrlParams(updatedFilters);
+  };
+
   const currentConfig = categoryConfig[
     category.toLowerCase() as keyof typeof categoryConfig
   ] || categoryConfig.default;
@@ -133,7 +155,15 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
     { value: "dark", color: "#333333", label: "Dark" },
   ];
 
-  if (!currentConfig.showColorFilter && !currentConfig.showTypeFilter) {
+  const materialOptions: TypeOption[] = [
+    { value: "spc", label: t("SPC") },
+    { value: "laminate", label: t("Laminate") },
+    { value: "wood", label: t("Wood") },
+    { value: "cladding", label: t("Cladding") },
+    { value: "panels", label: t("Panels") },
+  ];
+
+  if (!currentConfig.showColorFilter && !currentConfig.showTypeFilter && !currentConfig.showMaterialFilter) {
     return null;
   }
 
@@ -149,7 +179,7 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
           ? "bg-white dark:bg-gray-800"
           : "bg-white/20 dark:bg-gray-900/20 backdrop-blur-md border-r border-white/30 dark:border-gray-700/30"
       )}>
-        <CardContent className="p-0 relative z-10">
+        <CardContent className="p-0 pb-24 relative z-10">
           {currentConfig.showColorFilter && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -194,7 +224,50 @@ const ProductsFilter = ({ category }: ProductsFilterProps) => {
             </motion.div>
           )}
 
-          {currentConfig.showColorFilter && currentConfig.showTypeFilter && (
+          {currentConfig.showColorFilter && currentConfig.showMaterialFilter && (
+            <Separator className="opacity-20" />
+          )}
+
+          {currentConfig.showMaterialFilter && (
+            <motion.div
+              className="p-4 space-y-3"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
+              <h3 className="font-medium text-sm text-gray-700 dark:text-gray-300">
+                {t("Material")}
+              </h3>
+
+              <div className="space-y-2">
+                {materialOptions.map((option, index) => (
+                  <motion.div
+                    key={option.value}
+                    className="flex items-center space-x-3 p-2 rounded-lg transition-colors hover:bg-gray-100/50 dark:hover:bg-gray-700/30"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.2, delay: 0.3 + index * 0.05 }}
+                  >
+                    <Checkbox
+                      id={`material-${option.value}`}
+                      checked={filters.material.includes(option.value)}
+                      onCheckedChange={(checked) =>
+                        handleMaterialChange(option.value, checked as boolean)
+                      }
+                    />
+                    <Label
+                      htmlFor={`material-${option.value}`}
+                      className="font-normal cursor-pointer text-sm text-gray-700 dark:text-gray-300 px-2"
+                    >
+                      {option.label}
+                    </Label>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {(currentConfig.showColorFilter || currentConfig.showMaterialFilter) && currentConfig.showTypeFilter && (
             <Separator className="opacity-20" />
           )}
 

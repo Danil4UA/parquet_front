@@ -90,7 +90,8 @@ export default class Utils {
     all: {
       showColorFilter: true,
       showTypeFilter: true,
-      excludeTypes: []
+      showMaterialFilter: true,
+      excludeTypes: ["cladding"]
     },
     cladding: {
       showColorFilter: true,
@@ -135,7 +136,7 @@ export default class Utils {
     const config = Utils.filterCategoryConfig[
       (category || "").toLowerCase()
     ] || Utils.filterCategoryConfig.default;
-    return config.showColorFilter || config.showTypeFilter;
+    return config.showColorFilter || config.showTypeFilter || Boolean(config.showMaterialFilter);
   };
 
   static generateProductSchema = (product: Product, productPriceWithDiscount: number) => {
