@@ -2,6 +2,7 @@ import RouteConstants from "@/constants/RouteConstants";
 import {
   BriefcaseBusiness,
   House,
+  Sparkles,
 } from "lucide-react";
 
 export const mainList = [
@@ -22,5 +23,11 @@ export const mainList = [
     name: "Orders",
     icon: BriefcaseBusiness,
     route: RouteConstants.ADMIN_ORDERS,
+  },
+  {
+    id: "main-4",
+    name: "Recommendations",
+    icon: Sparkles,
+    route: RouteConstants.ADMIN_SETTINGS,
   },
 ];

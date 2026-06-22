@@ -17,3 +17,7 @@ export const allOrdersTimelineQueryKey = "allOrdersTimeline";
 export const allDashboardStatsQueryKey = "allDashboardStats";
 
 export const allReviewsQueryKey = "allReviews";
+
+export const recommendedProductsKey = "recommendedProducts";
+
+export const categoryRecommendationsKey = "categoryRecommendations";

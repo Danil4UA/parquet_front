@@ -24,6 +24,56 @@ export default class productsServices {
 
   static ALL_DASHBOARD_STATS  = `${URL_API}/api/admin/stats`;
 
+  static GET_RECOMMENDATIONS = `${URL_API}/api/products/recommendations`;
+
+  static ADMIN_RECOMMENDATIONS = `${URL_API}/api/admin/recommendations`;
+
+  static async getRecommendedProducts({
+    productId,
+    language = "en",
+    limit = 12,
+  }: { productId: string; language?: string; limit?: number }) {
+    try {
+      const response = await axios.get(productsServices.GET_RECOMMENDATIONS, {
+        params: { productId, language, limit }
+      });
+      return response;
+    } catch (error) {
+      console.error("Error fetching recommended products:", error);
+      throw error;
+    }
+  }
+
+  static async getRecommendations(session: any) {
+    const { accessToken } = session ?? {};
+    try {
+      const response = await axios.get(productsServices.ADMIN_RECOMMENDATIONS, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching recommendations:", error);
+      throw error;
+    }
+  }
+
+  static async saveRecommendations(
+    session: any,
+    recommendations: { fromCategory: string; recommends: string[] }[]
+  ) {
+    const { accessToken } = session ?? {};
+    try {
+      return await axios.put(
+        productsServices.ADMIN_RECOMMENDATIONS,
+        { recommendations },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+    } catch (error) {
+      console.error("Error saving recommendations:", error);
+      throw error;
+    }
+  }
+
   static async getAllProducts (language = "en"){
     try {
       const response = await axios.get(productsServices.GET_ALL_PRODUCTS, {

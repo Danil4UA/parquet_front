@@ -1,6 +1,6 @@
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { allProductsByCategory } from "@/constants/queryInfo";
+import { recommendedProductsQuery } from "@/constants/queryInfo";
 import { useQueries } from "@tanstack/react-query";
 import Autoplay from "embla-carousel-autoplay";
 import { usePathname, useRouter } from "next/navigation";
@@ -15,15 +15,15 @@ const RelatedProductsSection = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const lng = pathname.split("/")[1];
+  const segments = pathname.split("/");
+  const lng = segments[1];
+  const productId = segments[4] || "";
 
   const [allProductsData] = useQueries({
-    queries: [allProductsByCategory({
-      category: "all",
+    queries: [recommendedProductsQuery({
+      productId,
       language: lng,
-      page: 1,
       limit: 12,
-      isRandom: "true",
     })],
   });
 

@@ -4,7 +4,7 @@ import { UseQueryOptions } from "@tanstack/react-query";
 import reactQueryFetchFunction from "@/Utils/reactQueryFetchFunction";
 import productsServices from "@/services/productsServices";
 import GlobalConstants from "./GlobalConstants";
-import { allCategoryProductsKey, allProductsKey, ownUserInfoKey, fullProductKey, allOrdersQueryKey, allProductsByCategoryQueryKey, allOrderStatusesDistributionQueryKey, allOrdersTimelineQueryKey, allDashboardStatsQueryKey, allReviewsQueryKey } from "./queryKey";
+import { allCategoryProductsKey, allProductsKey, ownUserInfoKey, fullProductKey, allOrdersQueryKey, allProductsByCategoryQueryKey, allOrderStatusesDistributionQueryKey, allOrdersTimelineQueryKey, allDashboardStatsQueryKey, allReviewsQueryKey, recommendedProductsKey } from "./queryKey";
 import userServices from "@/services/userServices";
 import { User } from "@/types/user";
 import { Session } from "next-auth";
@@ -22,6 +22,20 @@ UseQueryOptions<AxiosResponse<Product[]>> {
       [],
     ),
     staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
+  };
+}
+
+export function recommendedProductsQuery(params: { productId: string; language?: string; limit?: number }):
+UseQueryOptions<AxiosResponse<{ products: Product[] }>> {
+  return {
+    queryKey: [recommendedProductsKey, params],
+    queryFn: () => reactQueryFetchFunction<{ products: Product[] }>(
+      productsServices.getRecommendedProducts,
+      [],
+      params,
+    ),
+    staleTime: GlobalConstants.DROPDOWN_CACHE_TIME,
+    enabled: !!params.productId,
   };
 }
 
