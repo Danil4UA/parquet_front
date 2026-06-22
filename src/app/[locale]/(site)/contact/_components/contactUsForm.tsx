@@ -19,7 +19,8 @@ const ContactUsForm = ({ onSubmit }) => {
         name: '',
         phone: '',
         email: '',
-        message: ''
+        message: '',
+        website: ''
       }
     });
   const { handleSubmit, formState: { errors, isSubmitting } } = form;
@@ -27,6 +28,16 @@ const ContactUsForm = ({ onSubmit }) => {
   return (
     <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
+          {/* Honeypot: hidden from users, traps bots that auto-fill fields */}
+          <input
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            {...form.register("website")}
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <TextInputWithLabel<ContactFormType>
               label=""

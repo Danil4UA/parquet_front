@@ -20,6 +20,8 @@ const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
   phone: z.string().min(10, "Phone number is required"),
   message: z.string().optional(),
+  // Honeypot: hidden from real users, only bots fill it in.
+  website: z.string().optional(),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -40,6 +42,7 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
       name: "",
       phone: "",
       message: "",
+      website: "",
     },
   });
 
@@ -76,6 +79,16 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
         </div>
               <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  {/* Honeypot: hidden from users, traps bots that auto-fill fields */}
+                  <input
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                    {...form.register("website")}
+                  />
+
                   <TextInputWithLabel
                     label={t("name_label")}
                     nameInSchema="name"

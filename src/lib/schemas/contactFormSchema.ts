@@ -4,7 +4,9 @@ export const contactFormSchema = (t: (key: string) => string) => z.object({
   name: z.string().min(2, { message: t("errors.name_min_length") }),
   phone: z.string().min(5, { message: t("errors.phone_invalid") }),
   email: z.string().optional(),
-  message: z.string().min(10, { message: t("errors.message_min_length") })
+  message: z.string().min(10, { message: t("errors.message_min_length") }),
+  // Honeypot: hidden from real users, only bots fill it in.
+  website: z.string().optional()
 });
 
 export type ContactFormType = {
@@ -12,4 +14,5 @@ export type ContactFormType = {
   phone: string;
   email?: string;
   message: string;
+  website?: string;
 }
