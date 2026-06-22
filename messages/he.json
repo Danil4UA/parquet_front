@@ -538,6 +538,7 @@
     "message_label": "מידע נוסף",
     "message_placeholder": "מידות החדר, דרישות מיוחדות...",
     "send_request": "שליחת בקשה",
+    "try_again_in": "אפשר לנסות שוב בעוד {seconds} שניות",
     "back": "חזרה",
     "form_submitted": "תודה על הבקשה!",
     "error_occurred": "אירעה שגיאה, אנא נסו שוב",

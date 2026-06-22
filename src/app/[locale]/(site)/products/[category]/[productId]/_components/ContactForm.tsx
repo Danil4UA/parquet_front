@@ -14,6 +14,7 @@ import TextInputWithLabel from "@/components/Inputs/TextInputWithLabel";
 import PhoneNumberInputWithLabel from "@/components/Inputs/PhoneNumberInputWithLabel";
 import TextareaWithLabel from "@/components/Inputs/TextareaWithLabel";
 import contactServices from "@/services/contactServices";
+import useSubmitCooldown from "@/hooks/useSubmitCooldown";
 
 
 const contactSchema = z.object({
@@ -34,6 +35,7 @@ interface ContactFormProps {
 
 const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { secondsLeft, isCoolingDown, start: startCooldown } = useSubmitCooldown("consultation_cooldown", 60);
   const t = useTranslations("Contact");
 
   const form = useForm<ContactFormData>({
@@ -47,8 +49,9 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
   });
 
   const onSubmit = async (data: ContactFormData) => {
+    if (isCoolingDown) return;
     setIsSubmitting(true);
-    
+
     try {
       const payload = { ...data, formType: "consultation", productId }
       console.log("Form submitted:", payload);
@@ -56,7 +59,7 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'lead', form_name: 'consultation' });
       toast.success(`${t("form_submitted")} ${t("contact_soon")}`);
-      
+      startCooldown();
       form.reset();
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -117,7 +120,7 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
 
                   <Button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || isCoolingDown}
                     className={cn(
                       "w-full font-bold bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white border-0 rounded-md transition-all duration-300"
                     )}
@@ -126,6 +129,10 @@ const ContactForm: FC<ContactFormProps> = ({ className, productId }) => {
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         {t("sending")}
+                      </div>
+                    ) : isCoolingDown ? (
+                      <div className="flex items-center gap-2">
+                        {t("try_again_in", { seconds: secondsLeft })}
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">

@@ -6,13 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
+import useSubmitCooldown from "@/hooks/useSubmitCooldown";
 
 const ContactUsForm = ({ onSubmit }) => {
   const t = useTranslations('Contact');
   const pathname = usePathname();
   const isHebrew = pathname.split("/")[1] === "he";
   const validationSchema = contactFormSchema(t);
-  
+  const { secondsLeft, isCoolingDown, start: startCooldown } = useSubmitCooldown("contact_us_cooldown", 60);
+
   const form = useForm<ContactFormType>({
       resolver: zodResolver(validationSchema),
       defaultValues: {
@@ -25,9 +27,15 @@ const ContactUsForm = ({ onSubmit }) => {
     });
   const { handleSubmit, formState: { errors, isSubmitting } } = form;
 
+  const handleThrottledSubmit = async (data: ContactFormType) => {
+    if (isCoolingDown) return;
+    await onSubmit(data);
+    startCooldown();
+  };
+
   return (
     <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
+        <form onSubmit={handleSubmit(handleThrottledSubmit)} className="space-y-4 flex flex-col">
           {/* Honeypot: hidden from users, traps bots that auto-fill fields */}
           <input
             type="text"
@@ -72,11 +80,15 @@ const ContactUsForm = ({ onSubmit }) => {
           </div>
           
           <Button
-            type="submit" 
-            className="w-full bg-[#171717] hover:bg-[#2a2a2a] py-6" 
-            disabled={isSubmitting}
+            type="submit"
+            className="w-full bg-[#171717] hover:bg-[#2a2a2a] py-6"
+            disabled={isSubmitting || isCoolingDown}
           >
-            {isSubmitting ? t("sending") : t("send")}
+            {isSubmitting
+              ? t("sending")
+              : isCoolingDown
+                ? t("try_again_in", { seconds: secondsLeft })
+                : t("send")}
           </Button>
         </form>
       </FormProvider>

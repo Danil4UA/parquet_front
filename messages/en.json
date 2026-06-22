@@ -542,6 +542,7 @@
     "message_label": "Additional Information",
     "message_placeholder": "Room dimensions, special requirements...",
     "send_request": "Send Request",
+    "try_again_in": "Try again in {seconds}s",
     "back": "Back",
     "form_submitted": "Thank you for your request!",
     "error_occurred": "An error occurred, please try again",
