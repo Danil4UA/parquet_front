@@ -92,8 +92,9 @@ import Image from "next/image";
 import { FC, useState } from "react";
 
 const RelatedProductCard: FC<{ product: Product }> = ({ product }) => {
-  const [imgSrc, setImgSrc] = useState(product.images?.[0] || "/assets/category_flooring.jpg");
-  const [isLoading, setIsLoading] = useState(true);
+  const imgSrc = product.images?.[0];
+  const [imgFailed, setImgFailed] = useState(false);
+  const [isLoading, setIsLoading] = useState(Boolean(imgSrc));
   
   const productPriceWithDiscount = product.discount 
     ? Number(product.price) * ((100 - product.discount) / 100) 
@@ -112,16 +113,18 @@ const RelatedProductCard: FC<{ product: Product }> = ({ product }) => {
             </div>
           )}
           
-          <Image
-            fill
-            src={imgSrc}
-            alt={product.name}
-            onError={() => setImgSrc("/assets/category_flooring.jpg")}
-            onLoad={() => setIsLoading(false)}
-            className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${
-              isLoading ? "opacity-0" : "opacity-100"
-            }`}
-          />
+          {imgSrc && !imgFailed && (
+            <Image
+              fill
+              src={imgSrc}
+              alt={product.name}
+              onError={() => { setImgFailed(true); setIsLoading(false); }}
+              onLoad={() => setIsLoading(false)}
+              className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${
+                isLoading ? "opacity-0" : "opacity-100"
+              }`}
+            />
+          )}
 
           {product.discount && product.discount > 0 && (
             <div className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-red-600 text-white px-2.5 py-1 rounded-full text-xs font-bold z-20 shadow-lg">

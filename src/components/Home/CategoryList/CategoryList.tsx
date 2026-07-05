@@ -2,18 +2,11 @@ import CategoryCard from "../CategoryCard/CategoryCard";
 import { useTranslations, useLocale } from "next-intl";
 import { motion } from "framer-motion";
 import useSalesAvailable from "@/hooks/useSalesAvailable";
-import categoryFlooring from "/public/assets/category_flooring_new.jpg"
-import categoryLaminate from "/public/assets/category_laminate.jpg"
-import categorySpc from "/public/assets/category_spc.jpg"
-import categoryWood from "/public/assets/category_wood.jpg"
-import categoryCatalog from "/public/assets/category_catalog.jpg"
-import categoryPanel from "/public/assets/category_panel.jpg"
-import categorySeeling from "/public/assets/category_seeling.jpg"
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
 import useSiteContent from "@/hooks/useSiteContent";
 
 export type Category = {
-  image: string;
+  image?: string;
   path: string;
   title: string;
   description: string;
@@ -26,21 +19,11 @@ const CategoryList = () => {
   const { salesAvailable } = useSalesAvailable(locale);
   const { data: contentData } = useSiteContent();
 
-  // Admin-uploaded images (Media page) win over the bundled defaults
+  // Images are managed from the admin Media page; a card without an image
+  // renders on its dark gradient background.
   const configuredImages = contentData?.data?.category_images || {};
 
-  const defaultImages: Record<string, string> = {
-    all: categoryFlooring.src,
-    laminate: categoryLaminate.src,
-    spc: categorySpc.src,
-    wood: categoryWood.src,
-    sales: categoryCatalog.src,
-    panels: categoryPanel.src,
-    cladding: categorySeeling.src,
-    cleaning: categoryCatalog.src,
-  };
-
-  const categoryImage = (slug: string) => configuredImages[slug] || defaultImages[slug];
+  const categoryImage = (slug: string): string | undefined => configuredImages[slug];
 
   const categories: Category[] = [
     {

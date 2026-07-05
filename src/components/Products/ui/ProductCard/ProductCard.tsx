@@ -60,7 +60,7 @@ const ProductCard = ({
             fill
             alt={productName}
             quality={75}
-            onError={() => setImgSrc("/assets/category_flooring.jpg")}
+            onError={() => setIsLoading(false)}
             onLoad={() => setIsLoading(false)}
             className={cn(
               "w-full h-full object-cover transition-all duration-500 group-hover:scale-105",

@@ -71,8 +71,8 @@ const HomeHeader = () => {
 
   return (
     <div className="relative min-h-[calc(100vh-var(--navbar-height))] overflow-hidden">
-      {/* Background slides */}
-      <div className="absolute inset-0">
+      {/* Background slides (dark fallback while nothing is configured) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-800">
         {heroImages.map((image, index) => (
           <div
             key={index}
@@ -96,6 +96,8 @@ const HomeHeader = () => {
       </div>
 
       {/* Prev/Next buttons */}
+      {heroImages.length > 1 && (
+      <>
       <button
         onClick={prevSlide}
         className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full text-white bg-black/40 hover:bg-black/60 border border-white/10 transition-all duration-200"
@@ -109,6 +111,8 @@ const HomeHeader = () => {
       >
         <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
       </button>
+      </>
+      )}
 
       {/* Content */}
       <div className="relative z-10 h-full flex items-center pt-[var(--navbar-height)]">
@@ -185,6 +189,7 @@ const HomeHeader = () => {
       </div>
 
       {/* Slide dots */}
+      {heroImages.length > 1 && (
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
         {heroImages.map((_, index) => (
           <button
@@ -198,6 +203,7 @@ const HomeHeader = () => {
           />
         ))}
       </div>
+      )}
 
       {/* Scroll hint */}
       <div className="hidden lg:flex absolute bottom-6 left-8 z-20 flex-col items-center gap-2 text-white/40">

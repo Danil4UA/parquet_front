@@ -28,13 +28,15 @@ const CategoryCard = ({ category }: CategoryCardProps) => {
           "shadow-md hover:shadow-xl transition-all duration-300",
           "bg-gray-900"
         )}>
-          <Image 
-            src={category.image} 
-            fill
-            alt={category.title} 
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 320px"
-          />
+          {category.image && (
+            <Image
+              src={category.image}
+              fill
+              alt={category.title}
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 320px"
+            />
+          )}
           
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/40" />

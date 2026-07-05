@@ -5,7 +5,7 @@ import Image from "next/image";
 import { getSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Loader2, Upload, RotateCcw } from "lucide-react";
+import { Loader2, Upload, RotateCcw, ImageOff } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -13,7 +13,7 @@ import ImageUpload from "../_components/ImageUpload";
 import contentServices from "@/services/contentServices";
 import photosServices from "@/services/photosServices";
 import useSiteContent, { siteContentQueryKey } from "@/hooks/useSiteContent";
-import { CATEGORY_MEDIA_SLOTS, DEFAULT_CATEGORY_IMAGES } from "@/constants/siteMedia";
+import { CATEGORY_MEDIA_SLOTS } from "@/constants/siteMedia";
 
 const MAX_HERO_IMAGES = 10;
 
@@ -33,7 +33,6 @@ function CategoryImageCell({
   const [isBusy, setIsBusy] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const isCustom = Boolean(currentUrl);
-  const displayedUrl = currentUrl || DEFAULT_CATEGORY_IMAGES[slug];
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -60,19 +59,19 @@ function CategoryImageCell({
     <div className="rounded-lg border overflow-hidden bg-white">
       {/* Same aspect ratio as the category cards on the site */}
       <div className="relative aspect-[4/5] bg-muted">
-        {displayedUrl && (
+        {currentUrl ? (
           <Image
-            src={displayedUrl}
+            src={currentUrl}
             alt={label}
             fill
             className="object-cover"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
-        )}
-        {!isCustom && (
-          <span className="absolute left-2 top-2 rounded bg-black/60 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-white">
-            Default
-          </span>
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 text-muted-foreground">
+            <ImageOff className="size-6" />
+            <span className="text-xs">No image</span>
+          </div>
         )}
         {isBusy && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40">
@@ -88,7 +87,7 @@ function CategoryImageCell({
               variant="ghost"
               size="icon"
               className="h-7 w-7"
-              title="Reset to default"
+              title="Remove image"
               disabled={isBusy}
               onClick={handleReset}
             >
@@ -204,8 +203,8 @@ export default function MediaPage() {
           <CardTitle>Homepage hero slider</CardTitle>
           <CardDescription>
             These photos rotate in the top block of the homepage. Drag to reorder —
-            the order here is the order on the site. If the list is empty, the site
-            falls back to the built-in photos.
+            the order here is the order on the site. If the list is empty, the
+            homepage shows a plain dark background.
             <span className="mt-1 block font-medium text-foreground">
               Recommended: landscape 16:9, at least 1920×1080. The photo is cropped
               on phones, so keep the subject near the center.
@@ -227,8 +226,8 @@ export default function MediaPage() {
         <CardHeader>
           <CardTitle>Category images</CardTitle>
           <CardDescription>
-            Photos for the category cards on the homepage. &quot;Default&quot; means the
-            built-in image is used; upload your own to replace it.
+            Photos for the category cards on the homepage. A category without an
+            image shows a dark card on the site.
             <span className="mt-1 block font-medium text-foreground">
               Recommended: portrait 4:5 (e.g. 800×1000). The preview below shows
               exactly how the photo will be cropped on the site.
