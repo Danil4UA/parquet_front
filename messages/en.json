@@ -23,7 +23,6 @@
     "menu": "Menu",
     "navigation": "Navigation",
     "follow_us": "Follow Us"
-    
   },
   "Cart": {
     "cart": "Cart",
@@ -67,7 +66,7 @@
     "laminate_title": "Laminate",
     "laminate_description": "Durable and stylish laminate flooring",
     "spc_title": "SPC",
-    "spc_description": "Waterproof and scratch-resistant SPC flooring", 
+    "spc_description": "Waterproof and scratch-resistant SPC flooring",
     "wood_title": "Wood",
     "wood_description": "Natural wood flooring for a classic look",
     "sales_description": "Amazing discounts on selected products",
@@ -75,19 +74,14 @@
     "catalog_description": "Explore our complete product catalog",
     "walls_title": "Walls",
     "walls_description": "Durable and reliable walls solutions",
-
     "panels_title": "Panels",
     "panels_description": "Stylish and functional panels for interior and exterior applications",
-
     "thresholds_title": "Thresholds",
     "thresholds_description": "Durable thresholds for smooth transitions between flooring types",
-
     "cladding_title": "Cladding",
     "cladding_description": "Elegant and weather-resistant cladding for exterior walls",
-
     "cleaning_title": "Cleaning Products",
     "cleaning_description": "Specialized cleaning products for maintaining your flooring",
-    
     "VIEW": "VIEW NOW"
   },
   "Filter": {
@@ -345,18 +339,14 @@
     "service_parquet_installation_title": "Parquet Installation",
     "service_parquet_installation_desc": "Professional parquet flooring installation of any complexity with a quality guarantee.",
     "service_parquet_installation_extra": "We work with all types of parquet: solid, modular, artistic.",
-
     "service_material_calc_title": "Material Calculation",
     "service_material_calc_desc": "Accurate calculation of the required amount of materials for your project.",
     "service_material_calc_extra": "We consider the specifics of the room and the selected flooring.",
-
     "service_consultations_title": "Consultations",
     "service_consultations_desc": "Professional consultations on choosing flooring.",
-
     "service_repair_title": "Damage Repair",
     "service_repair_desc": "Restoration and repair of damaged parquet.",
     "service_repair_extra": "Removal of scratches, chips, and replacement of damaged elements.",
-
     "service_maintenance_title": "Maintenance and Care",
     "service_maintenance_desc": "Recommendations for parquet care.",
     "service_maintenance_extra": "Professional cleaning and coating renewal."
@@ -365,17 +355,14 @@
     "about_title": "About Our Company",
     "about_intro_1": "We are a supplier of parquet flooring and installation services in Israel.",
     "about_intro_2": "Our company provides customers with top-quality materials and professional service.",
-
     "about_mission_title": "Our Mission",
     "about_mission_desc_1": "To create cozy and durable flooring that delights our customers.",
     "about_mission_desc_2": "We strive to make the process of choosing and installing parquet as comfortable as possible.",
-
     "about_advantages_title": "Advantages",
     "about_advantages_1": "• Only certified high-quality materials",
     "about_advantages_2": "• A professional team with years of experience",
     "about_advantages_3": "• Warranty on all types of work",
     "about_advantages_4": "• Individual approach to each project",
-
     "about_values_title": "Our Values",
     "about_values_1": "• Quality in everything – from materials to service",
     "about_values_2": "• Honesty and transparency in working with clients",
@@ -582,5 +569,27 @@
     "orderNotFound": "Order number not found",
     "returnHomeMessage": "Please return to the home page or place a new order.",
     "totalAmount": "Total Amount"
+  },
+  "Login": {
+    "brand": "Effect Parquet",
+    "admin_panel": "Admin Panel",
+    "welcome_back": "Welcome back",
+    "subtitle": "Sign in to manage your store",
+    "email": "Email",
+    "email_placeholder": "you@example.com",
+    "password": "Password",
+    "password_placeholder": "Enter your password",
+    "show_password": "Show password",
+    "hide_password": "Hide password",
+    "sign_in": "Sign in",
+    "signing_in": "Signing in...",
+    "invalid_credentials": "Invalid email or password",
+    "server_error": "Something went wrong. Please try again.",
+    "email_required": "Please enter your email",
+    "email_invalid": "Please enter a valid email address",
+    "password_required": "Please enter your password",
+    "password_min": "Password must be at least 6 characters",
+    "brand_quote": "Premium wooden flooring for private and commercial clients",
+    "brand_quote_sub": "Manage products, orders and customers in one place"
   }
 }

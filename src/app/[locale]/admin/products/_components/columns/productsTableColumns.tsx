@@ -7,6 +7,7 @@ import {
   allowedTypes, categoryOptions, colorOptions 
 } from "@/Utils/productsUtils";
 import ProductsSelectCell from "../ProductsSelectCell";
+import ProductsAvailabilityCell from "../ProductsAvailabilityCell";
 import Image from "next/image";
 
 const createLeadsTableColumns = (): ColumnDef<Product>[] => [
@@ -50,6 +51,19 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
       />
     ),
     size: 150,
+  },
+  {
+    accessorKey: "isAvailable",
+    header: () => <ProductsHeaderCell text="In Stock" className="items-center" />,
+    cell: ({ row }) => (
+      <ProductsAvailabilityCell row={row} />
+    ),
+    size: 100,
+    minSize: 100,
+    meta: {
+      headerClass: "text-center",
+      cellClass: "flex justify-center",
+    },
   },
   {
     accessorKey: "color",
@@ -127,24 +141,6 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
       cellClass: "text-center",
     },
   },
-  // {
-  //   accessorKey: "isAvailable",
-  //   header: () => <ProductsHeaderCell text="Available" className="items-center" />,
-  //   cell: ({ row }) => (
-  //     <ProductsSelectCell
-  //       row={row}
-  //       accessorKey="isAvailable"
-  //       options={availableOptions}
-  //       size={150}
-  //     />
-  //   ),
-  //   size: 100,
-  //   minSize: 100,
-  //   meta: {
-  //     headerClass: "text-center",
-  //     cellClass: "text-center",
-  //   },
-  // },
   {
     accessorKey: "price()",
     header: () => <ProductsHeaderCell text="Price(₪)" className="items-center" />,

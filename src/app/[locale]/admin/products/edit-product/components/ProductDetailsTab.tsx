@@ -1,6 +1,7 @@
 import { Control } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { categoryOptions, colorOptions } from "@/Utils/productsUtils";
@@ -245,6 +246,30 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
             )}
           />
         </div>
+
+        <Separator className="my-6" />
+
+        <FormField
+          control={control}
+          name="isAvailable"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+              <div className="space-y-0.5">
+                <FormLabel>In Stock</FormLabel>
+                <FormDescription>
+                  Turn off to mark the product as out of stock — it stays in the
+                  catalog with an &quot;Out of Stock&quot; badge and cannot be opened.
+                </FormDescription>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
       </CardContent>
     </Card>
   );

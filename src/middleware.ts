@@ -46,15 +46,23 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(newPath, request.url));
   }
   
-  if (isProtectedRoute) {
-    const session = await getToken({ 
-      req: request, 
-      secret: process.env.NEXT_AUTH_SECRET 
+  if (isProtectedRoute || isLoginRoute) {
+    const session = await getToken({
+      req: request,
+      secret: process.env.NEXT_AUTH_SECRET
     });
-    
-    if (!session) {
-      const redirectLocale = (isLocale && adminAllowedLocales.includes(locale)) ? locale : 'en';
-      return NextResponse.redirect(new URL(`/${redirectLocale}/login`, request.url));
+
+    const redirectLocale = (isLocale && adminAllowedLocales.includes(locale)) ? locale : 'en';
+
+    if (isProtectedRoute && !session) {
+      const loginUrl = new URL(`/${redirectLocale}/login`, request.url);
+      loginUrl.searchParams.set('callbackUrl', path);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    // Already signed in — no point showing the login page
+    if (isLoginRoute && session) {
+      return NextResponse.redirect(new URL(`/${redirectLocale}/admin`, request.url));
     }
   }
   

@@ -1,8 +1,26 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { signOut, useSession } from "next-auth/react";
 import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import AdminSidebar from './_components/AdminSidebar/AdminSidebar';
+import setupAxiosAuthRefresh from "@/lib/setupAxiosAuthRefresh";
+
+setupAxiosAuthRefresh();
+
+// If the refresh token was revoked/expired, the session carries an error —
+// force a clean re-login instead of letting API calls fail with 401s.
+function SessionErrorGuard() {
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.error === "RefreshAccessTokenError") {
+      signOut({ callbackUrl: "/login" });
+    }
+  }, [session?.error]);
+
+  return null;
+}
 
 function MainContent({ children }: { children: React.ReactNode }) {
   const { state } = useSidebar();
@@ -36,6 +54,7 @@ export default function AdminLayout({
 }>) {
   return (
     <SidebarProvider>
+      <SessionErrorGuard />
       <AdminSidebar />
       <MainContent>{children}</MainContent>
     </SidebarProvider>

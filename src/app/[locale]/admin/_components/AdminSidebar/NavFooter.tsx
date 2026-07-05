@@ -8,6 +8,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import RouteConstants from "@/constants/RouteConstants";
 import useGetOwnUserInfoQuery from "@/hooks/useGetOwnUserInfoQuery";
+import userServices from "@/services/userServices";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   DropdownMenu,
@@ -32,6 +33,7 @@ export default function NavFooter() {
 
   async function handleSignOut() {
     try {
+      await userServices.revokeRefreshToken(session);
       await signOut({ redirect: false });
       queryClient.clear();
 

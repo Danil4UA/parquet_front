@@ -1,7 +1,7 @@
 import {
   ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight,
 } from "lucide-react";
-import { Button } from "@/components/ui/button"; 
+import { Button } from "@/components/ui/button";
 import { ValidPageSizes } from "@/Utils/utils";
 
 interface PaginationProps {
@@ -29,28 +29,20 @@ export default function Pagination({
   canPreviousPage,
   canNextPage,
 }: PaginationProps) {
+  const from = rowCount === 0 ? 0 : pageIndex * pageSize + 1;
+  const to = Math.min((pageIndex + 1) * pageSize, rowCount);
+
   return (
-    <div className="flex items-center justify-between px-2 pt-4">
-      <div className="flex-1 text-sm text-gray-500">
-        Showing
-        {" "}
-        {pageIndex * pageSize + 1}
-        {" "}
-        to
-        {" "}
-        {Math.min((pageIndex + 1) * pageSize, rowCount)}
-        {" "}
-        of
-        {" "}
-        {rowCount}
-        {" "}
-        results
+    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 px-2 py-1.5">
+      <div className="text-xs text-gray-500">
+        {from}–{to} of {rowCount}
       </div>
-      <div className="flex items-center space-x-6">
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-700">Rows per page:</span>
+
+      <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1.5">
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs text-gray-500 hidden sm:inline">Rows:</span>
           <select
-            className="h-8 w-16 rounded border border-gray-300 bg-white px-2 text-sm"
+            className="h-7 rounded border border-gray-300 bg-transparent px-1 text-xs"
             value={pageSize}
             onChange={(e) => setPageSize(Number(e.target.value))}
           >
@@ -61,56 +53,51 @@ export default function Pagination({
             ))}
           </select>
         </div>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8 p-0"
-            onClick={() => gotoPage(0)}
-            disabled={!canPreviousPage}
-          >
-            <ChevronsLeft className="h-4 w-4" />
-            <span className="sr-only">First page</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8 p-0"
-            onClick={() => previousPage()}
-            disabled={!canPreviousPage}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Previous page</span>
-          </Button>
-          <span className="text-sm text-gray-700">
-            Page
-            {" "}
-            {pageIndex + 1}
-            {" "}
-            of
-            {" "}
-            {pageCount}
-          </span>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8 p-0"
-            onClick={() => nextPage()}
-            disabled={!canNextPage}
-          >
-            <ChevronRight className="h-4 w-4" />
-            <span className="sr-only">Next page</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8 p-0"
-            onClick={() => gotoPage(pageCount - 1)}
-            disabled={!canNextPage}
-          >
-            <ChevronsRight className="h-4 w-4" />
-            <span className="sr-only">Last page</span>
-          </Button>
+
+        <div className="flex items-center gap-1">
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-7 w-7 p-0"
+          onClick={() => gotoPage(0)}
+          disabled={!canPreviousPage}
+        >
+          <ChevronsLeft className="h-4 w-4" />
+          <span className="sr-only">First page</span>
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-7 w-7 p-0"
+          onClick={() => previousPage()}
+          disabled={!canPreviousPage}
+        >
+          <ChevronLeft className="h-4 w-4" />
+          <span className="sr-only">Previous page</span>
+        </Button>
+        <span className="text-xs text-gray-600 whitespace-nowrap px-1">
+          {pageIndex + 1} / {Math.max(pageCount, 1)}
+        </span>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-7 w-7 p-0"
+          onClick={() => nextPage()}
+          disabled={!canNextPage}
+        >
+          <ChevronRight className="h-4 w-4" />
+          <span className="sr-only">Next page</span>
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-7 w-7 p-0"
+          onClick={() => gotoPage(pageCount - 1)}
+          disabled={!canNextPage}
+        >
+          <ChevronsRight className="h-4 w-4" />
+          <span className="sr-only">Last page</span>
+        </Button>
         </div>
       </div>
     </div>

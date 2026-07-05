@@ -20,8 +20,11 @@ const ProductInfo: FC<ProductInfoProps> = ({
 }) => {
   const dispatch = useDispatch();
   const t = useTranslations("Description");
+  const tProduct = useTranslations("Product");
+  const isAvailable = product?.isAvailable !== false;
+
   const handleAddToCart = async () => {
-    if (!product) return;
+    if (!product || !isAvailable) return;
 
     const quantity = 1;
     const newProduct = { ...product, quantity };
@@ -49,6 +52,13 @@ const ProductInfo: FC<ProductInfoProps> = ({
   return (
     <div className="product bg-white border rounded p-4 space-y-3">
         <h3 className="font-bold text-2xl text-gray-900">{product.name}</h3>
+
+        {!isAvailable && (
+          <div className="inline-flex items-center gap-2 rounded-md bg-red-50 border border-red-200 px-3 py-1.5">
+            <span className="size-2 rounded-full bg-red-500" />
+            <span className="text-sm font-medium text-red-700">{tProduct("OutOfStock")}</span>
+          </div>
+        )}
 
         <div className="space-y-2">
         <div>
@@ -93,12 +103,14 @@ const ProductInfo: FC<ProductInfoProps> = ({
         <div className="flex items-center gap-3">
           <Button
               size="lg"
+              disabled={!isAvailable}
               className={cn(
               "flex-1 font-bold text-lg bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white border-0 rounded-md transition-all duration-300",
+              !isAvailable && "from-gray-300 to-gray-300 hover:from-gray-300 hover:to-gray-300 text-gray-500 cursor-not-allowed",
               )}
               onClick={handleAddToCart}
           >
-              {t("button_add_to_cart")}
+              {isAvailable ? t("button_add_to_cart") : tProduct("OutOfStock")}
           </Button>
           <FavoriteButton
               product={product}
