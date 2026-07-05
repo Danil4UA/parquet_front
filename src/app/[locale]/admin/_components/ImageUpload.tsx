@@ -31,6 +31,9 @@ interface ImageUploadProps {
   accept?: string;
   disabled?: boolean;
   uploading?: boolean;
+  // Backend sharp preset: "hero" keeps up to 1920px for full-screen images
+  uploadPreset?: string;
+  inputId?: string;
 }
 
 export default function ImageUpload({
@@ -41,6 +44,8 @@ export default function ImageUpload({
   accept = "image/*",
   disabled = false,
   uploading = false,
+  uploadPreset,
+  inputId = "image-upload",
 }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -54,9 +59,13 @@ export default function ImageUpload({
       const freshSession = await getSession();
       const formData = new FormData();
       formData.append('photo', file);
-      
+
       if (productId) {
         formData.append('productId', productId);
+      }
+
+      if (uploadPreset) {
+        formData.append('preset', uploadPreset);
       }
 
       const response = await photosServices.uploadSinglePhoto(freshSession, formData);
@@ -80,8 +89,14 @@ export default function ImageUpload({
       files.forEach(file => {
         formData.append('photos', file);
       });
-  
-      formData.append('productId', productId);
+
+      if (productId) {
+        formData.append('productId', productId);
+      }
+
+      if (uploadPreset) {
+        formData.append('preset', uploadPreset);
+      }
 
       const response = await photosServices.uploadMultiplePhoto(freshSession, formData);
       
@@ -199,7 +214,7 @@ export default function ImageUpload({
         )}>
           <input
             type="file"
-            id="image-upload"
+            id={inputId}
             multiple
             accept={accept}
             onChange={handleUpload}
@@ -207,7 +222,7 @@ export default function ImageUpload({
             className="hidden"
           />
           <label
-            htmlFor="image-upload"
+            htmlFor={inputId}
             className="cursor-pointer flex flex-col items-center justify-center w-full h-full"
           >
             {isProcessing ? (

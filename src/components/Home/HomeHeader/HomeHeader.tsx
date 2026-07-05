@@ -5,17 +5,9 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight, Contact } from "lucide-react";
-import homeBackGround from "../../../../public/assets/home_background.jpg";
-import homeBackGround_2 from "../../../../public/assets/home_background_2.jpg";
-import homeBackGround_3 from "../../../../public/assets/main_1.jpg";
 import RouteConstants from "@/constants/RouteConstants";
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
-
-const heroImages = [
-  homeBackGround_2.src,
-  homeBackGround.src,
-  homeBackGround_3.src,
-];
+import useSiteContent from "@/hooks/useSiteContent";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -31,16 +23,28 @@ const HomeHeader = () => {
   const lng = pathname.split("/")[1];
   const isHebrew = lng === "he";
 
+  // Hero photos are managed from the admin Media page; with none configured
+  // the header falls back to a plain dark background.
+  const { data: contentData } = useSiteContent();
+  const heroImages = contentData?.data?.hero_slider || [];
+  const hasSlides = heroImages.length > 0;
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (hasSlides && currentSlide >= heroImages.length) {
+      setCurrentSlide(0);
+    }
+  }, [hasSlides, heroImages.length, currentSlide]);
+
+  useEffect(() => {
+    if (!isAutoPlaying || !hasSlides) return;
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, hasSlides, heroImages.length]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) =>

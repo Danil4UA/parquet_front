@@ -10,6 +10,7 @@ import categoryCatalog from "/public/assets/category_catalog.jpg"
 import categoryPanel from "/public/assets/category_panel.jpg"
 import categorySeeling from "/public/assets/category_seeling.jpg"
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
+import useSiteContent from "@/hooks/useSiteContent";
 
 export type Category = {
   image: string;
@@ -23,52 +24,69 @@ const CategoryList = () => {
   const locale = useLocale();
   const { isMobile } = useIsMobileDebounce();
   const { salesAvailable } = useSalesAvailable(locale);
+  const { data: contentData } = useSiteContent();
+
+  // Admin-uploaded images (Media page) win over the bundled defaults
+  const configuredImages = contentData?.data?.category_images || {};
+
+  const defaultImages: Record<string, string> = {
+    all: categoryFlooring.src,
+    laminate: categoryLaminate.src,
+    spc: categorySpc.src,
+    wood: categoryWood.src,
+    sales: categoryCatalog.src,
+    panels: categoryPanel.src,
+    cladding: categorySeeling.src,
+    cleaning: categoryCatalog.src,
+  };
+
+  const categoryImage = (slug: string) => configuredImages[slug] || defaultImages[slug];
 
   const categories: Category[] = [
     {
-      image: categoryFlooring.src,
+      image: categoryImage("all"),
       path: "/products/all",
       title: t("catalog_title"),
       description: t("catalog_description")
     },
     {
-      image: categoryLaminate.src,
+      image: categoryImage("laminate"),
       path: "/products/laminate",
       title: t("laminate_title"),
       description: t("laminate_description")
     },
     {
-      image: categorySpc.src,
+      image: categoryImage("spc"),
       path: "/products/spc",
       title: t("spc_title"),
       description: t("spc_description")
     },
     {
-      image: categoryWood.src,
+      image: categoryImage("wood"),
       path: "/products/wood",
       title: t("wood_title"),
       description: t("wood_description")
     },
     {
-      image: categoryCatalog.src,
+      image: categoryImage("sales"),
       path: "/products/sales",
       title: t("sales_title"),
       description: t("sales_description")
     },
     {
-      image: categoryPanel.src,
+      image: categoryImage("panels"),
       path: "/products/panels",
       title: t("panels_title"),
       description: t("panels_description")
     },
     {
-      image: categorySeeling.src,
+      image: categoryImage("cladding"),
       path: "/products/cladding",
       title: t("cladding_title"),
       description: t("cladding_description")
     },
     {
-      image: categoryCatalog.src,
+      image: categoryImage("cleaning"),
       path: "/products/cleaning",
       title: t("cleaning_title"),
       description: t("cleaning_description")

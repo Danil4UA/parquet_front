@@ -10,6 +10,7 @@ import { selectTotalItems, setCollapsedСart } from "../Cart/model/slice/cartSli
 import { selectTotalFavorites } from "../Favorites/model/slice/favoritesSlice";
 import RouteConstants from "@/constants/RouteConstants";
 import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import logoPhoto from "@/app/logo_transparent.png";
 import Search from "../Search/Search";
@@ -62,6 +63,7 @@ const useScrollDirection = () => {
 export const Navbar = () => {
   const [collapsedSidebar, setCollapsedSidebar] = useState(true);
   const [openSearch, setOpenSearch] = useState(false);
+  const t = useTranslations("HomePage");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _scrollDirection = useScrollDirection();
@@ -75,36 +77,39 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="Navbar fixed top-0 left-0 w-full h-[var(--navbar-height)] bg-[#171717] flex items-center justify-between px-4 sm:px-8 lg:px-16 text-white transition-transform duration-300 ease-in-out z-[100]">
-      <div className="flex items-center gap-5 z-10">
+    <div className="Navbar fixed top-0 left-0 w-full h-[var(--navbar-height)] bg-[#171717] flex items-center justify-between px-2 sm:px-8 lg:px-16 text-white transition-transform duration-300 ease-in-out z-[100]">
+      <div className="flex items-center gap-2 md:gap-5 z-10">
         <button
-          className="flex items-center justify-center w-9 h-9 text-white cursor-pointer"
+          className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 text-white cursor-pointer"
           onClick={() => setCollapsedSidebar(prev => !prev)}
         >
-          <Menu size={32} />
+          <Menu className="w-6 h-6 md:w-8 md:h-8" />
         </button>
         <LangSwitcher />
       </div>
 
       <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
-        <Link href="/">
-          <Image src={logoPhoto} alt="logo" width={48} height={48} />
+        <Link href="/" className="flex flex-col items-center">
+          <Image src={logoPhoto} alt="logo" width={48} height={48} className="w-12 h-12" />
+          <span className="text-white text-[11px] md:text-sm font-medium tracking-[0.15em] md:tracking-[0.25em] leading-none whitespace-nowrap uppercase -mt-1">
+            {t("effect_parquet")}
+          </span>
         </Link>
       </div>
 
-      <div className="flex items-center gap-5 z-10">
+      <div className="flex items-center gap-2 md:gap-5 z-10">
         <button
-          className="flex items-center justify-center w-9 h-9 text-white cursor-pointer"
+          className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 text-white cursor-pointer"
           onClick={() => setOpenSearch(prev => !prev)}
         >
-          <SearchIcon size={32} />
+          <SearchIcon className="w-6 h-6 md:w-8 md:h-8" />
         </button>
         <Link
           href={RouteConstants.FAVORITES_PAGE}
-          className="relative flex items-center justify-center w-9 h-9 text-white cursor-pointer"
+          className="relative flex items-center justify-center w-8 h-8 md:w-9 md:h-9 text-white cursor-pointer"
           aria-label="Favorites"
         >
-          <Heart size={30} />
+          <Heart className="w-6 h-6 md:w-[30px] md:h-[30px]" />
           {favoritesCount > 0 && (
             <span className="absolute -top-1 -right-2.5 bg-red-500 text-white text-[10px] min-w-4 h-4 rounded-full flex items-center justify-center px-1">
               {favoritesCount}
@@ -112,10 +117,10 @@ export const Navbar = () => {
           )}
         </Link>
         <button
-          className="relative flex items-center justify-center w-9 h-9 text-white cursor-pointer"
+          className="relative flex items-center justify-center w-8 h-8 md:w-9 md:h-9 text-white cursor-pointer"
           onClick={onToggleCart}
         >
-          <ShoppingCart size={32} />
+          <ShoppingCart className="w-6 h-6 md:w-8 md:h-8" />
           {cartItems > 0 && (
             <span className="absolute -top-1 -right-2.5 bg-red-500 text-white text-[10px] min-w-4 h-4 rounded-full flex items-center justify-center px-1">
               {cartItems}
