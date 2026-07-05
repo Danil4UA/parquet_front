@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import logoWhite from "@/app/logo_transparent.png";
 import { motion } from "framer-motion";
 import {
   Mail,
@@ -66,9 +68,13 @@ const Footer = () => {
             viewport={{ once: true, margin: "-50px" }}
             className="sm:col-span-2 lg:col-span-2"
           >
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
-              {t("made_by")}
-            </h2>
+            {/* The logo PNG has transparent padding, so nudge the pair left to look optically centered */}
+            <div className="flex items-center gap-3 justify-center sm:justify-start -translate-x-2.5 sm:translate-x-0">
+              <Image src={logoWhite} alt="" width={56} height={56} />
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+                {t("made_by")}
+              </h2>
+            </div>
           </motion.div>
 
           {/* Quick links */}

@@ -14,7 +14,11 @@ const staggerContainer = {
   visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
 };
 
-const HomeMain = () => {
+interface HomeMainProps {
+  categoryImages?: Record<string, string>;
+}
+
+const HomeMain = ({ categoryImages = {} }: HomeMainProps) => {
   const t = useTranslations("HomePage");
   const pathname = usePathname();
   const { isMobile } = useIsMobileDebounce();
@@ -71,7 +75,7 @@ const HomeMain = () => {
             ease: "easeOut"
           }}
         >
-          <CategoryList />
+          <CategoryList categoryImages={categoryImages} />
         </motion.div>
       </div>
     </div>

@@ -30,7 +30,7 @@ const ProductCard = ({
 
   const productPriceWithDiscount = discount ? Number(productPrice) * ((100 - discount) / 100) : Number(productPrice);
   const hasSecondImage = images.length > 1 && Boolean(images[1]);
-  const [imgSrc, setImgSrc] = useState(images[0]);
+  const [imgSrc] = useState(images[0]);
   const [secondImgSrc, setSecondImgSrc] = useState(images[1]);
   const [isLoading, setIsLoading] = useState(true);
   const [secondLoaded, setSecondLoaded] = useState(false);

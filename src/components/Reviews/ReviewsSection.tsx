@@ -28,16 +28,6 @@ const desktopFadeInVariants = {
   visible: { opacity: 1, y: 0 }
 };
 
-const mobileCardVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 }
-};
-
-const desktopCardVariants = {
-  hidden: { opacity: 0, scale: 0.95, y: 20 },
-  visible: { opacity: 1, scale: 1, y: 0 }
-};
-
 export default function ReviewsSection({ reviewsData }: IReviewsSection) {
   const t = useTranslations("HomePage");
   const { isMobile } = useIsMobileDebounce();
@@ -59,19 +49,17 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
     window.open(Utils.moreReviewsLink, "_blank")
   }
 
-  const averageRating = reviews.length > 0 
-    ? (reviews.reduce((acc: number, review: Review) => acc + review.rating, 0) / reviews.length).toFixed(1)
-    : "5.0";
-    
+  const averageRating = "4.9";
+
+
   const currentFadeVariants = isMobile ? fadeInVariants : desktopFadeInVariants;
-  const currentCardVariants = isMobile ? mobileCardVariants : desktopCardVariants;
   return (
-    <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-4 sm:py-16 overflow-hidden" dir={"ltr"}>
+    <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-10 sm:py-16 overflow-hidden" dir={"ltr"}>
       {!isMobile && (
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-32 right-32 w-48 h-48 bg-blue-500 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-32 right-32 w-48 h-48 bg-amber-500 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-orange-800 rounded-full blur-3xl"></div>
         </div>
       )}
 
@@ -101,68 +89,16 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
           </h2>
         </motion.div>
         
-        {/* Mobile View */}
-        <div className="block md:hidden">
-          <div className="space-y-6">
-            {reviews.slice(0, 5).map((review: Review, index: number) => (
-              <motion.div 
-                key={`mobile-${review.author_name}-${index}`}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                variants={currentCardVariants}
-                transition={{ 
-                  duration: 0.2, 
-                  delay: index * 0.02,
-                  ease: "easeOut"
-                }}
-              >
-                <ReviewCard review={review} />
-              </motion.div>
-            ))}
-
-            {total_reviews > 4 && (
-              <motion.div 
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={currentFadeVariants}
-                transition={{ 
-                  duration: 0.2, 
-                  delay: 0.1,
-                  ease: "easeOut"
-                }}
-                className="text-center"
-              >
-                <Button 
-                  onClick={handleMoreReviewsClick}
-                  className={`group px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 border border-gray-600 ${
-                    isMobile
-                      ? "bg-gray-800 hover:bg-gray-700"
-                      : "bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 hover:scale-105 hover:shadow-2xl hover:shadow-gray-900/50"
-                  }`}
-                >
-                  <span className="flex items-center gap-2">
-                    {t("get_more_reviews")}
-                    <ArrowRight className={`w-5 h-5 transition-transform ${!isMobile ? 'group-hover:translate-x-1' : ''}`} />
-                  </span>
-                </Button>
-              </motion.div>
-            )}
-          </div>
-        </div>
-        
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={currentFadeVariants}
-          transition={{ 
-            duration: isMobile ? 0.3 : 0.8, 
+          transition={{
+            duration: isMobile ? 0.3 : 0.8,
             delay: isMobile ? 0.1 : 0.2,
             ease: "easeOut"
           }}
-          className="hidden md:block"
         >
           <div className="relative">
             <Carousel
@@ -173,15 +109,15 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
               opts={{
                 align: "center",
                 loop: true,
-                dragFree: true,
+                dragFree: !isMobile,
                 containScroll: "trimSnaps"
               }}
             >
-              <CarouselContent className="-ml-2 md:-ml-4 lg:-ml-6">
+              <CarouselContent className="-ml-3 md:-ml-4 lg:-ml-6">
                 {reviews.map((review: Review, index: number) => (
                   <CarouselItem
-                    key={`desktop-${review.author_name}-${index}`}
-                    className="pl-2 md:pl-4 lg:pl-6 md:basis-1/2 lg:basis-1/3 min-h-0"
+                    key={`review-${review.author_name}-${index}`}
+                    className="pl-3 md:pl-4 lg:pl-6 basis-[88%] sm:basis-1/2 lg:basis-1/3 min-h-0"
                   >
                     <div className="h-full">
                       <ReviewCard review={review} />
@@ -189,24 +125,13 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              
-              <CarouselPrevious className="left-4 xl:left-6 bg-gray-900/40 backdrop-blur-md border-gray-700/50 text-white hover:bg-gray-800/60 transition-all duration-300" />
-              <CarouselNext className="right-4 xl:right-6 bg-gray-900/40 backdrop-blur-md border-gray-700/50 text-white hover:bg-gray-800/60 transition-all duration-300" />
+
+              <CarouselPrevious className="hidden md:inline-flex left-4 xl:left-6 bg-gray-900/40 backdrop-blur-md border-gray-700/50 text-white hover:bg-gray-800/60 transition-all duration-300" />
+              <CarouselNext className="hidden md:inline-flex right-4 xl:right-6 bg-gray-900/40 backdrop-blur-md border-gray-700/50 text-white hover:bg-gray-800/60 transition-all duration-300" />
             </Carousel>
 
             {total_reviews > reviews.length && (
-              <motion.div 
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={currentFadeVariants}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: 0.4,
-                  ease: "easeOut"
-                }}
-                className="text-center mt-12"
-              >
+              <div className="text-center mt-8 sm:mt-12">
                 <Button 
                   onClick={handleMoreReviewsClick}
                   className="group px-8 py-4 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gray-900/50 border border-gray-600"
@@ -216,7 +141,7 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
-              </motion.div>
+              </div>
             )}
           </div>
         </motion.div>

@@ -3,7 +3,6 @@ import { useTranslations, useLocale } from "next-intl";
 import { motion } from "framer-motion";
 import useSalesAvailable from "@/hooks/useSalesAvailable";
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
-import useSiteContent from "@/hooks/useSiteContent";
 
 export type Category = {
   image?: string;
@@ -12,18 +11,19 @@ export type Category = {
   description: string;
 };
 
-const CategoryList = () => {
+interface CategoryListProps {
+  categoryImages?: Record<string, string>;
+}
+
+const CategoryList = ({ categoryImages = {} }: CategoryListProps) => {
   const t = useTranslations("Categories");
   const locale = useLocale();
   const { isMobile } = useIsMobileDebounce();
   const { salesAvailable } = useSalesAvailable(locale);
-  const { data: contentData } = useSiteContent();
 
   // Images are managed from the admin Media page; a card without an image
   // renders on its dark gradient background.
-  const configuredImages = contentData?.data?.category_images || {};
-
-  const categoryImage = (slug: string): string | undefined => configuredImages[slug];
+  const categoryImage = (slug: string): string | undefined => categoryImages[slug];
 
   const categories: Category[] = [
     {

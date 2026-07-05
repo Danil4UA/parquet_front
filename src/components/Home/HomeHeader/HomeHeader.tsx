@@ -7,14 +7,17 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight, Contact } from "lucide-react";
 import RouteConstants from "@/constants/RouteConstants";
 import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
-import useSiteContent from "@/hooks/useSiteContent";
+
+interface HomeHeaderProps {
+  heroImages?: string[];
+}
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 }
 };
 
-const HomeHeader = () => {
+const HomeHeader = ({ heroImages = [] }: HomeHeaderProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations("HomePage");
@@ -25,8 +28,6 @@ const HomeHeader = () => {
 
   // Hero photos are managed from the admin Media page; with none configured
   // the header falls back to a plain dark background.
-  const { data: contentData } = useSiteContent();
-  const heroImages = contentData?.data?.hero_slider || [];
   const hasSlides = heroImages.length > 0;
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -98,25 +99,28 @@ const HomeHeader = () => {
       {/* Prev/Next buttons */}
       {heroImages.length > 1 && (
       <>
+      {/* On phones the arrows sit at the bottom next to the dots so they never overlap the text */}
       <button
         onClick={prevSlide}
-        className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full text-white bg-black/40 hover:bg-black/60 border border-white/10 transition-all duration-200"
+        aria-label="Previous slide"
+        className="absolute left-4 sm:left-6 bottom-4 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 z-20 p-3 rounded-full text-white bg-black/40 hover:bg-black/60 border border-white/10 transition-all duration-200"
       >
-        <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+        <ChevronLeft className="w-5 h-5" />
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full text-white bg-black/40 hover:bg-black/60 border border-white/10 transition-all duration-200"
+        aria-label="Next slide"
+        className="absolute right-4 sm:right-6 bottom-4 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 z-20 p-3 rounded-full text-white bg-black/40 hover:bg-black/60 border border-white/10 transition-all duration-200"
       >
-        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+        <ChevronRight className="w-5 h-5" />
       </button>
       </>
       )}
 
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center pt-[var(--navbar-height)]">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div className="relative z-10 h-full flex items-start sm:items-center pt-[var(--navbar-height)]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 sm:py-20">
           <div className="max-w-3xl">
             <motion.h1
               initial="hidden"
@@ -151,7 +155,7 @@ const HomeHeader = () => {
             >
               <button
                 onClick={() => router.push(`/${lng}/${RouteConstants.ALL_PRODUCTS_PAGE}`)}
-                className="group flex items-center justify-center gap-2 px-6 py-3 sm:py-3.5 bg-stone-700/80 border border-stone-500/50 text-white font-semibold rounded-xl text-sm sm:text-base hover:bg-stone-600/90 hover:border-stone-400/60 transition-all duration-200"
+                className="group flex items-center justify-center gap-2 px-6 py-3 sm:py-3.5 bg-white text-gray-900 font-semibold rounded-xl text-sm sm:text-base shadow-lg shadow-black/20 hover:bg-gray-100 hover:shadow-xl transition-all duration-200"
               >
                 {t("view_products")}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -195,6 +199,7 @@ const HomeHeader = () => {
           <button
             key={index}
             onClick={() => goToSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
             className={`rounded-full transition-all duration-300 ${
               index === currentSlide
                 ? "w-6 h-2 bg-white"
@@ -205,11 +210,6 @@ const HomeHeader = () => {
       </div>
       )}
 
-      {/* Scroll hint */}
-      <div className="hidden lg:flex absolute bottom-6 left-8 z-20 flex-col items-center gap-2 text-white/40">
-        <span className="text-xs transform -rotate-90 origin-center whitespace-nowrap">{t("scroll_down")}</span>
-        <div className="w-px h-10 bg-gradient-to-b from-white/40 to-transparent" />
-      </div>
     </div>
   );
 };

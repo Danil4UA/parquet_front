@@ -32,9 +32,9 @@ export default function ReviewCard({ review }: { review: Review }) {
 
       <div className="relative z-10">
         {/* Header with user info and Google logo */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+        <div className="flex items-center justify-between gap-2 mb-4">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="w-12 h-12 shrink-0 bg-gray-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
               {getInitials(review.author_name)}
             </div>
             <div className="min-w-0 flex-1">
