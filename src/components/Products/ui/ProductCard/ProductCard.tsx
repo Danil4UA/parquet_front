@@ -38,15 +38,13 @@ const ProductCard = ({
   return (
     <div className={cn(
       "relative w-full bg-white rounded-lg overflow-hidden transition-all duration-300 ease-in-out group",
-      !isAvailable && "opacity-80",
       className,
       []
     )}>
       <FavoriteButton product={product} className="absolute top-2 left-2 z-30" />
       <Link
-        href={!isAvailable ? "#" : `/products/${category}/${productId}`}
+        href={`/products/${category}/${productId}`}
         className="block overflow-hidden"
-        onClick={(e) => !isAvailable && e.preventDefault()}
       >
         <div className="relative aspect-square w-full bg-gray-100 overflow-hidden rounded-lg">
           {isLoading && (
@@ -95,8 +93,8 @@ const ProductCard = ({
           )}
 
           {!isAvailable && (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-20 transition-all duration-300 group-hover:bg-black/60">
-              <span className="text-white text-lg font-semibold bg-black/70 px-4 py-2 rounded transition-transform duration-300 group-hover:-translate-y-1">
+            <div className="absolute inset-0 bg-black/15 flex items-center justify-center z-20 transition-all duration-300 group-hover:bg-black/25">
+              <span className="text-white text-lg font-semibold bg-black/60 px-4 py-2 rounded transition-transform duration-300 group-hover:-translate-y-1">
                 {t("OutOfStock")}
               </span>
             </div>

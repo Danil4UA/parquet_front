@@ -58,6 +58,8 @@ const Gallery = ({ images }: GalleryProps) => {
   };
 
   const openLightbox = (index: number) => {
+    // On touch devices (phones/tablets) a tap should not open the lightbox
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
     setLightboxIndex(index);
     setZoomOrigin(null);
     setLightboxOpen(true);

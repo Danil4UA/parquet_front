@@ -133,8 +133,8 @@ const RelatedProductCard: FC<{ product: Product }> = ({ product }) => {
           )}
 
           {!product.isAvailable && (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-20 backdrop-blur-sm">
-              <span className="text-white text-sm font-bold bg-gray-900/80 px-4 py-2 rounded-full border border-white/20">
+            <div className="absolute inset-0 bg-black/15 flex items-center justify-center z-20">
+              <span className="text-white text-sm font-bold bg-gray-900/70 px-4 py-2 rounded-full border border-white/20">
                 Out Of Stock
               </span>
             </div>
