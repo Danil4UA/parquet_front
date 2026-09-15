@@ -1,7 +1,8 @@
-import React from 'react';
-import Image from 'next/image';
-import { Link } from '@/i18n/routing';
-import { Product } from '@/types/products';
+import React from "react";
+import Image from "next/image";
+import { Link } from "@/i18n/routing";
+import { Product } from "@/types/products";
+import { calculateDiscountedPrice, formatPrice } from "@/Utils/productsUtils";
 
 interface SearchResultItemProps {
   product: Product;
@@ -9,54 +10,25 @@ interface SearchResultItemProps {
 }
 
 const SearchResultItem: React.FC<SearchResultItemProps> = ({ product, onClose }) => {
-  const calculateDiscountedPrice = (price: number, discount?: number) => {
-    if (!discount) return price;
-    return price - (price * discount / 100);
-  };
-
-  const productPriceWithDiscount = calculateDiscountedPrice(
-    Number(product.price), 
-    product.discount
-  );
+  const price = calculateDiscountedPrice(product);
 
   return (
     <Link
-      href={`/products/all/${product._id}`}
+      href={`/products/${product.category}/${product._id}`}
       onClick={onClose}
-      className="search-result-link"
+      className="flex gap-3 rounded-xl border border-[#E5E5E5] p-3 transition-colors hover:bg-[#F5F5F4]"
     >
-      <div className="search-result-item">
-        <div className="search-result-image">
-          <Image 
-            src={product.images[0]} 
-            alt={product.name} 
-            width={80} 
-            height={80} 
-          />
+      <div className="relative size-[72px] shrink-0 overflow-hidden rounded-lg bg-[#F5F5F4]">
+        {product.images?.[0] && <Image src={product.images[0]} alt={product.name} fill sizes="72px" className="object-cover" />}
+      </div>
+      <div className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
+        <div>
+          <p className="line-clamp-2 text-sm font-medium leading-snug text-[#171717]">{product.name}</p>
+          {product.model && <p className="mt-0.5 text-xs text-[#6B6B6B]">{product.model}</p>}
         </div>
-        <div className="search-result-info">
-          <p className="search-result-title">{product.name}</p>
-          <p className="search-result-text">{product.model}</p>
-
-          <div className="search-result-price">
-            {product.discount ? (
-              <div className="product-price__container">
-                <span className="product-price__discount">
-                  <span className="product-price__currency">₪</span>
-                  {productPriceWithDiscount.toFixed(0)}
-                </span>
-                <span className="product-price__old">
-                  <span className="product-price__currency">₪</span>
-                  {product.price}
-                </span>
-              </div>
-            ) : (
-              <span className="product-price__current">
-                <span className="product-price__currency">₪</span>
-                {product.price}
-              </span>
-            )}
-          </div>
+        <div className="flex items-baseline gap-2 tabular-nums">
+          <span className={`text-sm font-bold ${product.discount ? "text-[#B3261E]" : "text-[#171717]"}`}>{formatPrice(price)}</span>
+          {product.discount ? <span className="text-xs text-[#8A8A8A] line-through">{formatPrice(Number(product.price))}</span> : null}
         </div>
       </div>
     </Link>

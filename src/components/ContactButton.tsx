@@ -13,6 +13,8 @@ const ContactButton = () => {
   const t = useTranslations("Footer");
 
   const isHebrew = pathname.split("/")[1] === "he";
+  // Product pages carry their own sticky buy bar with a WhatsApp shortcut on phones.
+  const isProductPage = /^\/[a-z]{2}\/products\/[^/]+\/[^/]+$/.test(pathname);
   
   const contacts = [
     {
@@ -43,6 +45,7 @@ const ContactButton = () => {
         "fixed bottom-4 z-50",
         isHebrew ? "right-4 sm:right-4" : "left-4 sm:left-4",
         "sm:bottom-4",
+        isProductPage && "hidden lg:block",
     )}>
         {isOpen && (
         <div 
@@ -97,8 +100,8 @@ const ContactButton = () => {
                 flex items-center justify-center text-white
                 transition-all duration-300 ease-out
                 ${isOpen 
-                    ? 'bg-gray-700 hover:bg-gray-800 rotate-45' 
-                    : 'bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 hover:shadow-2xl hover:scale-105'
+                    ? 'bg-[#2A2A2A] hover:bg-[#171717] rotate-45' 
+                    : 'bg-[#171717] ring-1 ring-white/25 hover:bg-[#2A2A2A] hover:shadow-2xl hover:scale-105'
                 }
             `}
             aria-label={isOpen ? 'Close Contacts' : 'Open Contacts'}

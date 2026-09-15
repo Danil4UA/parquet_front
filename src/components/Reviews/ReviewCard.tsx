@@ -73,7 +73,7 @@ export default function ReviewCard({ review }: { review: Review }) {
         {/* Translation notice */}
         {review.translated && (
           <div className="flex items-center gap-2 text-xs text-gray-500 italic bg-gray-700/30 px-3 py-2 rounded-lg border border-gray-600/30">
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-white/60 rounded-full"></div>
             <span>{t("translated_automatically")}</span>
           </div>
         )}

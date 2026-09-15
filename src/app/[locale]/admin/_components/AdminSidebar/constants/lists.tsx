@@ -4,6 +4,7 @@ import {
   House,
   Images,
   Sparkles,
+  Camera,
 } from "lucide-react";
 
 export const mainList = [
@@ -36,5 +37,11 @@ export const mainList = [
     name: "Media",
     icon: Images,
     route: RouteConstants.ADMIN_MEDIA,
+  },
+  {
+    id: "main-6",
+    name: "Visualizer",
+    icon: Camera,
+    route: RouteConstants.ADMIN_VISUALIZER,
   },
 ];

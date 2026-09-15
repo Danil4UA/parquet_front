@@ -9,9 +9,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Globe } from "lucide-react";
 
-export const LangSwitcher = () => {
+interface LangSwitcherProps {
+  /** "dark" renders dark text for light surfaces (e.g. inside the sidebar). */
+  tone?: "light" | "dark";
+  /** Icon-only trigger (globe + current code) for narrow bars. */
+  compact?: boolean;
+}
+
+export const LangSwitcher = ({ tone = "light", compact = false }: LangSwitcherProps) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isMobile, setIsMobile] = useState(false);
@@ -46,9 +53,27 @@ export const LangSwitcher = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-1 text-white text-sm font-medium hover:text-white/80 transition-colors outline-none">
-          <span>{isMobile ? currentLanguage?.abbr : currentLanguage?.label}</span>
-          <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+        <button
+          aria-label={currentLanguage?.label}
+          className={
+            compact
+              ? "flex h-11 items-center gap-1 rounded-lg px-2 text-white transition-colors hover:bg-white/10 outline-none"
+              : tone === "dark"
+                ? "flex h-10 items-center gap-1 rounded-lg px-2 text-sm font-medium text-[#171717] transition-colors hover:bg-[#F5F5F4] outline-none"
+                : "flex h-10 items-center gap-1 text-sm font-medium text-white transition-colors hover:text-white/80 outline-none"
+          }
+        >
+          {compact ? (
+            <>
+              <Globe className="size-6" strokeWidth={1.75} />
+              <span className="text-[11px] font-semibold uppercase leading-none">{currentLanguage?.abbr}</span>
+            </>
+          ) : (
+            <>
+              <span>{isMobile ? currentLanguage?.abbr : currentLanguage?.label}</span>
+              <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+            </>
+          )}
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align={currentLocale === "he" ? "end" : "start"} className="z-[200]">

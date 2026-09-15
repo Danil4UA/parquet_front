@@ -1,120 +1,106 @@
 "use client";
 
-import { FC } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { FC, useCallback, useEffect, useState } from "react";
+import { useParams, usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
 import Utils from "@/Utils/utils";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import ErrorState from "@/components/ErrorState";
+import { useProductData } from "@/hooks/useProductDataReturn";
+import { calculateDiscountedPrice, createAddToCartEvent } from "@/Utils/productsUtils";
+import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
+import { trackAddToCart } from "@/lib/fbPixel";
+import Breadcrumbs from "./_components/Breadcrumbs";
 import ProductGallery from "./_components/ProductGallery";
-import ProductInfo from "./_components/ProductInfo";
+import ProductBuyBox from "./_components/ProductBuyBox";
 import ProductSpecifications from "./_components/ProductSpecifications";
 import ProductDescription from "./_components/ProductDescription";
 import DeliveryInfo from "./_components/DeliveryInfo";
+import SimilarProductsRail from "./_components/SimilarProductsRail";
 import RelatedProductsSection from "./_components/RelatedProductsSection";
-import ErrorState from "@/components/ErrorState";
-import { useProductData } from "@/hooks/useProductDataReturn";
-import { calculateDiscountedPrice } from "@/Utils/productsUtils";
-import ContactForm from "./_components/ContactForm";
-import Benefits from "./_components/Benefits";
-import InstallationServiceCTA from "./_components/InstallationServiceCTA";
+import InstallationSection from "./_components/InstallationSection";
+import StickyBuyBar from "./_components/StickyBuyBar";
+import RoomVisualizerSheet, { VisualizerStatus } from "./_components/RoomVisualizerSheet";
+import ProductPageSkeleton from "./_components/ProductPageSkeleton";
+import { isFlooring } from "./_components/productPageUtils";
 
 const ProductPage: FC = () => {
-  const router = useRouter();
   const pathname = usePathname();
   const language = pathname.split("/")[1];
   const { productId } = useParams<{ productId: string }>();
-  
-  const { product, isLoading, error } = useProductData({ 
-    productId, 
-    language 
-  });
+  const dispatch = useDispatch();
+
+  const { product, isLoading, error } = useProductData({ productId, language });
+
+  // Callback ref: the observer is (re)attached exactly when the buy button mounts.
+  const [ctaNode, setCtaNode] = useState<HTMLDivElement | null>(null);
+  const [ctaOutOfView, setCtaOutOfView] = useState(false);
+  const [visualizerOpen, setVisualizerOpen] = useState(false);
+  const [visualizerStatus, setVisualizerStatus] = useState<VisualizerStatus>("idle");
+
+  useEffect(() => {
+    if (!ctaNode) return;
+    // The root is extended far below the viewport, so the button "intersects" while it is
+    // on-screen or below, and stops intersecting only once it scrolls above the top edge.
+    // This fires reliably even when a fast scroll jumps straight past the button.
+    const observer = new IntersectionObserver(
+      ([entry]) => setCtaOutOfView(!entry.isIntersecting),
+      { rootMargin: "0px 0px 100000px 0px", threshold: 0 }
+    );
+    observer.observe(ctaNode);
+    return () => observer.disconnect();
+  }, [ctaNode]);
 
   const productPriceWithDiscount = product ? calculateDiscountedPrice(product) : 0;
-  const productSchema = product ? Utils.generateProductSchema(product, productPriceWithDiscount) : null;
 
-  if (isLoading) {
-    return (
-      <section className="bg-gray-50 w-full flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <LoadingSpinner />
-        </div>
-      </section>
-    );
-  }
+  const quickAddToCart = useCallback(() => {
+    if (!product || product.isAvailable === false) return;
+    const quantity = isFlooring(product.category) && product.boxCoverage ? Number(product.boxCoverage) : 1;
+    dispatch(addToCart({ ...product, quantity }));
+    dispatch(setCollapsedСart(false));
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push(createAddToCartEvent(product, quantity));
+    trackAddToCart(product._id, Number(product.price), quantity);
+  }, [dispatch, product]);
 
-  if (error || !product) {
-    return <ErrorState error={error} />;
-  }
+  if (isLoading) return <ProductPageSkeleton />;
+  if (error || !product) return <ErrorState error={error} />;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
-
-   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-      }
-    }
-  };
+  const productSchema = Utils.generateProductSchema(product, productPriceWithDiscount);
 
   return (
     <>
       {productSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(productSchema)
-          }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
       )}
-      
-      <div className="min-h-screen bg-gray-50 w-full flex items-center justify-center">
-        <motion.section 
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-          className="w-full"
-        >
-          <div className="max-w-7xl mx-auto p-3 sm:p-6 lg:p-8">
-            <div className="flex flex-col lg:flex-row gap-4 lg:gap-12">
-              
-              <ProductGallery images={product.images} />
-              
-              <div className="w-full lg:w-1/2 space-y-6">
-                <ProductInfo 
-                  product={product}
-                  productPriceWithDiscount={productPriceWithDiscount}
-                />
-                
-                <ProductSpecifications product={product} />
-                <motion.div variants={itemVariants}>
-                  <ContactForm language={language} productId={productId}/>
-                </motion.div>
 
-                <ProductDescription product={product} />
-                
-                <DeliveryInfo router={router} language={language} />
-              </div>
+      <main className="bg-white">
+        <div className="mx-auto w-full max-w-7xl lg:px-8 lg:pt-6">
+          <div className="px-4 pt-3 pb-3 lg:px-0 lg:pb-5">
+            <Breadcrumbs category={product.category} productName={product.name} />
+          </div>
+
+          <div className="flex flex-col gap-6 lg:flex-row lg:gap-12">
+            <ProductGallery images={product.images} onVisualize={() => setVisualizerOpen(true)} visualizerStatus={visualizerStatus} />
+
+            <div className="w-full space-y-8 px-4 lg:w-1/2 lg:px-0">
+              <ProductBuyBox product={product} productPriceWithDiscount={productPriceWithDiscount} ctaRef={setCtaNode} />
+              <ProductSpecifications product={product} />
+              <ProductDescription product={product} />
+              <DeliveryInfo />
             </div>
           </div>
-          
-          <Benefits /> 
-          <InstallationServiceCTA />
-          <RelatedProductsSection />
-        </motion.section>
-      </div>
+
+          <div className="mt-12 space-y-12 px-4 pb-14 lg:px-0 lg:pb-20">
+            {isFlooring(product.category) && <SimilarProductsRail product={product} language={language} />}
+            <RelatedProductsSection productId={productId} language={language} />
+            <InstallationSection language={language} productId={productId} />
+          </div>
+        </div>
+      </main>
+
+      <StickyBuyBar product={product} price={productPriceWithDiscount} visible={ctaOutOfView} onAddToCart={quickAddToCart} />
+      <RoomVisualizerSheet product={product} language={language} open={visualizerOpen} onOpenChange={setVisualizerOpen} onStatusChange={setVisualizerStatus} />
     </>
   );
 };

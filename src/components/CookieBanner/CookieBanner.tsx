@@ -47,10 +47,10 @@ const CookieBanner = () => {
           aria-label={t("aria_label")}
           className="fixed bottom-0 inset-x-0 z-[300] p-3 sm:p-4"
         >
-          <div className="max-w-5xl mx-auto bg-white border border-gray-200 shadow-2xl rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="flex items-start gap-3 flex-1">
-              <Cookie className="w-6 h-6 shrink-0 text-amber-600 mt-0.5" />
-              <p className="text-sm text-gray-700 leading-relaxed">
+          <div className="max-w-5xl mx-auto bg-white border border-gray-200 shadow-2xl rounded-2xl p-3 sm:p-5 flex flex-row items-center gap-3 sm:gap-4">
+            <div className="flex items-start gap-3 flex-1 min-w-0">
+              <Cookie className="w-5 h-5 shrink-0 text-amber-600 mt-0.5 hidden sm:block" />
+              <p className="text-xs sm:text-sm text-gray-700 leading-snug sm:leading-relaxed line-clamp-3 sm:line-clamp-none">
                 {t("text")}{" "}
                 <Link
                   href={RouteConstants.PRIVACY_POLICY_PAGE}
@@ -62,7 +62,7 @@ const CookieBanner = () => {
             </div>
             <Button
               onClick={accept}
-              className="w-full sm:w-auto bg-gray-900 hover:bg-black text-white rounded-xl px-6 py-5 shrink-0"
+              className="w-auto bg-gray-900 hover:bg-black text-white rounded-xl px-4 sm:px-6 py-4 sm:py-5 shrink-0"
             >
               {t("accept")}
             </Button>

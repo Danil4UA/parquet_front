@@ -54,11 +54,11 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
 
   const currentFadeVariants = isMobile ? fadeInVariants : desktopFadeInVariants;
   return (
-    <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-10 sm:py-16 overflow-hidden" dir={"ltr"}>
+    <section className="relative bg-[#171717] py-10 sm:py-16 overflow-hidden" dir={"ltr"}>
       {!isMobile && (
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-32 right-32 w-48 h-48 bg-amber-500 rounded-full blur-3xl"></div>
+          
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-orange-800 rounded-full blur-3xl"></div>
         </div>
       )}
@@ -83,7 +83,7 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
           <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${
             isMobile 
               ? "text-white" 
-              : "bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent"
+              : "text-white"
           }`}>
             {t("customer_reviews")}
           </h2>
@@ -134,7 +134,7 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
               <div className="text-center mt-8 sm:mt-12">
                 <Button 
                   onClick={handleMoreReviewsClick}
-                  className="group px-8 py-4 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gray-900/50 border border-gray-600"
+                  className="group inline-flex h-12 items-center gap-2 rounded-xl border border-white/20 px-6 text-base font-semibold text-white transition-colors hover:bg-white/10"
                 >
                   <span className="flex items-center gap-2">
                     {t("get_more_reviews")}
@@ -147,9 +147,6 @@ export default function ReviewsSection({ reviewsData }: IReviewsSection) {
         </motion.div>
       </div>
 
-      {!isMobile && (
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-900 to-transparent pointer-events-none"></div>
-      )}
     </section>
   );
 }

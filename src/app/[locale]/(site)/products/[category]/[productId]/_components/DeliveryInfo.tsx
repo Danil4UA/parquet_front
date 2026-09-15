@@ -1,89 +1,47 @@
 import { FC } from "react";
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Truck, Clock, Gift } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
+import { Link } from "@/i18n/routing";
 import RouteConstants from "@/constants/RouteConstants";
 import GlobalConstants from "@/constants/GlobalConstants";
 
-interface DeliveryInfoProps {
-  router: any;
-  language: string;
-}
-
-const DeliveryInfo: FC<DeliveryInfoProps> = ({ router, language }) => {
+const DeliveryInfo: FC = () => {
   const t = useTranslations("Description");
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-      }
-    }
-  };
-
-  const deliveryOptions = [
-    {
-      icon: Gift,
-      text: t("delivery_free_with_installation"),
-      highlight: true
-    },
-    {
-      icon: Truck,
-      text: t("delivery_standard_cost", { cost: GlobalConstants.DELIVERY_COST }),
-      highlight: false
-    },
-    {
-      icon: Clock,
-      text: t("delivery_pickup"),
-      highlight: false
-    }
+  const rows = [
+    { icon: Gift, text: t("delivery_free_with_installation"), highlight: true },
+    { icon: Truck, text: t("delivery_standard_cost", { cost: GlobalConstants.DELIVERY_COST }), highlight: false },
+    { icon: Clock, text: t("delivery_pickup"), highlight: false },
   ];
 
   return (
-    <motion.div 
-      variants={itemVariants}
-      className="bg-white border rounded p-4 space-y-3"
-    >
-      <h2 className="font-bold text-2xl text-gray-900">
+    <section aria-labelledby="delivery-title" className="space-y-3">
+      <h2 id="delivery-title" className="text-lg font-semibold text-[#171717]">
         {t("delivery_title")}
       </h2>
-      
-      <Separator />
-      
-      <div className="space-y-3">
-        {deliveryOptions.map((option, index) => {
-          const IconComponent = option.icon;
+      <ul className="space-y-2.5">
+        {rows.map((row, index) => {
+          const Icon = row.icon;
           return (
-            <div key={index} className="flex items-center gap-3 py-2">
-              <IconComponent className="w-4 h-4 text-gray-600 flex-shrink-0" />
-              <span className={`text-sm ${option.highlight ? 'font-semibold text-green-700' : 'font-medium text-gray-700'}`}>
-                {option.text}
+            <li key={index} className="flex items-start gap-3">
+              <Icon className="mt-0.5 size-[18px] shrink-0 text-[#6B6B6B]" strokeWidth={1.75} />
+              <span className={row.highlight ? "text-[15px] font-semibold text-[#2F7A4A]" : "text-[15px] text-[#3D3D3D]"}>
+                {row.text}
               </span>
-              {option.highlight && (
-                <Badge className="bg-green-100 text-green-800 hover:bg-green-100 ml-auto">
-                  {t("free")}
-                </Badge>
-              )}
-            </div>
+            </li>
           );
         })}
-      </div>
-      
-      <p className="text-xs text-gray-500 text-center">
+      </ul>
+      <p className="text-xs text-[#8A8A8A]">
         {t("see_our")}{" "}
-        <span 
-          className="text-gray-700 hover:text-gray-900 font-medium underline underline-offset-2 transition-colors cursor-pointer"
-          onClick={() => router.push(`/${language}/${RouteConstants.TERMS_AND_CONDITIONS_PAGE}`)}
+        <Link
+          href={RouteConstants.TERMS_AND_CONDITIONS_PAGE}
+          className="font-medium text-[#4B4B4B] underline underline-offset-2 hover:text-[#171717]"
         >
           {t("terms_and_conditions")}
-        </span>
+        </Link>
       </p>
-    </motion.div>
+    </section>
   );
 };
 

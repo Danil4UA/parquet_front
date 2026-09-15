@@ -10,6 +10,7 @@ import { X, ShoppingBag, ArrowRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { formatPrice } from "@/Utils/productsUtils";
 
 interface CartProps {
   collapsed: boolean;
@@ -32,14 +33,17 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
     if (!collapsed) {
       html.classList.add("overflow-hidden");
       body.classList.add("overflow-hidden");
+      html.setAttribute("data-cart-open", "");
     } else {
       html.classList.remove("overflow-hidden");
       body.classList.remove("overflow-hidden");
+      html.removeAttribute("data-cart-open");
     }
 
     return () => {
       html.classList.remove("overflow-hidden");
       body.classList.remove("overflow-hidden");
+      html.removeAttribute("data-cart-open");
     };
   }, [collapsed]);
 
@@ -117,44 +121,35 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
             transition={sidebarTransition}
             className={`fixed top-0 ${
               isHebrew ? "left-0" : "right-0"
-            } h-full w-full sm:w-96 lg:w-[420px] bg-white dark:bg-gray-900 shadow-2xl z-[200] flex flex-col`}
+            } h-full w-full sm:w-96 lg:w-[420px] bg-white shadow-2xl z-[200] flex flex-col`}
           >
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-gray-800 dark:bg-gray-700 rounded-lg">
-                  <ShoppingBag className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    {t("cart")}
-                  </h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {cartItems.length} {cartItems.length === 1 ? t("item") : t("items")}
-                  </p>
-                </div>
+            {/* Header: same height as the navbar */}
+            <div className="flex h-[var(--navbar-height)] shrink-0 items-center justify-between border-b border-[#E5E5E5] px-4 sm:px-5">
+              <div className="flex items-baseline gap-2">
+                <h2 className="text-lg font-semibold text-[#171717]">{t("cart")}</h2>
+                <span className="text-sm text-[#6B6B6B] tabular-nums">
+                  {cartItems.length} {cartItems.length === 1 ? t("item") : t("items")}
+                </span>
               </div>
               <button
+                type="button"
                 onClick={onClose}
-                className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
+                aria-label="Close"
+                className="flex size-11 items-center justify-center rounded-lg text-[#6B6B6B] transition-colors hover:bg-[#F5F5F4] hover:text-[#171717]"
               >
-                <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                <X className="size-5" />
               </button>
             </div>
 
             {/* Cart Items */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+            <div className="flex-1 space-y-3 overflow-y-auto p-4 sm:p-5">
               {cartItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                  <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
-                    <ShoppingBag className="w-8 h-8 text-gray-400" />
+                  <div className="mb-4 flex size-16 items-center justify-center rounded-full bg-[#F5F5F4]">
+                    <ShoppingBag className="size-7 text-[#6B6B6B]" strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                    {t("cart_is_empty")}
-                  </h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">
-                    {t("add_some_products")}
-                  </p>
+                  <h3 className="mb-1 text-lg font-semibold text-[#171717]">{t("cart_is_empty")}</h3>
+                  <p className="text-sm text-[#6B6B6B]">{t("add_some_products")}</p>
                 </div>
               ) : (
                 cartItemsList
@@ -163,30 +158,19 @@ const Cart = ({ collapsed, onClose }: CartProps) => {
 
             {/* Footer */}
             {cartItems.length > 0 && (
-              <div className="border-t border-gray-200 dark:border-gray-700 p-4 sm:p-6 bg-gray-50/50 dark:bg-gray-800/50">
-                <div className="space-y-4">
-                  {/* Total */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg font-medium text-gray-900 dark:text-white">
-                      {t("total")}
-                    </span>
-                    <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                      ₪{totalPrice.toFixed(2)}
-                    </span>
-                  </div>
-
-                  {/* Complete Button */}
-                  <button
-                    onClick={handleComplete}
-                    className="w-full group relative px-6 py-4 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg overflow-hidden"
-                  >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      {t("complete")}
-                      <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-800 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-                  </button>
+              <div className="shrink-0 border-t border-[#E5E5E5] p-4 sm:p-5" style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom, 0px))" }}>
+                <div className="mb-3 flex items-baseline justify-between">
+                  <span className="text-base font-medium text-[#171717]">{t("total")}</span>
+                  <span className="text-2xl font-bold tabular-nums text-[#171717]">{formatPrice(totalPrice)}</span>
                 </div>
+                <button
+                  type="button"
+                  onClick={handleComplete}
+                  className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#171717] text-base font-semibold text-white transition-[background-color,transform] duration-200 hover:bg-[#2A2A2A] active:scale-[0.99]"
+                >
+                  {t("complete")}
+                  <ArrowRight className="size-5 rtl:rotate-180 transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
+                </button>
               </div>
             )}
           </motion.div>

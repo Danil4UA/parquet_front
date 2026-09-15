@@ -7,34 +7,44 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import ProductCard from "@/components/Products/ui/ProductCard/ProductCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import RouteConstants from "@/constants/RouteConstants";
-import { recommendedProductsQuery } from "@/constants/queryInfo";
+import { allProductsByCategory } from "@/constants/queryInfo";
+import { Product } from "@/types/products";
 
-interface RelatedProductsSectionProps {
-  productId: string;
+interface SimilarProductsRailProps {
+  product: Product;
   language: string;
 }
 
-const RelatedProductsSection: FC<RelatedProductsSectionProps> = ({ productId, language }) => {
-  const t = useTranslations("Product");
-  const tPage = useTranslations("ProductPage");
+const LIMIT = 9;
 
-  const { data, isPending } = useQuery(recommendedProductsQuery({ productId, language, limit: 12 }));
-  const relatedProducts = data?.data?.products || [];
+const SimilarProductsRail: FC<SimilarProductsRailProps> = ({ product, language }) => {
+  const t = useTranslations("ProductPage");
 
-  if (!isPending && relatedProducts.length === 0) return null;
+  const { data, isPending } = useQuery(
+    allProductsByCategory({
+      category: product.category,
+      color: product.color || "",
+      language,
+      limit: LIMIT,
+      availability: "true",
+    })
+  );
+
+  const items = (data?.data?.products || []).filter((p) => p._id !== product._id).slice(0, 8);
+
+  if (!isPending && items.length === 0) return null;
 
   return (
-    <section aria-labelledby="related-title" className="space-y-3">
+    <section aria-labelledby="similar-title" className="space-y-3">
       <div className="flex items-baseline justify-between gap-3 px-4 sm:px-0">
-        <h2 id="related-title" className="text-lg font-semibold text-[#171717]">
-          {t("SpecialsForYou")}
+        <h2 id="similar-title" className="text-lg font-semibold text-[#171717]">
+          {t("similar_title")}
         </h2>
         <Link
-          href={RouteConstants.ALL_PRODUCTS_PAGE}
+          href={`/products/${product.category}`}
           className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-[#4B4B4B] hover:text-[#171717] transition-colors"
         >
-          {tPage("see_all")}
+          {t("similar_all")}
           <ArrowRight className="size-4 rtl:rotate-180" />
         </Link>
       </div>
@@ -49,7 +59,7 @@ const RelatedProductsSection: FC<RelatedProductsSectionProps> = ({ productId, la
                   <Skeleton className="mt-1.5 h-4 w-1/3" />
                 </div>
               ))
-            : relatedProducts.map((item) => (
+            : items.map((item) => (
                 <div key={item._id} className="w-[42vw] max-w-[190px] shrink-0 snap-start">
                   <ProductCard product={item} className="bg-transparent" />
                 </div>
@@ -60,4 +70,4 @@ const RelatedProductsSection: FC<RelatedProductsSectionProps> = ({ productId, la
   );
 };
 
-export default RelatedProductsSection;
+export default SimilarProductsRail;

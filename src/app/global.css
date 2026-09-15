@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap");
@@ -14,7 +14,8 @@
   --color-secondary: #464646;
   --color-secondary-inverted: rgb(232, 232, 232);
 
-  --navbar-height: 70px;
+  --navbar-height: 60px;
+  --buy-bar-height: 66px;
   --sidebar-width: 500px;
   --sidebar-width-collapsed: 0px;
 
@@ -106,6 +107,12 @@
     --sidebar-ring: 217.2 91.2% 59.8%; */
 }
 
+@media (min-width: 768px) {
+  :root {
+    --navbar-height: 72px;
+  }
+}
+
 html,
  body {
   max-width: 100vw;
@@ -132,6 +139,26 @@ html[lang="he"] body {
 #enable-toolbar button {
   padding: 0 12px 16px 0 !important;
 }
+/* Product page: keep the accessibility trigger above the sticky buy bar on phones. */
+@media (max-width: 1023px) {
+  /* Sticky buy bar is open: give the page a bottom reserve of the bar's height
+     so the end of the footer is never hidden behind it. */
+  html[data-buy-bar] footer {
+    padding-bottom: calc(var(--buy-bar-height) + env(safe-area-inset-bottom, 0px));
+    transition: padding-bottom 0.25s ease;
+  }
+  #enable-toolbar-trigger {
+    /* `translate` composes with the widget's own transform instead of fighting it. */
+    transition: translate 0.25s ease !important;
+  }
+  html[data-buy-bar] #enable-toolbar-trigger {
+    translate: 0 -76px !important;
+  }
+  /* Cart drawer: keep the trigger above the total + checkout rows. */
+  html[data-cart-open] #enable-toolbar-trigger {
+    translate: 0 -150px !important;
+  }
+}
 
 .content-page {
   margin-top: var(--navbar-height);
@@ -146,6 +173,44 @@ html[lang="he"] body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* react-phone-number-input: make it look and behave like a regular input */
+.PhoneInput {
+  --PhoneInput-color--focus: #171717;
+  --PhoneInputCountrySelect-marginRight: 0.6em;
+  --PhoneInputCountryFlag-borderColor: transparent;
+  --PhoneInputCountryFlag-borderColor--focus: transparent;
+  --PhoneInputCountrySelectArrow-color: #6b6b6b;
+  --PhoneInputCountrySelectArrow-opacity: 1;
+  min-height: 2.75rem;
+  gap: 0;
+}
+.PhoneInput:focus-within {
+  border-color: #171717;
+  box-shadow: 0 0 0 1px #171717;
+}
+.PhoneInputInput {
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-size: 1rem;
+  line-height: 1.5;
+  min-width: 0;
+}
+.PhoneInputCountry {
+  padding-inline-end: 0.6em;
+  margin-inline-end: 0.6em;
+  border-inline-end: 1px solid #e5e5e5;
+  margin-right: 0;
+}
+html[dir="rtl"] .PhoneInputCountrySelectArrow {
+  margin-left: 0;
+  margin-right: var(--PhoneInputCountrySelectArrow-marginLeft);
+}
+.PhoneInputCountrySelect:focus + .PhoneInputCountryIcon + .PhoneInputCountrySelectArrow {
+  color: #171717;
 }
 
 a {
@@ -165,4 +230,23 @@ a {
 .no-spinner::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
+}
+/* Room visualizer: processing state */
+@keyframes visualizer-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+@keyframes visualizer-progress {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(400%); }
+}
+.visualizer-sweep {
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+  animation: visualizer-sweep 1.6s ease-in-out infinite;
+}
+.visualizer-progress {
+  animation: visualizer-progress 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .visualizer-sweep, .visualizer-progress { animation: none; }
 }

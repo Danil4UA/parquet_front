@@ -164,7 +164,7 @@ export default async function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        <Toaster />
+        <Toaster position="top-center" offset={82} mobileOffset={82} closeButton />
         <ReactQueryProvider>
           <ReduxProvider>
               <NextIntlClientProvider messages={messages}>

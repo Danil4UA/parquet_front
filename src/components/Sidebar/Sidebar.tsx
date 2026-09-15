@@ -4,9 +4,8 @@ import { SidebarItemsList } from "./model/items";
 import SidebarItem from "./SideBarItem/SideBarItem";
 import { usePathname } from "next/navigation";
 import { socialLinks } from "@/Utils/utils";
-import { Link } from "@/i18n/routing";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Instagram, Facebook } from "lucide-react";
+import { X, Instagram, Facebook, MessageCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import useSalesAvailable from "@/hooks/useSalesAvailable";
@@ -122,23 +121,18 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
             style={{ width: "min(100vw, 380px)" }}
           >
             {/* Modern Header */}
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 bg-gray-50/50 h-[70px]">
-              <div className="flex items-center gap-3">
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    {t("menu")}
-                  </h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {t("navigation")}
-                  </p>
-                </div>
+            <div className="flex h-[var(--navbar-height)] items-center justify-between border-b border-[#E5E5E5] px-3 sm:px-5">
+              <h2 className="text-lg font-semibold text-[#171717]">{t("menu")}</h2>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  aria-label="Close"
+                  className="flex size-11 items-center justify-center rounded-lg text-[#6B6B6B] transition-colors hover:bg-[#F5F5F4] hover:text-[#171717]"
+                >
+                  <X className="size-5" />
+                </button>
               </div>
-              <button
-                onClick={onClose}
-                className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-              >
-                <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-              </button>
             </div>
 
             {/* Content */}
@@ -149,30 +143,29 @@ export const Sidebar = ({ collapsed, onClose }: SidebarProps) => {
               </div>
             </div>
 
-            {/* Enhanced Footer */}
-            <div className="border-t border-gray-200 dark:border-gray-700 p-4 sm:p-6 bg-gray-50/50 dark:bg-gray-800/50">
-              <div className="space-y-4">
-                {/* Social Links */}
-                <div>
-                  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                    {t("follow_us")}
-                  </h3>
-                  <div className="flex items-center gap-3">
-                    <Link 
-                      href={socialLinks.instagram}
-                      className="group relative p-2 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:from-pink-600 hover:via-red-600 hover:to-yellow-600 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            {/* Footer: contacts */}
+            <div className="border-t border-[#E5E5E5] px-4 py-4 sm:px-6">
+              <h3 className="mb-3 text-sm font-medium text-[#6B6B6B]">{t("follow_us")}</h3>
+              <div className="flex items-center gap-2">
+                {[
+                  { icon: Instagram, href: socialLinks.instagram, label: "Instagram" },
+                  { icon: Facebook, href: socialLinks.facebook, label: "Facebook" },
+                  { icon: MessageCircle, href: socialLinks.whatsapp, label: "WhatsApp" },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={item.label}
+                      className="flex size-10 items-center justify-center rounded-full border border-[#DCDCDB] text-[#4B4B4B] transition-colors hover:border-[#171717] hover:text-[#171717]"
                     >
-                      <Instagram className="w-5 h-5 text-white relative z-10" />
-                      <div className="absolute inset-0 bg-gradient-to-r from-pink-600 via-red-600 to-yellow-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </Link>
-                    <Link 
-                      href={socialLinks.facebook}
-                      className="group p-2 bg-blue-600 hover:bg-blue-700 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                    >
-                      <Facebook className="w-5 h-5 text-white" />
-                    </Link>
-                  </div>
-                </div>
+                      <Icon className="size-[18px]" strokeWidth={1.75} />
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </motion.div>

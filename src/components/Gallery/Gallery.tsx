@@ -16,12 +16,14 @@ import {
 
 interface GalleryProps {
   images: string[];
+  /** Rendered on top of the main image (e.g. a call-to-action pill). */
+  overlay?: React.ReactNode;
 }
 
 const SWIPE_THRESHOLD_PX = 50;
 const ZOOM_SCALE = 2.5;
 
-const Gallery = ({ images }: GalleryProps) => {
+const Gallery = ({ images, overlay }: GalleryProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -58,8 +60,6 @@ const Gallery = ({ images }: GalleryProps) => {
   };
 
   const openLightbox = (index: number) => {
-    // On touch devices (phones/tablets) a tap should not open the lightbox
-    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
     setLightboxIndex(index);
     setZoomOrigin(null);
     setLightboxOpen(true);
@@ -108,7 +108,7 @@ const Gallery = ({ images }: GalleryProps) => {
   };
 
   return (
-    <div className="w-full space-y-4 rounded overflow-hidden">
+    <div className="w-full space-y-3">
       <div className="relative" dir="ltr">
         <Carousel
           setApi={setApi}
@@ -122,7 +122,7 @@ const Gallery = ({ images }: GalleryProps) => {
             {images.map((src, index) => (
               <CarouselItem key={index}>
                 <div
-                  className="aspect-square relative overflow-hidden rounded-lg bg-muted cursor-zoom-in"
+                  className="aspect-square relative overflow-hidden bg-muted cursor-zoom-in lg:rounded-xl"
                   onClick={() => openLightbox(index)}
                 >
                   <Image
@@ -140,32 +140,33 @@ const Gallery = ({ images }: GalleryProps) => {
 
           {images.length > 1 && (
             <>
-              <CarouselPrevious className="left-4" />
-              <CarouselNext className="right-4" />
+              <CarouselPrevious className="left-3 hidden [@media(hover:hover)]:inline-flex" />
+              <CarouselNext className="right-3 hidden [@media(hover:hover)]:inline-flex" />
             </>
           )}
         </Carousel>
 
-        {images.length > 0 && (
+        {images.length > 1 && (
           <Badge
             variant="secondary"
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-background/80 backdrop-blur-sm"
+            className="absolute bottom-4 right-3 bg-[#171717]/70 text-white tabular-nums backdrop-blur-sm hover:bg-[#171717]/70"
           >
             {current} / {count}
           </Badge>
         )}
+        {overlay}
       </div>
 
-      {images.length > 0 && (
-        <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 gap-2 px-1 py-2 sm:py-4 !mt-0">
+      {images.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto px-4 lg:px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {images.map((src, index) => (
             <Button
               key={index}
               variant="ghost"
-              className={`aspect-square p-0 h-auto overflow-hidden rounded-md transition-all ${
-                current - 1 === index
-                  ? 'ring-2 ring-primary ring-offset-2'
-                  : 'hover:opacity-80'
+              aria-label={`Image ${index + 1}`}
+              aria-current={current - 1 === index}
+              className={`size-16 shrink-0 p-0 overflow-hidden rounded-md border-2 transition-colors hover:bg-transparent ${
+                current - 1 === index ? 'border-[#171717]' : 'border-transparent hover:border-[#C6C6C4]'
               }`}
               onClick={() => goToSlide(index)}
             >
@@ -185,7 +186,7 @@ const Gallery = ({ images }: GalleryProps) => {
 
       <Dialog open={lightboxOpen} onOpenChange={closeLightbox}>
         <DialogContent
-          overlayClassName="z-[110] bg-black/50 backdrop-blur-sm"
+          overlayClassName="z-[110] bg-[#0E0E0E]/95"
           className="z-[120] block max-w-none w-screen h-dvh p-0 gap-0 bg-transparent border-0 rounded-none sm:rounded-none shadow-none text-white [&>button]:hidden"
           onKeyDown={(e) => {
             if (e.key === "ArrowLeft") showPrev();
@@ -208,7 +209,7 @@ const Gallery = ({ images }: GalleryProps) => {
           )}
 
           <div
-            className="relative flex h-full w-full items-center justify-center overflow-hidden p-4 py-10 sm:px-14 sm:py-24"
+            className="relative flex h-full w-full items-center justify-center overflow-hidden px-2 pb-24 pt-14 sm:px-16"
             dir="ltr"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
@@ -252,6 +253,26 @@ const Gallery = ({ images }: GalleryProps) => {
               </>
             )}
           </div>
+
+          {images.length > 1 && !zoomOrigin && (
+            <div className="absolute inset-x-0 bottom-4 z-20 flex justify-center gap-2 px-4" dir="ltr">
+              {images.map((src, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  aria-label={`Image ${index + 1}`}
+                  aria-current={lightboxIndex === index}
+                  onClick={(e) => { e.stopPropagation(); setZoomOrigin(null); setLightboxIndex(index); }}
+                  className={cn(
+                    "relative size-14 overflow-hidden rounded-md border-2 transition-[border-color,opacity]",
+                    lightboxIndex === index ? "border-white opacity-100" : "border-transparent opacity-60 hover:opacity-100"
+                  )}
+                >
+                  <Image src={src} fill alt="" sizes="56px" className="object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>

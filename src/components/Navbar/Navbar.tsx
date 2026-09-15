@@ -3,6 +3,7 @@
 import Sidebar from "../Sidebar/Sidebar";
 import { useEffect, useRef, useState } from "react";
 import { Menu, Search as SearchIcon, ShoppingCart, Heart } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 import LangSwitcher from "@/widgets/LangSwitcher/ui/LangSwitcher";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -64,6 +65,7 @@ export const Navbar = () => {
   const [collapsedSidebar, setCollapsedSidebar] = useState(true);
   const [openSearch, setOpenSearch] = useState(false);
   const t = useTranslations("HomePage");
+  const tSidebar = useTranslations("Sidebar");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _scrollDirection = useScrollDirection();
@@ -76,53 +78,83 @@ export const Navbar = () => {
     dispatch(setCollapsedСart(!collapsedCart));
   };
 
+  const categoryLinks = [
+    { key: "catalog", href: "/products/all" },
+    { key: "laminate", href: "/products/laminate" },
+    { key: "spc", href: "/products/spc" },
+    { key: "wood", href: "/products/wood" },
+    { key: "panels", href: "/products/panels", className: "hidden xl:inline-flex" },
+  ];
+
   return (
-    <div className="Navbar fixed top-0 left-0 w-full h-[var(--navbar-height)] bg-[#171717] flex items-center justify-between px-2 sm:px-8 lg:px-16 text-white transition-transform duration-300 ease-in-out z-[100]">
-      <div className="flex items-center gap-2 md:gap-5 z-10">
+    <div className="Navbar fixed top-0 left-0 z-[100] flex h-[var(--navbar-height)] w-full items-center justify-between bg-[#171717] px-1 text-white transition-transform duration-300 ease-in-out sm:px-4 lg:px-8">
+      <div className="z-10 flex items-center gap-1 lg:gap-2">
         <button
-          className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 text-white cursor-pointer"
+          type="button"
+          aria-label={tSidebar("menu")}
+          className="flex size-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10"
           onClick={() => setCollapsedSidebar(prev => !prev)}
         >
-          <Menu className="w-6 h-6 md:w-8 md:h-8" />
+          <Menu className="size-6" strokeWidth={1.75} />
         </button>
-        <LangSwitcher />
+        <div className="lg:hidden">
+          <LangSwitcher compact />
+        </div>
+        <nav aria-label="Categories" className="hidden items-center gap-1 lg:flex">
+          {categoryLinks.map((link) => (
+            <Link
+              key={link.key}
+              href={link.href}
+              className={`${link.className ?? "inline-flex"} h-10 items-center rounded-lg px-3 text-[15px] font-medium text-white/85 transition-colors hover:bg-white/10 hover:text-white`}
+            >
+              {tSidebar(link.key)}
+            </Link>
+          ))}
+        </nav>
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
-        <Link href="/" className="flex flex-col items-center">
-          <Image src={logoPhoto} alt="logo" width={48} height={48} className="w-12 h-12" />
-          <span className="text-white text-[11px] md:text-sm font-medium tracking-[0.15em] md:tracking-[0.25em] leading-none whitespace-nowrap uppercase -mt-1">
+      <div className="absolute left-1/2 -translate-x-1/2">
+        <Link href="/" className="flex flex-col items-center" aria-label={t("effect_parquet")}>
+          <Image src={logoPhoto} alt="" width={40} height={40} className="size-8 md:size-10" priority />
+          <span className="-mt-0.5 whitespace-nowrap text-[9px] font-medium uppercase leading-none tracking-[0.18em] text-white md:text-[11px] md:tracking-[0.25em]">
             {t("effect_parquet")}
           </span>
         </Link>
       </div>
 
-      <div className="flex items-center gap-2 md:gap-5 z-10">
+      <div className="z-10 flex items-center gap-0 lg:gap-1">
+        <div className="hidden lg:block">
+          <LangSwitcher />
+        </div>
         <button
-          className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 text-white cursor-pointer"
+          type="button"
+          aria-label="Search"
+          className="flex size-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10"
           onClick={() => setOpenSearch(prev => !prev)}
         >
-          <SearchIcon className="w-6 h-6 md:w-8 md:h-8" />
+          <SearchIcon className="size-6" strokeWidth={1.75} />
         </button>
         <Link
           href={RouteConstants.FAVORITES_PAGE}
-          className="relative flex items-center justify-center w-8 h-8 md:w-9 md:h-9 text-white cursor-pointer"
+          className="relative flex size-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10"
           aria-label="Favorites"
         >
-          <Heart className="w-6 h-6 md:w-[30px] md:h-[30px]" />
+          <Heart className="size-6" strokeWidth={1.75} />
           {favoritesCount > 0 && (
-            <span className="absolute -top-1 -right-2.5 bg-red-500 text-white text-[10px] min-w-4 h-4 rounded-full flex items-center justify-center px-1">
+            <span className="absolute end-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#E5484D] px-1 text-[10px] font-semibold tabular-nums text-white">
               {favoritesCount}
             </span>
           )}
         </Link>
         <button
-          className="relative flex items-center justify-center w-8 h-8 md:w-9 md:h-9 text-white cursor-pointer"
+          type="button"
+          aria-label="Cart"
+          className="relative flex size-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10"
           onClick={onToggleCart}
         >
-          <ShoppingCart className="w-6 h-6 md:w-8 md:h-8" />
+          <ShoppingCart className="size-6" strokeWidth={1.75} />
           {cartItems > 0 && (
-            <span className="absolute -top-1 -right-2.5 bg-red-500 text-white text-[10px] min-w-4 h-4 rounded-full flex items-center justify-center px-1">
+            <span className="absolute end-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#E5484D] px-1 text-[10px] font-semibold tabular-nums text-white">
               {cartItems}
             </span>
           )}
@@ -130,7 +162,7 @@ export const Navbar = () => {
       </div>
 
       <Sidebar collapsed={collapsedSidebar} onClose={() => setCollapsedSidebar(true)} />
-      {openSearch && <Search onClose={() => setOpenSearch(false)} />}
+      <AnimatePresence>{openSearch && <Search key="search" onClose={() => setOpenSearch(false)} />}</AnimatePresence>
     </div>
   );
 };

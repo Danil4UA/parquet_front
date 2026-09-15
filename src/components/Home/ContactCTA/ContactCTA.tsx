@@ -31,7 +31,7 @@ const ContactCTA = () => {
             href={socialLinks.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
+            className="flex h-11 items-center gap-2 rounded-lg bg-[#171717] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#2A2A2A]"
           >
             <MessageSquare className="w-5 h-5" />
             {tFooter("whats_app")}

@@ -75,7 +75,7 @@ const ContactPage = () => {
     };
 
     return (
-        <div className="min-h-screen w-full bg-gradient-to-br from-gray-50 via-white to-gray-100">
+        <div className="min-h-screen w-full bg-white">
           <PageTitleSection title={t("Contact.contactUs")} />
           <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-12">
             <motion.div 
@@ -106,7 +106,7 @@ const ContactPage = () => {
                                   variant="ghost"
                                   size="sm"
                                   onClick={handleGoogleMapsClick}
-                                  className="h-7 px-2 text-xs hover:bg-blue-50 hover:border-blue-200 border font-bold"
+                                  className="h-7 px-2 text-xs border font-bold hover:bg-[#F5F5F4]"
                                 >
                                   <Map className="h-5 w-5" />
                                   {t("ContactContent.address")}
@@ -123,7 +123,7 @@ const ContactPage = () => {
                               <p className="text-xs text-gray-500 mb-1">{t("Contact.phoneText")}</p>
                               <a 
                                 href={`tel:${contactData.phone}`} 
-                                className="text-gray-900 hover:text-blue-600 transition-colors text-sm font-medium"
+                                className="text-gray-900 hover:text-[#6B6B6B] transition-colors text-sm font-medium"
                               >
                                 {contactData.phone}
                               </a>
@@ -139,7 +139,7 @@ const ContactPage = () => {
                               <p className="text-xs text-gray-500 mb-1">{t("Contact.emailText")}</p>
                               <a 
                                 href={`mailto:${contactData.email}`} 
-                                className="text-gray-900 hover:text-blue-600 transition-colors text-sm font-medium break-all"
+                                className="text-gray-900 hover:text-[#6B6B6B] transition-colors text-sm font-medium break-all"
                               >
                                 {contactData.email}
                               </a>
@@ -156,7 +156,7 @@ const ContactPage = () => {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="h-8 w-8 p-0 hover:bg-blue-50 hover:border-blue-200"
+                              className="h-8 w-8 p-0 hover:bg-[#F5F5F4]"
                               asChild
                             >
                               <Link href={socialLinks.facebook}>
@@ -245,7 +245,7 @@ const ContactPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="py-4 sm:py-12 bg-gradient-to-b from-gray-100 to-gray-200"
+            className="py-4 sm:py-12 bg-[#F5F5F4]"
           >
             <div className="container mx-auto px-3 sm:px-4">
               <div className="max-w-6xl mx-auto">

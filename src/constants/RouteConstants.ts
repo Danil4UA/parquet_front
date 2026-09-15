@@ -27,6 +27,8 @@ export default class RouteConstants {
 
     static get ADMIN_MEDIA() { return "/admin/media"; }
 
+    static get ADMIN_VISUALIZER() { return "/admin/visualizer"; }
+
     static get VIEW_SPECIFIC_PRODUCT() {return "/admin/view-product"; }
 
     static get MANAGE_PRODUCTS_PAGE() { return "/admin/products"}
