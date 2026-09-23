@@ -1,8 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap");
 
 :root {
   --background-primary: white;
@@ -14,13 +11,13 @@
   --color-secondary: #464646;
   --color-secondary-inverted: rgb(232, 232, 232);
 
-  --navbar-height: 60px;
+  --navbar-height: 52px;
   --buy-bar-height: 66px;
   --sidebar-width: 500px;
   --sidebar-width-collapsed: 0px;
 
   --font-family-default: "Montserrat", sans-serif;
-  --font-family-hebrew: "Rubik", serif;
+  --font-family-hebrew: "Heebo", "Arial Hebrew", "Noto Sans Hebrew", sans-serif;
   
   --background: 0 0% 95%; /* Light gray background */
   --foreground: 0 0% 9%; /* Dark gray text */
@@ -109,7 +106,7 @@
 
 @media (min-width: 768px) {
   :root {
-    --navbar-height: 72px;
+    --navbar-height: 60px;
   }
 }
 
@@ -128,6 +125,21 @@ body {
 }
 html[lang="he"] body {
   font-family: var(--font-family-hebrew);
+}
+/* Hebrew headings: regular weight instead of light, no negative tracking, a touch more line-height. */
+html[lang="he"] h1,
+html[lang="he"] h2,
+html[lang="he"] h3 {
+  letter-spacing: 0;
+  font-weight: 400;
+  line-height: 1.2;
+}
+html[lang="he"] h1 strong,
+html[lang="he"] h2 strong {
+  font-weight: 700;
+}
+html[lang="he"] p {
+  line-height: 1.6;
 }
 @media (max-width: 768px) {
   html[lang="he"] body {

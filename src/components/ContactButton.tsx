@@ -20,15 +20,15 @@ const ContactButton = () => {
     {
       icon: MessageSquare,
       label: 'whats_app',
-      color: 'text-green-600',
-      bgHover: 'hover:bg-green-50',
+      color: 'text-[#171717]',
+      bgHover: 'hover:bg-[#F5F5F4]',
       action: () =>  window.open(socialLinks.whatsapp, '_blank', 'noopener,noreferrer')
     },
     {
       icon: Phone,
       label: 'call_us',
-      color: 'text-blue-600',
-      bgHover: 'hover:bg-blue-50',
+      color: 'text-[#171717]',
+      bgHover: 'hover:bg-[#F5F5F4]',
       action: () => window.location.href = `tel:${contactData.phone.replace(/\s+/g, "")}`
     },
     {
