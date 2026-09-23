@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback, useRef, useState } from "react";
+import { CSSProperties, FC, ReactNode, useCallback, useRef, useState } from "react";
 
 interface BeforeAfterProps {
   before: string;
@@ -8,13 +8,15 @@ interface BeforeAfterProps {
   beforeLabel: string;
   afterLabel: string;
   hint?: string;
-  /** CSS aspect-ratio of the stage, e.g. "3 / 2". Fixed up front so the layout never jumps when images load. */
-  aspectRatio: string;
+  /** Sizing of the stage: aspect-ratio (and optionally width) fixed up front so the layout never jumps when images load. */
+  style: CSSProperties;
+  /** Controls that belong to the picture (save, share). Rendered in the bottom-right corner, outside the drag surface. */
+  actions?: ReactNode;
   className?: string;
 }
 
 /** Drag-to-compare slider. Always LTR so the handle math is direction independent. */
-const BeforeAfter: FC<BeforeAfterProps> = ({ before, after, beforeLabel, afterLabel, hint, aspectRatio, className }) => {
+const BeforeAfter: FC<BeforeAfterProps> = ({ before, after, beforeLabel, afterLabel, hint, style, actions, className }) => {
   const [pos, setPos] = useState(50);
   const [touched, setTouched] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -40,8 +42,8 @@ const BeforeAfter: FC<BeforeAfterProps> = ({ before, after, beforeLabel, afterLa
     <div
       ref={ref}
       dir="ltr"
-      style={{ aspectRatio }}
-      className={`relative w-full select-none overflow-hidden rounded-xl bg-[#F5F5F4] touch-none ${className ?? ""}`}
+      style={style}
+      className={`relative select-none overflow-hidden rounded-xl bg-[#F5F5F4] touch-none ${className ?? ""}`}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -66,6 +68,11 @@ const BeforeAfter: FC<BeforeAfterProps> = ({ before, after, beforeLabel, afterLa
       </div>
       {hint && !touched && (
         <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs text-white">{hint}</span>
+      )}
+      {actions && (
+        <div className="absolute bottom-3 right-3 flex gap-1.5" onPointerDown={(e) => e.stopPropagation()}>
+          {actions}
+        </div>
       )}
       <input
         type="range"

@@ -64,6 +64,18 @@ export default class visualizerServices {
     };
   }
 
+  /**
+   * Server-side conversion for photos the browser cannot decode (e.g. HEIC on a desktop):
+   * returns an upright, resized JPEG. No AI involved, nothing is stored.
+   */
+  static async prepareOnServer(file: File): Promise<File> {
+    const form = new FormData();
+    form.append("photo", file);
+    const { data } = await axios.post<Blob>(`${BASE}/prepare`, form, { responseType: "blob", timeout: 60000 });
+    const name = file.name.replace(/\.[^.]+$/, "") || "photo";
+    return new File([data], `${name}.jpg`, { type: "image/jpeg", lastModified: Date.now() });
+  }
+
   /** Fetches the result as a Blob (works for both data: and https: sources). */
   static async resultBlob(result: VisualizerResult, fileName: string): Promise<Blob> {
     const url = result.resultKey ? visualizerServices.downloadUrl(result.resultKey, fileName) : result.src;

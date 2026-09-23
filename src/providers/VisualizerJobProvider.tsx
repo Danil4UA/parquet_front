@@ -48,6 +48,8 @@ interface VisualizerJobContextValue {
   setRoom: (room: VisualizerRoom | null) => void;
   /** Starts a generation for `product` in `room`; the result is delivered through `job`. */
   startRender: (room: VisualizerRoom, product: Product, language: string) => void;
+  /** Puts the sheet into its error state without a request (e.g. the photo could not be read). */
+  reportError: (product: Product, language: string, errorKey: VisualizerErrorKey) => void;
   /** Forgets the finished/failed job but keeps the room. */
   clearJob: () => void;
   /** Forgets both the room and the job. */
@@ -145,6 +147,11 @@ export function VisualizerJobProvider({ children }: { children: React.ReactNode 
 
   const clearJob = useCallback(() => setJob(null), []);
 
+  const reportError = useCallback((product: Product, language: string, errorKey: VisualizerErrorKey) => {
+    const seq = ++seqRef.current;
+    setJob({ seq, product, language, status: "error", errorKey, startedAt: Date.now() });
+  }, []);
+
   const reset = useCallback(() => {
     seqRef.current += 1; // any in-flight result is ignored
     setRoom(null);
@@ -225,8 +232,8 @@ export function VisualizerJobProvider({ children }: { children: React.ReactNode 
   useEffect(() => () => releaseRoom(roomRef.current), []);
 
   const value = useMemo<VisualizerJobContextValue>(
-    () => ({ room, job, setRoom, startRender, clearJob, reset, setSheetOpen, notifyBackground }),
-    [room, job, setRoom, startRender, clearJob, reset, setSheetOpen, notifyBackground]
+    () => ({ room, job, setRoom, startRender, reportError, clearJob, reset, setSheetOpen, notifyBackground }),
+    [room, job, setRoom, startRender, reportError, clearJob, reset, setSheetOpen, notifyBackground]
   );
 
   return <VisualizerJobContext.Provider value={value}>{children}</VisualizerJobContext.Provider>;

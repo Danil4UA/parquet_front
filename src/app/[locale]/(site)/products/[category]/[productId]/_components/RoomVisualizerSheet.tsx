@@ -5,8 +5,7 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { Camera, Images, Sparkles, Share2, ShoppingCart, RefreshCw, Calculator, Download, ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Camera, Images, Sparkles, Share2, ShoppingCart, RefreshCw, Download, Loader2 } from "lucide-react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Product } from "@/types/products";
 import visualizerServices, { SampleRoom, VisualizerRoom, roomPreviewUrl } from "@/services/visualizerServices";
@@ -16,6 +15,7 @@ import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cart
 import { formatPrice, calculateDiscountedPrice } from "@/Utils/productsUtils";
 import BeforeAfter from "./BeforeAfter";
 import { isFlooring } from "./productPageUtils";
+import { downscaleImage, ImageDecodeError } from "@/Utils/imageUtils";
 
 export type VisualizerStatus = "idle" | "processing" | "ready";
 
@@ -30,11 +30,12 @@ interface RoomVisualizerSheetProps {
 
 type Step = "pick" | "processing" | "result" | "error";
 
-// OpenAI returns one of three canvases (1536×1024, 1024×1536, 1024×1024), so the stage is sized
-// to the one the room photo will map to. Knowing the height up front means nothing jumps when
-// the room preview or the result loads.
-type Aspect = "3 / 2" | "2 / 3" | "1 / 1";
-const snapAspect = (w: number, h: number): Aspect => (w / h >= 1.15 ? "3 / 2" : w / h <= 0.87 ? "2 / 3" : "1 / 1");
+// The result comes back in the photo's own aspect ratio (the server pads and crops around the
+// provider's fixed canvases), so the stage simply takes the photo's ratio. Knowing it up front
+// means nothing jumps when the preview or the result loads.
+type Aspect = number; // width / height
+const measureAspect = (w: number, h: number): Aspect => Math.round((w / h) * 1000) / 1000;
+const DEFAULT_ASPECT: Aspect = 4 / 3;
 
 // Aspect per image source, filled before an image is ever shown at full width
 // (from the sample thumbnails, or by measuring the shopper's photo before the render starts).
@@ -45,13 +46,13 @@ const loadAspect = (src: string): Promise<Aspect> =>
     const cached = aspectCache.get(src);
     if (cached) { resolve(cached); return; }
     const img = new window.Image();
-    img.onload = () => { const a = snapAspect(img.naturalWidth, img.naturalHeight); aspectCache.set(src, a); resolve(a); };
-    img.onerror = () => resolve("3 / 2");
+    img.onload = () => { const a = measureAspect(img.naturalWidth, img.naturalHeight); aspectCache.set(src, a); resolve(a); };
+    img.onerror = () => resolve(DEFAULT_ASPECT);
     img.src = src;
   });
 
 const useSnappedAspect = (src: string | null): Aspect => {
-  const [measured, setMeasured] = useState<Aspect>("3 / 2");
+  const [measured, setMeasured] = useState<Aspect>(DEFAULT_ASPECT);
   useEffect(() => {
     if (!src || aspectCache.has(src)) return;
     let cancelled = false;
@@ -64,6 +65,10 @@ const useSnappedAspect = (src: string | null): Aspect => {
 
 const SAMPLE_SKELETON_COUNT = 4;
 
+// The stage never grows taller than --stage-max (set per breakpoint on the wrapper below), so a
+// portrait photo shrinks and centres instead of pushing the rest of the sheet below the fold.
+const stageStyle = (aspect: Aspect) => ({ aspectRatio: String(aspect), width: `min(100%, calc(var(--stage-max) * ${aspect}))` });
+
 // The room (the shopper's photo lives only in this browser's memory) and the running or
 // finished generation are kept in VisualizerJobProvider, so they survive closing this
 // sheet and navigating to other pages. This component is only the UI.
@@ -71,10 +76,10 @@ const SAMPLE_SKELETON_COUNT = 4;
 const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, open, onOpenChange, onStatusChange }) => {
   const t = useTranslations("ProductPage");
   const dispatch = useDispatch();
-  const router = useRouter();
 
-  const { room, job, setRoom, startRender, clearJob, reset, setSheetOpen, notifyBackground } = useVisualizerJob();
+  const { room, job, setRoom, startRender, reportError, clearJob, reset, setSheetOpen, notifyBackground } = useVisualizerJob();
   const [samples, setSamples] = useState<SampleRoom[] | null>(null); // null = still loading
+  const [preparing, setPreparing] = useState(false); // photo being converted before the render starts
   const cameraRef = useRef<HTMLInputElement | null>(null);
   const galleryRef = useRef<HTMLInputElement | null>(null);
 
@@ -122,7 +127,25 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
 
   const handleFile = async (file: File | undefined) => {
     if (!file) return;
-    const photoRoom: VisualizerRoom = { kind: "photo", file, previewUrl: URL.createObjectURL(file) };
+    // Shrink on the device: a 10 MB camera photo becomes a ~400 KB upright JPEG. A format the
+    // browser cannot decode (HEIC on a desktop) is converted by the server instead, so the
+    // preview and the "before" picture are always displayable.
+    let prepared: File;
+    setPreparing(true);
+    try {
+      try {
+        prepared = await downscaleImage(file);
+      } catch (err) {
+        if (!(err instanceof ImageDecodeError)) throw err;
+        prepared = await visualizerServices.prepareOnServer(file);
+      }
+    } catch {
+      reportError(product, language, "visualizer_error");
+      return;
+    } finally {
+      setPreparing(false);
+    }
+    const photoRoom: VisualizerRoom = { kind: "photo", file: prepared, previewUrl: URL.createObjectURL(prepared) };
     await loadAspect(photoRoom.previewUrl); // know the stage height before anything is shown
     setRoom(photoRoom);
     track("visualizer_upload", { item_id: product._id });
@@ -147,12 +170,6 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
     addActiveToCart();
     onOpenChange(false);
     dispatch(setCollapsedСart(false));
-  };
-
-  const handleCheckout = () => {
-    addActiveToCart();
-    onOpenChange(false);
-    router.push(`/${language}/order`);
   };
 
   const resultFileName = () => `${(active.model || active.name || "floor").replace(/[^\w.-]+/g, "_")}.jpg`;
@@ -252,15 +269,17 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                   <button
                     type="button"
                     onClick={() => cameraRef.current?.click()}
-                    className="flex h-14 w-full items-center justify-center gap-2.5 rounded-xl bg-[#171717] text-base font-semibold text-white transition-colors hover:bg-[#2A2A2A]"
+                    disabled={preparing}
+                    className="flex h-14 w-full items-center justify-center gap-2.5 rounded-xl bg-[#171717] text-base font-semibold text-white transition-colors hover:bg-[#2A2A2A] disabled:opacity-70"
                   >
-                    <Camera className="size-5" strokeWidth={1.75} />
-                    {t("visualizer_take_photo")}
+                    {preparing ? <Loader2 className="size-5 animate-spin" strokeWidth={1.75} /> : <Camera className="size-5" strokeWidth={1.75} />}
+                    {preparing ? t("visualizer_processing_pill") : t("visualizer_take_photo")}
                   </button>
                   <button
                     type="button"
                     onClick={() => galleryRef.current?.click()}
-                    className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl border border-[#DCDCDB] bg-white text-[15px] font-medium text-[#171717] transition-colors hover:bg-[#F5F5F4]"
+                    disabled={preparing}
+                    className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl border border-[#DCDCDB] bg-white text-[15px] font-medium text-[#171717] transition-colors hover:bg-[#F5F5F4] disabled:opacity-50"
                   >
                     <Images className="size-5" strokeWidth={1.75} />
                     {t("visualizer_upload")}
@@ -280,7 +299,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                         key={s.roomKey}
                         type="button"
                         onClick={() => applySample(s)}
-                        className="relative h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-[#EBEBEA] ring-offset-2 transition-shadow hover:ring-2 hover:ring-[#171717]"
+                        className="relative h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-[#EBEBEA] transition-shadow hover:ring-2 hover:ring-inset hover:ring-[#171717] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#171717]"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -288,7 +307,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                           alt=""
                           className="size-full object-cover"
                           loading="lazy"
-                          onLoad={(e) => aspectCache.set(s.roomUrl, snapAspect(e.currentTarget.naturalWidth, e.currentTarget.naturalHeight))}
+                          onLoad={(e) => aspectCache.set(s.roomUrl, measureAspect(e.currentTarget.naturalWidth, e.currentTarget.naturalHeight))}
                         />
                       </button>
                     ))}
@@ -321,10 +340,28 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                 </SheetDescription>
               </SheetHeader>
 
+              <div className="flex w-full justify-center overflow-hidden rounded-xl bg-[#F5F5F4] [--stage-max:44dvh] sm:[--stage-max:400px]">
               {step === "result" && result ? (
-                <BeforeAfter before={roomSrc!} after={result.src} aspectRatio={aspect} beforeLabel={t("visualizer_before")} afterLabel={t("visualizer_after")} hint={t("visualizer_drag")} />
+                <BeforeAfter
+                  before={roomSrc!}
+                  after={result.src}
+                  style={stageStyle(aspect)}
+                  beforeLabel={t("visualizer_before")}
+                  afterLabel={t("visualizer_after")}
+                  hint={t("visualizer_drag")}
+                  actions={
+                    <>
+                      <button type="button" onClick={handleDownload} aria-label={t("visualizer_download")} title={t("visualizer_download")} className="flex size-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-colors hover:bg-black/75">
+                        <Download className="size-[18px]" strokeWidth={1.75} />
+                      </button>
+                      <button type="button" onClick={handleShare} aria-label={t("visualizer_share")} title={t("visualizer_share")} className="flex size-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-colors hover:bg-black/75">
+                        <Share2 className="size-[18px]" strokeWidth={1.75} />
+                      </button>
+                    </>
+                  }
+                />
               ) : (
-                <div className="relative w-full overflow-hidden rounded-xl bg-[#F5F5F4]" style={{ aspectRatio: aspect }}>
+                <div className="relative overflow-hidden rounded-xl bg-[#F5F5F4]" style={stageStyle(aspect)}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={roomSrc!} alt="" className="absolute inset-0 h-full w-full object-cover opacity-80" />
                   <div className="visualizer-sweep absolute inset-0" />
@@ -333,6 +370,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                   </div>
                 </div>
               )}
+              </div>
 
               {alternatives.length > 1 && (
                 <div className="space-y-2">
@@ -354,37 +392,26 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                 </div>
               )}
 
-              {/* Same buttons in both states; disabled while processing so the height never changes. */}
-              <div className={`space-y-2 transition-opacity ${step === "processing" ? "pointer-events-none opacity-40" : ""}`} aria-disabled={step === "processing"}>
-                <div className="grid grid-cols-2 gap-2">
-                  <button type="button" onClick={handleAddToCart} disabled={step === "processing"} className="flex h-12 items-center justify-center gap-2 rounded-xl border border-[#DCDCDB] bg-white text-[15px] font-semibold text-[#171717] transition-colors hover:bg-[#F5F5F4]">
-                    <ShoppingCart className="size-5" strokeWidth={1.75} />
-                    {t("add_to_cart")}
-                  </button>
-                  <button type="button" onClick={handleCheckout} disabled={step === "processing"} className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#171717] text-[15px] font-semibold text-white transition-colors hover:bg-[#2A2A2A]">
-                    {t("visualizer_checkout")}
-                    <ArrowRight className="size-4 rtl:rotate-180" strokeWidth={2} />
-                  </button>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  <button type="button" onClick={handleDownload} disabled={step === "processing"} aria-label={t("visualizer_download")} className="flex h-11 flex-col items-center justify-center gap-0.5 rounded-xl border border-[#DCDCDB] bg-white text-[11px] font-medium text-[#171717] transition-colors hover:bg-[#F5F5F4]">
-                    <Download className="size-[18px]" strokeWidth={1.75} />
-                    {t("visualizer_download")}
-                  </button>
-                  <button type="button" onClick={handleShare} disabled={step === "processing"} aria-label={t("visualizer_share")} className="flex h-11 flex-col items-center justify-center gap-0.5 rounded-xl border border-[#DCDCDB] bg-white text-[11px] font-medium text-[#171717] transition-colors hover:bg-[#F5F5F4]">
-                    <Share2 className="size-[18px]" strokeWidth={1.75} />
-                    {t("visualizer_share")}
-                  </button>
-                  <button type="button" onClick={handleQuote} disabled={step === "processing"} aria-label={t("visualizer_get_quote")} className="flex h-11 flex-col items-center justify-center gap-0.5 rounded-xl border border-[#DCDCDB] bg-white text-[11px] font-medium text-[#171717] transition-colors hover:bg-[#F5F5F4]">
-                    <Calculator className="size-[18px]" strokeWidth={1.75} />
+              {/* One primary action. Present in both states, disabled while processing, so the height never changes. */}
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  onClick={handleAddToCart}
+                  disabled={step === "processing"}
+                  className="flex h-14 w-full items-center justify-center gap-2.5 rounded-xl bg-[#171717] text-base font-semibold text-white transition-colors hover:bg-[#2A2A2A] disabled:cursor-default disabled:opacity-40"
+                >
+                  <ShoppingCart className="size-5" strokeWidth={1.75} />
+                  {t("add_to_cart")}
+                </button>
+                <div className={`flex items-center justify-center gap-5 text-sm text-[#6B6B6B] transition-opacity ${step === "processing" ? "pointer-events-none opacity-40" : ""}`}>
+                  <button type="button" onClick={handleQuote} disabled={step === "processing"} className="underline underline-offset-4 hover:text-[#171717]">
                     {t("visualizer_get_quote")}
+                  </button>
+                  <button type="button" onClick={clearRoom} disabled={step === "processing"} className="underline underline-offset-4 hover:text-[#171717]">
+                    {t("visualizer_change_photo")}
                   </button>
                 </div>
               </div>
-
-              <button type="button" onClick={clearRoom} className="w-full text-center text-sm text-[#6B6B6B] underline underline-offset-2 hover:text-[#171717]">
-                {t("visualizer_change_photo")}
-              </button>
             </div>
           )}
 
