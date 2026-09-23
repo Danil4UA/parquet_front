@@ -17,6 +17,7 @@ export const productSchema = z.object({
   discount: z.number().min(0).max(100),
   finish: z.string(),
   isAvailable: z.boolean(),
+  hasInteriorPhoto: z.boolean(),
   length: z.number().optional().nullable(),
   model: z.string(),
   price: z.number(),

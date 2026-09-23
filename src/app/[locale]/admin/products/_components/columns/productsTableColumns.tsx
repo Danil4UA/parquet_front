@@ -7,7 +7,7 @@ import {
   allowedTypes, categoryOptions, colorOptions 
 } from "@/Utils/productsUtils";
 import ProductsSelectCell from "../ProductsSelectCell";
-import ProductsAvailabilityCell from "../ProductsAvailabilityCell";
+import ProductsToggleCell from "../ProductsToggleCell";
 import Image from "next/image";
 
 const createLeadsTableColumns = (): ColumnDef<Product>[] => [
@@ -26,6 +26,19 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
     meta: {
       cellClass: "flex justify-center"
     }
+  },
+  {
+    accessorKey: "hasInteriorPhoto",
+    header: () => <ProductsHeaderCell text="Interior photo" className="items-center" />,
+    cell: ({ row }) => (
+      <ProductsToggleCell row={row} field="hasInteriorPhoto" label="Interior photo" />
+    ),
+    size: 100,
+    minSize: 100,
+    meta: {
+      headerClass: "text-center",
+      cellClass: "flex justify-center",
+    },
   },
   {
     accessorKey: "name",
@@ -56,7 +69,7 @@ const createLeadsTableColumns = (): ColumnDef<Product>[] => [
     accessorKey: "isAvailable",
     header: () => <ProductsHeaderCell text="In Stock" className="items-center" />,
     cell: ({ row }) => (
-      <ProductsAvailabilityCell row={row} />
+      <ProductsToggleCell row={row} field="isAvailable" label="In stock" />
     ),
     size: 100,
     minSize: 100,

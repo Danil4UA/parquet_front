@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search, PlusCircle } from 'lucide-react';
 
-import { ProductsSearchParams } from "@/types/products";
+import { InteriorPhotoFilter, ProductsSearchParams } from "@/types/products";
 import { usePathname, useRouter } from "next/navigation";
 import GeneralTable from '@/components/Tables/GeneralTable';
 import useGetAllProductsByCategory from '@/hooks/useGetAllProductsByCategory';
@@ -39,12 +39,18 @@ const availabilityOptions = [
   { id: 'out_of_stock', name: 'Out of stock' },
 ];
 
+const interiorPhotoOptions: { id: InteriorPhotoFilter; name: string }[] = [
+  { id: 'with', name: 'With interior photo' },
+  { id: 'without', name: 'Without interior photo' },
+];
+
 export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [category, setCategory] = useState(ALL);
   const [type, setType] = useState(ALL);
   const [availability, setAvailability] = useState(ALL);
+  const [interiorPhoto, setInteriorPhoto] = useState(ALL);
   const [sortBy, setSortBy] = useState(DEFAULT_SORT);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -69,6 +75,7 @@ export default function ProductsPage() {
     search: debouncedSearch,
     type: type === ALL ? '' : type,
     availability: availability === ALL ? '' : availability,
+    interiorPhoto: interiorPhoto === ALL ? undefined : (interiorPhoto as InteriorPhotoFilter),
     language,
     sortBy,
     page: pagination.pageIndex + 1,
@@ -109,6 +116,7 @@ export default function ProductsPage() {
   const handleCategoryChange = applyFilter(setCategory);
   const handleTypeChange = applyFilter(setType);
   const handleAvailabilityChange = applyFilter(setAvailability);
+  const handleInteriorPhotoChange = applyFilter(setInteriorPhoto);
   const handleSortChange = applyFilter(setSortBy);
 
   const handleAddProduct = () => {
@@ -164,6 +172,20 @@ export default function ProductsPage() {
           <SelectContent>
             <SelectItem value={ALL}>All stock</SelectItem>
             {availabilityOptions.map((option) => (
+              <SelectItem key={option.id} value={option.id}>
+                {option.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={interiorPhoto} onValueChange={handleInteriorPhotoChange}>
+          <SelectTrigger className="h-8 w-[calc(50%-4px)] sm:w-[190px] text-sm">
+            <SelectValue placeholder="Interior photo" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL}>Interior: any</SelectItem>
+            {interiorPhotoOptions.map((option) => (
               <SelectItem key={option.id} value={option.id}>
                 {option.name}
               </SelectItem>

@@ -39,7 +39,7 @@ export default function Search({ onClose }: SearchProps) {
   useEffect(() => {
     let cancelled = false;
     productsServices
-      .getProductsByCategory({ category: "all", language: lng, page: 1, limit: 6, isRandom: "true", availability: "true" })
+      .getProductsByCategory({ category: "all", language: lng, page: 1, limit: 6, availability: "in_stock" })
       .then((data) => { if (!cancelled) setPopular(data?.data?.products || []); })
       .catch(() => { if (!cancelled) setPopular([]); })
       .finally(() => { if (!cancelled) setPopularLoading(false); });

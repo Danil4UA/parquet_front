@@ -249,27 +249,51 @@ export function ProductDetailsTab({ control }: ProductDetailsTabProps) {
 
         <Separator className="my-6" />
 
-        <FormField
-          control={control}
-          name="isAvailable"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel>In Stock</FormLabel>
-                <FormDescription>
-                  Turn off to mark the product as out of stock — it stays in the
-                  catalog with an &quot;Out of Stock&quot; badge and cannot be opened.
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={control}
+            name="isAvailable"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between gap-4 rounded-lg border p-4">
+                <div className="space-y-0.5">
+                  <FormLabel>In Stock</FormLabel>
+                  <FormDescription>
+                    Turn off to mark the product as out of stock — it stays in the
+                    catalog with an &quot;Out of Stock&quot; badge and cannot be opened.
+                  </FormDescription>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="hasInteriorPhoto"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between gap-4 rounded-lg border p-4">
+                <div className="space-y-0.5">
+                  <FormLabel>Interior photo</FormLabel>
+                  <FormDescription>
+                    Turn on when the product has a photo of a finished room laid with
+                    this floor. Such products are shown first in the catalog.
+                  </FormDescription>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
       </CardContent>
     </Card>
   );

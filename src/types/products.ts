@@ -25,6 +25,7 @@ export interface FullProduct {
   model: string
   finish: string
   boxCoverage?: number;
+  hasInteriorPhoto?: boolean;
 }
 
 export interface FullProductResponse {
@@ -54,6 +55,7 @@ export interface Product {
     finish: string
     boxCoverage?: number;
     installationType?: string;
+    hasInteriorPhoto?: boolean;
   }
 
 export interface Pagination {
@@ -71,10 +73,12 @@ export interface ProductsSearchParams {
     language?: string;
     page?: number;
     limit?: number;
-    isRandom?: string;
     sortBy?: string;
     availability?: string;
+    interiorPhoto?: InteriorPhotoFilter;
   }
+
+export type InteriorPhotoFilter = "with" | "without";
 
 export interface ProductsWithPagination {
     pagination: Pagination;

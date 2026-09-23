@@ -110,8 +110,8 @@ export default class productsServices {
     language = "en",
     page = 1,
     limit = 20,
-    isRandom,
     availability = "",
+    interiorPhoto,
   }: ProductsSearchParams){
     try {
       const response = await axios.get(productsServices.GET_PRODUCTS_ENDPOINT, {
@@ -124,9 +124,9 @@ export default class productsServices {
           language,
           page,
           limit,
-          isRandom,
           sortBy,
           availability,
+          interiorPhoto,
         }
       });
       return response;

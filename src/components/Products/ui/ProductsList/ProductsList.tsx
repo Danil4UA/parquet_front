@@ -32,11 +32,9 @@ const ProductsList = ({ category }: ProductsListProps) => {
   const isNavbarVisible = useSelector((state: RootState) => selectNavbarVisible(state));
   const { isMobile } = useIsMobileDebounce();
 
-  const baseQueryParams = getProductsQueryParams(searchParams, pathname, category);
-  const queryParams = {
-    ...baseQueryParams,
-    isRandom: category === "all" ? "true" : undefined
-  };
+  // Order is decided by the backend: products with an interior photo first,
+  // then a daily shuffle (unless the user picks an explicit sort).
+  const queryParams = getProductsQueryParams(searchParams, pathname, category);
   const sentViewItemListRef = useRef(false);
 
   const {
