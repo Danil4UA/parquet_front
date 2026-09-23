@@ -3,6 +3,9 @@
 import PageTitleSection from "@/components/Pages/PageTitleSection";
 import { useTranslations } from "next-intl";
 
+// Date of the last substantive change to the text (previously the page showed "today", which was misleading).
+const LAST_UPDATED = new Date("2026-09-23");
+
 export default function PrivacyPolicyPage() {
   const t = useTranslations("PrivacyPolicy");
 
@@ -67,6 +70,7 @@ export default function PrivacyPolicyPage() {
                     <li>{t("sharing_2")}</li>
                     <li>{t("sharing_3")}</li>
                     <li>{t("sharing_4")}</li>
+                    <li>{t("sharing_5")}</li>
                   </ul>
                   <p>{t("sharing_outro")}</p>
                 </div>
@@ -78,6 +82,19 @@ export default function PrivacyPolicyPage() {
                 <div className="space-y-3">
                   <p>{t("cookies_1")}</p>
                   <p>{t("cookies_2")}</p>
+                </div>
+              </section>
+
+              {/* AI room visualizer */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("visualizer_title")}</h2>
+                <div className="space-y-3">
+                  <p>{t("visualizer_1")}</p>
+                  <p>{t("visualizer_2")}</p>
+                  <p>{t("visualizer_3")}</p>
+                  <p>{t("visualizer_4")}</p>
+                  <p>{t("visualizer_5")}</p>
+                  <p>{t("visualizer_6")}</p>
                 </div>
               </section>
 
@@ -119,7 +136,7 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div className="mt-8 text-center text-gray-500 text-sm">
-            {t("last_updated")} {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+            {t("last_updated")} {LAST_UPDATED.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ import { routing } from "@/i18n/routing";
 import { ReduxProvider } from "@/redux/ReduxProvider";
 import { getLanguageMetadata } from "../metadata";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import { VisualizerJobProvider } from "@/providers/VisualizerJobProvider";
 import Script from 'next/script';
 import { Toaster } from "sonner";
 import CookieBanner from "@/components/CookieBanner/CookieBanner";
@@ -164,12 +165,14 @@ export default async function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        <Toaster position="top-center" offset={82} mobileOffset={82} closeButton />
+        <Toaster position="top-right" offset={{ top: 82, right: 16 }} mobileOffset={{ top: 74, left: 12, right: 12 }} closeButton toastOptions={{ className: "rounded-2xl" }} />
         <ReactQueryProvider>
           <ReduxProvider>
               <NextIntlClientProvider messages={messages}>
-                {children}
-                <CookieBanner />
+                <VisualizerJobProvider>
+                  {children}
+                  <CookieBanner />
+                </VisualizerJobProvider>
               </NextIntlClientProvider>
           </ReduxProvider>
         </ReactQueryProvider>

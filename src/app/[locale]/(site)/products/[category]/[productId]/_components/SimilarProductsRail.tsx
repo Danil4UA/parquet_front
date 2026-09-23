@@ -26,7 +26,7 @@ const SimilarProductsRail: FC<SimilarProductsRailProps> = ({ product, language }
       color: product.color || "",
       language,
       limit: LIMIT,
-      availability: "true",
+      availability: "in_stock",
     })
   );
 

@@ -7,10 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { Camera, Images, Sparkles, Share2, ShoppingCart, RefreshCw, Calculator, Download, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Product } from "@/types/products";
-import visualizerServices, { VisualizerResult, VisualizerRoom } from "@/services/visualizerServices";
+import visualizerServices, { SampleRoom, VisualizerRoom, roomPreviewUrl } from "@/services/visualizerServices";
+import { trackVisualizer as track, useVisualizerJob } from "@/providers/VisualizerJobProvider";
 import { allProductsByCategory } from "@/constants/queryInfo";
 import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
 import { formatPrice, calculateDiscountedPrice } from "@/Utils/productsUtils";
@@ -29,47 +29,39 @@ interface RoomVisualizerSheetProps {
 }
 
 type Step = "pick" | "processing" | "result" | "error";
-const ROOM_STORAGE_KEY = "visualizer_room";
 
-const readStoredRoom = (): VisualizerRoom | null => {
-  try {
-    const raw = sessionStorage.getItem(ROOM_STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as VisualizerRoom;
-  } catch {
-    return null;
-  }
-};
-
-const track = (event: string, payload: Record<string, unknown> = {}) => {
-  if (typeof window === "undefined") return;
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event, ...payload });
-};
+// The room (the shopper's photo lives only in this browser's memory) and the running or
+// finished generation are kept in VisualizerJobProvider, so they survive closing this
+// sheet and navigating to other pages. This component is only the UI.
 
 const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, open, onOpenChange, onStatusChange }) => {
   const t = useTranslations("ProductPage");
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [step, setStep] = useState<Step>("pick");
-  const [room, setRoom] = useState<VisualizerRoom | null>(null);
-  const [samples, setSamples] = useState<VisualizerRoom[]>([]);
-  const [active, setActive] = useState<Product>(product);
-  const [result, setResult] = useState<VisualizerResult | null>(null);
-  const [errorKey, setErrorKey] = useState<"visualizer_error" | "visualizer_limit">("visualizer_error");
+  const { room, job, setRoom, startRender, clearJob, reset, setSheetOpen, notifyBackground } = useVisualizerJob();
+  const [samples, setSamples] = useState<SampleRoom[]>([]);
   const cameraRef = useRef<HTMLInputElement | null>(null);
   const galleryRef = useRef<HTMLInputElement | null>(null);
-  const renderSeq = useRef(0);
-  const openRef = useRef(open);
-  openRef.current = open;
+
+  // Everything about the current generation is derived from the shared job.
+  const step: Step = !job ? "pick" : job.status === "processing" ? "processing" : job.status === "ready" ? "result" : "error";
+  const active: Product = job?.product ?? product;
+  const result = job?.result ?? null;
+  const errorKey = job?.errorKey ?? "visualizer_error";
 
   useEffect(() => {
     onStatusChange?.(step === "processing" ? "processing" : step === "result" ? "ready" : "idle");
   }, [step, onStatusChange]);
 
+  // Let the provider know whether we are on screen: it only toasts when we are not.
+  useEffect(() => {
+    setSheetOpen(open);
+    return () => setSheetOpen(false);
+  }, [open, setSheetOpen]);
+
   const { data: similar } = useQuery({
-    ...allProductsByCategory({ category: product.category, language, limit: 12, availability: "true" }),
+    ...allProductsByCategory({ category: product.category, language, limit: 12, availability: "in_stock" }),
     enabled: open && isFlooring(product.category),
   });
   const alternatives = [product, ...(similar?.data?.products || []).filter((p) => p._id !== product._id)].slice(0, 10);
@@ -78,70 +70,33 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
     if (!open) return;
     track("visualizer_open", { item_id: product._id });
     visualizerServices.getSamples().then(setSamples).catch(() => setSamples([]));
-    // Keep an in-flight render or a finished result when the sheet is reopened.
-    setStep((current) => {
-      if (current === "processing" || current === "result") return current;
-      setActive(product);
-      setRoom(readStoredRoom());
-      setResult(null);
-      return "pick";
-    });
-  }, [open, product]);
+    // A finished job for another product is stale on this page: keep the room, start from "pick".
+    if (job && job.status !== "processing" && job.product._id !== product._id) clearJob();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, product._id]);
 
-  const renderFor = async (targetRoom: VisualizerRoom, targetProduct: Product) => {
-    const seq = ++renderSeq.current;
-    setActive(targetProduct);
-    setStep("processing");
-    const started = Date.now();
-    try {
-      const res = await visualizerServices.render(targetRoom.roomKey, targetProduct._id);
-      if (seq !== renderSeq.current) return;
-      setResult(res);
-      setStep("result");
-      track("visualizer_result", { item_id: targetProduct._id, duration_ms: Date.now() - started, cached: res.cached });
-      if (!openRef.current) {
-        toast(t("visualizer_ready_toast"), {
-          description: targetProduct.name,
-          duration: 10000,
-          action: { label: t("visualizer_view"), onClick: () => onOpenChange(true) },
-        });
-      }
-    } catch (err: unknown) {
-      if (seq !== renderSeq.current) return;
-      const status = (err as { response?: { status?: number } })?.response?.status;
-      setErrorKey(status === 429 ? "visualizer_limit" : "visualizer_error");
-      setStep("error");
-      track("visualizer_error", { item_id: targetProduct._id, status });
-    }
+  const handleOpenChange = (next: boolean) => {
+    if (!next && step === "processing") notifyBackground();
+    onOpenChange(next);
   };
 
-  const handleFile = async (file: File | undefined) => {
+  const renderFor = (targetRoom: VisualizerRoom, targetProduct: Product) => startRender(targetRoom, targetProduct, language);
+
+  const handleFile = (file: File | undefined) => {
     if (!file) return;
-    setStep("processing");
-    try {
-      const uploaded = await visualizerServices.uploadRoom(file);
-      sessionStorage.setItem(ROOM_STORAGE_KEY, JSON.stringify(uploaded));
-      setRoom(uploaded);
-      track("visualizer_upload", { item_id: product._id });
-      await renderFor(uploaded, product);
-    } catch {
-      setErrorKey("visualizer_error");
-      setStep("error");
-    }
+    const photoRoom: VisualizerRoom = { kind: "photo", file, previewUrl: URL.createObjectURL(file) };
+    setRoom(photoRoom);
+    track("visualizer_upload", { item_id: product._id });
+    renderFor(photoRoom, product);
   };
 
-  const applySample = (sample: VisualizerRoom) => {
+  const applySample = (sample: SampleRoom) => {
     setRoom(sample);
     track("visualizer_sample", { item_id: product._id });
     renderFor(sample, product);
   };
 
-  const clearRoom = () => {
-    sessionStorage.removeItem(ROOM_STORAGE_KEY);
-    setRoom(null);
-    setResult(null);
-    setStep("pick");
-  };
+  const clearRoom = () => reset();
 
   const addActiveToCart = () => {
     const quantity = isFlooring(active.category) && active.boxCoverage ? Number(active.boxCoverage) : 1;
@@ -161,19 +116,36 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
     router.push(`/${language}/order`);
   };
 
-  const handleDownload = () => {
+  const resultFileName = () => `${(active.model || active.name || "floor").replace(/[^\w.-]+/g, "_")}.jpg`;
+
+  const handleDownload = async () => {
     if (!result) return;
     track("visualizer_download", { item_id: active._id });
-    // Top-level navigation to an attachment response: the browser saves the file, the page stays.
-    window.location.href = visualizerServices.downloadUrl(result.resultKey, resultFileName());
+    if (result.resultKey) {
+      // Stored sample result: top-level navigation to an attachment response, the page stays.
+      window.location.href = visualizerServices.downloadUrl(result.resultKey, resultFileName());
+      return;
+    }
+    // Customer photo: the result exists only in this browser, save it from memory.
+    try {
+      const blob = await visualizerServices.resultBlob(result, resultFileName());
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = resultFileName();
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+    } catch {
+      window.open(result.src, "_blank", "noopener,noreferrer");
+    }
   };
-
-  const resultFileName = () => `${(active.model || active.name || "floor").replace(/[^\w.-]+/g, "_")}.jpg`;
 
   const handleShare = async () => {
     if (!result) return;
     try {
-      const blob = await (await fetch(visualizerServices.downloadUrl(result.resultKey, resultFileName()))).blob();
+      const blob = await visualizerServices.resultBlob(result, resultFileName());
       const file = new File([blob], resultFileName(), { type: blob.type || "image/jpeg" });
       if (navigator.canShare?.({ files: [file] })) {
         await navigator.share({ files: [file], title: active.name });
@@ -183,7 +155,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
     } catch {
       /* fall through to opening the image */
     }
-    window.open(result.resultUrl, "_blank", "noopener,noreferrer");
+    window.open(result.src, "_blank", "noopener,noreferrer");
   };
 
   const handleQuote = () => {
@@ -194,7 +166,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
   const price = calculateDiscountedPrice(active);
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetContent
         side="bottom"
         className="z-[200] mx-auto flex max-h-[92dvh] w-full max-w-lg flex-col rounded-t-2xl border-0 p-0 shadow-[0_-12px_40px_-12px_rgba(0,0,0,0.35)] sm:inset-y-0 sm:my-auto sm:h-fit sm:max-h-[88vh] sm:rounded-2xl sm:shadow-2xl"
@@ -218,7 +190,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                   <div className="flex items-center gap-3 rounded-xl bg-[#F5F5F4] p-3">
                     <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-[#EBEBEA]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={room.roomUrl} alt="" className="size-full object-cover" />
+                      <img src={roomPreviewUrl(room)} alt="" className="size-full object-cover" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="text-sm font-medium text-[#171717]">{t("visualizer_your_room")}</div>
@@ -293,7 +265,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
               <div className="relative overflow-hidden rounded-xl bg-[#F5F5F4]">
                 {room ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={room.roomUrl} alt="" className="block w-full opacity-80" />
+                  <img src={roomPreviewUrl(room)} alt="" className="block w-full opacity-80" />
                 ) : (
                   <div className="aspect-[3/2] w-full" />
                 )}
@@ -324,7 +296,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                 </SheetDescription>
               </SheetHeader>
 
-              <BeforeAfter before={room.roomUrl} after={result.resultUrl} beforeLabel={t("visualizer_before")} afterLabel={t("visualizer_after")} hint={t("visualizer_drag")} />
+              <BeforeAfter before={roomPreviewUrl(room)} after={result.src} beforeLabel={t("visualizer_before")} afterLabel={t("visualizer_after")} hint={t("visualizer_drag")} />
 
               {alternatives.length > 1 && (
                 <div className="space-y-2">

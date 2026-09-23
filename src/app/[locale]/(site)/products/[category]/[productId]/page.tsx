@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useCallback, useEffect, useState } from "react";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import Utils from "@/Utils/utils";
 import ErrorState from "@/components/ErrorState";
@@ -22,12 +22,15 @@ import StickyBuyBar from "./_components/StickyBuyBar";
 import RoomVisualizerSheet, { VisualizerStatus } from "./_components/RoomVisualizerSheet";
 import ProductPageSkeleton from "./_components/ProductPageSkeleton";
 import { isFlooring } from "./_components/productPageUtils";
+import { VISUALIZER_OPEN_PARAM } from "@/providers/VisualizerJobProvider";
 
 const ProductPage: FC = () => {
   const pathname = usePathname();
   const language = pathname.split("/")[1];
   const { productId } = useParams<{ productId: string }>();
   const dispatch = useDispatch();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const { product, isLoading, error } = useProductData({ productId, language });
 
@@ -36,6 +39,14 @@ const ProductPage: FC = () => {
   const [ctaOutOfView, setCtaOutOfView] = useState(false);
   const [visualizerOpen, setVisualizerOpen] = useState(false);
   const [visualizerStatus, setVisualizerStatus] = useState<VisualizerStatus>("idle");
+
+  // "?visualizer=open" is how the "photo is ready" toast brings the shopper back to the result.
+  const openVisualizerParam = searchParams.get(VISUALIZER_OPEN_PARAM) === "open";
+  useEffect(() => {
+    if (!openVisualizerParam || !product) return;
+    setVisualizerOpen(true);
+    router.replace(pathname, { scroll: false });
+  }, [openVisualizerParam, product, pathname, router]);
 
   useEffect(() => {
     if (!ctaNode) return;
