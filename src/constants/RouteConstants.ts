@@ -25,7 +25,7 @@ export default class RouteConstants {
 
     static get ADMIN_SETTINGS() { return "/admin/settings"; }
 
-    static get ADMIN_MEDIA() { return "/admin/media"; }
+    static get ADMIN_HOMEPAGE() { return "/admin/homepage"; }
 
     static get ADMIN_VISUALIZER() { return "/admin/visualizer"; }
 

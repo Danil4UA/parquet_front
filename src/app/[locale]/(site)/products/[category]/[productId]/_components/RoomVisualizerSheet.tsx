@@ -13,7 +13,7 @@ import { trackVisualizer as track, useVisualizerJob } from "@/providers/Visualiz
 import { allProductsByCategory } from "@/constants/queryInfo";
 import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
 import { formatPrice, calculateDiscountedPrice } from "@/Utils/productsUtils";
-import BeforeAfter from "./BeforeAfter";
+import BeforeAfter from "@/components/BeforeAfter/BeforeAfter";
 import { isFlooring } from "./productPageUtils";
 import { downscaleImage, ImageDecodeError } from "@/Utils/imageUtils";
 
@@ -351,11 +351,11 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                   hint={t("visualizer_drag")}
                   actions={
                     <>
-                      <button type="button" onClick={handleDownload} aria-label={t("visualizer_download")} title={t("visualizer_download")} className="flex size-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-colors hover:bg-black/75">
-                        <Download className="size-[18px]" strokeWidth={1.75} />
+                      <button type="button" onClick={handleDownload} aria-label={t("visualizer_download")} title={t("visualizer_download")} className="flex size-11 items-center justify-center rounded-full bg-black/65 text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/80 active:bg-black">
+                        <Download className="size-5" strokeWidth={1.75} />
                       </button>
-                      <button type="button" onClick={handleShare} aria-label={t("visualizer_share")} title={t("visualizer_share")} className="flex size-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-colors hover:bg-black/75">
-                        <Share2 className="size-[18px]" strokeWidth={1.75} />
+                      <button type="button" onClick={handleShare} aria-label={t("visualizer_share")} title={t("visualizer_share")} className="flex size-11 items-center justify-center rounded-full bg-black/65 text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/80 active:bg-black">
+                        <Share2 className="size-5" strokeWidth={1.75} />
                       </button>
                     </>
                   }

@@ -34,9 +34,9 @@ export const mainList = [
   },
   {
     id: "main-5",
-    name: "Media",
+    name: "Homepage",
     icon: Images,
-    route: RouteConstants.ADMIN_MEDIA,
+    route: RouteConstants.ADMIN_HOMEPAGE,
   },
   {
     id: "main-6",

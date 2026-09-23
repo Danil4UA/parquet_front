@@ -57,17 +57,16 @@ export const LangSwitcher = ({ tone = "light", compact = false }: LangSwitcherPr
           aria-label={currentLanguage?.label}
           className={
             compact
-              ? "flex h-11 items-center gap-1 rounded-lg px-2 text-white transition-colors hover:bg-white/10 outline-none"
+              ? tone === "dark"
+                ? "flex size-9 items-center justify-center rounded-full text-[#171717] transition-colors hover:bg-[#F5F5F4] outline-none sm:size-10"
+                : "flex h-11 items-center gap-1 rounded-lg px-2 text-white transition-colors hover:bg-white/10 outline-none"
               : tone === "dark"
                 ? "flex h-10 items-center gap-1 rounded-lg px-2 text-sm font-medium text-[#171717] transition-colors hover:bg-[#F5F5F4] outline-none"
                 : "flex h-10 items-center gap-1 text-sm font-medium text-white transition-colors hover:text-white/80 outline-none"
           }
         >
           {compact ? (
-            <>
-              <Globe className="size-6" strokeWidth={1.75} />
-              <span className="text-[11px] font-semibold uppercase leading-none">{currentLanguage?.abbr}</span>
-            </>
+            <Globe className="size-5 sm:size-[22px]" strokeWidth={1.75} />
           ) : (
             <>
               <span>{isMobile ? currentLanguage?.abbr : currentLanguage?.label}</span>

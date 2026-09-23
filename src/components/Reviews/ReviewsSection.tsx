@@ -1,152 +1,59 @@
 "use client";
 
-import { Review, ReviewsResponse } from "@/types/reviews"
-import { UseQueryResult } from "@tanstack/react-query"
-import { AxiosResponse } from "axios"
-import Autoplay from "embla-carousel-autoplay";
-import React from "react";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
-import ReviewCard from "./ReviewCard";
+import { Review, ReviewsResponse } from "@/types/reviews";
+import { UseQueryResult } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
 import { useTranslations } from "next-intl";
-import { Button } from "../ui/button";
+import { Star } from "lucide-react";
 import Utils from "@/Utils/utils";
-import { motion } from "framer-motion";
-import { ArrowRight, Star } from "lucide-react";
-import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
+import ReviewCard from "./ReviewCard";
+import SectionHead from "@/components/Home/SectionHead";
 
 type IReviewsSection = {
-    reviewsData: UseQueryResult<AxiosResponse<ReviewsResponse>, Error>
-}
-
-const fadeInVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 }
+  reviewsData: UseQueryResult<AxiosResponse<ReviewsResponse>, Error>;
 };
 
-const desktopFadeInVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 }
-};
+const SHOWN = 3;
 
+/** Google rating and the three latest reviews: stacked on phones, three columns on wider screens. */
 export default function ReviewsSection({ reviewsData }: IReviewsSection) {
   const t = useTranslations("HomePage");
-  const { isMobile } = useIsMobileDebounce();
+  const data = reviewsData?.data?.data;
+  const reviews = (data?.reviews || []).slice(0, SHOWN);
+  const total = data?.total_reviews || 0;
+  const rating = (data?.rating ?? 5).toFixed(1);
 
-  const reviews = reviewsData?.data?.data?.reviews || [];
-  const total_reviews = reviewsData?.data?.data?.total_reviews || 0;
+  if (reviews.length === 0) return null;
 
-  const plugin = React.useRef(
-    Autoplay({ 
-      delay: 4000, 
-      stopOnInteraction: false,
-      stopOnMouseEnter: true,
-      playOnInit: true,
-      stopOnFocusIn: false
-    })
-  );
-
-  const handleMoreReviewsClick = () => {
-    window.open(Utils.moreReviewsLink, "_blank")
-  }
-
-  const averageRating = "4.9";
-
-
-  const currentFadeVariants = isMobile ? fadeInVariants : desktopFadeInVariants;
   return (
-    <section className="relative bg-[#171717] py-10 sm:py-16 overflow-hidden" dir={"ltr"}>
-      {!isMobile && (
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-3xl"></div>
-          
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-orange-800 rounded-full blur-3xl"></div>
+    <section className="py-11 sm:py-[72px]">
+      <div className="mx-auto max-w-[1180px] px-4 sm:px-7">
+        <SectionHead title={t("customer_reviews")} />
+        <div className="flex items-baseline gap-2.5">
+          <span className="text-[44px] font-light leading-none tracking-[-0.03em] text-[#171717]">{rating}</span>
+          <span className="flex text-[#7A4B2A]" aria-hidden="true">
+            {Array.from({ length: 5 }, (_, i) => <Star key={i} className="size-[18px] fill-current" strokeWidth={0} />)}
+          </span>
+          <small className="text-[13px] text-[#6B6B6B]">{t("reviews_on_google", { count: total })}</small>
         </div>
-      )}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={currentFadeVariants}
-          transition={{ 
-            duration: isMobile ? 0.3 : 0.8,
-            ease: "easeOut"
-          }}
-          className="text-center mb-12 lg:mb-16"
-        >
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-            <span className="text-yellow-400 font-semibold text-lg">{averageRating}</span>
-          </div>
-          
-          <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${
-            isMobile 
-              ? "text-white" 
-              : "text-white"
-          }`}>
-            {t("customer_reviews")}
-          </h2>
-        </motion.div>
-        
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={currentFadeVariants}
-          transition={{
-            duration: isMobile ? 0.3 : 0.8,
-            delay: isMobile ? 0.1 : 0.2,
-            ease: "easeOut"
-          }}
-        >
-          <div className="relative">
-            <Carousel
-              plugins={[plugin.current]}
-              className="w-full"
-              onMouseEnter={plugin.current.stop}
-              onMouseLeave={plugin.current.reset}
-              opts={{
-                align: "center",
-                loop: true,
-                dragFree: !isMobile,
-                containScroll: "trimSnaps"
-              }}
-            >
-              <CarouselContent className="-ml-3 md:-ml-4 lg:-ml-6">
-                {reviews.map((review: Review, index: number) => (
-                  <CarouselItem
-                    key={`review-${review.author_name}-${index}`}
-                    className="pl-3 md:pl-4 lg:pl-6 basis-[88%] sm:basis-1/2 lg:basis-1/3 min-h-0"
-                  >
-                    <div className="h-full">
-                      <ReviewCard review={review} />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
+        <div className="mt-[18px] grid gap-2.5 md:grid-cols-3">
+          {reviews.map((review: Review, index: number) => (
+            <ReviewCard key={`${review.author_name}-${index}`} review={review} />
+          ))}
+        </div>
 
-              <CarouselPrevious className="hidden md:inline-flex left-4 xl:left-6 bg-gray-900/40 backdrop-blur-md border-gray-700/50 text-white hover:bg-gray-800/60 transition-all duration-300" />
-              <CarouselNext className="hidden md:inline-flex right-4 xl:right-6 bg-gray-900/40 backdrop-blur-md border-gray-700/50 text-white hover:bg-gray-800/60 transition-all duration-300" />
-            </Carousel>
-
-            {total_reviews > reviews.length && (
-              <div className="text-center mt-8 sm:mt-12">
-                <Button 
-                  onClick={handleMoreReviewsClick}
-                  className="group inline-flex h-12 items-center gap-2 rounded-xl border border-white/20 px-6 text-base font-semibold text-white transition-colors hover:bg-white/10"
-                >
-                  <span className="flex items-center gap-2">
-                    {t("get_more_reviews")}
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
-              </div>
-            )}
-          </div>
-        </motion.div>
+        <p className="mb-0 mt-[18px]">
+          <a
+            href={Utils.moreReviewsLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold underline decoration-[#C9C5BE] underline-offset-4 hover:decoration-[#171717]"
+          >
+            {t("get_more_reviews")}
+          </a>
+        </p>
       </div>
-
     </section>
   );
 }

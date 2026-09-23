@@ -1,4 +1,4 @@
-import { ProductsSearchParams } from "@/types/products";
+import { Product, ProductsSearchParams } from "@/types/products";
 import axios from "axios";
 import "dotenv/config";
 const URL_API = process.env.NEXT_PUBLIC_URL_API;
@@ -74,12 +74,20 @@ export default class productsServices {
     }
   }
 
+  /** Products by id, in the given order (home page sections picked in the admin). */
+  static async getProductsByIds(ids: string[], language = "en") {
+    if (ids.length === 0) return { products: [] as Product[] };
+    const response = await axios.get<{ products: Product[] }>(`${productsServices.GET_PRODUCTS_ENDPOINT}/batch`, { params: { ids: ids.join(","), language } });
+    return response.data;
+  }
+
+  /** Every product, localized. Returns the full axios response (react-query consumers read `.data`). */
   static async getAllProducts (language = "en"){
     try {
-      const response = await axios.get(productsServices.GET_ALL_PRODUCTS, {
+      const response = await axios.get<Product[]>(productsServices.GET_ALL_PRODUCTS, {
         params: { language }
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching products:", error);
       throw error;

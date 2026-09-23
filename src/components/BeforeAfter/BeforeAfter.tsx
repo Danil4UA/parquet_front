@@ -69,11 +69,6 @@ const BeforeAfter: FC<BeforeAfterProps> = ({ before, after, beforeLabel, afterLa
       {hint && !touched && (
         <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs text-white">{hint}</span>
       )}
-      {actions && (
-        <div className="absolute bottom-3 right-3 flex gap-1.5" onPointerDown={(e) => e.stopPropagation()}>
-          {actions}
-        </div>
-      )}
       <input
         type="range"
         min={2}
@@ -83,6 +78,17 @@ const BeforeAfter: FC<BeforeAfterProps> = ({ before, after, beforeLabel, afterLa
         aria-label={hint || afterLabel}
         className="absolute inset-x-0 bottom-0 h-8 w-full cursor-ew-resize opacity-0"
       />
+      {/* Rendered last and above the range input, so taps reach the buttons and never start a drag. */}
+      {actions && (
+        <div
+          className="absolute bottom-2.5 right-2.5 z-20 flex gap-2 touch-auto"
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerMove={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+        >
+          {actions}
+        </div>
+      )}
     </div>
   );
 };
