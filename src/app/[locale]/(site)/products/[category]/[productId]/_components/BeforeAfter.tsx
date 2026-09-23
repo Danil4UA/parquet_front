@@ -8,11 +8,13 @@ interface BeforeAfterProps {
   beforeLabel: string;
   afterLabel: string;
   hint?: string;
+  /** CSS aspect-ratio of the stage, e.g. "3 / 2". Fixed up front so the layout never jumps when images load. */
+  aspectRatio: string;
   className?: string;
 }
 
 /** Drag-to-compare slider. Always LTR so the handle math is direction independent. */
-const BeforeAfter: FC<BeforeAfterProps> = ({ before, after, beforeLabel, afterLabel, hint, className }) => {
+const BeforeAfter: FC<BeforeAfterProps> = ({ before, after, beforeLabel, afterLabel, hint, aspectRatio, className }) => {
   const [pos, setPos] = useState(50);
   const [touched, setTouched] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -38,17 +40,18 @@ const BeforeAfter: FC<BeforeAfterProps> = ({ before, after, beforeLabel, afterLa
     <div
       ref={ref}
       dir="ltr"
-      className={`relative select-none overflow-hidden rounded-xl bg-[#F5F5F4] touch-none ${className ?? ""}`}
+      style={{ aspectRatio }}
+      className={`relative w-full select-none overflow-hidden rounded-xl bg-[#F5F5F4] touch-none ${className ?? ""}`}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={after} alt={afterLabel} className="block h-auto w-full" draggable={false} />
+      <img src={after} alt={afterLabel} className="absolute inset-0 h-full w-full object-cover" draggable={false} />
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={before} alt={beforeLabel} className="block h-full w-full object-cover" draggable={false} />
+        <img src={before} alt={beforeLabel} className="absolute inset-0 h-full w-full object-cover" draggable={false} />
       </div>
 
       <span className="pointer-events-none absolute left-3 top-3 rounded-md bg-black/60 px-2 py-0.5 text-xs font-medium text-white">{beforeLabel}</span>
