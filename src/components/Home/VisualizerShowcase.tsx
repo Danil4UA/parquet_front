@@ -38,7 +38,7 @@ const VisualizerShowcase = ({ showcase }: VisualizerShowcaseProps) => {
           <h2 className="m-0 text-[clamp(24px,5.6vw,36px)] font-light leading-[1.12] tracking-[-0.02em] text-[#171717] [text-wrap:balance] [&_strong]:font-semibold">
             {t.rich("demo_title", { strong: (chunks) => <strong>{chunks}</strong> })}
           </h2>
-          <p className="m-0 text-[#4B4B4B]">{t("demo_lead")}</p>
+          <p className="m-0 whitespace-pre-line text-[#4B4B4B]">{t("demo_lead")}</p>
           {product && <small className="text-[13px] text-[#6B6B6B]">{t("demo_note", { product: product.name })}</small>}
           <div>
             <Link

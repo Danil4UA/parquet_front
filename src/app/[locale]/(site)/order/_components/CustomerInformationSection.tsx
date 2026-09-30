@@ -1,87 +1,55 @@
+import { useTranslations } from "next-intl";
 import TextInputWithLabel from "@/components/Inputs/TextInputWithLabel";
-import { getInputClass, getSectionTitleClass } from "./orderClasses";
-import { OrderFormType } from "@/lib/schemas/orderFormSchema";
 import PhoneNumberInputWithLabel from "@/components/Inputs/PhoneNumberInputWithLabel";
+import { OrderFormType } from "@/lib/schemas/orderFormSchema";
 
 interface CustomerInformationSectionProps {
-  deliveryMethod: string;
-  t: (key: string) => string;
-  isHebrew: boolean;
+  deliveryMethod: OrderFormType["deliveryMethod"];
 }
 
-export default function CustomerInformationSection ({
-  deliveryMethod,
-  t,
-  isHebrew
-}: CustomerInformationSectionProps){
-    return <div className="space-y-4">
-    <h3 className={getSectionTitleClass(isHebrew)}>
-      {t("customerInformation")}
-    </h3>
-    
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <TextInputWithLabel<OrderFormType>
-          label=""
-          nameInSchema="name"
-          placeholder={t("name")}
-          inputClass={getInputClass(isHebrew)}
+const inputClass = "h-12 rounded-[10px] border-[#DCDCDB] bg-white text-base shadow-none focus-visible:border-[#171717] focus-visible:ring-[#171717] md:text-base";
+const labelClass = "text-sm font-medium text-[#4B4B4B]";
+
+/** Who the order is for; the address fields appear only when delivery is chosen. */
+export default function CustomerInformationSection({ deliveryMethod }: CustomerInformationSectionProps) {
+  const t = useTranslations("Order");
+
+  const field = (name: "name" | "lastName" | "address" | "city" | "apartment" | "postalCode", required: boolean, autoComplete: string, itemClass?: string) => (
+    <TextInputWithLabel<OrderFormType>
+      label={required ? `${t(name)} *` : t(name)}
+      nameInSchema={name}
+      autoComplete={autoComplete}
+      itemClass={itemClass}
+      labelClass={labelClass}
+      inputClass={inputClass}
+    />
+  );
+
+  return (
+    <section>
+      <h2 className="mb-4 text-xl font-semibold text-[#171717]">{t("customerInformation")}</h2>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {field("name", true, "given-name")}
+        {field("lastName", true, "family-name")}
+
+        <PhoneNumberInputWithLabel<OrderFormType>
+          nameInSchema="phoneNumber"
+          label={`${t("phoneNumber")} *`}
+          itemClass="sm:col-span-2"
+          labelClass={labelClass}
+          inputClass="rounded-[10px] border border-[#DCDCDB] bg-white px-3"
+          phoneClass="h-12 w-full"
         />
-        <TextInputWithLabel<OrderFormType>
-          label=""
-          nameInSchema="lastName"
-          placeholder={t("lastName")}
-          inputClass={getInputClass(isHebrew)}
-        />
+
+        {deliveryMethod === "shipping" && (
+          <>
+            {field("address", true, "street-address", "sm:col-span-2")}
+            {field("city", false, "address-level2", "sm:col-span-2")}
+            {field("apartment", false, "address-line2")}
+            {field("postalCode", false, "postal-code")}
+          </>
+        )}
       </div>
-
-      {deliveryMethod === "shipping" && (
-        <div className="space-y-4">
-          <TextInputWithLabel<OrderFormType>
-            label=""
-            nameInSchema="address"
-            placeholder={t("address")}
-            inputClass={getInputClass(isHebrew)}
-          />                    
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextInputWithLabel<OrderFormType>
-              label=""
-              nameInSchema="apartment"
-              placeholder={t("apartment")}
-              inputClass={getInputClass(isHebrew)}
-            />
-            <TextInputWithLabel<OrderFormType>
-              label=""
-              nameInSchema="postalCode"
-              placeholder={t("postalCode")}
-              inputClass={getInputClass(isHebrew)}
-            />
-          </div>
-          
-          <TextInputWithLabel<OrderFormType>
-            label=""
-            nameInSchema="city"
-            placeholder={t("city")}
-            inputClass={getInputClass(isHebrew)}
-          />
-        </div>
-      )}
-
-      <PhoneNumberInputWithLabel<OrderFormType>
-        nameInSchema="phoneNumber"
-        label=""
-        placeholder={t("phoneNumber")}
-        itemClass="w-full"
-        phoneClass="w-full h-12"
-        labelClass="hidden"
-        inputClass={`
-          w-full rounded-lg
-          focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent
-          transition-all duration-200
-          ${isHebrew ? "hebrew-text text-right" : ""}
-        `}
-        messageClass="mt-2"
-      />
-    </div>
-  </div>
+    </section>
+  );
 }

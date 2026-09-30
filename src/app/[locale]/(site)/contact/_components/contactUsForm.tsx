@@ -51,14 +51,14 @@ const ContactUsForm = ({ onSubmit }) => {
               label=""
               nameInSchema="name"
               placeholder={t("name")}
-              inputClass={`h-12 ${errors.name ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
+              inputClass={`h-12 bg-white ${errors.name ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
             />
             
             <TextInputWithLabel<ContactFormType>
               label=""
               nameInSchema="phone"
               placeholder={t("phone")}
-              inputClass={`h-12 ${errors.phone ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
+              inputClass={`h-12 bg-white ${errors.phone ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
             />
           </div>
           
@@ -67,7 +67,7 @@ const ContactUsForm = ({ onSubmit }) => {
             nameInSchema="email"
             type="email"
             placeholder={t("email")}
-            inputClass={`h-12 ${errors.email ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
+            inputClass={`h-12 bg-white ${errors.email ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
           />
           
           <div className="flex-1">
@@ -75,13 +75,13 @@ const ContactUsForm = ({ onSubmit }) => {
               label=""
               nameInSchema="message"
               placeholder={t("message")}
-              textareaClass={`resize-none ${errors.message ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
+              textareaClass={`min-h-[140px] resize-none bg-white ${errors.message ? "error" : ""} ${isHebrew ? "hebrew-text" : ""}`}
             />
           </div>
           
           <Button
             type="submit"
-            className="w-full bg-[#171717] hover:bg-[#2a2a2a] py-6"
+            className="h-[54px] w-full rounded-[14px] bg-[#171717] text-[15px] font-semibold hover:bg-[#2A2A2A]"
             disabled={isSubmitting || isCoolingDown}
           >
             {isSubmitting

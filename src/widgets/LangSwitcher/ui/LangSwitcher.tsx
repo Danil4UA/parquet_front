@@ -59,10 +59,10 @@ export const LangSwitcher = ({ tone = "light", compact = false }: LangSwitcherPr
             compact
               ? tone === "dark"
                 ? "flex size-9 items-center justify-center rounded-full text-[#171717] transition-colors hover:bg-[#F5F5F4] outline-none sm:size-10"
-                : "flex h-11 items-center gap-1 rounded-lg px-2 text-white transition-colors hover:bg-white/10 outline-none"
+                : "flex size-9 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 outline-none sm:size-10"
               : tone === "dark"
                 ? "flex h-10 items-center gap-1 rounded-lg px-2 text-sm font-medium text-[#171717] transition-colors hover:bg-[#F5F5F4] outline-none"
-                : "flex h-10 items-center gap-1 text-sm font-medium text-white transition-colors hover:text-white/80 outline-none"
+                : "flex h-10 items-center gap-1 rounded-lg px-2 text-sm font-medium text-white transition-colors hover:bg-white/10 outline-none"
           }
         >
           {compact ? (

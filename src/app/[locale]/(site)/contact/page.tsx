@@ -1,289 +1,168 @@
 "use client";
-import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, MessageSquare, MessageCircle, Map } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { contactData, getGoogleMapsUrl, socialLinks } from '@/Utils/utils';
-import ContactUsForm from './_components/contactUsForm';
-import { useTranslations } from 'next-intl';
-import { ContactFormType } from '@/lib/schemas/contactFormSchema';
-import ErrorDialog from '@/components/ErrorDialog';
-import contactServices from '@/services/contactServices';
-import { usePathname, useRouter } from 'next/navigation';
+
+import { ReactNode, useState } from "react";
+import { Clock, Mail, MapPin, MessageSquare, Phone, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { usePathname, useRouter } from "next/navigation";
+import { contactData, getGoogleMapsUrl, socialLinks } from "@/Utils/utils";
+import { ContactFormType } from "@/lib/schemas/contactFormSchema";
+import contactServices from "@/services/contactServices";
+import ErrorDialog from "@/components/ErrorDialog";
+import SuccessDialog from "@/components/SuccessDialog";
+import PageTitleSection from "@/components/Pages/PageTitleSection";
 import InstagramIcon from "@/app/assets/instagram.svg";
 import FacebookIcon from "@/app/assets/facebook.svg";
-import { Link } from "@/i18n/routing";
-import SuccessDialog from '@/components/SuccessDialog';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import PageTitleSection from '@/components/Pages/PageTitleSection';
+import ContactUsForm from "./_components/contactUsForm";
 
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 }
-};
+const phoneHref = `tel:${contactData.phone.replace(/[^\d+]/g, "")}`;
+const textLink = "font-medium text-[#171717] underline decoration-[#C9C5BE] underline-offset-4 transition-colors hover:decoration-[#171717]";
+const outlineButton =
+  "flex h-[46px] items-center justify-center gap-2 rounded-[14px] border border-[#DCDCDB] px-[18px] text-sm font-semibold text-[#171717] transition-colors hover:bg-[#F5F5F4]";
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2
-    }
-  }
-};
+/** One line of the contact list: icon, small label, then the value. */
+const InfoRow = ({ icon: Icon, label, children }: { icon: LucideIcon; label: string; children: ReactNode }) => (
+  <div className="grid grid-cols-[24px_1fr] gap-3.5 border-b border-[#E2DFDA] py-[18px]">
+    <Icon className="mt-0.5 size-5 text-[#171717]" strokeWidth={1.5} />
+    <div className="min-w-0">
+      <div className="mb-1 text-[13px] text-[#6B6B6B]">{label}</div>
+      {children}
+    </div>
+  </div>
+);
 
+/** Contact page: the direct ways to reach the shop on one side, the message form on the other, the map below. */
 const ContactPage = () => {
-    const [isErrorDialogOpen, setIsErrorDialogOpen] = useState<boolean>(false);
-    const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState<boolean>(false);
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState<boolean>(false);
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState<boolean>(false);
 
-    const t = useTranslations();
-    const router = useRouter();
-    const pathname = usePathname();
-    const lng = pathname.split("/")[1];
+  const t = useTranslations();
+  const router = useRouter();
+  const pathname = usePathname();
+  const lng = pathname.split("/")[1];
 
-    const handleFormSubmit = async (formData: ContactFormType) => {
-        try {
-            const cleanedFormData = Object.fromEntries(
-              Object.entries(formData).map(([key, value]) => [
-                  key,
-                  typeof value === 'string' && value.trim() === '' ? undefined : value
-              ])
-          ) as ContactFormType;
-          
-            await contactServices.contactUs(cleanedFormData);
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({ event: 'lead', form_name: 'contact_us' });
-            setIsSuccessDialogOpen(true)
-        } catch {
-            setIsErrorDialogOpen(true);
-        }
-    };
-    
-    const handleSuccessDialogClose = () => {
-      setIsSuccessDialogOpen(false);
-      router.push(`/${lng}`);
-    };
+  const handleFormSubmit = async (formData: ContactFormType) => {
+    try {
+      const cleanedFormData = Object.fromEntries(
+        Object.entries(formData).map(([key, value]) => [key, typeof value === "string" && value.trim() === "" ? undefined : value])
+      ) as ContactFormType;
 
-    const handleWhatsAppClick = () => {
-        const message = encodeURIComponent(`Hello!`);
-        window.open(`https://wa.me/+972584455478?text=${message}`, '_blank');
-    };
-
-    const handleGoogleMapsClick = () => {
-        const googleMapsUrl = getGoogleMapsUrl(contactData.address);
-        window.open(googleMapsUrl, '_blank');
-    };
-
-    return (
-        <div className="min-h-screen w-full bg-white">
-          <PageTitleSection title={t("Contact.contactUs")} />
-          <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-12">
-            <motion.div 
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
-              className="max-w-5xl mx-auto"
-            >
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
-                <motion.div variants={fadeInVariants} className="lg:col-span-1">
-                  <Card className="h-full shadow-lg border-0 bg-white">
-                    <CardHeader className="bg-gray-900 text-white rounded-t-lg p-4">
-                      <CardTitle className="flex items-center gap-2">
-                        <MessageSquare className="h-5 w-5" />
-                        <span className="text-lg">{t("Contact.contactInfo")}</span>
-                      </CardTitle>
-                    </CardHeader>
-                    
-                    <CardContent className="p-0">
-                      <div className="divide-y divide-gray-100">
-                        <div className="p-2 hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center gap-3">
-                            <MapPin className="h-4 w-4 text-gray-500" />
-                            <div className="flex-1">
-                              <p className="text-xs text-gray-500 mb-1">{t("Contact.addressText")}</p>
-                              <div className="flex gap-2 mt-2">
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={handleGoogleMapsClick}
-                                  className="h-7 px-2 text-xs border font-bold hover:bg-[#F5F5F4]"
-                                >
-                                  <Map className="h-5 w-5" />
-                                  {t("ContactContent.address")}
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {/* Phone */}
-                        <div className="p-2 hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center gap-3">
-                            <Phone className="h-4 w-4 text-gray-500" />
-                            <div className="flex-1">
-                              <p className="text-xs text-gray-500 mb-1">{t("Contact.phoneText")}</p>
-                              <a 
-                                href={`tel:${contactData.phone}`} 
-                                className="text-gray-900 hover:text-[#6B6B6B] transition-colors text-sm font-medium"
-                              >
-                                {contactData.phone}
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {/* Email */}
-                        <div className="p-2 hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center gap-3">
-                            <Mail className="h-4 w-4 text-gray-500" />
-                            <div className="flex-1 min-w-0">
-                              <p className="text-xs text-gray-500 mb-1">{t("Contact.emailText")}</p>
-                              <a 
-                                href={`mailto:${contactData.email}`} 
-                                className="text-gray-900 hover:text-[#6B6B6B] transition-colors text-sm font-medium break-all"
-                              >
-                                {contactData.email}
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Social Media */}
-                      <div className="p-4 border-t border-gray-100">
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-gray-900">{t("Contact.followUsText")}</p>
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="h-8 w-8 p-0 hover:bg-[#F5F5F4]"
-                              asChild
-                            >
-                              <Link href={socialLinks.facebook}>
-                                <FacebookIcon className="h-4 w-4" />
-                              </Link>
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="h-8 w-8 p-0 hover:bg-pink-50 hover:border-pink-200"
-                              asChild
-                            >
-                              <Link href={socialLinks.instagram}>
-                                <InstagramIcon className="h-4 w-4" />
-                              </Link>
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={handleWhatsAppClick}
-                              className="h-8 w-8 p-0 hover:bg-green-50 hover:border-green-200"
-                            >
-                              <MessageCircle className="h-4 w-4 text-green-600" />
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Working Hours */}
-                      <div className="p-4 border-t border-gray-100 bg-gray-50/50">
-                        <div className="flex items-center gap-2 mb-3">
-                          <Clock className="h-4 w-4 text-gray-500" />
-                          <p className="text-sm font-medium text-gray-900">{t("Contact.workingHours")}</p>
-                        </div>
-                        
-                        <div className="space-y-2 text-xs">
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600">
-                              {t("Utils.days.sunday")} - {t("Utils.days.thursday")}
-                            </span>
-                            <span className="font-medium text-gray-900">10:00 - 18:00</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600">{t("Utils.days.friday")}</span>
-                            <span className="font-medium text-gray-900">9:00 - 12:00</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600">{t("Utils.days.saturday")}</span>
-                            <span className="font-medium text-red-600">{t("Utils.status.closed")}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-      
-                {/* Contact Form Card */}
-                <motion.div variants={fadeInVariants} className="lg:col-span-2">
-                  <Card className="h-full shadow-xl border-0 bg-white/70 backdrop-blur-sm">
-                    <CardHeader className="bg-gray-900 text-white rounded-t-lg p-4">
-                      <CardTitle className="flex items-center gap-3">
-                        <div className="bg-white/20 rounded-full">
-                          <Mail className="h-5 w-5" />
-                        </div>
-                        <span className="text-lg sm:text-xl">{t("Contact.sendMessage")}</span>
-                      </CardTitle>
-                    </CardHeader>
-
-                    <CardContent className="p-4 sm:p-6">
-                      <div className="mb-6">
-                        <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
-                          {t("Contact.fillForm")}
-                        </p>
-                      </div>
-                      <ContactUsForm onSubmit={handleFormSubmit} />
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
-          
-          {/* Map Section */}
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="py-4 sm:py-12 bg-[#F5F5F4]"
-          >
-            <div className="container mx-auto px-3 sm:px-4">
-              <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-6 sm:mb-8">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">{t("Contact.findUs")}</h2>
-                  <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base px-4 sm:px-0">
-                    {t("Contact.visitUsText")}
-                  </p>
-                </div>
-                <Card className="overflow-hidden shadow-2xl border-0">
-                  <div className="aspect-w-16 aspect-h-8 w-full h-64 sm:h-96 lg:h-[500px]">
-                    <iframe 
-                      src={`https://maps.google.com/maps?q=${encodeURIComponent(contactData.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`} 
-                      className="w-full h-full rounded-lg" 
-                      title="Google Maps"
-                      loading="lazy"
-                    />
-                  </div>
-                </Card>
-              </div>
-            </div>
-          </motion.div>
-          
-          <ErrorDialog
-            isOpen={isErrorDialogOpen}
-            onCloseDialog={() => setIsErrorDialogOpen(false)}
-            title={""}
-            message={t("Contact.errorMessage")}
-          />
-          <SuccessDialog
-            isOpen={isSuccessDialogOpen}
-            setIsOpen={setIsSuccessDialogOpen}
-            onClose={handleSuccessDialogClose}
-            title={t(`Contact.thankYou`)}
-            text=""
-          />
-        </div>
-      );
+      await contactServices.contactUs(cleanedFormData);
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "lead", form_name: "contact_us" });
+      setIsSuccessDialogOpen(true);
+    } catch {
+      setIsErrorDialogOpen(true);
+    }
   };
-  
-  export default ContactPage;
+
+  const handleSuccessDialogClose = () => {
+    setIsSuccessDialogOpen(false);
+    router.push(`/${lng}`);
+  };
+
+  const hours = [
+    { days: `${t("Utils.days.sunday")} – ${t("Utils.days.thursday")}`, time: "10:00 – 18:00" },
+    { days: t("Utils.days.friday"), time: "9:00 – 12:00" },
+    { days: t("Utils.days.saturday"), time: null },
+  ];
+
+  return (
+    <div className="w-full bg-white">
+      <PageTitleSection title={t("Contact.contactUs")} lead={t("Contact.contactUsAnyWay")} />
+
+      <div className="mx-auto grid max-w-[1180px] gap-10 px-4 pb-11 pt-7 sm:px-7 sm:pb-[72px] sm:pt-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+        <section aria-label={t("Contact.contactInfo")}>
+          <a href={phoneHref} dir="ltr" className="block w-fit text-[clamp(30px,6vw,44px)] font-light leading-none tracking-[-0.01em] text-[#171717] tabular-nums rtl:ms-auto rtl:me-0">
+            {contactData.phone}
+          </a>
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            <a
+              href={socialLinks.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-[46px] items-center justify-center gap-2 rounded-[14px] bg-[#171717] px-[18px] text-sm font-semibold text-white transition-colors hover:bg-[#2A2A2A]"
+            >
+              <MessageSquare className="size-[18px]" strokeWidth={1.75} />
+              {t("HomePage.whatsapp_cta")}
+            </a>
+            <a href={phoneHref} className={outlineButton}>
+              <Phone className="size-[18px]" strokeWidth={1.75} />
+              {t("Footer.call_us")}
+            </a>
+          </div>
+
+          <div className="mt-8 border-t border-[#E2DFDA]">
+            <InfoRow icon={MapPin} label={t("Contact.addressText")}>
+              <div className="text-[#171717]">{t("ContactContent.address")}</div>
+              <div className="mt-1.5 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+                <a href={getGoogleMapsUrl(contactData.address)} target="_blank" rel="noopener noreferrer" className={textLink}>
+                  Google Maps
+                </a>
+                <a href={socialLinks.waze} target="_blank" rel="noopener noreferrer" className={textLink}>
+                  Waze
+                </a>
+              </div>
+            </InfoRow>
+
+            <InfoRow icon={Mail} label={t("Contact.emailText")}>
+              <a href={`mailto:${contactData.email}`} className="break-all text-[#171717] transition-colors hover:text-[#6B6B6B]">
+                {contactData.email}
+              </a>
+            </InfoRow>
+
+            <InfoRow icon={Clock} label={t("Contact.workingHours")}>
+              <dl className="m-0 grid gap-1.5">
+                {hours.map(({ days, time }) => (
+                  <div key={days} className="flex items-baseline justify-between gap-4">
+                    <dt className="text-[#4B4B4B]">{days}</dt>
+                    <dd className={`m-0 tabular-nums ${time ? "font-medium text-[#171717]" : "text-[#6B6B6B]"}`} dir={time ? "ltr" : undefined}>
+                      {time ?? t("Utils.status.closed")}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </InfoRow>
+          </div>
+
+          <div className="mt-5 flex items-center gap-3">
+            <span className="text-sm text-[#6B6B6B]">{t("Contact.followUsText")}</span>
+            <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex size-10 items-center justify-center rounded-full border border-[#DCDCDB] transition-colors hover:bg-[#F5F5F4]">
+              <InstagramIcon className="size-[18px]" />
+            </a>
+            <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="flex size-10 items-center justify-center rounded-full border border-[#DCDCDB] transition-colors hover:bg-[#F5F5F4]">
+              <FacebookIcon className="size-[18px]" />
+            </a>
+          </div>
+        </section>
+
+        <section className="h-fit rounded-2xl bg-[#F5F5F4] p-6 sm:p-10">
+          <h2 className="m-0 text-2xl font-semibold text-[#171717]">{t("Contact.sendMessage")}</h2>
+          <p className="mb-6 mt-2 text-[#4B4B4B]">{t("Contact.fillForm")}</p>
+          <ContactUsForm onSubmit={handleFormSubmit} />
+        </section>
+      </div>
+
+      <section className="bg-[#F5F5F4] py-11 sm:py-[72px]">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-7">
+          <div className="mb-5 grid gap-2 sm:mb-6">
+            <h2 className="m-0 text-[clamp(24px,5.6vw,36px)] font-light leading-[1.12] tracking-[-0.02em] text-[#171717]">{t("Contact.findUs")}</h2>
+            <p className="m-0 max-w-[40em] text-[#6B6B6B]">{t("Contact.visitUsText")}</p>
+          </div>
+          <div className="h-72 w-full overflow-hidden rounded-2xl border border-[#E2DFDA] bg-white sm:h-[440px]">
+            <iframe
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(contactData.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+              className="h-full w-full border-0"
+              title="Google Maps"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
+      <ErrorDialog isOpen={isErrorDialogOpen} onCloseDialog={() => setIsErrorDialogOpen(false)} title={""} message={t("Contact.errorMessage")} />
+      <SuccessDialog isOpen={isSuccessDialogOpen} setIsOpen={setIsSuccessDialogOpen} onClose={handleSuccessDialogClose} title={t(`Contact.thankYou`)} text="" />
+    </div>
+  );
+};
+
+export default ContactPage;

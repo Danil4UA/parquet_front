@@ -10,12 +10,12 @@ export default function TermsPage() {
   const t = useTranslations("Terms");
 
   return (
-    <div className="min-h-screen bg-gray-50 w-full">
+    <div className="w-full bg-white">
       <PageTitleSection title={t("page_title")} />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white border border-gray-200 rounded-xl p-8 sm:p-12 shadow-sm">
-            <div className="space-y-8 text-gray-700 leading-relaxed">
+      <div className="mx-auto max-w-[1180px] px-4 pb-11 pt-7 sm:px-7 sm:pb-[72px] sm:pt-10">
+        <div className="max-w-[760px]">
+          <div>
+            <div className="space-y-9 text-[#4B4B4B] leading-relaxed">
               <section>
                 <p className="mb-4">{t("intro_description")}</p>
                 <p>{t("intro_subtitle")}</p>
@@ -23,7 +23,7 @@ export default function TermsPage() {
 
               {/* General */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("general_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("general_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("general_1")}</p>
                   <p>{t("general_2")}</p>
@@ -37,7 +37,7 @@ export default function TermsPage() {
 
               {/* Registration */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("registration_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("registration_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("registration_1")}</p>
                   <p>{t("registration_2")}</p>
@@ -48,7 +48,7 @@ export default function TermsPage() {
 
               {/* Purchasing */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("purchasing_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("purchasing_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("purchasing_1")}</p>
                   <p>{t("purchasing_2")}</p>
@@ -60,7 +60,7 @@ export default function TermsPage() {
 
               {/* Payment */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("payment_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("payment_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("payment_1")}</p>
                   <p>{t("payment_2")}</p>
@@ -72,7 +72,7 @@ export default function TermsPage() {
 
               {/* Delivery */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("delivery_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("delivery_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("delivery_1")}</p>
                   <p>{t("delivery_2")}</p>
@@ -87,7 +87,7 @@ export default function TermsPage() {
 
               {/* Cancellation */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("cancellation_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("cancellation_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("cancellation_1")}</p>
                   <p>{t("cancellation_2")}</p>
@@ -100,7 +100,7 @@ export default function TermsPage() {
 
               {/* Warranty */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("warranty_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("warranty_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("warranty_1")}</p>
                   <p>{t("warranty_2")}</p>
@@ -111,7 +111,7 @@ export default function TermsPage() {
 
               {/* AI room visualizer */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("visualizer_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("visualizer_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("visualizer_1")}</p>
                   <p>{t("visualizer_2")}</p>
@@ -124,7 +124,7 @@ export default function TermsPage() {
 
               {/* Privacy */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("privacy_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("privacy_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("privacy_1")}</p>
                   <p>{t("privacy_2")}</p>
@@ -136,7 +136,7 @@ export default function TermsPage() {
 
               {/* Copyright */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("copyright_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("copyright_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("copyright_1")}</p>
                   <p>{t("copyright_2")}</p>
@@ -147,7 +147,7 @@ export default function TermsPage() {
 
               {/* Legal */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("legal_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("legal_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("legal_1")}</p>
                   <p>{t("legal_2")}</p>
@@ -156,15 +156,15 @@ export default function TermsPage() {
               </section>
 
               {/* Contact */}
-              <section className="border-t border-gray-200 pt-8 mt-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("contact_title")}</h2>
+              <section className="border-t border-[#E2DFDA] pt-8 mt-8">
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("contact_title")}</h2>
                 <p>{t("contact_text")}</p>
               </section>
             </div>
           </div>
 
           {/* Last Updated */}
-          <div className="mt-8 text-center text-gray-500 text-sm">
+          <div className="mt-10 text-sm text-[#6B6B6B]">
             {t("last_updated")} {LAST_UPDATED.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </div>
         </div>

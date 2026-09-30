@@ -2,35 +2,25 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import { getProductsQueryParams } from "@/Utils/paginationUtils";
-import ProductSort from "../ProductSort/ProductSort";
-import MobileFilterButton from "../MobileFilterButton/MobileFilterButton";
 import ProductsLoadingGrid from "./_components/ProductsLoadingGrid";
 import NoProductsMessage from "./_components/NoProductsMessage";
 import ProductCard from "../ProductCard/ProductCard";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useRef } from "react";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import ProductCardSkeleton from "../ProductCard/ProductCardSkeleton";
 import { allProductsByCategoryInfinite } from "@/constants/queryInfo";
-import useIsMobileDebounce from "@/hooks/useIsMobileDebounce";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { selectNavbarVisible } from "@/components/Navbar/model/navbarSlice";
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { pushEcommerceEvent } from "@/Utils/googleUtils";
-import Utils from "@/Utils/utils";
 
 interface ProductsListProps {
   category: string;
 }
 
 const ProductsList = ({ category }: ProductsListProps) => {
-  const { ref, inView, entry } = useInView();
+  // The sentinel counts as visible 1200px before it is reached, so the next page is usually there before the visitor gets to the end.
+  const { ref, inView, entry } = useInView({ rootMargin: "1200px 0px" });
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const isNavbarVisible = useSelector((state: RootState) => selectNavbarVisible(state));
-  const { isMobile } = useIsMobileDebounce();
 
   // Order is decided by the backend: products with an interior photo first,
   // then a daily shuffle (unless the user picks an explicit sort).
@@ -40,6 +30,7 @@ const ProductsList = ({ category }: ProductsListProps) => {
   const {
     data,
     fetchNextPage,
+    hasNextPage,
     isFetchingNextPage,
     isPending
   } = useInfiniteQuery(allProductsByCategoryInfinite(queryParams));
@@ -47,8 +38,8 @@ const ProductsList = ({ category }: ProductsListProps) => {
   const allProducts = data?.pages.flatMap(page => page.data.products) || [];
 
   useEffect(() => {
-    if(entry && inView){
-      fetchNextPage()
+    if (entry && inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
   }, [entry])
 
@@ -81,74 +72,27 @@ const ProductsList = ({ category }: ProductsListProps) => {
   }, [isPending, data, category]);
 
 
-  const getFilterPosition = () => {
-    if (!isMobile) {
-      return "top-[var(--navbar-height)]";
-    }
-    return isNavbarVisible ? "top-[var(--navbar-height)]" : "top-0";
-  };
+  // Two columns on phones; wider screens fit as many ~220px+ cards as the row allows (up to 5-6 on large monitors).
+  const gridClass = "grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] sm:gap-x-4";
 
   return (
-    <div className="relative w-full">
-      {/* Топ панель */}
-      <div className={cn(
-        "flex items-center gap-2 p-2 fixed z-50 w-full h-[58px] transition-all duration-300",
-        isMobile 
-          ? "bg-gray-50 dark:bg-gray-900"
-          // : "bg-white/20 dark:bg-gray-900/20 backdrop-blur-md border-b border-white/30 dark:border-gray-700/30",
-          : "bg-gray-50 dark:bg-gray-900",
-        getFilterPosition()
-      )}>
-        <ProductSort />
-        {Utils.categoryHasFilters(category) && <MobileFilterButton category={category}/>}
-      </div>
-      
+    // A full screen of height is reserved, so the footer and the sticky filter column do not jump while a list loads.
+    <div className="min-h-[100dvh] min-w-0">
       {isPending ? (
-        <ProductsLoadingGrid />
+        <ProductsLoadingGrid className={gridClass} />
       ) : allProducts.length === 0 ? (
-        <div className="pt-[58px]">
-          <NoProductsMessage />
-        </div>
+        <NoProductsMessage />
       ) : (
-        <div className="pt-[58px]">
-          <motion.div 
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4 px-2 py-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-          >
+        <>
+          <div className={gridClass}>
             {allProducts.map((product, index) => (
-              <motion.div
-                key={`${product._id}-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.3,
-                  delay: index * 0.02,
-                  ease: "easeOut"
-                }}
-              >
-                <ProductCard
-                  product={product}
-                  className={cn(
-                    "transition-all duration-200",
-                    isMobile
-                      ? "bg-transparent rounded-lg border-none"
-                      : "bg-transparent rounded-xl border-none"
-                  )}
-                />
-              </motion.div>
+              <ProductCard key={`${product._id}-${index}`} product={product} priority={index < 4} className="rounded-xl border-none bg-transparent" />
             ))}
-          </motion.div>
-
-          {isFetchingNextPage ? (
-            <div className="flex justify-center py-6">
-              <LoadingSpinner className="m-2"/>
-            </div>
-          ) : (
-            <div ref={ref} className="h-4" />
-          )}
-        </div>
+            {/* While the next page loads, placeholder cards continue the grid: same size as real cards, nothing shifts. */}
+            {isFetchingNextPage && Array.from({ length: 8 }, (_, index) => <ProductCardSkeleton key={`next-${index}`} />)}
+          </div>
+          <div ref={ref} className="h-4" />
+        </>
       )}
     </div>
   );

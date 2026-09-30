@@ -15,7 +15,7 @@ interface HomeHeroProps {
 }
 
 /**
- * First screen: the shop's name, rating, headline and both buttons in white over a photo of
+ * First screen: the shop's name as the main heading, rating, slogan and both buttons in white over a photo of
  * a floor we laid, darkened so the wood reads as texture and the text stays crisp at any width.
  */
 // "#F5F5F4" → "rgba(245,245,244,a)" for the eased dissolve stops.
@@ -46,10 +46,13 @@ const HomeHero = ({ image, rating, totalReviews, fadeTo }: HomeHeroProps) => {
       <div className="absolute inset-x-0 bottom-0 h-52 md:h-72" style={{ background: dissolve(fadeTo) }} />
 
       <div className="relative mx-auto grid max-w-[1180px] gap-3 px-4 pb-24 pt-9 sm:px-7 md:min-h-[620px] md:content-center md:pb-52 md:pt-20">
-        <span className="text-[20px] font-semibold uppercase leading-none tracking-[.2em] text-white sm:text-[24px]">{t("effect_parquet")}</span>
+        <h1 className="m-0 text-[clamp(38px,10.5vw,76px)] font-semibold uppercase leading-[1.02] tracking-[.04em] text-white">
+          {/* <strong> so the Hebrew heading rule (regular weight for h1) keeps the brand bold. */}
+          <strong className="font-semibold">{t("effect_parquet")}</strong>
+        </h1>
 
         {/* Reserve the line so the layout doesn't shift when the rating arrives. */}
-        <div className="mt-1 flex h-5 items-center gap-2 text-[13px] font-medium text-white/80">
+        <div className="flex h-5 items-center gap-2 text-[13px] font-medium text-white/80">
           {rating !== undefined && totalReviews !== undefined && (
             <>
               <span className="flex text-[#E0B27A]" aria-hidden="true">
@@ -60,10 +63,11 @@ const HomeHero = ({ image, rating, totalReviews, fadeTo }: HomeHeroProps) => {
           )}
         </div>
 
-        <h1 className="m-0 max-w-[12em] text-[clamp(32px,8vw,60px)] font-light leading-[1.06] tracking-[-0.02em] text-white [text-wrap:balance] [&_strong]:font-semibold">
+        <p className="m-0 mt-2 max-w-[20em] text-[clamp(22px,5vw,34px)] font-light leading-[1.15] tracking-[-0.01em] text-white [text-wrap:balance] [&_strong]:font-semibold">
           {t.rich("hero_title", { strong: (chunks) => <strong>{chunks}</strong> })}
-        </h1>
-        <p className="m-0 max-w-[32em] text-base text-white/80 sm:text-lg">{t("hero_lead")}</p>
+        </p>
+        <p className="m-0 text-lg font-medium text-white sm:text-xl">{t("hero_tagline")}</p>
+        <p className="m-0 max-w-[32em] whitespace-pre-line text-base text-white/80 sm:text-lg">{t("hero_lead")}</p>
 
         <div className="mt-5 grid gap-2.5 sm:flex md:mt-2">
           <Link

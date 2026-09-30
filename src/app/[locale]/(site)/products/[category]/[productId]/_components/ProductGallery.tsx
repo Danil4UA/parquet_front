@@ -16,7 +16,7 @@ const ProductGallery: FC<ProductGalleryProps> = ({ images, onVisualize, visualiz
   const label = visualizerStatus === "ready" ? t("visualizer_ready_pill") : visualizerStatus === "processing" ? t("visualizer_processing_pill") : t("see_in_room");
 
   return (
-    <div className="w-full lg:w-1/2 lg:sticky lg:top-24 lg:self-start">
+    <div className="w-full lg:w-1/2 lg:self-start">
       <Gallery
         images={images}
         overlay={

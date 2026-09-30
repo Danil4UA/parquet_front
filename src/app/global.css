@@ -114,6 +114,9 @@ html,
  body {
   max-width: 100vw;
   overflow-x: hidden;
+  /* `hidden` turns body into a scroll container, which silently disables position: sticky inside it;
+     `clip` cuts horizontal overflow the same way without that side effect (hidden stays as the fallback). */
+  overflow-x: clip;
 }
 
 body {
@@ -151,6 +154,16 @@ html[lang="he"] p {
 #enable-toolbar button {
   padding: 0 12px 16px 0 !important;
 }
+/* Desktop: show the accessibility trigger at the widget's "large" size (the licence is set to "small"). */
+@media (min-width: 1024px) {
+  body #enable-toolbar svg#enable-toolbar-trigger-svg {
+    width: 65px !important;
+    height: 58px !important;
+  }
+  body #enable-toolbar-trigger {
+    top: 3px !important;
+  }
+}
 /* Product page: keep the accessibility trigger above the sticky buy bar on phones. */
 @media (max-width: 1023px) {
   /* Sticky buy bar is open: give the page a bottom reserve of the bar's height
@@ -167,8 +180,38 @@ html[lang="he"] p {
     translate: 0 -76px !important;
   }
   /* Cart drawer: keep the trigger above the total + checkout rows. */
-  html[data-cart-open] #enable-toolbar-trigger {
+  html[data-cart-open] #enable-toolbar-trigger,
+  html[data-menu-open] #enable-toolbar-trigger {
     translate: 0 -150px !important;
+  }
+  /* Filter sheet: keep the trigger above the Reset / Apply row. */
+  html[data-filter-open] #enable-toolbar-trigger {
+    translate: 0 -92px !important;
+  }
+}
+
+/* Photo placeholder: a soft band of light sweeps across the grey tile while the image loads. */
+.photo-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: #efeeec;
+}
+.photo-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.75) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: photo-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes photo-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-shimmer::after {
+    animation: none;
   }
 }
 

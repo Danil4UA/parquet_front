@@ -7,14 +7,21 @@ import { useState } from "react";
 import { Product } from "@/types/products";
 import { cn } from "@/lib/utils";
 import FavoriteButton from "@/components/Favorites/FavoriteButton";
+// Two cards per row on phones; from there up the grid keeps cards between ~220 and ~300px wide.
+// A fixed slot width means the browser does not re-download the photo while the window is resized.
+const CARD_IMAGE_SIZES = "(max-width: 639px) 50vw, 300px";
+
 interface ProductCardProps {
   product: Product;
   className?: string;
+  /** Load the photo eagerly (cards visible without scrolling). */
+  priority?: boolean;
 }
 
 const ProductCard = ({ 
   product,
   className,
+  priority = false,
 }: ProductCardProps) => {
   const t = useTranslations("Product");
 
@@ -37,7 +44,7 @@ const ProductCard = ({
 
   return (
     <div className={cn(
-      "relative w-full bg-white rounded-lg overflow-hidden transition-all duration-300 ease-in-out group",
+      "relative w-full bg-white rounded-lg overflow-hidden group",
       className,
       []
     )}>
@@ -46,12 +53,8 @@ const ProductCard = ({
         href={`/products/${category}/${productId}`}
         className="block overflow-hidden"
       >
-        <div className="relative aspect-square w-full bg-gray-100 overflow-hidden rounded-lg">
-          {isLoading && (
-            <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-10">
-              <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-            </div>
-          )}
+        {/* Quiet placeholder while the photo loads (no spinner); the photo then fades in. */}
+        <div className={cn("relative aspect-square w-full overflow-hidden rounded-lg bg-[#EFEEEC]", isLoading && "photo-shimmer")}>
           
           <Image
             src={imgSrc}
@@ -61,12 +64,13 @@ const ProductCard = ({
             onError={() => setIsLoading(false)}
             onLoad={() => setIsLoading(false)}
             className={cn(
-              "w-full h-full object-cover transition-all duration-500 group-hover:scale-105",
+              // Only opacity and transform are animated, so resizing the window never animates the photo itself.
+              "w-full h-full object-cover transition-[opacity,transform] duration-500 group-hover:scale-105",
               isLoading ? "opacity-0" : "opacity-100",
               hasSecondImage && secondLoaded && "group-hover:opacity-0"
             )}
-            sizes="(max-width: 750px) 50vw, (max-width: 980px) 33vw, 25vw"
-            priority={false}
+            sizes={CARD_IMAGE_SIZES}
+            priority={priority}
           />
 
           {hasSecondImage && (
@@ -78,10 +82,10 @@ const ProductCard = ({
               onError={() => setSecondImgSrc(imgSrc)}
               onLoad={() => setSecondLoaded(true)}
               className={cn(
-                "w-full h-full object-cover opacity-0 transition-all duration-500 group-hover:scale-105",
+                "w-full h-full object-cover opacity-0 transition-[opacity,transform] duration-500 group-hover:scale-105",
                 secondLoaded && "group-hover:opacity-100"
               )}
-              sizes="(max-width: 750px) 50vw, (max-width: 980px) 33vw, 25vw"
+              sizes={CARD_IMAGE_SIZES}
               priority={false}
             />
           )}
