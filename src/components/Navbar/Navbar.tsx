@@ -34,7 +34,16 @@ const useScrollDirection = () => {
       const navbarElement = document.querySelector(".Navbar");
 
       if (!navbarElement) return;
-      if (Math.abs(currentScrollY - lastScrollY.current) < 2) return;
+
+      // At the very end of the page (and during the rubber-band bounce past it) the position jitters up and down;
+      // reacting to that would make the bar and the sticky rows below it flicker, so the bar keeps its state there.
+      const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
+      if (currentScrollY >= maxScrollY - 8) {
+        lastScrollY.current = Math.min(currentScrollY, maxScrollY);
+        return;
+      }
+
+      if (Math.abs(currentScrollY - lastScrollY.current) < 6) return;
 
       if (currentScrollY > navbarElement.clientHeight) {
         document.body.classList.add("scrolled");

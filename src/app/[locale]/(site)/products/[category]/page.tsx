@@ -68,7 +68,7 @@ const CategoryPage = () => {
   const { salesAvailable } = useSalesAvailable(lng);
   const categoryLinks = CATEGORY_LINKS.filter((item) => salesAvailable || item.path !== "/products/sales");
 
-  // Keep the current category's chip centred in the row. The page remounts on every category change, so the row's
+  // Keep the current category's chip at the start of the row. The page remounts on every category change, so the row's
   // previous scroll position is restored first and the row then glides to the new chip instead of jumping.
   const chipsRef = useRef<HTMLElement>(null);
   const activeChipRef = useRef<HTMLAnchorElement>(null);
@@ -80,9 +80,12 @@ const CategoryPage = () => {
     const isFirstVisit = lastChipsScroll === null;
     if (lastChipsScroll !== null) row.scrollLeft = lastChipsScroll;
 
+    // Bring the chip to the start edge of the row: left in LTR languages, right in Hebrew.
     const rowBox = row.getBoundingClientRect();
     const chipBox = chip.getBoundingClientRect();
-    const offset = chipBox.left + chipBox.width / 2 - (rowBox.left + rowBox.width / 2);
+    const rowStyle = getComputedStyle(row);
+    const gutter = parseFloat(rowStyle.paddingInlineStart) || 0;
+    const offset = rowStyle.direction === "rtl" ? chipBox.right - (rowBox.right - gutter) : chipBox.left - (rowBox.left + gutter);
     row.scrollBy({ left: offset, behavior: isFirstVisit ? "auto" : "smooth" });
 
     const remember = () => {
@@ -91,7 +94,8 @@ const CategoryPage = () => {
     remember();
     row.addEventListener("scroll", remember, { passive: true });
     return () => row.removeEventListener("scroll", remember);
-  }, [category]);
+    // The chip list can change after load (the Sales chip disappears when there are no sales), which moves the chips.
+  }, [category, categoryLinks.length]);
 
   return (
     <div className="w-full bg-white">
