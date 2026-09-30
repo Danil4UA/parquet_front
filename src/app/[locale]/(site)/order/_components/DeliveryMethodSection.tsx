@@ -1,58 +1,52 @@
-import Radio from "@/shared/ui/Radio/Radio";
-import { COMMON_STYLES, getSectionTitleClass } from "./orderClasses";
+import { useFormContext } from "react-hook-form";
+import { useTranslations } from "next-intl";
+import { OrderFormType } from "@/lib/schemas/orderFormSchema";
+import { formatPrice } from "@/Utils/productsUtils";
 
 interface DeliveryMethodSectionProps {
-  deliveryMethod: string;
-  orderForm: any;
-  t: (key: string) => string;
-  isHebrew: boolean;
+  deliveryMethod: OrderFormType["deliveryMethod"];
+  shippingCost: number;
 }
 
-export default function DeliveryMethodSection ({
-  deliveryMethod,
-  orderForm,
-  t,
-  isHebrew
-}: DeliveryMethodSectionProps){
-    return <div className="space-y-4">
-    <h3 className={getSectionTitleClass(isHebrew)}>
-      {t("deliveryMethod")}
-    </h3>
-    <div className="space-y-3">
-      <div 
-        className={`
-          ${COMMON_STYLES.radioContainer}
-          ${deliveryMethod === "shipping" 
-            ? COMMON_STYLES.radioContainerActive
-            : COMMON_STYLES.radioContainerInactive
-          }
-        `}
-        onClick={() => orderForm.setValue("deliveryMethod", "shipping")}
-      >
-        <Radio
-          name="deliveryMethod" 
-          value="shipping" 
-          label={t("shipping")} 
-          containerClass={`flex items-center gap-3 ${isHebrew ? "flex-row-reverse" : ""}`}
-        />
+/** Two option cards: delivery with its price, or free pickup from the showroom. */
+export default function DeliveryMethodSection({ deliveryMethod, shippingCost }: DeliveryMethodSectionProps) {
+  const t = useTranslations("Order");
+  const tContact = useTranslations("ContactContent");
+  const { register } = useFormContext<OrderFormType>();
+
+  const options: { value: OrderFormType["deliveryMethod"]; title: string; note: string; price: string }[] = [
+    { value: "shipping", title: t("shipping"), note: "", price: formatPrice(shippingCost) },
+    { value: "pickup", title: t("pickup"), note: tContact("address"), price: t("free") },
+  ];
+
+  return (
+    <fieldset className="m-0 min-w-0 border-0 p-0">
+      <legend className="mb-4 p-0 text-xl font-semibold text-[#171717]">{t("deliveryMethod")}</legend>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {options.map(({ value, title, note, price }) => {
+          const active = deliveryMethod === value;
+          return (
+            <label
+              key={value}
+              className={`flex cursor-pointer items-start gap-3 rounded-[14px] border p-4 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#171717] ${
+                active ? "border-[#171717] bg-[#F5F5F4]" : "border-[#DCDCDB] hover:border-[#9A9A9A]"
+              }`}
+            >
+              <input type="radio" value={value} className="sr-only" {...register("deliveryMethod")} />
+              <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border ${active ? "border-[#171717]" : "border-[#9A9A9A]"}`}>
+                {active && <span className="size-2.5 rounded-full bg-[#171717]" />}
+              </span>
+              <span className="grid min-w-0 flex-1 gap-0.5">
+                <span className="flex items-baseline justify-between gap-3">
+                  <span className="font-semibold text-[#171717]">{title}</span>
+                  <span className="text-sm font-medium text-[#171717] tabular-nums">{price}</span>
+                </span>
+                {note && <span className="text-sm text-[#6B6B6B]">{note}</span>}
+              </span>
+            </label>
+          );
+        })}
       </div>
-      <div 
-        className={`
-          ${COMMON_STYLES.radioContainer}
-          ${deliveryMethod === "pickup" 
-            ? COMMON_STYLES.radioContainerActive
-            : COMMON_STYLES.radioContainerInactive
-          }
-        `}
-        onClick={() => orderForm.setValue("deliveryMethod", "pickup")}
-      >
-        <Radio 
-          name="deliveryMethod" 
-          value="pickup" 
-          label={t("pickup")} 
-          containerClass={`flex items-center gap-3 ${isHebrew ? "flex-row-reverse" : ""}`}
-        />
-      </div>
-    </div>
-  </div>
+    </fieldset>
+  );
 }

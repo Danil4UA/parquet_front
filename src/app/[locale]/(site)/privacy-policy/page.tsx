@@ -10,12 +10,12 @@ export default function PrivacyPolicyPage() {
   const t = useTranslations("PrivacyPolicy");
 
   return (
-    <div className="min-h-screen bg-gray-50 w-full">
+    <div className="w-full bg-white">
       <PageTitleSection title={t("page_title")} />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white border border-gray-200 rounded-xl p-8 sm:p-12 shadow-sm">
-            <div className="space-y-8 text-gray-700 leading-relaxed">
+      <div className="mx-auto max-w-[1180px] px-4 pb-11 pt-7 sm:px-7 sm:pb-[72px] sm:pt-10">
+        <div className="max-w-[760px]">
+          <div>
+            <div className="space-y-9 text-[#4B4B4B] leading-relaxed">
               <section>
                 <p className="mb-4">{t("intro_1")}</p>
                 <p>{t("intro_2")}</p>
@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
 
               {/* Information we collect */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("collected_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("collected_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("collected_intro")}</p>
                   <ul className="list-disc ps-6 space-y-2">
@@ -38,7 +38,7 @@ export default function PrivacyPolicyPage() {
 
               {/* How we collect */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("methods_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("methods_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("methods_1")}</p>
                   <p>{t("methods_2")}</p>
@@ -48,7 +48,7 @@ export default function PrivacyPolicyPage() {
 
               {/* Use of information */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("use_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("use_title")}</h2>
                 <div className="space-y-3">
                   <ul className="list-disc ps-6 space-y-2">
                     <li>{t("use_1")}</li>
@@ -62,7 +62,7 @@ export default function PrivacyPolicyPage() {
 
               {/* Sharing */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("sharing_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("sharing_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("sharing_intro")}</p>
                   <ul className="list-disc ps-6 space-y-2">
@@ -78,7 +78,7 @@ export default function PrivacyPolicyPage() {
 
               {/* Cookies */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("cookies_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("cookies_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("cookies_1")}</p>
                   <p>{t("cookies_2")}</p>
@@ -87,7 +87,7 @@ export default function PrivacyPolicyPage() {
 
               {/* AI room visualizer */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("visualizer_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("visualizer_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("visualizer_1")}</p>
                   <p>{t("visualizer_2")}</p>
@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
 
               {/* Security */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("security_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("security_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("security_1")}</p>
                   <p>{t("security_2")}</p>
@@ -109,7 +109,7 @@ export default function PrivacyPolicyPage() {
 
               {/* User rights */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("rights_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("rights_title")}</h2>
                 <div className="space-y-3">
                   <p>{t("rights_intro")}</p>
                   <ul className="list-disc ps-6 space-y-2">
@@ -123,19 +123,19 @@ export default function PrivacyPolicyPage() {
 
               {/* Updates */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("updates_title")}</h2>
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("updates_title")}</h2>
                 <p>{t("updates_1")}</p>
               </section>
 
               {/* Contact */}
-              <section className="border-t border-gray-200 pt-8 mt-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("contact_title")}</h2>
+              <section className="border-t border-[#E2DFDA] pt-8 mt-8">
+                <h2 className="text-xl font-semibold text-[#171717] mb-3">{t("contact_title")}</h2>
                 <p>{t("contact_text")}</p>
               </section>
             </div>
           </div>
 
-          <div className="mt-8 text-center text-gray-500 text-sm">
+          <div className="mt-10 text-sm text-[#6B6B6B]">
             {t("last_updated")} {LAST_UPDATED.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
           </div>
         </div>

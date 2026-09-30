@@ -61,11 +61,11 @@ const useScrollDirection = () => {
 };
 
 const iconButton =
-  "relative flex size-9 items-center justify-center rounded-full text-[#171717] transition-colors hover:bg-[#F5F5F4] sm:size-10";
+  "relative flex size-9 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 sm:size-10";
 const badge =
-  "absolute -end-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#171717] px-1 text-[10px] font-semibold tabular-nums text-white";
+  "absolute -end-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-1 text-[10px] font-semibold tabular-nums text-[#171717]";
 
-/** White bar: menu and language on the start side, wordmark in the middle, search / favorites / cart on the end side. */
+/** Black bar: menu and language on the start side, wordmark in the middle, search / favorites / cart on the end side. */
 export const Navbar = () => {
   const [collapsedSidebar, setCollapsedSidebar] = useState(true);
   const [openSearch, setOpenSearch] = useState(false);
@@ -92,16 +92,17 @@ export const Navbar = () => {
   ];
 
   return (
-    <div className="Navbar fixed left-0 top-0 z-[100] h-[var(--navbar-height)] w-full border-b border-[#E2DFDA] bg-white transition-transform duration-300 ease-in-out">
-      <div className="mx-auto flex h-full max-w-[1180px] items-center justify-between px-1.5 sm:px-5">
+    <div className="Navbar fixed left-0 top-0 z-[100] h-[var(--navbar-height)] w-full border-b border-white/10 bg-[#171717] transition-transform duration-300 ease-in-out">
+      {/* Full width on every screen: the bar never jumps between pages of different content widths. */}
+      <div className="flex h-full w-full items-center justify-between px-1.5 sm:px-5">
         <div className="z-10 flex items-center -space-x-1 sm:space-x-0 sm:gap-0.5">
           <button type="button" aria-label={tSidebar("menu")} className={`${iconButton} lg:hidden`} onClick={() => setCollapsedSidebar((prev) => !prev)}>
             <Menu className="size-[22px]" strokeWidth={1.75} />
           </button>
           <div className="lg:hidden">
-            <LangSwitcher compact tone="dark" />
+            <LangSwitcher compact tone="light" />
           </div>
-          <Link href="/" className="me-5 hidden whitespace-nowrap text-base font-semibold uppercase tracking-[.1em] text-[#171717] lg:inline-flex" aria-label={t("effect_parquet")}>
+          <Link href="/" className="me-5 hidden whitespace-nowrap text-base font-semibold uppercase tracking-[.1em] text-white lg:inline-flex" aria-label={t("effect_parquet")}>
             {t("effect_parquet")}
           </Link>
           <nav aria-label="Categories" className="hidden items-center gap-1 lg:flex">
@@ -109,7 +110,7 @@ export const Navbar = () => {
               <Link
                 key={link.key}
                 href={link.href}
-                className={`${link.className ?? "inline-flex"} h-9 items-center rounded-full px-3 text-sm font-medium text-[#4B4B4B] transition-colors hover:bg-[#F5F5F4] hover:text-[#171717]`}
+                className={`${link.className ?? "inline-flex"} h-9 items-center rounded-full px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/10 hover:text-white`}
               >
                 {tSidebar(link.key)}
               </Link>
@@ -119,7 +120,7 @@ export const Navbar = () => {
 
         <Link
           href="/"
-          className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[13px] font-semibold uppercase tracking-[.08em] text-[#171717] min-[400px]:text-[15px] sm:text-base sm:tracking-[.1em] lg:hidden"
+          className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[13px] font-semibold uppercase tracking-[.08em] text-white min-[400px]:text-[15px] sm:text-base sm:tracking-[.1em] lg:hidden"
           aria-label={t("effect_parquet")}
         >
           {t("effect_parquet")}
@@ -127,7 +128,7 @@ export const Navbar = () => {
 
         <div className="z-10 flex items-center -space-x-1 sm:space-x-0 sm:gap-0.5">
           <div className="hidden lg:block">
-            <LangSwitcher tone="dark" />
+            <LangSwitcher tone="light" />
           </div>
           <button type="button" aria-label="Search" className={iconButton} onClick={() => setOpenSearch((prev) => !prev)}>
             <SearchIcon className="size-[22px]" strokeWidth={1.75} />
