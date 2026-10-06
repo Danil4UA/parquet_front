@@ -4,6 +4,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { visualizerKey } from "@/app/[locale]/(site)/products/[category]/[productId]/_components/productPageUtils";
 import { Loader2, X } from "lucide-react";
 import { Product } from "@/types/products";
 import visualizerServices, { VisualizerResult, VisualizerRoom, roomPreviewUrl } from "@/services/visualizerServices";
@@ -131,6 +132,8 @@ export function VisualizerJobProvider({ children }: { children: React.ReactNode 
   const router = useRouter();
   const [room, setRoomState] = useState<VisualizerRoom | null>(null);
   const [job, setJob] = useState<VisualizerJob | null>(null);
+  const jobRef = useRef<VisualizerJob | null>(null);
+  jobRef.current = job;
   const roomRef = useRef<VisualizerRoom | null>(null);
   const seqRef = useRef(0);
   const sheetOpenRef = useRef(false);
@@ -186,12 +189,13 @@ export function VisualizerJobProvider({ children }: { children: React.ReactNode 
 
   const notifyBackground = useCallback(() => {
     const current = roomRef.current;
+    const category = jobRef.current?.product.category;
     toast.custom(
       (id) => (
         <VisualizerToast
           tone="processing"
-          title={t("visualizer_processing_title")}
-          subtitle={t("visualizer_background_toast")}
+          title={t(visualizerKey(category, "visualizer_processing_title"))}
+          subtitle={t(visualizerKey(category, "visualizer_background_toast"))}
           image={current ? roomPreviewUrl(current) : undefined}
           onClose={() => toast.dismiss(id)}
         />

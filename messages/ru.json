@@ -711,6 +711,12 @@
     "visualizer_view": "Посмотреть",
     "visualizer_ready_pill": "Результат готов",
     "visualizer_processing_pill": "Готовим фото…",
-    "visualizer_checkout": "Оформить заказ"
+    "visualizer_checkout": "Оформить заказ",
+    "visualizer_title_wall": "Ваша комната с этой облицовкой",
+    "visualizer_intro_wall": "Сфотографируйте комнату, и мы покажем, как эта облицовка будет смотреться на вашей стене.",
+    "visualizer_tip_wall": "Лучше всего: дневной свет, главная стена хорошо видна, без людей в кадре.",
+    "visualizer_render_wall": "Показать облицовку на стене",
+    "visualizer_processing_title_wall": "Монтируем облицовку",
+    "visualizer_background_toast_wall": "Облицовка монтируется в фоне. Мы сообщим, когда фото будет готово, можно продолжать просмотр."
   }
 }

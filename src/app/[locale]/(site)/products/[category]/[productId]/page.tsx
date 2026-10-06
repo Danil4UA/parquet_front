@@ -21,7 +21,7 @@ import InstallationSection from "./_components/InstallationSection";
 import StickyBuyBar from "./_components/StickyBuyBar";
 import RoomVisualizerSheet, { VisualizerStatus } from "./_components/RoomVisualizerSheet";
 import ProductPageSkeleton from "./_components/ProductPageSkeleton";
-import { isFlooring } from "./_components/productPageUtils";
+import { isFlooring, visualizerSurface } from "./_components/productPageUtils";
 import { VISUALIZER_OPEN_PARAM } from "@/providers/VisualizerJobProvider";
 
 const ProductPage: FC = () => {
@@ -43,7 +43,7 @@ const ProductPage: FC = () => {
   // "?visualizer=open" is how the "photo is ready" toast brings the shopper back to the result.
   const openVisualizerParam = searchParams.get(VISUALIZER_OPEN_PARAM) === "open";
   useEffect(() => {
-    if (!openVisualizerParam || !product) return;
+    if (!openVisualizerParam || !product || !visualizerSurface(product.category)) return;
     setVisualizerOpen(true);
     router.replace(pathname, { scroll: false });
   }, [openVisualizerParam, product, pathname, router]);
@@ -92,7 +92,7 @@ const ProductPage: FC = () => {
           </div>
 
           <div className="flex flex-col gap-6 lg:flex-row lg:gap-12">
-            <ProductGallery images={product.images} onVisualize={() => setVisualizerOpen(true)} visualizerStatus={visualizerStatus} />
+            <ProductGallery images={product.images} onVisualize={visualizerSurface(product.category) ? () => setVisualizerOpen(true) : undefined} visualizerStatus={visualizerStatus} />
 
             <div className="w-full space-y-8 px-4 lg:w-1/2 lg:px-0">
               <ProductBuyBox product={product} productPriceWithDiscount={productPriceWithDiscount} ctaRef={setCtaNode} />

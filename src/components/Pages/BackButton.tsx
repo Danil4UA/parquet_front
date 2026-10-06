@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 
-/** Returns to the page the visitor came from; opened directly (no history), it leads to the home page. */
+/** Round arrow button that returns to the page the visitor came from; opened directly (no history), it leads to the home page. */
 export default function BackButton() {
   const router = useRouter();
   const t = useTranslations("Contact");
@@ -18,10 +18,11 @@ export default function BackButton() {
     <button
       type="button"
       onClick={handleBack}
-      className="-ms-1 flex h-9 w-fit items-center gap-1.5 rounded-full pe-3 ps-1 text-sm font-medium text-[#6B6B6B] transition-colors hover:text-[#171717]"
+      aria-label={t("back")}
+      title={t("back")}
+      className="flex size-10 shrink-0 items-center justify-center rounded-full border border-[#DCDCDB] text-[#171717] transition-colors hover:bg-[#F5F5F4] sm:size-11"
     >
-      <ArrowLeft className="size-4 rtl:rotate-180" strokeWidth={1.75} />
-      {t("back")}
+      <ArrowLeft className="size-5 rtl:rotate-180" strokeWidth={1.75} />
     </button>
   );
 }

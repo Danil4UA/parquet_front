@@ -14,7 +14,7 @@ import { allProductsByCategory } from "@/constants/queryInfo";
 import { addToCart, setCollapsedСart } from "@/components/Cart/model/slice/cartSlice";
 import { formatPrice, calculateDiscountedPrice } from "@/Utils/productsUtils";
 import BeforeAfter from "@/components/BeforeAfter/BeforeAfter";
-import { isFlooring } from "./productPageUtils";
+import { isFlooring, visualizerKey } from "./productPageUtils";
 import { downscaleImage, ImageDecodeError } from "@/Utils/imageUtils";
 
 export type VisualizerStatus = "idle" | "processing" | "ready";
@@ -75,6 +75,8 @@ const stageStyle = (aspect: Aspect) => ({ aspectRatio: String(aspect), width: `m
 
 const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, open, onOpenChange, onStatusChange }) => {
   const t = useTranslations("ProductPage");
+  // Floor copy ("lay the floor") or wall copy ("cover the wall") depending on the product.
+  const tk = (key: string) => t(visualizerKey(product.category, key));
   const dispatch = useDispatch();
 
   const { room, job, setRoom, startRender, reportError, clearJob, reset, setSheetOpen, notifyBackground } = useVisualizerJob();
@@ -237,8 +239,8 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
           {step === "pick" && (
             <div className="space-y-5">
               <SheetHeader className="text-start space-y-1.5">
-                <SheetTitle className="text-xl font-semibold tracking-[-0.01em] text-[#171717]">{t("visualizer_title")}</SheetTitle>
-                <SheetDescription className="text-[15px] leading-relaxed text-[#4B4B4B]">{t("visualizer_intro")}</SheetDescription>
+                <SheetTitle className="text-xl font-semibold tracking-[-0.01em] text-[#171717]">{tk("visualizer_title")}</SheetTitle>
+                <SheetDescription className="text-[15px] leading-relaxed text-[#4B4B4B]">{tk("visualizer_intro")}</SheetDescription>
               </SheetHeader>
 
               {room ? (
@@ -261,7 +263,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
                     className="flex h-14 w-full items-center justify-center gap-2.5 rounded-xl bg-[#171717] text-base font-semibold text-white transition-colors hover:bg-[#2A2A2A]"
                   >
                     <Sparkles className="size-5" strokeWidth={1.75} />
-                    {t("visualizer_render")}
+                    {tk("visualizer_render")}
                   </button>
                 </div>
               ) : (
@@ -316,7 +318,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
               )}
 
               <div className="space-y-1 text-xs leading-relaxed text-[#6B6B6B]">
-                <p>{t("visualizer_tip")}</p>
+                <p>{tk("visualizer_tip")}</p>
                 <p>{t("visualizer_privacy")}</p>
               </div>
             </div>
@@ -327,7 +329,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
             <div className="space-y-4">
               <SheetHeader className="text-start space-y-1">
                 <SheetTitle className="truncate text-xl font-semibold tracking-[-0.01em] text-[#171717]">
-                  {step === "processing" ? t("visualizer_processing_title") : active.name}
+                  {step === "processing" ? tk("visualizer_processing_title") : active.name}
                 </SheetTitle>
                 <SheetDescription className="truncate text-sm text-[#6B6B6B]">
                   {step === "processing" ? (
@@ -419,7 +421,7 @@ const RoomVisualizerSheet: FC<RoomVisualizerSheetProps> = ({ product, language, 
           {step === "error" && (
             <div className="space-y-4">
               <SheetHeader className="text-start">
-                <SheetTitle className="text-xl font-semibold tracking-[-0.01em] text-[#171717]">{t("visualizer_title")}</SheetTitle>
+                <SheetTitle className="text-xl font-semibold tracking-[-0.01em] text-[#171717]">{tk("visualizer_title")}</SheetTitle>
                 <SheetDescription className="text-[15px] leading-relaxed text-[#B3261E]">{t(errorKey)}</SheetDescription>
               </SheetHeader>
               <div className="grid grid-cols-2 gap-2">

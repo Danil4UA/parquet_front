@@ -720,6 +720,12 @@
     "visualizer_view": "View",
     "visualizer_ready_pill": "Result is ready",
     "visualizer_processing_pill": "Preparing photo…",
-    "visualizer_checkout": "Checkout"
+    "visualizer_checkout": "Checkout",
+    "visualizer_title_wall": "Your room with this cladding",
+    "visualizer_intro_wall": "Take a photo of your room and we'll show how this cladding looks on your wall.",
+    "visualizer_tip_wall": "Best results: daylight, the main wall clearly visible, no people in the frame.",
+    "visualizer_render_wall": "Show this cladding on the wall",
+    "visualizer_processing_title_wall": "Mounting the cladding",
+    "visualizer_background_toast_wall": "The cladding is being mounted in the background. We'll let you know when the photo is ready, you can keep browsing."
   }
 }

@@ -42,8 +42,10 @@ export default function setupAxiosAuthRefresh() {
           return axios(original);
         }
 
-        // Refresh failed — the refresh token is gone/revoked, force a clean re-login
-        await signOut({ callbackUrl: "/login" });
+        // Refresh failed — the refresh token is gone/revoked, force a clean re-login.
+        // Relative path on purpose: a NextAuth-built URL points at localhost when NEXTAUTH_URL is not set on the server.
+        await signOut({ redirect: false });
+        window.location.assign("/login");
       }
 
       return Promise.reject(error);

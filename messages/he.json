@@ -713,6 +713,12 @@
     "visualizer_view": "לצפייה",
     "visualizer_ready_pill": "התוצאה מוכנה",
     "visualizer_processing_pill": "מכינים את התמונה…",
-    "visualizer_checkout": "לתשלום"
+    "visualizer_checkout": "לתשלום",
+    "visualizer_title_wall": "החדר שלכם עם החיפוי הזה",
+    "visualizer_intro_wall": "צלמו את החדר ונראה לכם איך החיפוי הזה ייראה על הקיר אצלכם.",
+    "visualizer_tip_wall": "הכי טוב: אור יום, הקיר הראשי נראה היטב, בלי אנשים בתמונה.",
+    "visualizer_render_wall": "הציגו את החיפוי על הקיר",
+    "visualizer_processing_title_wall": "מרכיבים את החיפוי",
+    "visualizer_background_toast_wall": "החיפוי מורכב ברקע. נודיע לכם כשהתמונה תהיה מוכנה, אפשר להמשיך לגלוש."
   }
 }

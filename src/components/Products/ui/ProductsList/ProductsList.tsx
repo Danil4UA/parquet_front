@@ -18,7 +18,7 @@ interface ProductsListProps {
 
 const ProductsList = ({ category }: ProductsListProps) => {
   // The sentinel counts as visible 1200px before it is reached, so the next page is usually there before the visitor gets to the end.
-  const { ref, inView, entry } = useInView({ rootMargin: "1200px 0px" });
+  const { ref, inView } = useInView({ rootMargin: "1200px 0px" });
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
@@ -37,11 +37,13 @@ const ProductsList = ({ category }: ProductsListProps) => {
 
   const allProducts = data?.pages.flatMap(page => page.data.products) || [];
 
+  // Runs again when a page finishes loading: after a fast scroll the sentinel is still in view and never
+  // re-enters it, so keying only on visibility changes left the list stuck until the visitor scrolled away and back.
   useEffect(() => {
-    if (entry && inView && hasNextPage && !isFetchingNextPage) {
+    if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [entry])
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   useEffect(() => {
     if (sentViewItemListRef.current) return;

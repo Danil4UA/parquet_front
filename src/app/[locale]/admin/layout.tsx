@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { signOut, useSession } from "next-auth/react";
+import { useLocale } from "next-intl";
 import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import AdminSidebar from './_components/AdminSidebar/AdminSidebar';
 import setupAxiosAuthRefresh from "@/lib/setupAxiosAuthRefresh";
@@ -10,14 +11,17 @@ setupAxiosAuthRefresh();
 
 // If the refresh token was revoked/expired, the session carries an error —
 // force a clean re-login instead of letting API calls fail with 401s.
+// The redirect is done by us with a relative path: when NextAuth builds it, a server without
+// NEXTAUTH_URL sends the browser to http://localhost:3000.
 function SessionErrorGuard() {
   const { data: session } = useSession();
+  const locale = useLocale();
 
   useEffect(() => {
     if (session?.error === "RefreshAccessTokenError") {
-      signOut({ callbackUrl: "/login" });
+      signOut({ redirect: false }).then(() => window.location.assign(`/${locale}/login`));
     }
-  }, [session?.error]);
+  }, [session?.error, locale]);
 
   return null;
 }
